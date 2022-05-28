@@ -29,6 +29,11 @@ php artisan migrate --seed
 ```
 php artisan serve
 ```
+- Default user
+```
+email: mail@admin.com
+pass: admin123
+```
 
 - If you have any 500 Server error, try CTRL+C and then
 ```
