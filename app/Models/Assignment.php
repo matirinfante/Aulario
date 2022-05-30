@@ -9,6 +9,6 @@ class Assignment extends Model
 {
     use HasFactory;
 
-    protected $fillable = [''];
+    protected $fillable = ['assignment_name'];
 
 }
