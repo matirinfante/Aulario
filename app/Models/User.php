@@ -42,9 +42,9 @@ class User extends Authenticatable
     }
 
     //ORM bidireccion a reserva
-    public function bookings(): belongsTo
+    public function bookings()
     {
-        $colbooking=$this->belongsTo(booking::class);
+        $colbooking=$this->belongsTo(Booking::class);
         return $colbooking;
     }
 }

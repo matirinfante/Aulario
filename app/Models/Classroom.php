@@ -16,9 +16,9 @@ class Classroom extends Model
     'type'];
     
     //ORM bidireccion a reserva
-    public function bookings(): belongsTo
+    public function bookings()
     {
-        $colbooking=$this->belongsTo(booking::class);
+        $colbooking=$this->belongsTo(Booking::class);
         return $colbooking;
     }
 }

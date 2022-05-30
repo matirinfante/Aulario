@@ -18,26 +18,26 @@ class Booking extends Model
     'finish_time'];
 
         //ORM una reserva tiene un usuario
-    public function user(): HasOne
+    public function user()
     {
-        return $this->hasOne(User::class, 'foreign_key', 'local_key');
+        return $this->hasOne(User::class);
     }
 
    //ORM una reserva tiene un evento
-    public function event(): HasOne
+    public function event()
     {
-        return $this->hasOne(event::class, 'foreign_key', 'local_key');
+        return $this->hasOne(Event::class);
     }
 
     //ORM una reserva tiene un aula
-    public function classroom(): HasOne
+    public function classroom()
     {
-        return $this->hasOne(classroom::class, 'foreign_key', 'local_key');
+        return $this->hasOne(Classroom::class);
     }
 
-    //ORM se marca bidireccionalidad (chequear si es correcto)
-    public function assignment():belongsTo {
-        return $this->belongsTo(assignment::class, 'foreign_key', 'local_key');
+    //ORM se marca bidireccionalidad 
+    public function assignment() {
+        return $this->belongsTo(Assignment::class);
     }
 
 }
