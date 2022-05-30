@@ -9,5 +9,9 @@ class Classroom extends Model
 {
     use HasFactory;
 
-    protected $fillable = [''];
+    protected $fillable = [
+    'classroom_name', 
+    'location', 
+    'capacity', 
+    'type'];
 }

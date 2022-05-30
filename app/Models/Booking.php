@@ -9,6 +9,12 @@ class Booking extends Model
 {
     use HasFactory;
 
-    protected $fillable = [''];
+    protected $fillable = [
+    'description', 
+    'status', 
+    'week_day', 
+    'booking_date', 
+    'start_time', 
+    'finish_time'];
 
 }
