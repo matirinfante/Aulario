@@ -14,4 +14,10 @@ class Classroom extends Model
     'location', 
     'capacity', 
     'type'];
+
+    public function bookings(): belongsTo
+    {
+        $colbooking=$this->belongsTo(booking::class);
+        return $colbooking;
+    }
 }
