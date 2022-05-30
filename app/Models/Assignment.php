@@ -12,15 +12,15 @@ class Assignment extends Model
     protected $fillable = ['assignment_name'];
     
     //ORM referencia bidireccional 
-    public function user(): BelongsTo
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
     //ORM una materia referencia a una coleccion de reservas
-    public function bookings(): hasMany
+    public function bookings()
     {
-        $colbooking=$this->hasMany(booking::class);
+        $colbooking=$this->hasMany(Booking::class);
         return $colbooking;
     }
 }
