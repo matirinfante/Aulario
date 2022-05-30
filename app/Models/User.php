@@ -41,6 +41,7 @@ class User extends Authenticatable
         return $this->hasMany(Assignment::class);
     }
 
+    //ORM bidireccion a reserva
     public function bookings(): belongsTo
     {
         $colbooking=$this->belongsTo(booking::class);
