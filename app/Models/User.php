@@ -34,11 +34,17 @@ class User extends Authenticatable
         'password',
     ];
 
-    /**
-     * TODO:añadir función para obtener sus clases
-     * public function assignment(){
-     * return $this->hasMany(Assignments::class)
-     * }
-     */
 
+    //TODO:añadir función para obtener sus clases
+    public function assignments()
+    {
+        return $this->hasMany(Assignment::class);
+    }
+
+    //ORM bidireccion a reserva
+    public function bookings(): belongsTo
+    {
+        $colbooking=$this->belongsTo(booking::class);
+        return $colbooking;
+    }
 }

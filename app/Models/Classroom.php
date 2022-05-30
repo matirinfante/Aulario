@@ -9,5 +9,16 @@ class Classroom extends Model
 {
     use HasFactory;
 
-    protected $fillable = [''];
+    protected $fillable = [
+    'classroom_name', 
+    'location', 
+    'capacity', 
+    'type'];
+    
+    //ORM bidireccion a reserva
+    public function bookings(): belongsTo
+    {
+        $colbooking=$this->belongsTo(booking::class);
+        return $colbooking;
+    }
 }
