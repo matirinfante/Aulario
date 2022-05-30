@@ -17,4 +17,27 @@ class Booking extends Model
     'start_time', 
     'finish_time'];
 
+        //ORM una reserva tiene un usuario
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
+
+   //ORM una reserva tiene un evento
+    public function event()
+    {
+        return $this->hasOne(Event::class);
+    }
+
+    //ORM una reserva tiene un aula
+    public function classroom()
+    {
+        return $this->hasOne(Classroom::class);
+    }
+
+    //ORM se marca bidireccionalidad 
+    public function assignment() {
+        return $this->belongsTo(Assignment::class);
+    }
+
 }
