@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,5 +26,10 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('assignments',[AssignmentController::class, 'index']);
-Route::get('assignments/create',[AssignmentController::class, 'create']);
+Route::resources([
+    'assignments' => AssignmentController::class,
+    'bookings' => BookingController::class,
+    'classrooms' => ClassroomController::class,
+    'events' => EventController::class,
+    'users' => UserController::class,
+]);
