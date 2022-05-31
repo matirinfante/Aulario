@@ -8,10 +8,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
+    
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-
+    
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -22,18 +22,78 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
+            <div class="container-fluid">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    @if(!request()->routeIs('inicio'))
+                        <a class="navbar-brand" href="{{ url('/') }}">
+                            <img src="{{asset('assets/img/aulario.png')}}" class="img-fluid" alt="Aulario" width="60px">
+                        </a>
+                    @endif
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
+                
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
+                    @if(request()->routeIs('home'))
+                    <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                          <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Usuarios
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <li><a class="dropdown-item" href="#">Crear</a></li>
+                              <li><a class="dropdown-item" href="#">Modificar</a></li>
+                              <li><a class="dropdown-item" href="#">Dar de Baja</a></li>
+                            </ul>
+                          </li>
+                          <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Materias
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Crear</a></li>
+                                <li><a class="dropdown-item" href="#">Modificar</a></li>
+                                <li><a class="dropdown-item" href="#">Dar de Baja</a></li>
+                            </ul>
+                          </li>
+                          <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Aulas
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Crear</a></li>
+                                <li><a class="dropdown-item" href="#">Modificar</a></li>
+                                <li><a class="dropdown-item" href="#">Dar de Baja</a></li>
+                            </ul>
+                          </li>
+                          <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Reservas
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <li><a class="dropdown-item" href="#">Crear</a></li>
+                              <li><a class="dropdown-item" href="#">Modificar</a></li>
+                              <li><a class="dropdown-item" href="#">Dar de Baja</a></li>
+                            </ul>
+                          </li>
+                          <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Eventos
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <li><a class="dropdown-item" href="#">Crear</a></li>
+                              <li><a class="dropdown-item" href="#">Modificar</a></li>
+                              <li><a class="dropdown-item" href="#">Dar de Baja</a></li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </div>
+                    @endif
                     <ul class="navbar-nav me-auto">
-
+                        
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -75,9 +135,14 @@
             </div>
         </nav>
 
+        {{-- Aqui se muestra el contenido --}}
         <main class="py-4">
             @yield('content')
         </main>
+
+
+
+        
     </div>
 </body>
 </html>
