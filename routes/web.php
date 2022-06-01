@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +27,11 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-//Routes de Users
-Route::get('/users', [App\Http\Controllers\UserController::class, 'index'])->name('Ver Usuarios');
-Route::get('/users-create', [App\Http\Controllers\UserController::class, 'create'])->name('Crear Usuarios');
+Route::resources([
+    'assignments' => AssignmentController::class,
+    'bookings' => BookingController::class,
+    'classrooms' => ClassroomController::class,
+    'events' => EventController::class,
+    'users' => UserController::class,
+]);
+
