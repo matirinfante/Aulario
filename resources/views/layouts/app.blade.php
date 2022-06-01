@@ -44,7 +44,7 @@
                               Usuarios
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                              <li><a class="dropdown-item" href="#">Crear</a></li>
+                              <li><a class="dropdown-item" href="/users">Crear</a></li>
                               <li><a class="dropdown-item" href="#">Modificar</a></li>
                               <li><a class="dropdown-item" href="#">Dar de Baja</a></li>
                             </ul>
