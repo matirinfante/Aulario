@@ -22,3 +22,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
+//Routes de Users
+Route::get('/users', [App\Http\Controllers\UserController::class, 'index'])->name('Ver Usuarios');
+Route::get('/users-create', [App\Http\Controllers\UserController::class, 'create'])->name('Crear Usuarios');
