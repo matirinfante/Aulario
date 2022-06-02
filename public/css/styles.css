@@ -1,0 +1,26 @@
+body {
+    background: rgb(255, 255, 255);
+    background: linear-gradient(
+        137deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(0, 64, 255, 0.3113620448179272) 35%,
+        rgba(0, 32, 129, 1) 100%
+    );
+}
+/* ------------------------------------------------------------- */
+
+/* General styles for form views (the 'form_style' class is used) */
+.form_style {
+    width: 40%;
+    margin: auto;
+    background: #d9d9d9;
+    padding: 25px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.582);
+}
+
+.form_style label {
+    font-weight: 600;
+}
+/* ------------------------------------------------------------- */
