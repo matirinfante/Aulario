@@ -32,7 +32,7 @@ class BookingController extends Controller
         $events = Event::all();
         $classrooms = Classroom::all();
 
-        return view('booking.create', compact($assignments, $events, $classrooms));
+        return view('booking.create', compact('assignments', 'events', 'classrooms'));
     }
 
     /**
