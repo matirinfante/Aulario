@@ -15,11 +15,10 @@ class BookingController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        // $bookings = DB::table('booking')->join('assignment', 'assignment_id', '=', 'assignment.assignment_id')->join()->get();
+         $bookings = DB::table('booking')->join('assignment', 'assignment_id', '=', 'assignment.assignment_id')->join()->get();
     }
 
     /**
@@ -39,7 +38,6 @@ class BookingController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -61,7 +59,6 @@ class BookingController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -73,7 +70,6 @@ class BookingController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
@@ -84,7 +80,6 @@ class BookingController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
