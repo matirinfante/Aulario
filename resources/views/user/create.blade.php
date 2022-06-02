@@ -4,6 +4,7 @@
     <style>
         form{
             width: 40%; 
+            min-width: 500px;
             margin: auto;
             background: #D9D9D9;
             padding: 25px;
@@ -25,34 +26,37 @@
     }
 
     </style>
-    <form id="form" method="POST" action="store.blade.php">
-        <div class="mb-3">
-            <label for="name" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="name" placeholder="Robert">
-            <p class="alerta d-none" id="errorName">Error</p>
+    <div id="container">
+      <form id="form" method="POST" action="{{route('users.store')}}">
+          <div class="mb-3">
+              <label for="name" class="form-label">Nombre</label>
+              <input type="text" class="form-control" name="name" id="name" placeholder="Robert">
+              <p class="alerta d-none" id="errorName">Error</p>
+            </div>
+            <div class="mb-3">
+              <label for="surname" class="form-label">Apellido</label>
+              <input type="text" class="form-control" name="surname" id="surname" placeholder="Kiyosaki">
+              <p class="alerta d-none" id="errorSurname">Error</p>
+            </div>
+          <div class="mb-3">
+              <label for="dni" class="form-label">Dni</label>
+              <input type="number" class="form-control" name="dni" id="dni" min="1000000" max="99999999" placeholder="39504700">
+              <p class="alerta d-none" id="errorDni">Error</p>
           </div>
           <div class="mb-3">
-            <label for="surname" class="form-label">Apellido</label>
-            <input type="text" class="form-control" id="surname" placeholder="Kiyosaki">
-            <p class="alerta d-none" id="errorSurname">Error</p>
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" name="email" id="email" placeholder="robert@kiyosaki.com">
+              <p class="alerta d-none" id="errorEmail">Error</p>
           </div>
-        <div class="mb-3">
-            <label for="dni" class="form-label">Dni</label>
-            <input type="number" class="form-control" id="dni" min="1000000" max="99999999" placeholder="39504700">
-            <p class="alerta d-none" id="errorDni">Error</p>
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" placeholder="robert@kiyosaki.com">
-            <p class="alerta d-none" id="errorEmail">Error</p>
-        </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" id="password">
-            <p class="alerta d-none" id="errorPassword">Error</p>
-          </div>
-          <button id="submit" type="submit" class="btn btn-primary">Crear</button>
-    </form>
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" name="password" id="password">
+              <p class="alerta d-none" id="errorPassword">Error</p>
+            </div>
+            <button id="submit" type="submit" class="btn btn-primary disabled">Crear</button>
+      </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
     <script type="text/javascript">
       let d = document
@@ -68,17 +72,16 @@
             $errorDni = d.getElementById('errorDni'),
             $errorEmail = d.getElementById('errorEmail'),
             $errorPass = d.getElementById('errorPassword'),
-            $form = d.querySelector('#form')
+            form = d.getElementById('form'),
+            $container = d.querySelector('#container')
+          let v1 = false,
+                v2 = false,
+                v3 = false,
+                v4 = false,
+                v5 = false
 
-      $form.addEventListener('click', e => {
-        e.preventDefault()
-        let v1 = false,
-            v2 = false,
-            v3 = false,
-            v4 = false,
-            v5 = false
-        if (e.target == $button) {
-
+      form.addEventListener('click', e => {
+        
           //Validamos que el nombre sea letras y no esté vacio
           if (!validator.isEmpty($inputName.value)) {
             if (validator.isAlpha($inputName.value)) {
@@ -140,7 +143,7 @@
           }
           //Validamos que la contraseña no esté vacia y que tenga un minimo de 6 caracteres
           if (!validator.isEmpty($inputPass.value)) {
-             if ($inputPass.value.length < 99 && $inputPass.value.length > 5 ) {
+             if ($inputPass.value.length < 10 && $inputPass.value.length > 5 ) {
                v5 = true
                $errorPass.classList.add('d-none')
             }else{
@@ -153,10 +156,8 @@
           }
           
           if (v1 && v2 && v3 && v4 && v5) {
-            console.log('ne ves')
-            $form.submit()
+            $button.classList.remove('disabled')
           }
-        }
       })
     </script>
 @endsection
