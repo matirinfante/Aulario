@@ -8,27 +8,27 @@
         <div class="card-body">
             <table class="table table-striped table-hover" id="assignments">
                 <thead class="bg-secondary text-light">
-                    <tr>
-                        <td>Nombre de la materia</td>
-                        <td>Profesor/a</td>
-                        <td>Acción</td>
-                    </tr>
+                <tr>
+                    <td>Nombre de la materia</td>
+                    <td>Profesor/a</td>
+                    <td>Acción</td>
+                </tr>
                 </thead>
                 <tbody>
-                    @forelse ($assignments as $assignment)
-                        <tr>
-                            <td>{{ $assignment['assignment_name'] }} </td>
-                            <td>{{ $assignment['user_id'] }}</td>
-                            <!-- El nombre del usuario (referencia con clave foránea) -->
-                            <td>
-                                <a href="{{ url('assignments/' . $assignment->id) }}" class="link-primary">Ver</a>&nbsp;&nbsp;&nbsp;
-                                <a href="#" class="link-success">Editar</a>&nbsp;&nbsp;&nbsp;
-                                <a href="#" class="link-danger">Borrar</a>
-                            </td>
-                        </tr>
-                    @empty
-                        <td colspan="3" class="text-center text-secondary">No hay registros</td>
-                    @endforelse
+                @forelse ($assignments as $assignment)
+                    <tr>
+                        <td>{{ $assignment->assignment_name }} </td>
+                        <td>{{ $assignment->teacher_name }} {{$assignment->teacher_surname}}</td>
+                        <!-- El nombre del usuario (referencia con clave foránea) -->
+                        <td>
+                            <a href="{{ route('assignments.show',$assignment->assignment_id) }}" class="link-primary">Ver</a>&nbsp;&nbsp;&nbsp;
+                            <a href="#" class="link-success">Editar</a>&nbsp;&nbsp;&nbsp;
+                            <a href="#" class="link-danger">Borrar</a>
+                        </td>
+                    </tr>
+                @empty
+                    <td colspan="3" class="text-center text-secondary">No hay registros</td>
+                @endforelse
                 </tbody>
             </table>
         </div>
@@ -39,7 +39,7 @@
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap5.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#assignments').DataTable();
         });
     </script>

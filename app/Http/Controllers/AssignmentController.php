@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class AssignmentController extends Controller
 {
@@ -16,7 +17,8 @@ class AssignmentController extends Controller
      */
     public function index()
     {
-        $assignments = Assignment::all();
+        $assignments = DB::table('assignments')->join('users', 'assignments.user_id', '=', 'users.id')
+            ->get(['assignments.id as assignment_id', 'assignments.assignment_name as assignment_name','users.name as teacher_name', 'users.surname as teacher_surname']);
         return view('assignment.index', compact('assignments'));
     }
 
