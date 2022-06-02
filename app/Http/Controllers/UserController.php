@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use mysql_xdevapi\Exception;
 
 class UserController extends Controller
 {
@@ -36,7 +37,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $request->validate([
             'name' => 'required',
             'surname' => 'required',
@@ -44,16 +44,20 @@ class UserController extends Controller
             'email' => 'required | unique',
             'password' => 'required | max:10'
         ]);
-
-        $user = new User([
-            'name' => $request->name,
-            'surname' => $request->surname,
-            'dni' => $request->dni,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
-        ]);
-        $user->save();
-        return redirect()->route('user.index')->with('success', 'Usuario guardado con exito');
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'surname' => $request->surname,
+                'dni' => $request->dni,
+                'email' => $request->email,
+                'password' => Hash::make($request->password)
+            ]);
+            flash('Se ha registrado correctamente el nuevo usuario')->success();
+            return redirect()->route('user.index');
+        } catch (\Exception $e) {
+            flash('Ha ocurrido un error al registrar al usuario')->error();
+            return back();
+        }
     }
 
     /**
@@ -74,8 +78,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         return view('user.edit', compact('user'));
     }
 
@@ -89,14 +92,22 @@ class UserController extends Controller
     {
         //no se modifica la contraseña del usuario
         //(requerir a la vista que lo oculte)
-        $user = User::find($id);
-        $user->name = $request->name;
-        $user->surname = $request->surname;
-        $user->email = $request->email;
-        $user->dni = $request->dni;
+        //TODO: validar request con UserRequest
+        try {
+            $user = User::findOrFail($id);
+            $user->name = $request->name;
+            $user->surname = $request->surname;
+            $user->email = $request->email;
+            $user->dni = $request->dni;
+            $user->save();
 
-        $user->save();
-        return redirect()->route('user.index')->with('success', 'Usuario modificado con exito');
+            flash('Se actualizó correctamente al usuario')->success();
+            return redirect()->route('user.index');
+
+        } catch (\Exception $e) {
+            flash('Ha ocurrido un error al actualizar al usuario')->error();
+            return back();
+        }
     }
 
     /**
@@ -106,8 +117,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $user->delete();
-        return redirect()->route('user.index')->with('success', 'Usuario borrado con exito');
+        flash('Se eliminó correctamente al usuario')->success();
+        return back();
     }
 }
