@@ -22,7 +22,7 @@
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container-fluid">
@@ -58,9 +58,8 @@
                                         Usuarios
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="/users">Crear</a></li>
-                                        <li><a class="dropdown-item" href="#">Modificar</a></li>
-                                        <li><a class="dropdown-item" href="#">Dar de Baja</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('users/create') }}">Crear</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('users') }}">Ver listado</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -69,9 +68,8 @@
                                         Materias
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="#">Crear</a></li>
-                                        <li><a class="dropdown-item" href="#">Modificar</a></li>
-                                        <li><a class="dropdown-item" href="#">Dar de Baja</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('assignments/create') }}">Crear</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('assignments') }}">Ver listado</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -80,9 +78,8 @@
                                         Aulas
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="#">Crear</a></li>
-                                        <li><a class="dropdown-item" href="#">Modificar</a></li>
-                                        <li><a class="dropdown-item" href="#">Dar de Baja</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('classrooms/create') }}">Crear</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('classrooms') }}">Ver listado</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -91,9 +88,8 @@
                                         Reservas
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="#">Crear</a></li>
-                                        <li><a class="dropdown-item" href="#">Modificar</a></li>
-                                        <li><a class="dropdown-item" href="#">Dar de Baja</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('bookings/create') }}">Crear</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('bookings') }}">Ver listado</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -102,9 +98,8 @@
                                         Eventos
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="#">Crear</a></li>
-                                        <li><a class="dropdown-item" href="#">Modificar</a></li>
-                                        <li><a class="dropdown-item" href="#">Dar de Baja</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('events/create') }}">Crear</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('events') }}">Ver listado</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -135,6 +130,10 @@
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                                      </svg>
                                 </a>
                                 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
