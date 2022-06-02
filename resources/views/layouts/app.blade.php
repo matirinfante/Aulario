@@ -58,9 +58,8 @@
                                         Usuarios
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="/users">Crear</a></li>
-                                        <li><a class="dropdown-item" href="#">Modificar</a></li>
-                                        <li><a class="dropdown-item" href="#">Dar de Baja</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('users/create') }}">Crear</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('users') }}">Ver listado</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -69,9 +68,8 @@
                                         Materias
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="#">Crear</a></li>
-                                        <li><a class="dropdown-item" href="#">Modificar</a></li>
-                                        <li><a class="dropdown-item" href="#">Dar de Baja</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('assignments/create') }}">Crear</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('assignments') }}">Ver listado</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -80,9 +78,8 @@
                                         Aulas
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="#">Crear</a></li>
-                                        <li><a class="dropdown-item" href="#">Modificar</a></li>
-                                        <li><a class="dropdown-item" href="#">Dar de Baja</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('classrooms/create') }}">Crear</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('classrooms') }}">Ver listado</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -91,9 +88,8 @@
                                         Reservas
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="#">Crear</a></li>
-                                        <li><a class="dropdown-item" href="#">Modificar</a></li>
-                                        <li><a class="dropdown-item" href="#">Dar de Baja</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('bookings/create') }}">Crear</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('bookings') }}">Ver listado</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -102,9 +98,8 @@
                                         Eventos
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="#">Crear</a></li>
-                                        <li><a class="dropdown-item" href="#">Modificar</a></li>
-                                        <li><a class="dropdown-item" href="#">Dar de Baja</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('events/create') }}">Crear</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('events') }}">Ver listado</a></li>
                                     </ul>
                                 </li>
                             </ul>
