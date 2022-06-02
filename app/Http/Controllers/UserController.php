@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Assignment;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use mysql_xdevapi\Exception;
+use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\isNull;
 
 class UserController extends Controller
 {
@@ -37,13 +40,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'name' => 'required',
             'surname' => 'required',
             'dni' => 'required | unique',
             'email' => 'required | unique',
-            'password' => 'required | max:10'
+            'password' => 'required'
         ]);
+
         try {
             $user = User::create([
                 'name' => $request->name,
@@ -94,7 +99,7 @@ class UserController extends Controller
         //(requerir a la vista que lo oculte)
         //TODO: validar request con UserRequest
         try {
-            $user = User::findOrFail($id);
+            $user = User::findOrFail($id)->fill();
             $user->name = $request->name;
             $user->surname = $request->surname;
             $user->email = $request->email;
@@ -111,13 +116,19 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar un usuario según un determinado id. Si lo encuentra, se "reemplazan" sus
+     * referencias en materias y se cancelan reservas de eventos. Si no lo encuentra,
+     * retorna error.
      *
      * @param int $id
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($id); //devuelve error si no encuentra
+        $assignments = Assignment::where('user_id',$id)->get();
+        if(!$assignments->isEmpty()){
+
+        }
         $user->delete();
         flash('Se eliminó correctamente al usuario')->success();
         return back();
