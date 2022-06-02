@@ -57,9 +57,8 @@ class AssignmentController extends Controller
      *
      * @param int $id
      */
-    public function show($id)
+    public function show(Assignment $assignment)
     {
-        $assignment = Assignment::find($id);
         return view('assignment.show', compact('assignment'));
     }
 
@@ -68,9 +67,8 @@ class AssignmentController extends Controller
      *
      * @param int $id
      */
-    public function edit($id)
+    public function edit(Assignment $assignment)
     {
-        $assignment = Assignment::find($id);
         $users = User::all();
         return view('assignment.edit', compact('assignment', 'users'));
     }
