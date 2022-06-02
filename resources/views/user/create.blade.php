@@ -14,7 +14,7 @@
         font-weight: 600;
     }
     </style>
-    <form class="" style="" action="">
+    <form method="POST" action=" {{route('user.store')}} ">
         <div class="mb-3">
             <label for="name" class="form-label">Nombre</label>
             <input type="text" class="form-control" id="name" placeholder="Robert">
