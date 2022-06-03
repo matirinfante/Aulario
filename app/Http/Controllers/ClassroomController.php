@@ -10,7 +10,6 @@ class ClassroomController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -21,7 +20,6 @@ class ClassroomController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -31,88 +29,89 @@ class ClassroomController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'classroom_name' => 'required|unique|alpha_num',
-            'location' => 'required',
-            'capacity' => 'required|integer',
-            'type' => 'required|alpha'
-        ]);
+        try {
+            $request->validate([
+                'classroom_name' => 'required|unique|alpha_num',
+                'location' => 'required',
+                'capacity' => 'required|integer',
+                'type' => 'required|alpha'
+            ]);
 
-        $classroom = new Classroom([
-            'classroom_name' => $request->classroom_name,
-            'location' => $request->location,
-            'capacity' => $request->capacity,
-            'type' => $request->type,
-        ]);
-        $classroom->save();
-        return redirect()->route('classroom.index')->with('success', 'Aula guardada con exito');
+            $classroom = Classroom::create([
+                'classroom_name' => $request->classroom_name,
+                'location' => $request->location,
+                'capacity' => $request->capacity,
+                'type' => $request->type,
+            ]);
+            $classroom->save();
+            flash('Se ha añadido un nuevo aula con éxito')->success();
+            return redirect(route('classrooms.index'));
+        } catch (\Exception $e) {
+            flash('Ha ocurrido un error al crear un nuevo aula')->error();
+            return back();
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
      */
-    public function show($id)
+    public function show(Classroom $classroom)
     {
-        $classroom = Classroom::find($id);
         return view('classroom.show', compact('classroom'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
      */
-    public function edit($id)
+    public function edit(Classroom $classroom)
     {
-        $classroom = Classroom::find($id);
         return view('classroom.edit', compact('classroom'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'classroom_name' => 'required|unique|alpha_num',
-            'location' => 'required',
-            'capacity' => 'required|integer',
-            'type' => 'required|alpha'
-        ]);
-        
-        $classroom = Classroom::find($id);
-        $classroom->classroom_name = $request->classroom_name;
-        $classroom->location = $request->location;
-        $classroom->capacity = $request->capacity;
-        $classroom->type = $request->type;
+        try {
+            $request->validate([
+                'classroom_name' => 'required|unique:classrooms',
+                'location' => 'required',
+                'capacity' => 'required|integer',
+                'type' => 'required|alpha'
+            ]);
 
-        $classroom->save();
-        return redirect()->route('classroom.index')->with('success', 'Aula modificada con exito');
+            $classroom = Classroom::findOrFail($id)->fill($request->all());
+
+            $classroom->save();
+
+            flash('Se ha actualizado el aula con éxito')->success();
+            return redirect(route('classrooms.index'));
+        } catch (\Exception $e) {
+            flash('Ha ocurrido un error al actualizar el aula')->error();
+            return back();
+        }
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
      */
-    public function destroy($id)
+    public function destroy(Classroom $classroom)
     {
-        $classroom = Classroom::find($id);
         $classroom->delete();
-        return redirect()->route('classroom.index')->with('success', 'Aula borrada con exito');
+        return redirect(route('classrooms.index'));
     }
 }
