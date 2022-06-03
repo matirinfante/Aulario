@@ -28,7 +28,13 @@
         }
 
     </style>
+
+<a class="btn btn-outline-light" href="{{ url('users') }}" role="button" style="margin-left: 1%">Listado de Usuarios</a>
+
+
+
     <div id="container">
+        <h3 class="text-center m-4">Creación de Usuario</h3>
         <form id="form" method="POST" action="{{route('users.store')}}">
             @csrf
             <div class="mb-3">
@@ -64,8 +70,7 @@
             integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
     <script type="text/javascript">
-        let d = document
-
+       let d = document
         const $inputName = d.getElementById('name'),
             $inputSurname = d.getElementById('surname'),
             $inputEmail = d.getElementById('email'),
@@ -84,9 +89,7 @@
             v3 = false,
             v4 = false,
             v5 = false
-
         form.addEventListener('click', e => {
-
             //Validamos que el nombre sea letras y no esté vacio
             if (!validator.isEmpty($inputName.value)) {
                 if (validator.isAlpha($inputName.value)) {
@@ -113,7 +116,6 @@
                 $errorSurname.textContent = 'El apellido está vacio'
                 $errorSurname.classList.remove('d-none')
             }
-
             //Validamos que el dni sea numeros, no esté vacio y que el valor esté entre el 1.000.000
             // y los 99.999.999
             if (!validator.isEmpty($inputDni.value)) {
@@ -159,7 +161,6 @@
                 $errorPass.textContent = 'La contraseña está vacia'
                 $errorPass.classList.remove('d-none')
             }
-
             if (v1 && v2 && v3 && v4 && v5) {
                 $button.classList.remove('disabled')
             }
