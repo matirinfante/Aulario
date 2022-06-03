@@ -24,3 +24,14 @@ body {
     font-weight: 600;
 }
 /* ------------------------------------------------------------- */
+
+/* Font style in top menu */
+nav.navbar.navbar-expand-md.navbar-light.bg-white.shadow-sm {
+    font-size: 1.09em;
+    font-family: ui-monospace;
+}
+
+/* top menu logo margin */
+a.navbar-brand {
+    margin-left: 1%;
+}
