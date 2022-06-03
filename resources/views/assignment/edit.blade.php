@@ -34,9 +34,21 @@
 
     {{-- script para utilizar select2 --}}
     <script>
+        $('#user_id').select2().on('select2:open', function(e) {
+            $('.select2-search__field').attr('placeholder', 'Buscar...');
+        })
         $('#user_id').select2({
-            placeholder: 'Elija profesor',
-            allowClear: false
+            language: {
+
+                noResults: function() {
+
+                    return "No hay resultado";
+                },
+                searching: function() {
+
+                    return "Buscando..";
+                }
+            }
         });
     </script>
 @endsection
