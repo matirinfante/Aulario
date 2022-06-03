@@ -96,18 +96,13 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //no se modifica la contraseña del usuario
-        //(requerir a la vista que lo oculte)
         //TODO: validar request con UserRequest
         try {
-            $user = User::findOrFail($id)->fill();
-            $user->name = $request->name;
-            $user->surname = $request->surname;
-            $user->email = $request->email;
-            $user->dni = $request->dni;
+            $user = User::findOrFail($id)->fill($request->all());
             $user->save();
 
             flash('Se actualizó correctamente al usuario')->success();
-            return redirect(route('user.index'));
+            return redirect(route('users.index'));
 
         } catch (\Exception $e) {
             flash('Ha ocurrido un error al actualizar al usuario')->error();
