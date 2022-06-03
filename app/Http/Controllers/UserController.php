@@ -98,8 +98,10 @@ class UserController extends Controller
         //no se modifica la contraseña del usuario
         //(requerir a la vista que lo oculte)
         //TODO: validar request con UserRequest
+        
         try {
-            $user = User::findOrFail($id)->fill();
+            
+            $user = User::findOrFail($id)->fill($request->all());
             $user->name = $request->name;
             $user->surname = $request->surname;
             $user->email = $request->email;
@@ -107,7 +109,7 @@ class UserController extends Controller
             $user->save();
 
             flash('Se actualizó correctamente al usuario')->success();
-            return redirect()->route('user.index');
+            return redirect(route('users.index'));
 
         } catch (\Exception $e) {
             flash('Ha ocurrido un error al actualizar al usuario')->error();

@@ -32,7 +32,9 @@
 <a class="btn btn-outline-light" href="{{ url('users') }}" role="button" style="margin-left: 1%">Listado de Usuarios</a>
     
 <h3 class="text-center m-4">Modificación de un usuario</h3>
-<form id="form" name="form" class="form_style" method="get" action="{{route('users.update', $user['id'])}}">
+<form id="form" name="form" class="form_style" method="post" action="{{route('users.update', $user['id'])}}">
+   
+    @method('patch');
     <div class="mb-3">
         <label for="name" class="form-label">Nombre</label>
         <input type="text" class="form-control" name="name" id="name" placeholder=" {{$user['name']}} ">
@@ -55,7 +57,7 @@
         <p class="alerta d-none" id="errorEmail">Error</p>
     </div>
     
-    <button id="submit" type="submit" class="btn btn-primary disabled" >Actualizar</button>
+    <button id="submit" type="submit" class="btn btn-primary" >Actualizar</button>
     @csrf
 </form>
 <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
