@@ -18,7 +18,8 @@ class BookingController extends Controller
      */
     public function index()
     {
-         $bookings = DB::table('booking')->join('assignment', 'assignment_id', '=', 'assignment.assignment_id')->join()->get();
+        //$bookings = DB::table('booking')->join('assignment', 'assignment_id', '=', 'assignment.assignment_id')->join()->get();
+        return view('booking.index');
     }
 
     /**
