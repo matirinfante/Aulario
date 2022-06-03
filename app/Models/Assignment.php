@@ -9,7 +9,7 @@ class Assignment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['assignment_name'];
+    protected $fillable = ['assignment_name', 'user_id'];
     
     //ORM referencia bidireccional 
     public function user()
