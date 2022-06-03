@@ -10,6 +10,8 @@ body {
 
 main.py-4 {
     font-weight: 300;
+    width: 100%;
+    overflow: auto;
 }
 
 h3 {
