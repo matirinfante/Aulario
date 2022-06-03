@@ -4,6 +4,7 @@ use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\PetitionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,5 +34,6 @@ Route::resources([
     'classrooms' => ClassroomController::class,
     'events' => EventController::class,
     'users' => UserController::class,
+    'petitions' => PetitionController::class,
 ]);
 
