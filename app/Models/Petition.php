@@ -9,7 +9,14 @@ class Petition extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'assignment_id', 'estimated_people', 'classroom_type', 'start_time', 'finish_time', 'days', 'message'];
+    protected $fillable = ['user_id', 
+    'assignment_id', 
+    'estimated_people', 
+    'classroom_type', 
+    'start_time', 
+    'finish_time', 
+    'days', 
+    'message'];
 
     public function user()
     {

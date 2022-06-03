@@ -97,7 +97,9 @@ class UserController extends Controller
     {
         //no se modifica la contraseña del usuario
         //TODO: validar request con UserRequest
+        
         try {
+
             $user = User::findOrFail($id)->fill($request->all());
             $user->save();
 

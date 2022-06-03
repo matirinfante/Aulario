@@ -49,7 +49,7 @@ class AssignmentController extends Controller
             'user_id' => $request->user_id
         ]);
         $assignment->save();
-        return redirect()->route('assignment.index')->with('success', 'Asignatura guardada con exito');
+        return redirect(route('assignments.index'));
     }
 
     /**
