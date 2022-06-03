@@ -107,7 +107,7 @@ class UserController extends Controller
             $user->save();
 
             flash('Se actualizó correctamente al usuario')->success();
-            return redirect()->route('user.index');
+            return redirect(route('user.index'));
 
         } catch (\Exception $e) {
             flash('Ha ocurrido un error al actualizar al usuario')->error();
