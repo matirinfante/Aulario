@@ -11,7 +11,7 @@
         materias</a>
         
     <h3 class="text-center m-4">Modificación de una materia</h3>
-    <form id="form_assignment" name="form_assignment" class="form_style" method="POST" action="{{route('assignments.update',$assignment->id)}}">
+    <form id="form_assignment" name="form_assignment" class="form_style" method="PUT" action="{{route('assignments.update',$assignment->id)}}">
         <div class="mb-3">
             <label for="assignment_name" class="form-label">Nombre de materia</label>
             <input type="text" class="form-control" name="assignment_name" id="assignment_name" value="{{ $assignment->assignment_name }}" required>
