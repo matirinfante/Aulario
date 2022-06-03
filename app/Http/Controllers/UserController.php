@@ -44,8 +44,8 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'surname' => 'required',
-            'dni' => 'required | unique',
-            'email' => 'required | unique',
+            'dni' => 'required | unique:users',
+            'email' => 'required | unique:users',
             'password' => 'required'
         ]);
 
@@ -58,7 +58,7 @@ class UserController extends Controller
                 'password' => Hash::make($request->password)
             ]);
             flash('Se ha registrado correctamente el nuevo usuario')->success();
-            return redirect()->route('user.index');
+            return redirect(route('user.show', $user->id));
         } catch (\Exception $e) {
             flash('Ha ocurrido un error al registrar al usuario')->error();
             return back();
@@ -125,8 +125,8 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id); //devuelve error si no encuentra
-        $assignments = Assignment::where('user_id',$id)->get();
-        if(!$assignments->isEmpty()){
+        $assignments = Assignment::where('user_id', $id)->get();
+        if (!$assignments->isEmpty()) {
 
         }
         $user->delete();
