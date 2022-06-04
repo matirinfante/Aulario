@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <a class="btn btn-outline-light" href="{{ url('assignments') }}" role="button" style="margin-left: 1%">Listado de
+    <a class="btn btn-outline-primary" href="{{ url('assignments') }}" role="button" style="margin-left: 1%">Listado de
         materias</a>
 
     <h3 class="text-center m-4">Detalles de la materia</h3>
