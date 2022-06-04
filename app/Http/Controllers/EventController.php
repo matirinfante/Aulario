@@ -77,12 +77,22 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $event = Event::find($id);
-        $event->event_name = $request->event_name;
-        $event->participants = $request->participants;
+        try {
+            $request->validate([
+                'event_name' => 'required',
+                'participants' => 'required'
+            ]);
 
-        $event->save();
-        return redirect()->route('event.index')->with('success', 'Evento modificado con exito');
+            $event = Event::findOrFail($id)->fill($request->all());
+
+            $event->save();
+
+            flash('Evento modificado con exito')->success();
+            return redirect(route('assignments.index'));
+        } catch (\Exception $e) {
+            flash('Ha ocurrido un error al actualizar el evento')->error();
+            return back();
+        }
     }
 
     /**
