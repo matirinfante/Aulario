@@ -18,7 +18,7 @@ class AssignmentController extends Controller
     public function index()
     {
         $assignments = DB::table('assignments')->join('users', 'assignments.user_id', '=', 'users.id')
-            ->get(['assignments.id as assignment_id', 'assignments.assignment_name as assignment_name','users.name as teacher_name', 'users.surname as teacher_surname']);
+            ->get(['assignments.id as assignment_id', 'assignments.assignment_name as assignment_name', 'users.name as teacher_name', 'users.surname as teacher_surname']);
         return view('assignment.index', compact('assignments'));
     }
 
@@ -38,18 +38,23 @@ class AssignmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $request->validate([
-            'assignment_name' => 'required',
-            'user_id' => 'required'
-        ]);
+        try {
+            $request->validate([
+                'assignment_name' => 'required',
+                'user_id' => 'required'
+            ]);
 
-        $assignment = Assignment::create([
-            'assignment_name' => $request->assignment_name,
-            'user_id' => $request->user_id
-        ]);
-        $assignment->save();
-        return redirect(route('assignments.index'));
+            $assignment = Assignment::create([
+                'assignment_name' => $request->assignment_name,
+                'user_id' => $request->user_id
+            ]);
+            $assignment->save();
+            flash('La materia se ha cargado exitosamente')->success();
+            return redirect(route('assignments.index'));
+        } catch (\Exception $e) {
+            flash('Ha ocurrido un error al añadir la materia')->error();
+            return back();
+        }
     }
 
     /**
@@ -89,10 +94,10 @@ class AssignmentController extends Controller
 
             $assignment->save();
 
-            flash('Asignatura modificada con exito')->success();
+            flash('Materia modificada con éxito')->success();
             return redirect(route('assignments.index'));
         } catch (\Exception $e) {
-            flash('Ha ocurrido un error al actualizar la asignatura')->error();
+            flash('Ha ocurrido un error al actualizar la materia')->error();
             return back();
         }
     }
@@ -104,8 +109,8 @@ class AssignmentController extends Controller
      */
     public function destroy($id)
     {
-        $assignment = Assignment::find($id);
+        $assignment = Assignment::findOrFail($id);
         $assignment->delete();
-        return redirect()->route('assignment.index')->with('success', 'Asignatura borrada con exito');
+        return redirect(route('assignments.index'));
     }
 }

@@ -34,7 +34,7 @@ class ClassroomController extends Controller
     {
         try {
             $request->validate([
-                'classroom_name' => 'required|unique|alpha_num',
+                'classroom_name' => 'required|unique:classroom',
                 'location' => 'required',
                 'capacity' => 'required|integer',
                 'type' => 'required|alpha'

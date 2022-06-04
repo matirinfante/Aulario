@@ -17,7 +17,8 @@ class AssignmentFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'assignment_name' => $this->faker->lexify('Materia ?'),
+            'user_id' => $this->faker->numberBetween(1,11),
         ];
     }
 }

@@ -10,7 +10,6 @@ class EventController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -21,7 +20,6 @@ class EventController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -31,55 +29,61 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
      */
     public function store(Request $request)
     {
-        $event = new Event([
-            'event_name' => $request->event_name,
-            'participants' => $request->participants
-        ]);
-        $event->save();
-        return redirect()->route('event.index')->with('success', 'Evento guardado con exito');
+        try {
+            $request->validate([
+                'event_name' => 'required|unique:events',
+                'participants' => 'required'
+            ]);
+
+            $event = Event::create([
+                'event_name' => $request->event_name,
+                'participants' => $request->participants
+            ]);
+            $event->save();
+            flash('Se ha creado un nuevo evento con éxito')->success();
+            return redirect(route('event.index'));
+        } catch (\Exception $e) {
+            flash('Ha ocurrido un error al crear un nuevo evento')->error();
+            return back();
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
      */
-    public function show($id)
+    public function show(Event $event)
     {
-        $event = Event::find($id);
         return view('event.show', compact('event'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
      */
-    public function edit($id)
+    public function edit(Event $event)
     {
-        $event = Event::find($id);
         return view('event.edit', compact('event'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      */
     public function update(Request $request, $id)
     {
         try {
             $request->validate([
-                'event_name' => 'required',
+                'event_name' => 'required|unique:events',
                 'participants' => 'required'
             ]);
 
@@ -87,7 +91,7 @@ class EventController extends Controller
 
             $event->save();
 
-            flash('Evento modificado con exito')->success();
+            flash('Evento modificado con éxito')->success();
             return redirect(route('assignments.index'));
         } catch (\Exception $e) {
             flash('Ha ocurrido un error al actualizar el evento')->error();
@@ -98,13 +102,13 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
      */
     public function destroy($id)
     {
         $event = Event::find($id);
         $event->delete();
-        return redirect()->route('event.index')->with('success', 'Evento borrado con exito');
+        return redirect(route('event.index'));
     }
+
 }
