@@ -3,7 +3,7 @@
 @section('content')
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
-
+    <h3 class="text-center m-4">Listado de Usuarios</h3>
     <div class="card" style="width: 1000px; margin: auto;">
         <div class="card-body">
             <table class="table table-striped table-hover" id="users">
