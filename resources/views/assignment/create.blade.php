@@ -11,6 +11,10 @@
     <a class="btn btn-outline-light" href="{{ url('assignments') }}" role="button" style="margin-left: 1%">Listado de
         materias</a>
 
+    <div id="flashMessage" class="text-center">
+        @include('flash::message')
+    </div>
+
     <h3 class="text-center m-4">Creación de una materia</h3>
     <form id="form_assignment" name="form_assignment" class="form_style" method="POST"
         action="{{ route('assignments.store') }}">
@@ -27,7 +31,7 @@
             <select name="user_id" id="user_id" class="form-select" aria-label="Profesor/a" style="width: 100%">
                 <option selected="selected" disabled="disabled">Elija profesor/a</option>
                 @foreach ($users as $user)
-                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    <option value="{{ $user->id }}">{{ $user->name }}, {{ $user->surname }}</option>
                 @endforeach
             </select>
             <small id="errorNameTeacher"></small>
@@ -35,6 +39,7 @@
         <button id="submit" type="submit" class="btn btn-primary">Crear</button>
     </form>
 
+@section('scripts')
     {{-- script para utilizar select2 --}}
     <script>
         $('#user_id').select2().on('select2:open', function(e) {
@@ -53,5 +58,12 @@
                 }
             }
         });
+
+        $("document").ready(function() {
+            $("#flashMessage").fadeOut(300, function() {
+                $(this).remove();
+            });
+        });
     </script>
+@endsection
 @endsection
