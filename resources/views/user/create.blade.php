@@ -2,20 +2,6 @@
 
 @section('content')
     <style>
-        form {
-            width: 40%;
-            min-width: 500px;
-            margin: auto;
-            background: #D9D9D9;
-            padding: 25px;
-            border-radius: 25px;
-            text-align: center;
-        }
-
-        label {
-            font-weight: 600;
-        }
-
         .alerta {
             padding: 3px;
             font-size: 14px;
@@ -35,7 +21,7 @@
 
     <div id="container">
         <h3 class="text-center m-4">Creación de Usuario</h3>
-        <form id="form" method="POST" action="{{route('users.store')}}">
+        <form id="form" class="form_style" method="POST" action="{{route('users.store')}}">
             @csrf
             <div class="mb-3">
                 <label for="name" class="form-label">Nombre</label>
