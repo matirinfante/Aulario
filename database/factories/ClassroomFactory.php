@@ -17,8 +17,8 @@ class ClassroomFactory extends Factory
     public function definition()
     {
         return [
-            'classroom_name' => $this->faker->numerify('I#'),
-            'location' => $this->faker->localCoordinates(),
+            'classroom_name' => $this->faker->numerify('I##'),
+            'location' => $this->faker->numerify('N #### W ####'),
             'capacity' => $this->faker->numberBetween(20, 70),
             'type' => $this->faker->randomElement(['Laboratorio', 'Aula'])
         ];
