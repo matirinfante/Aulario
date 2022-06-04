@@ -32,7 +32,7 @@ class BookingController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     *TODO: enviar solamente eventos creados por el usuario. Si es super usuario, enviar todo.
      */
     public function create()
     {
@@ -47,10 +47,29 @@ class BookingController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
+     * TODO:implementar store de Booking
      */
     public function store(Request $request)
     {
-        //
+        try {
+            if ($request->assignment) {
+                //Se carga la reserva de la materia según el user_id asociado.
+                $assignment = Assignment::findOrFail($request->assignment_id);
+                //$assignment->user_id;
+            } else {
+                //Ya ni me acuerdo que estaba pensando pero lo dejo porsiaca
+                $event = Event::findOrFail($request->event_id);
+                //$event->user_id;
+            }
+
+            //Añadir lógica restante
+
+            flash('Se ha agregado una nueva reserva con éxito')->success();
+            return redirect(route('bookings.index'));
+        } catch (\Exception $e) {
+            flash('Ha ocurrido un error al agregar una nueva reserva')->error();
+            return back();
+        }
     }
 
     /**
