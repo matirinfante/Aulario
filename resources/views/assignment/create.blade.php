@@ -11,10 +11,6 @@
     <a class="btn btn-outline-light" href="{{ url('assignments') }}" role="button" style="margin-left: 1%">Listado de
         materias</a>
 
-    <div id="flashMessage" class="text-center">
-        @include('flash::message')
-    </div>
-
     <h3 class="text-center m-4">Creación de una materia</h3>
     <form id="form_assignment" name="form_assignment" class="form_style" method="POST"
         action="{{ route('assignments.store') }}">
@@ -57,12 +53,6 @@
                     return "Buscando..";
                 }
             }
-        });
-
-        $("document").ready(function() {
-            $("#flashMessage").fadeOut(300, function() {
-                $(this).remove();
-            });
         });
     </script>
 @endsection
