@@ -36,18 +36,25 @@ class PetitionController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     *TODO: implementar carga petition
      */
     public function store(Request $request)
     {
-        //
+        try {
+
+
+            flash('Se ha cargado una nueva petición con éxito')->success();
+            return redirect(route('petitions.index'));
+        } catch (\Exception $e) {
+            flash('Ha ocurrido un error al crear una nueva petición')->error();
+            return back();
+        }
     }
 
     /**
      * Display the specified resource.
      *
      * @param \App\Models\Petition $petition
-     * @return \Illuminate\Http\Response
      */
     public function show(Petition $petition)
     {
@@ -85,10 +92,17 @@ class PetitionController extends Controller
      */
     public function destroy(Petition $petition)
     {
-        //
+        //no
     }
 
-    public function changeStatus(Petition $petition){
+    /**
+     * Se encarga de cambiar el estado de la petición
+     * @param Petition $petition
+     * TODO: implementar cambio de estado de la petición
+     */
+
+    public function changeStatus(Petition $petition)
+    {
 
     }
 
