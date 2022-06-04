@@ -109,8 +109,15 @@ class AssignmentController extends Controller
      */
     public function destroy($id)
     {
-        $assignment = Assignment::findOrFail($id);
-        $assignment->delete();
-        return redirect(route('assignments.index'));
+        try {
+            $assignment = Assignment::findOrFail($id);
+            $assignment->delete();
+            flash('Materia eliminada con éxito')->success();
+            return redirect(route('assignments.index'));
+
+        } catch (\Exception $e) {
+            flash('Ha ocurrido un error al eliminar la materia')->error();
+            return back();
+        }
     }
 }
