@@ -79,13 +79,22 @@ class AssignmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        $assignment = Assignment::find($id);
-        $assignment->assignment_name = $request->assignment_name;
-        $assignment->user_id = $request->user_id;
+        try {
+            $request->validate([
+                'assignment_name' => 'required',
+                'user_id' => 'required'
+            ]);
 
-        $assignment->save();
-        return redirect()->route('assignment.index')->with('success', 'Asignatura modificada con exito');
+            $assignment = Assignment::findOrFail($id)->fill($request->all());
+
+            $assignment->save();
+
+            flash('Asignatura modificada con exito')->success();
+            return redirect(route('assignments.index'));
+        } catch (\Exception $e) {
+            flash('Ha ocurrido un error al actualizar la asignatura')->error();
+            return back();
+        }
     }
 
     /**
