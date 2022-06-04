@@ -18,16 +18,16 @@ class BookingController extends Controller
      */
     public function index()
     {
-        //Problema: si evento o assignment es nulo en la BD no retorna nada.
+        //Problema: si evento o assignment es nulo en la BD no retorna nada. Hotfix: solo mostrar horarios fijos
 
         $bookings = DB::table('bookings')
-        ->join('users', 'bookings.user_id', '=', 'users.id')
-        ->join('assignments', 'bookings.assignment_id', '=', 'assignments.id')
-        ->join('classrooms','bookings.classroom_id','=','classrooms.id')
-        ->join('events','bookings.event_id','=','events.id')
-        ->get(['bookings.id as booking_id', 'bookings.description as booking_description', 'bookings.week_day as week_day','bookings.booking_date as booking_date', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status','users.name as user_name', 'users.surname as user_surname', 'assignments.assignment_name as assignment_name','classrooms.classroom_name as classroom_name','events.event_name as event_name']);
+            ->join('users', 'bookings.user_id', '=', 'users.id')
+            ->join('assignments', 'bookings.assignment_id', '=', 'assignments.id')
+            ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
+            ->get(['bookings.id as booking_id', 'bookings.description as booking_description', 'bookings.week_day as week_day', 'bookings.booking_date as booking_date', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status',
+                'users.name as user_name', 'users.surname as user_surname', 'assignments.assignment_name as assignment_name', 'classrooms.classroom_name as classroom_name']);
 
-         return view('booking.index', compact('bookings'));
+        return view('booking.index', compact('bookings'));
     }
 
     /**
@@ -58,9 +58,8 @@ class BookingController extends Controller
      *
      * @param int $id
      */
-    public function show($id)
+    public function show(Booking $booking)
     {
-        $booking = Booking::findOrFail($id);
         return view('booking.show', compact('booking'));
     }
 
@@ -69,13 +68,12 @@ class BookingController extends Controller
      *
      * @param int $id
      */
-    public function edit($id)
+    public function edit(Booking $booking)
     {
-        
         $assignments = Assignment::all();
         $events = Event::all();
         $classrooms = Classroom::all();
-        return view ('booking.edit', compact('booking','assignments','events','classrooms'));
+        return view('booking.edit', compact('booking', 'assignments', 'events', 'classrooms'));
     }
 
     /**
@@ -86,16 +84,13 @@ class BookingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
         try {
             $request->validate([
-                'assignment_id' => 'required|integer',
-                'event_id' => 'required|integer',
+                'assignment_id' => 'integer',
+                'event_id' => 'integer',
                 'user_id' => 'required|integer',
-                'description' => 'required|string', //Esta no se si es requerida
-                'status' => 'required',
-                'week_day' => 'required',
-                'booking_day' => 'required',
+                'description' => 'string',
                 'start_time' => 'required',
                 'finish_time' => 'required'
             ]);
@@ -104,7 +99,7 @@ class BookingController extends Controller
 
             $booking->save();
 
-            flash('Reserva modificada con exito')->success();
+            flash('Reserva modificada con éxito')->success();
             return redirect(route('bookings.index'));
         } catch (\Exception $e) {
             flash('Ha ocurrido un error al actualizar la reserva')->error();
@@ -119,9 +114,26 @@ class BookingController extends Controller
      */
     public function destroy($id)
     {
-        
-        $booking = Booking::find($id);
+        $booking = Booking::findOrFail($id);
         $booking->delete();
-        return redirect()->route('bookings.index')->with('success', 'Reserva borrada con exito');
+        return redirect(route('bookings.index'));
+    }
+
+    /**
+     * Se encarga de cambiar el estado de la reserva
+     * TODO: implementar estado de la reserva
+     */
+    public function changeStatus(Booking $booking)
+    {
+
+    }
+
+    /**
+     * Muestra solo reservas de materias
+     * TODO: implementar mostrar solo reservas de materias
+     */
+    public function showSchedule()
+    {
+
     }
 }
