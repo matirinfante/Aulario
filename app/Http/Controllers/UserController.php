@@ -4,12 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Assignment;
 use App\Models\User;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use mysql_xdevapi\Exception;
-use function PHPUnit\Framework\isEmpty;
-use function PHPUnit\Framework\isNull;
+
 
 class UserController extends Controller
 {
@@ -19,7 +16,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
         $users = User::all();
         return view('user.index', compact('users'));
     }
@@ -30,7 +26,6 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
         return view('user.create');
     }
 
@@ -40,16 +35,14 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
-        $request->validate([
-            'name' => 'required',
-            'surname' => 'required',
-            'dni' => 'required | unique:users',
-            'email' => 'required | unique:users',
-            'password' => 'required'
-        ]);
-
         try {
+            $request->validate([
+                'name' => 'required',
+                'surname' => 'required',
+                'dni' => 'required | unique:users',
+                'email' => 'required | unique:users',
+                'password' => 'required'
+            ]);
             $user = User::create([
                 'name' => $request->name,
                 'surname' => $request->surname,
@@ -58,7 +51,7 @@ class UserController extends Controller
                 'password' => Hash::make($request->password)
             ]);
             flash('Se ha registrado correctamente el nuevo usuario')->success();
-            return redirect(route('user.show', $user->id));
+            return redirect(route('users.show', $user->id));
         } catch (\Exception $e) {
             flash('Ha ocurrido un error al registrar al usuario')->error();
             return back();
@@ -69,10 +62,8 @@ class UserController extends Controller
      * Display the specified resource.
      *
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
-        $user = User::find($id);
         return view('user.show', compact('user'));
     }
 
@@ -81,9 +72,8 @@ class UserController extends Controller
      *
      * @param int $id
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user = User::findOrFail($id);
         return view('user.edit', compact('user'));
     }
 
@@ -97,7 +87,7 @@ class UserController extends Controller
     {
         //no se modifica la contraseña del usuario
         //TODO: validar request con UserRequest
-        
+
         try {
 
             $user = User::findOrFail($id)->fill($request->all());
@@ -118,6 +108,7 @@ class UserController extends Controller
      * retorna error.
      *
      * @param int $id
+     * TODO:implementar eliminación/excepción user
      */
     public function destroy($id)
     {
