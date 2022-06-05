@@ -26,11 +26,11 @@
                     <td> {{$petition['classroom_type']}} </td>
                     <td> 
                        @if ($petition['status'] == 'unsolved')
-                           <span class="badge bg-warning"> {{$petition['status']}} </span>
+                           <span class="badge bg-warning"> Sin resolver </span>
                        @elseif ($petition['status'] == 'rejected')
-                           <span class="badge bg-danger"> {{$petition['status']}} </span>
+                           <span class="badge bg-danger"> Cancelado </span>
                        @else
-                            <span class="badge bg-success"> {{$petition['status']}} </span>
+                            <span class="badge bg-success"> Aceptada </span>
                        @endif 
                     </td>
                     <td>
@@ -44,6 +44,9 @@
                     </td>
                 </tr>
             @empty
+                <td>No hay registros</td>
+                <td>No hay registros</td>
+                <td>No hay registros</td>
                 <td>No hay registros</td>
                 <td>No hay registros</td>
                 <td>No hay registros</td>
