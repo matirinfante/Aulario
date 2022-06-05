@@ -13,12 +13,10 @@ class AssignmentController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
      */
     public function index()
     {
-        $assignments = DB::table('assignments')->join('users', 'assignments.user_id', '=', 'users.id')
-            ->get(['assignments.id as assignment_id', 'assignments.assignment_name as assignment_name', 'users.name as teacher_name', 'users.surname as teacher_surname']);
+        $assignments = Assignment::all();
         return view('assignment.index', compact('assignments'));
     }
 
@@ -34,19 +32,17 @@ class AssignmentController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
+     *TODO:sincronizar profes con materia sync()
      */
     public function store(Request $request)
     {
         try {
             $request->validate([
                 'assignment_name' => 'required',
-                'user_id' => 'required'
             ]);
 
             $assignment = Assignment::create([
                 'assignment_name' => $request->assignment_name,
-                'user_id' => $request->user_id
             ]);
             $assignment->save();
             flash('La materia se ha cargado exitosamente')->success();
@@ -64,7 +60,8 @@ class AssignmentController extends Controller
      */
     public function show(Assignment $assignment)
     {
-        return view('assignment.show', compact('assignment'));
+        $teachers = $assignment->users()->get();
+        return view('assignment.show', compact('assignment', 'teachers'));
     }
 
     /**
@@ -74,20 +71,19 @@ class AssignmentController extends Controller
      */
     public function edit(Assignment $assignment)
     {
-        $users = User::all();
-        return view('assignment.edit', compact('assignment', 'users'));
+        $teachers = $assignment->users()->get();
+        return view('assignment.edit', compact('assignment', 'teachers'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
+     *TODO:sincronizar profes con materia sync()
      */
     public function update(Request $request, $id)
     {
         try {
             $request->validate([
                 'assignment_name' => 'required',
-                'user_id' => 'required'
             ]);
 
             $assignment = Assignment::findOrFail($id)->fill($request->all());
@@ -97,6 +93,7 @@ class AssignmentController extends Controller
             flash('Materia modificada con éxito')->success();
             return redirect(route('assignments.index'));
         } catch (\Exception $e) {
+            dd('llegue');
             flash('Ha ocurrido un error al actualizar la materia')->error();
             return back();
         }

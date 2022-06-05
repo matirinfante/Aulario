@@ -12,10 +12,9 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('assignments', function (Blueprint $table) {
-            $table->id(); //assignment_id
-            $table->string('assignment_name'); //Nombre de la materia
-            $table->timestamps();
+        Schema::create('assignment_user', function (Blueprint $table) {
+            $table->foreignId('assignment_id')->constrained();
+            $table->foreignId('user_id')->constrained();
         });
     }
 
@@ -26,6 +25,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('assignments');
+        Schema::dropIfExists('assignment_user');
     }
 };
