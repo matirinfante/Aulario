@@ -125,7 +125,9 @@
                                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                             <li><a class="dropdown-item" href="{{ route('bookings.create') }}">Crear</a>
                                             </li>
-                                            <li><a class="dropdown-item" href="{{ url('bookings') }}">Ver listado</a>
+                                            <li><a class="dropdown-item"
+                                                   href="{{ route('bookings.index')}}">Ver
+                                                    listado</a>
                                             </li>
                                         </ul>
                                     </li>
