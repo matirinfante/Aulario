@@ -44,6 +44,8 @@ class AssignmentController extends Controller
             $assignment = Assignment::create([
                 'assignment_name' => $request->assignment_name,
             ]);
+            //sincronizacion 
+            // $assignment->user->sync((array)$request->input('users'));
             $assignment->save();
             flash('La materia se ha cargado exitosamente')->success();
             return redirect(route('assignments.index'));
