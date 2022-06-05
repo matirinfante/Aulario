@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Assignment;
 use App\Models\Classroom;
 use App\Models\Event;
+use App\Models\Petition;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -113,6 +114,7 @@ class DatabaseSeeder extends Seeder
         Classroom::factory(10)->create();
         Event::factory(10)->create();
         Assignment::factory(10)->create();
+        Petition::factory(10)->create();
 
 
     }
