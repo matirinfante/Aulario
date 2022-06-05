@@ -16,17 +16,30 @@ class BookingController extends Controller
      * Display a listing of the resource.
      *
      */
-    public function index()
+    public function index(Request $request)
     {
         //Problema: si evento o assignment es nulo en la BD no retorna nada. Hotfix: solo mostrar horarios fijos
+        if (auth()->user()->hasRole('teacher')) {
+            $bookings = DB::table('bookings')
+                ->join('events', 'bookings.event_id', '=', 'events.id')
+                ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
+                ->where('user_id', '=', auth()->user()->id)
+                ->get(['bookings.id as booking_id', 'bookings.description as booking_description', 'bookings.booking_date as booking_date', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status',
+                    'events.event_name as event_name', 'classrooms.classroom_name as classroom_name']);
 
-        $bookings = DB::table('bookings')
-            ->join('users', 'bookings.user_id', '=', 'users.id')
-            ->join('assignments', 'bookings.assignment_id', '=', 'assignments.id')
-            ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
-            ->get(['bookings.id as booking_id', 'bookings.description as booking_description', 'bookings.week_day as week_day', 'bookings.booking_date as booking_date', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status',
-                'users.name as user_name', 'users.surname as user_surname', 'assignments.assignment_name as assignment_name', 'classrooms.classroom_name as classroom_name']);
+        } else if (auth()->user()->hasRole('admin')) {
+            $bookings_event = DB::table('bookings')
+                ->join('events', 'bookings.event_id', '=', 'events.id')
+                ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
+                ->get(['bookings.id as booking_id', 'bookings.description as booking_description', 'bookings.booking_date as booking_date', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status',
+                    'events.event_name as event_name', 'classrooms.classroom_name as classroom_name']);
 
+            $bookings_assignments = DB::table('bookings')
+                ->join('assignments', 'assignments.assignments_id', '=', 'assignments.id')
+                ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
+                ->get(['bookings.id as booking_id', 'bookings.description as booking_description', 'bookings.booking_date as booking_date', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status',
+                    'events.event_name as event_name', 'classrooms.classroom_name as classroom_name']);
+        }
         return view('booking.index', compact('bookings'));
     }
 

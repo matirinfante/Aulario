@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->integer('dni')->unique(); //DNI
             $table->string('email')->unique(); //Email
             $table->string('password'); //Contraseña
-            $table->timestamp('disabled_at')->nullable(); //Deshabilitado, se sigue convención
+            $table->softDeletes();
             $table->timestamps();
         });
     }

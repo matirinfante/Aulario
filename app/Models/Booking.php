@@ -26,13 +26,13 @@ class Booking extends Model
     //ORM una reserva tiene un evento
     public function event()
     {
-        return $this->hasOne(Event::class);
+        return $this->belongsTo(Event::class);
     }
 
     //ORM una reserva tiene un aula
     public function classroom()
     {
-        return $this->hasOne(Classroom::class);
+        return $this->belongsTo(Classroom::class);
     }
 
     //ORM se marca bidireccionalidad
