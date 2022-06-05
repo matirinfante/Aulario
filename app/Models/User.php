@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable
 {
@@ -45,5 +46,23 @@ class User extends Authenticatable
     public function bookings()
     {
         return $this->hasMany(Booking::class);
+    }
+    //Mutador para nombre
+    protected function name(): Attribute{
+        return new Attribute(
+            set: function($value){
+                $value= strtolower($value);
+                return ucwords($value);
+            }
+        );
+    }
+    //Mutador para apellido
+    protected function surname(): Attribute{
+        return new Attribute(
+            set: function($value){
+                $value= strtolower($value);
+                return ucwords($value);
+            }
+        );
     }
 }
