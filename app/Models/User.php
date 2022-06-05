@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -38,7 +39,7 @@ class User extends Authenticatable
     //TODO:añadir función para obtener sus clases
     public function assignments()
     {
-        return $this->hasMany(Assignment::class);
+        return $this->belongsToMany(Assignment::class, 'assignment_user', 'user_id', 'assignment_id');
     }
 
     //ORM bidireccion a reserva
