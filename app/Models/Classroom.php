@@ -10,15 +10,15 @@ class Classroom extends Model
     use HasFactory;
 
     protected $fillable = [
-    'classroom_name', 
-    'location', 
-    'capacity', 
+    'classroom_name',
+    'location',
+    'capacity',
     'type'];
-    
+
     //ORM bidireccion a reserva
     public function bookings()
     {
-        $colbooking=$this->belongsTo(Booking::class);
+        $colbooking=$this->hasMany(Booking::class);
         return $colbooking;
     }
 }

@@ -10,17 +10,17 @@ class Assignment extends Model
     use HasFactory;
 
     protected $fillable = ['assignment_name', 'user_id'];
-    
-    //ORM referencia bidireccional 
-    public function user()
+
+    //ORM referencia bidireccional
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class, 'assignment_user', 'assignment_id', 'user_id');
     }
 
     //ORM una materia referencia a una coleccion de reservas
     public function bookings()
     {
-        $colbooking=$this->hasMany(Booking::class);
+        $colbooking = $this->hasMany(Booking::class);
         return $colbooking;
     }
 }
