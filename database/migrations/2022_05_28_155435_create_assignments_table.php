@@ -15,6 +15,8 @@ return new class extends Migration {
         Schema::create('assignments', function (Blueprint $table) {
             $table->id(); //assignment_id
             $table->string('assignment_name'); //Nombre de la materia
+            $table->boolean('active');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

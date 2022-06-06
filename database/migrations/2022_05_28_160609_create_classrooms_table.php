@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->string('location'); //Ubicación
             $table->integer('capacity'); //Capacidad
             $table->string('type'); //Tipo de aula
+            $table->softDeletes();
             $table->timestamps();
         });
     }
