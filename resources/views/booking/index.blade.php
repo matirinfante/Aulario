@@ -5,6 +5,6 @@
 
 @section('content')
 
-    {{dd($bookings_event)}}
+    {{dd($bookings)}}
 
 @endsection
