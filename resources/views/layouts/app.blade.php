@@ -69,8 +69,6 @@
                                             Usuarios
                                         </a>
                                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <li><a class="dropdown-item" href="{{ route('users.create') }}">Crear</a>
-                                            </li>
                                             <li><a class="dropdown-item" href="{{ url('users') }}">Ver listado</a></li>
                                         </ul>
                                     </li>

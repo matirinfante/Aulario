@@ -30,6 +30,17 @@ h3 {
 
 /* ------------------------------------------------------------- */
 
+.alerta {
+    padding: 3px;
+    font-size: 14px;
+    color: #842029;
+    background: #f8d7da;
+    border: solid 1px #f5c2c7;
+    border-radius: 5px;
+    margin-top: 3px;
+    width: 100%;
+}
+
 
 /* Imagen aulario index */
 
@@ -68,7 +79,9 @@ h3 {
     font-weight: bold;
 }
 
+
 /* ABM form styles */
+
 .form-delete button {
     font-weight: 300;
 }
