@@ -16,6 +16,8 @@ return new class extends Migration {
             $table->id(); //assignment_id
             $table->string('assignment_name'); //Nombre de la materia
             $table->boolean('active');
+            $table->date('start_date');
+            $table->date('finish_date');
             $table->softDeletes();
             $table->timestamps();
         });
