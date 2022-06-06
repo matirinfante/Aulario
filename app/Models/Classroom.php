@@ -11,15 +11,18 @@ class Classroom extends Model
     use HasFactory, softDeletes;
 
     protected $fillable = [
-    'classroom_name',
-    'location',
-    'capacity',
-    'type'];
+        'classroom_name',
+        'location',
+        'capacity',
+        'type',
+        'building',
+        'available_start',
+        'available_finish'];
 
     //ORM bidireccion a reserva
     public function bookings()
     {
-        $colbooking=$this->hasMany(Booking::class);
+        $colbooking = $this->hasMany(Booking::class);
         return $colbooking;
     }
 }
