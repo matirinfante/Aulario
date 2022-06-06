@@ -68,7 +68,9 @@ h3 {
     font-weight: bold;
 }
 
+
 /* ABM form styles */
+
 .form-delete button {
     font-weight: 300;
 }
@@ -133,4 +135,12 @@ h3 {
 
 .menu_sup .dropdown-menu.dropdown-menu-end.show {
     background-color: var(--backgroundColor);
+}
+
+.alerta {
+    color: #842029;
+    background: #f8d7da;
+    border: 1px solid #f5c2c7;
+    padding: 3px;
+    margin: 3px;
 }
