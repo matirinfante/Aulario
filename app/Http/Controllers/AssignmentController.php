@@ -32,7 +32,6 @@ class AssignmentController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *TODO:sincronizar profes con materia sync()
      */
     public function store(Request $request)
     {
@@ -44,6 +43,7 @@ class AssignmentController extends Controller
             $assignment = Assignment::create([
                 'assignment_name' => $request->assignment_name,
             ]);
+            $assignment->users()->sync((array)$request->input('users'));
             $assignment->save();
             flash('La materia se ha cargado exitosamente')->success();
             return redirect(route('assignments.index'));
