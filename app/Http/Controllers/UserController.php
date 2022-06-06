@@ -108,17 +108,24 @@ class UserController extends Controller
      * retorna error.
      *
      * @param int $id
-     * TODO:implementar eliminación/excepción user
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::findOrFail($id); //devuelve error si no encuentra
-        $assignments = Assignment::where('user_id', $id)->get();
-        if (!$assignments->isEmpty()) {
-
-        }
         $user->delete();
         flash('Se eliminó correctamente al usuario')->success();
+        return back();
+    }
+
+
+    /**
+     * Reactiva al usuario
+     * @return https://music.youtube.com/watch?v=-eGM0IJc70Y&feature=share
+     * TODO:borrar esta referencia en prod
+     */
+    public function activateUser($id)
+    {
+        $user = User::withTrashed()->where('id', $id)->restore();
+        flash('Usuario habilitado correctamente')->success();
         return back();
     }
 }
