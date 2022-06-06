@@ -3,3 +3,8 @@
 @section('styles')
 @endsection
 
+@section('content')
+
+    {{dd($bookings)}}
+
+@endsection
