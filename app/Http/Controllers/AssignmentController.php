@@ -16,7 +16,7 @@ class AssignmentController extends Controller
      */
     public function index()
     {
-        $assignments = Assignment::all();
+        $assignments = Assignment::withTrashed()->get();
         return view('assignment.index', compact('assignments'));
     }
 
