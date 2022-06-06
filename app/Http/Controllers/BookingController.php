@@ -14,12 +14,14 @@ class BookingController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     *TODO: filtrar por materia activa
      */
-    public function index(Request $request)
+    public function index()
     {
-        //Problema: si evento o assignment es nulo en la BD no retorna nada. Hotfix: solo mostrar horarios fijos
-        if (auth()->user()->hasRole('teacher')) {
+        $bookings = [];
+        $bookings_assignments = [];
+
+        if (auth()->user()->hasAnyRole('teacher', 'user')) {
             $bookings = DB::table('bookings')
                 ->join('events', 'bookings.event_id', '=', 'events.id')
                 ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
@@ -28,19 +30,19 @@ class BookingController extends Controller
                     'events.event_name as event_name', 'classrooms.classroom_name as classroom_name']);
 
         } else if (auth()->user()->hasRole('admin')) {
-            $bookings_event = DB::table('bookings')
+            $bookings = DB::table('bookings')
                 ->join('events', 'bookings.event_id', '=', 'events.id')
                 ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
                 ->get(['bookings.id as booking_id', 'bookings.description as booking_description', 'bookings.booking_date as booking_date', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status',
                     'events.event_name as event_name', 'classrooms.classroom_name as classroom_name']);
 
             $bookings_assignments = DB::table('bookings')
-                ->join('assignments', 'assignments.assignments_id', '=', 'assignments.id')
+                ->join('assignments', 'bookings.assignment_id', '=', 'assignments.id')
                 ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
                 ->get(['bookings.id as booking_id', 'bookings.description as booking_description', 'bookings.booking_date as booking_date', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status',
-                    'events.event_name as event_name', 'classrooms.classroom_name as classroom_name']);
+                    'assignments.assignment_name as assignment_name', 'classrooms.classroom_name as classroom_name']);
         }
-        return view('booking.index', compact('bookings'));
+        return view('booking.index', compact('bookings', 'bookings_assignments',));
     }
 
     /**
@@ -49,11 +51,15 @@ class BookingController extends Controller
      */
     public function create()
     {
-        $assignments = Assignment::all();
-        $events = Event::all();
         $classrooms = Classroom::all();
+        $booking_type = [];
+        if (auth()->user()->hasRole('admin')) {
+            $booking_type = Assignment::all();
+        } else if (auth()->user()->hasAnyRole('teacher', 'user')) {
+            $booking_type = Event::with('user_id', auth()->user()->id); //pero no hay relación xd
+        }
 
-        return view('booking.create', compact('assignments', 'events', 'classrooms'));
+        return view('booking.create', compact('booking_type', 'classrooms'));
     }
 
     /**
@@ -68,10 +74,10 @@ class BookingController extends Controller
             if ($request->assignment) {
                 //Se carga la reserva de la materia según el user_id asociado.
                 $assignment = Assignment::findOrFail($request->assignment_id);
-                //$assignment->user_id;
+                $user_id = $assignment->users()->first();
             } else {
                 //Ya ni me acuerdo que estaba pensando pero lo dejo porsiaca
-                $event = Event::findOrFail($request->event_id);
+                $event = Event::findOrCreate('event_name', $request->event_name);
                 //$event->user_id;
             }
 
