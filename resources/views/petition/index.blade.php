@@ -21,7 +21,7 @@
                 <tr>
                     <td> {{$petition['id']}} </td>
                     <td>{{$petition['user_id']}}</td>
-                    <td>{{$petition['assignment_id']}}</td>
+                    <td>{{$petition['assignment_name']}}</td>
                     <td>{{$petition['estimated_people']}}</td>
                     <td> {{$petition['classroom_type']}} </td>
                     <td> 
