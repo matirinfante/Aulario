@@ -37,3 +37,5 @@ Route::resources([
     'petitions' => PetitionController::class,
 ]);
 
+Route::patch('/users/{user}', [UserController::class, 'activateUser'])->name('users.activate');
+
