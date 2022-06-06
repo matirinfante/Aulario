@@ -42,17 +42,11 @@
                         </td>
                       
                         <td>
-                            <a class="link-primary" style="pointer-events: auto;" onclick="seeUser({{$user}})">Ver</a>
-                            <a class="link-success" href="">Editar</a>
-                            <form method="POST" class="form-delete d-inline">
-                                  {{-- action="{{ route('users.destroy', $user->id) }}"> --}}
-                                @method('DELETE')
-                                @csrf
-                                <button type="submit" class="btn btn-link link-danger">Cambiar Estado</button>
-                            </form>
+                            <a class="btn btn-primary" style="pointer-events: auto;" onclick="seeUser({{$user}})">Ver</a>
+                            <a class="btn btn-secondary" onclick="editUser({{$user}})" >Editar</a>
                         </td>
                         <td>
-                            cambiar estado
+                            <a class="btn btn-danger" href="">X</a>
                         </td>
                     </tr>
                 @empty
@@ -67,57 +61,61 @@
     </div>
 
   
-  <!-- Modal Crear-->
-  <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Crear Usuario</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <form id="form" class="" method="POST" action="{{route('users.store')}}">
-                @csrf
-                <div class="mb-3">
-                    <label for="name" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" name="name" id="name" placeholder="Robert">
-                    <p class="alerta d-none" id="errorName">Error</p>
-                </div>
-                <div class="mb-3">
-                    <label for="surname" class="form-label">Apellido</label>
-                    <input type="text" class="form-control" name="surname" id="surname" placeholder="Kiyosaki">
-                    <p class="alerta d-none" id="errorSurname">Error</p>
-                </div>
-                <div class="mb-3">
-                    <label for="dni" class="form-label">Dni</label>
-                    <input type="number" class="form-control" name="dni" id="dni" min="1000000" max="99999999"
-                           placeholder="39504700">
-                    <p class="alerta d-none" id="errorDni">Error</p>
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="robert@kiyosaki.com">
-                    <p class="alerta d-none" id="errorEmail">Error</p>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" name="password" id="password">
-                    <p class="alerta d-none" id="errorPassword">Error</p>
+    <!-- Modal Crear-->
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Crear Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                <div class="modal-body">
+                    <form id="form" class="" method="POST" action="{{route('users.store')}}">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Robert">
+                            <p class="alerta d-none" id="errorName">Error</p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="surname" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" name="surname" id="surname" placeholder="Kiyosaki">
+                            <p class="alerta d-none" id="errorSurname">Error</p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dni" class="form-label">Dni</label>
+                            <input type="number" class="form-control" name="dni" id="dni" min="1000000" max="99999999"
+                                placeholder="39504700">
+                            <p class="alerta d-none" id="errorDni">Error</p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="robert@kiyosaki.com">
+                            <p class="alerta d-none" id="errorEmail">Error</p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" name="password" id="password">
+                            <p class="alerta d-none" id="errorPassword">Error</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button id="submit" type="submit" class="btn btn-primary disabled">Crear</button>
+                    </form>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button id="submit" type="submit" class="btn btn-primary disabled">Crear</button>
-            </form>
         </div>
-      </div>
     </div>
-  </div>
-  <button type="" class="btn btn-success m-3 d-none" data-bs-toggle="modal" data-bs-target="#showModal" id="buttonShow">Ver usuario</button>
-  <!-- Modal Ver-->
+    <!-- Modal Ver-->
+    <button type="" class="btn btn-success m-3 d-none" data-bs-toggle="modal" data-bs-target="#showModal" id="buttonShow">Ver usuario</button>
     <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
     </div>
+    <!-- Modal Editar-->
+    <button type="" class="btn btn-success m-3 d-none" data-bs-toggle="modal" data-bs-target="#editModal" id="buttonEdit">editar usuario</button>
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    </div>
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
@@ -161,6 +159,40 @@
             `
             document.getElementById('showModal').innerHTML = html 
             $('#buttonShow').click()
+        }
+        function editUser(user){
+            document.getElementById('editModal').innerHTML = `<div></div>`
+            html = `
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ver Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h3 class="text-center m-4">Editar Usuario</h3>
+                        <div class="card m-auto mt-3">
+                            <div class="card-body text-center">
+                                <div class="card-body" id="modal_body_user_see">
+                                    <h5 class="card-title">Usuario: ${user['name']} </h5>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">Apellido: ${user['surname']} </li>
+                                        <li class="list-group-item">Dni: ${user['dni']} </li>
+                                        <li class="list-group-item">Email: ${user['email']}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+           
+            `
+            document.getElementById('editModal').innerHTML = html 
+            $('#buttonEdit').click()
         }
     </script>
     <script>
