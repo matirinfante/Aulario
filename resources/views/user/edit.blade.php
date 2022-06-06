@@ -37,23 +37,23 @@
         @method('PATCH')
         <div class="mb-3">
             <label for="name" class="form-label">Nombre</label>
-            <input type="text" class="form-control" name="name" id="name" placeholder=" {{$user['name']}} ">
+            <input type="text" class="form-control" name="name" id="name" value=" {{$user['name']}} ">
             <p class="alerta d-none" id="errorName">Error</p>
         </div>
         <div class="mb-3">
             <label for="surname" class="form-label">Apellido</label>
-            <input type="text" class="form-control" name="surname" id="surname" placeholder="{{$user['surname']}}">
+            <input type="text" class="form-control" name="surname" id="surname" value="{{$user['surname']}}">
             <p class="alerta d-none" id="errorSurname">Error</p>
         </div>
         <div class="mb-3">
             <label for="dni" class="form-label">Dni</label>
             <input type="number" class="form-control" name="dni" id="dni" min="1000000" max="99999999"
-                   placeholder="{{$user['dni']}}">
+                   value="{{$user['dni']}}">
             <p class="alerta d-none" id="errorDni">Error</p>
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" name="email" id="email" placeholder="{{$user['email']}}">
+            <input type="email" class="form-control" name="email" id="email" value="{{$user['email']}}">
             <p class="alerta d-none" id="errorEmail">Error</p>
         </div>
 
