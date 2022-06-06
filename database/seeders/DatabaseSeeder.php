@@ -116,6 +116,10 @@ class DatabaseSeeder extends Seeder
         Assignment::factory(10)->create();
         Petition::factory(10)->create();
 
+        User::find(11)->assingments()->sync(Classroom::find(2));
+        User::find(11)->assingments()->sync(Classroom::find(3));
+        User::find(1)->assingments()->sync(Classroom::find(2));
+        User::find(2)->assingments()->sync(Classroom::find(4));
 
     }
 }
