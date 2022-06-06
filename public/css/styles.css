@@ -30,17 +30,6 @@ h3 {
 
 /* ------------------------------------------------------------- */
 
-.alerta {
-    padding: 3px;
-    font-size: 14px;
-    color: #842029;
-    background: #f8d7da;
-    border: solid 1px #f5c2c7;
-    border-radius: 5px;
-    margin-top: 3px;
-    width: 100%;
-}
-
 
 /* Imagen aulario index */
 
@@ -79,9 +68,7 @@ h3 {
     font-weight: bold;
 }
 
-
 /* ABM form styles */
-
 .form-delete button {
     font-weight: 300;
 }
@@ -95,15 +82,10 @@ h3 {
 .menu_sup {
     background-color: #eeeeee;
     font-size: 1.09em;
-    font-family: ui-monospace;
     padding: 15px;
     box-shadow: -2px 13px 36px -8px rgba(48, 48, 48, 0.66);
     -webkit-box-shadow: -2px 13px 36px -8px rgba(48, 48, 48, 0.66);
     -moz-box-shadow: -2px 13px 36px -8px rgba(48, 48, 48, 0.66);
-}
-
-.menu_sup div {
-    padding-left: 30px;
 }
 
 
@@ -111,42 +93,35 @@ h3 {
 
 .menu_sup a.navbar-brand {
     margin-left: 1%;
+    margin-right: 50px;
 }
-
-
-/* white border on png image */
-
-
-/* .menu_sup img.img-fluid {
-    --stroke-pos: 1px;
-    --stroke-neg: -1px;
-    --stroke-color: rgb(255 255 255 / 70%);
-    filter: drop-shadow(var(--stroke-pos) 0 0 var(--stroke-color)) drop-shadow(var(--stroke-neg) 0 var(--stroke-color)) drop-shadow(0 var(--stroke-pos) 0 var(--stroke-color)) drop-shadow(0 var(--stroke-neg) 0 var(--stroke-color)) drop-shadow(var(--stroke-pos) var(--stroke-pos) 0 var(--stroke-color)) drop-shadow(var(--stroke-pos) var(--stroke-neg) 0 var(--stroke-color)) drop-shadow(var(--stroke-neg) var(--stroke-pos) 0 var(--stroke-color)) drop-shadow(var(--stroke-neg) var(--stroke-neg) 0 var(--stroke-color));
-} */
 
 
 /* link colors in top menu */
 
-.menu_sup.navbar-dark .navbar-nav .nav-link {
+.menu_sup.navbar-light .navbar-nav .nav-link {
     color: var(--textColor);
     font-weight: 500;
 }
 
-.menu_sup.navbar-dark .navbar-nav .nav-link:hover {
-    color: var(--textColor);
-    text-shadow: 0px 0px 3px #fff;
+.menu_sup.navbar-light .navbar-nav .nav-link:hover {
+    color: #6a6a6a;
 }
 
-.menu_sup.navbar-dark .navbar-nav .nav-link:focus {
+.menu_sup.navbar-light .navbar-nav .nav-link:focus {
     color: var(--textColor);
 }
 
 
 /* hamburger icon */
 
-.menu_sup.navbar-dark .navbar-toggler {
+.menu_sup.navbar-light .navbar-toggler {
     color: var(--textColor);
     border: none;
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0px 1px;
 }
 
 
