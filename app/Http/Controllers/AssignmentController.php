@@ -19,7 +19,7 @@ class AssignmentController extends Controller
         $assignments = Assignment::withTrashed('assignments')
         ->join('assignment_user', 'assignments.id', '=', 'assignment_user.assignment_id')
         ->join('users', 'assignment_user.user_id', '=', 'users.id')
-        ->get(['assignments.id as assignment_id', 'assignments.assignment_name as assignment_name','users.name as user_name', 'users.surname as user_surname']);
+        ->get(['assignments.id as assignment_id', 'assignments.assignment_name as assignment_name', 'assignments.start_date as start_date', 'assignments.finish_date as finish_date', 'assignments.created_at as created_at', 'assignments.updated_at as updated_at', 'assignments.deleted_at as deleted_at', 'assignments.active as active', 'users.name as user_name', 'users.surname as user_surname', 'users.id as user_id']);
         return view('assignment.index', compact('assignments'));
     }
 
