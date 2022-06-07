@@ -20,6 +20,8 @@ return new class extends Migration {
             $table->enum('classroom_type', ['Laboratorio', 'Aula común', 'Híbrido']);
             $table->time('start_time');
             $table->time('finish_time');
+            $table->date('start_date');
+            $table->date('finish_date');
             $table->string('days')->nullable();
             $table->string('message')->nullable();
             $table->enum('status', ['unsolved', 'rejected', 'solved'])->default('unsolved');

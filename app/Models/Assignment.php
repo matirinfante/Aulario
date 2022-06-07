@@ -10,7 +10,7 @@ class Assignment extends Model
 {
     use HasFactory, softDeletes;
 
-    protected $fillable = ['assignment_name', 'user_id'];
+    protected $fillable = ['assignment_name', 'active', 'start_date', 'finish_date'];
 
     //ORM referencia bidireccional
     public function users()

@@ -17,7 +17,10 @@ return new class extends Migration {
             $table->string('classroom_name'); //Nombre del aula
             $table->string('location'); //Ubicación
             $table->integer('capacity'); //Capacidad
-            $table->string('type'); //Tipo de aula
+            $table->enum('type', ['Laboratorio', 'Aula común']); //Tipo de aula
+            $table->string('building');
+            $table->time('available_start');
+            $table->time('available_finish');
             $table->softDeletes();
             $table->timestamps();
         });

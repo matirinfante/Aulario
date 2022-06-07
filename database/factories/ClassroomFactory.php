@@ -20,7 +20,10 @@ class ClassroomFactory extends Factory
             'classroom_name' => $this->faker->numerify('I##'),
             'location' => $this->faker->numerify('N #### W ####'),
             'capacity' => $this->faker->numberBetween(20, 70),
-            'type' => $this->faker->randomElement(['Laboratorio', 'Aula'])
+            'type' => $this->faker->randomElement(['Laboratorio', 'Aula Común']),
+            'building' => $this->faker->randomElement(['Informática', 'Economía', 'Humanidades', 'Aulas comunes', 'Biblioteca']),
+            'available_start' => $this->faker->time(),
+            'available_finish' => $this->faker->time(),
         ];
     }
 }
