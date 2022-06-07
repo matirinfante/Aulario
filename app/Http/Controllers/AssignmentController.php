@@ -117,4 +117,12 @@ class AssignmentController extends Controller
             return back();
         }
     }
+// Reactiva la materia
+    public function activateAssignment($id)
+    {
+        $assignment = Assignment::withTrashed()->where('id', $id)->restore();
+        flash('Materia habilitada correctamente')->success();
+        return back();
+    }
 }
+
