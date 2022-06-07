@@ -23,7 +23,8 @@ class ClassroomController extends Controller
      */
     public function create()
     {
-        return view('classroom.create');
+        $buildings = ['Informática', 'Economía', 'Humanidades', 'Aulas comunes', 'Biblioteca'];
+        return view('classroom.create', $buildings);
     }
 
     /**
@@ -37,7 +38,10 @@ class ClassroomController extends Controller
                 'classroom_name' => 'required|unique:classroom',
                 'location' => 'required',
                 'capacity' => 'required|integer',
-                'type' => 'required|alpha'
+                'type' => 'required|alpha',
+                'building' => 'required',
+                'available_start' => 'required',
+                'available_finish' => 'required',
             ]);
 
             $classroom = Classroom::create([
@@ -45,6 +49,9 @@ class ClassroomController extends Controller
                 'location' => $request->location,
                 'capacity' => $request->capacity,
                 'type' => $request->type,
+                'building' => $request->building,
+                'available_start' => $request->available_start,
+                'available_finish' => $request->available_finish,
             ]);
             $classroom->save();
             flash('Se ha añadido un nuevo aula con éxito')->success();

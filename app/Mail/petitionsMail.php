@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Petition;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -11,14 +12,16 @@ class petitionsMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $petition;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($petition)
     {
-        //
+        $this->petition = $petition;
     }
 
     /**
@@ -28,6 +31,6 @@ class petitionsMail extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->markdown('mail.newPetition');
     }
 }
