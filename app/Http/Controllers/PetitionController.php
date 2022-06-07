@@ -6,6 +6,8 @@ use App\Models\Assignment;
 use App\Models\Petition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\petitionsMail;
 
 
 class PetitionController extends Controller
@@ -27,9 +29,12 @@ class PetitionController extends Controller
     public function create()
     {
         $user = Auth::user();
-        $assignments = Assignment::where('user_id', $user->id)->get();
+        $assignments = $user->assignments()->get();
 
-        return view('petition.create', compact($assignments));
+        //TEST ONLY
+        $petition = Petition::where('status', 'unsolved')->first();
+        Mail::to(env('MAIL_ADMIN'))->send(new petitionsMail($petition));
+        return view('petition.create', compact('assignments'));
     }
 
     /**
@@ -41,8 +46,6 @@ class PetitionController extends Controller
     public function store(Request $request)
     {
         try {
-
-
             flash('Se ha cargado una nueva petición con éxito')->success();
             return redirect(route('petitions.index'));
         } catch (\Exception $e) {
