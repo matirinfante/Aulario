@@ -19,6 +19,8 @@ class AssignmentFactory extends Factory
         return [
             'assignment_name' => $this->faker->lexify('Materia ?'),
             'active' => $this->faker->boolean(60),
+            'start_date' => $this->faker->date(),
+            'finish_date' => $this->faker->date(),
         ];
     }
 }
