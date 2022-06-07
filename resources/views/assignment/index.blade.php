@@ -224,8 +224,8 @@
                         </td>
                         <td>
                             <form method="POST" class="form-delete d-inline"
-                                action="#">
-                                {{-- @method('DELETE') --}}
+                                action="">
+                                @method('PUT')
                                 @csrf
                                 <button data-assignment="{{ $assignment->id }}" type="submit"
                                     class="btn btn-outline-secondary btn-sm">Cambiar</button>
@@ -236,7 +236,7 @@
                             <div class="form-check form-switch">
                                 <input data-id="{{ $assignment->id }}" data-token="{{ csrf_token() }}"
                                     class="form-check-input activeSwitch" type="checkbox" role="switch"
-                                    {{ !$assignment->deleted_at ? 'checked' : '' }}>
+                                    {{ !$assignment->trashed() ? 'checked' : '' }}>
                             </div>
                         </td>
                     </tr>
@@ -273,7 +273,7 @@
                             <select name="user_id" class="form-select select2-user" multiple="multiple"
                                 aria-label="Profesor/a" style="width: 100%;">
                                 <option value="-1" disabled></option>
-                                @foreach ($assignment->users as $teacher)
+                                @foreach ($users as $teacher)
                                     <option value="{{ $teacher->id }}">{{ $teacher->name }},
                                         {{ $teacher->surname }}
                                     </option>
