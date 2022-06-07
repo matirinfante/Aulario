@@ -83,8 +83,8 @@
                                         Materias
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item"
-                                                href="{{ route('assignments.create') }}">Crear</a></li>
+                                        {{-- <li><a class="dropdown-item"
+                                                href="{{ route('assignments.create') }}">Crear</a></li> --}}
                                         <li><a class="dropdown-item" href="{{ url('assignments') }}">Ver listado</a>
                                         </li>
                                     </ul>
