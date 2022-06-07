@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('location'); //Ubicación
             $table->integer('capacity'); //Capacidad
             $table->enum('type', ['Laboratorio', 'Aula común']); //Tipo de aula
-            $table->string('building');
+            $table->enum('building', ['Informática', 'Economía', 'Humanidades', 'Aulas comunes', 'Biblioteca']);
             $table->time('available_start');
             $table->time('available_finish');
             $table->softDeletes();
