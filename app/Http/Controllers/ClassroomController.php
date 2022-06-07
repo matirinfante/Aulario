@@ -13,18 +13,19 @@ class ClassroomController extends Controller
      */
     public function index()
     {
-        $classroom = Classroom::all();
-        return view('classroom.index', compact('classroom'));
+        $classrooms = Classroom::all();
+        $buildings = ['Informática', 'Economía', 'Humanidades', 'Aulas comunes', 'Biblioteca'];
+
+        return view('classroom.index', compact('classrooms', 'buildings'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resource
      *
      */
     public function create()
     {
-        $buildings = ['Informática', 'Economía', 'Humanidades', 'Aulas comunes', 'Biblioteca'];
-        return view('classroom.create', $buildings);
+        return view('classroom.create');
     }
 
     /**
