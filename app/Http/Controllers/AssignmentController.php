@@ -16,10 +16,11 @@ class AssignmentController extends Controller
      */
     public function index()
     {
-        $assignments = Assignment::withTrashed()->get();
-        $users = User::all();
-
-        return view('assignment.index', compact('assignments', 'users'));
+        $assignments = Assignment::withTrashed('assignments')
+        ->join('assignment_user', 'assignments.id', '=', 'assignment_user.assignment_id')
+        ->join('users', 'assignment_user.user_id', '=', 'users.id')
+        ->get(['assignments.id as assignment_id', 'assignments.assignment_name as assignment_name','users.name as user_name', 'users.surname as user_surname']);
+        return view('assignment.index', compact('assignments'));
     }
 
     /**
@@ -28,7 +29,8 @@ class AssignmentController extends Controller
      */
     public function create()
     {
-        return view('assignment.create');
+        $users = User::all();
+        return view('assignment.create', compact('users'));
     }
 
     /**
@@ -85,7 +87,6 @@ class AssignmentController extends Controller
         try {
             $request->validate([
                 'assignment_name' => 'required',
-                'active' => 'required'
             ]);
 
             $assignment = Assignment::findOrFail($id)->fill($request->all());
@@ -119,7 +120,6 @@ class AssignmentController extends Controller
             return back();
         }
     }
-
 // Reactiva la materia
     public function activateAssignment($id)
     {
