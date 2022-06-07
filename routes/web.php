@@ -37,5 +37,6 @@ Route::resources([
     'petitions' => PetitionController::class,
 ]);
 
-Route::patch('/users/{user}', [UserController::class, 'activateUser'])->name('users.activate');
+Route::put('/users/{user}', [UserController::class, 'activateUser'])->name('users.activate');
+Route::put('/assignments/{assignment}', [AssignmentController::class, 'activateAssignment'])->name('assignments.activate');
 
