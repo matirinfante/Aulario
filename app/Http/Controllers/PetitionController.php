@@ -45,7 +45,8 @@ class PetitionController extends Controller
      *TODO: implementar carga petition
      */
     public function store(PetitionRequest $request)
-    {   
+    {
+
         try {
             $petition = Petition::create([
                 'user_id' => $request->user_id,
