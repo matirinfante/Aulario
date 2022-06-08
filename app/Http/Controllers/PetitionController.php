@@ -46,21 +46,21 @@ class PetitionController extends Controller
      */
     public function store(PetitionRequest $request)
     {   
-        $petition = Petition::create([
-            'user_id' => $request->user_id,
-            'assignment_id' => $request->assignment_id,
-            'estimated_people' => $request->estimated_people,
-            'classroom_type' => $request->classroom_type,
-            'start_time' => $request->start_time,
-            'finish_time' => $request->finish_time,
-            'start_date' => $request->start_date,
-            'finish_date' => $request->finish_date,
-            'days' => $request->days,
-            'message' => $request->message,
-            'status' => 'unsolved'
-
-        ]);
         try {
+            $petition = Petition::create([
+                'user_id' => $request->user_id,
+                'assignment_id' => $request->assignment_id,
+                'estimated_people' => $request->estimated_people,
+                'classroom_type' => $request->classroom_type,
+                'start_time' => $request->start_time,
+                'finish_time' => $request->finish_time,
+                'start_date' => $request->start_date,
+                'finish_date' => $request->finish_date,
+                'days' => $request->days,
+                'message' => $request->message,
+                'status' => 'unsolved'
+            ]);
+            Mail::to(env('MAIL_ADMIN'))->send(new petitionsMail($petition));
             flash('Se ha cargado una nueva petición con éxito')->success();
             return redirect(route('petitions.index'));
         } catch (\Exception $e) {
