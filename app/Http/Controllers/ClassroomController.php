@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ClassroomRequest;
 use App\Models\Classroom;
 use Illuminate\Http\Request;
 
@@ -32,19 +33,9 @@ class ClassroomController extends Controller
      * Store a newly created resource in storage.
      *
      */
-    public function store(Request $request)
+    public function store(ClassroomRequest $request)
     {
         try {
-            $request->validate([
-                'classroom_name' => 'required|unique:classroom',
-                'location' => 'required',
-                'capacity' => 'required|integer',
-                'type' => 'required|alpha',
-                'building' => 'required',
-                'available_start' => 'required',
-                'available_finish' => 'required',
-            ]);
-
             $classroom = Classroom::create([
                 'classroom_name' => $request->classroom_name,
                 'location' => $request->location,
@@ -89,16 +80,9 @@ class ClassroomController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param int $id
      */
-    public function update(Request $request, $id)
+    public function update(ClassroomRequest $request, $id)
     {
         try {
-            $request->validate([
-                'classroom_name' => 'required|unique:classrooms',
-                'location' => 'required',
-                'capacity' => 'required|integer',
-                'type' => 'required|alpha'
-            ]);
-
             $classroom = Classroom::findOrFail($id)->fill($request->all());
 
             $classroom->save();

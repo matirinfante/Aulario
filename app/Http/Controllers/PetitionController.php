@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\petitionsMail;
+use App\Http\Requests\PetitionRequest;
 
 
 class PetitionController extends Controller
@@ -43,7 +44,7 @@ class PetitionController extends Controller
      * @param \Illuminate\Http\Request $request
      *TODO: implementar carga petition
      */
-    public function store(Request $request)
+    public function store(PetitionRequest $request)
     {
         try {
             flash('Se ha cargado una nueva petición con éxito')->success();

@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\AssignmentRequest;
 
 class AssignmentController extends Controller
 {
@@ -34,14 +35,9 @@ class AssignmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AssignmentRequest $request)
     {
         try {
-            $request->validate([
-                'assignment_name' => 'required',
-                'start_date' => 'required',
-                'finish_date' => 'required'
-            ]);
             $assignment = Assignment::create([
                 'assignment_name' => $request->assignment_name,
                 'active' => 0,
@@ -84,14 +80,9 @@ class AssignmentController extends Controller
      * Update the specified resource in storage.
      *TODO:sincronizar profes con materia sync()
      */
-    public function update(Request $request, $id)
+    public function update(AssignmentRequest $request, $id)
     {
         try {
-            $request->validate([
-                'assignment_name' => 'required',
-                'active' => 'required'
-            ]);
-
             $assignment = Assignment::findOrFail($id)->fill($request->all());
 
             $assignment->save();
