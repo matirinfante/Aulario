@@ -4,11 +4,21 @@
     {{-- Mensaje del controlador al realizar acción --}}
     <div id="flashMessage" class="text-center d-none">
         @include('flash::message')
-    </div>  
+    </div>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
     <h3 class="text-center m-4">Listado de Usuarios</h3>
-    <div class="card" style="width: 1000px; margin: auto;">
+    @if($errors->any())
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+
+            @foreach($errors->all() as $error)
+                {{ $error }}<br/>
+            @endforeach
+        </div>
+    @endif    <div class="card" style="width: 1000px; margin: auto;">
         <div class="card-body">
             <table class="table table-striped table-hover" id="users">
                 <button type="" class="btn btn-success m-3" data-bs-toggle="modal" data-bs-target="#createModal" id="buttonCreate">Crear Usuario</button>
@@ -64,25 +74,25 @@
                                                 <div class="mb-3">
                                                     <label for="name" class="form-label">Nombre</label>
                                                     <input type="text" class="form-control" name="name" value=" {{$user['name']}} ">
-                                                   
+
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="surname" class="form-label">Apellido</label>
                                                     <input type="text" class="form-control" name="surname"  value="{{$user['surname']}}">
-                                                   
+
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="dni" class="form-label">Dni</label>
                                                     <input type="number" class="form-control" name="dni"  min="1000000" max="99999999"
                                                         value="{{$user['dni']}}">
-                                  
+
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="email" class="form-label">Email</label>
                                                     <input type="email" class="form-control" name="email"  value="{{$user['email']}}">
-                                                   
+
                                                 </div>
-                                            
+
                                                     <button type="submit" class="btn btn-primary">Actualizar</button>
                                                 </form>
                                             </div>
@@ -93,13 +103,13 @@
                         <td>
                             {{-- Se corrigio metodo POST, se agrego condicion, si el usuario no esta borrado  --}}
                             @if(!($user->trashed()))
-                            <form method="POST" 
+                            <form method="POST"
                             action=" {{route('users.destroy',$user['id'] )}} ">
                             @csrf @method('delete')
                             <button class="btn btn-danger btn-sm">X</button>
                             </form>
                             @else
-                            <form method="POST" 
+                            <form method="POST"
                             action=" {{route('users.activate',$user['id'] )}} ">
                             @csrf @method('put')
                             <button class="btn btn-success btn-sm">X</button>
@@ -115,7 +125,7 @@
         </div>
     </div>
 
-  
+
     <!-- Modal Crear-->
     <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -165,11 +175,10 @@
     <button type="" class="btn btn-success m-3 d-none" data-bs-toggle="modal" data-bs-target="#showModal" id="buttonShow">Ver usuario</button>
     <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     </div>
+  
 
- 
-    
     <script src="{{ asset('js/validationUserCreate.js') }}" defer></script>
-    
+
     <script>
         function seeUser(user){
             document.getElementById('showModal').innerHTML = `<div></div>`
@@ -200,13 +209,13 @@
                     </div>
                 </div>
             </div>
-           
+
             `
-            document.getElementById('showModal').innerHTML = html 
+            document.getElementById('showModal').innerHTML = html
             $('#buttonShow').click()
         }
     </script>
-    
+
     <script>
         $(document).ready(function () {
             $('#users').DataTable();
@@ -318,8 +327,7 @@
                                 clearInterval(timerInterval)
                             }
                         })
-                        break;
-                        
+                        break;                      
                     case 'Usuario habilitado correctamente':
                         var timerInterval
                         Swal.fire({
@@ -335,7 +343,6 @@
                                 clearInterval(timerInterval)
                             }
                         })
-                        break;
                         break;
                 }
             }

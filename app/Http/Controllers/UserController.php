@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Assignment;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
 
@@ -77,15 +76,12 @@ class UserController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param int $id
      */
-    public function update(UserRequest $request, $id)
+    public function update(UserRequest $request, User $user)
     {
         //no se modifica la contraseña del usuario
         //TODO: validar request con UserRequest
-
         try {
-
-            $user = User::findOrFail($id)->fill($request->all());
-            $user->save();
+            $user->update($request->input());
 
             flash('Se actualizó correctamente al usuario')->success();
             return redirect(route('users.index'));
