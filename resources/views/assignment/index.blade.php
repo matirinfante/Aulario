@@ -48,7 +48,7 @@
                     <td>Cursada</td>
                     <td>Estado</td>
                     <td class="text-center">Acción</td>
-                    <td>Cuatrimestre</td>
+                    {{-- <td>Cuatrimestre</td> --}}
                     <td>D/H</td>
                 </tr>
             </thead>
@@ -186,7 +186,7 @@
                                                     <label for="assignment_name" class="form-label">Nombre de
                                                         materia</label>
                                                     <input type="text" class="form-control" name="assignment_name"
-                                                        value="{{$assignment->assignment_name}}" required>
+                                                        value="{{ $assignment->assignment_name }}" required>
                                                     <small id="errorAssignmentName"></small>
                                                 </div>
 
@@ -194,17 +194,30 @@
                                                 <div class="mb-3">
                                                     <label for="start_date" class="form-label">Fecha de
                                                         inicio</label>
-                                                    <input type="date" class="form-control" name="start_date" value="{{$assignment->start_date}}"
-                                                        required>
+                                                    <input type="date" class="form-control" name="start_date"
+                                                        value="{{ $assignment->start_date }}" required>
                                                     <small id="errorAssignmentStartDate"></small>
                                                 </div>
 
                                                 {{-- fecha fin --}}
                                                 <div class="mb-3">
                                                     <label for="finish_date" class="form-label">Fecha fin</label>
-                                                    <input type="date" class="form-control" name="finish_date" value="{{$assignment->finish_date}}"
-                                                        required>
+                                                    <input type="date" class="form-control" name="finish_date"
+                                                        value="{{ $assignment->finish_date }}" required>
                                                     <small id="errorAssignmentNameFinishDate"></small>
+                                                </div>
+
+                                                {{-- cuatrimestre --}}
+                                                <div class="mb-3">
+                                                    <label for="cuatrimestre"
+                                                        class="form-label">Cuatrimestre</label>
+                                                    <select name="active" class="form-select select2-active"
+                                                        aria-label="cuatrimestre" style="width: 100%" data-minimum-results-for-search="Infinity">
+                                                        <option value="-1" disabled></option>
+                                                        <option value="0">Inactiva</option>
+                                                        <option value="1">En curso</option>
+                                                    </select>
+                                                    <small id="errorActive"></small>
                                                 </div>
 
                                                 {{-- profesores --}}
@@ -232,16 +245,16 @@
 
 
                         </td>
-                        <td>
+                        {{-- <td> --}}
                             {{-- Cambiar Cuatrimestre de materia --}}
-                            <form method="POST" class="form-delete d-inline" action="">
+                            {{-- <form method="POST" class="form-delete d-inline" action="">
                                 @method('PUT')
                                 @csrf
                                 <button data-assignment="{{ $assignment->id }}" type="submit"
                                     class="btn btn-outline-secondary btn-sm">Cambiar</button>
 
                             </form>
-                        </td>
+                        </td> --}}
                         <td>
                             {{-- Habilitar/Deshabilitar materia (botón switch) --}}
                             <div class="form-check form-switch">
@@ -252,7 +265,7 @@
                         </td>
                     </tr>
                 @empty
-                    <td colspan="5" class="text-center text-secondary">No hay registros</td>
+                    <td colspan="6" class="text-center text-secondary">No hay registros</td>
                 @endforelse
             </tbody>
         </table>
@@ -412,7 +425,7 @@
 
                     $('#flashMessage').html(
                             '<div class="alert alert-success">Materia habilitada correctamente</div>'
-                            )
+                        )
                         .delay(1000);
                     var flash = $('#flashMessage');
                     if (flash.find('.alert.alert-success').length > 0) {
@@ -446,6 +459,24 @@
         placeholder: {
             allowClear: true,
             text: 'Seleccione el profesor asignado'
+        },
+        language: {
+
+            noResults: function() {
+
+                return "No hay resultado";
+            },
+            searching: function() {
+
+                return "Buscando..";
+            }
+        }
+    });
+
+    $('.select2-active').select2({
+        placeholder: {
+            allowClear: true,
+            text: 'Seleccione estado de cuatrimestre'
         },
         language: {
 
