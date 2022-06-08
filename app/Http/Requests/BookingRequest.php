@@ -24,12 +24,13 @@ class BookingRequest extends FormRequest
     public function rules()
     {
         return [
-            'assignment_id' => 'integer',
-            'event_id' => 'integer',
-            'user_id' => 'required|integer',
-            'description' => 'string',
-            'start_time' => 'required',
-            'finish_time' => 'required'
+            //Definir campos requeridos
+            // 'assignment_id' => 'integer',
+            // 'event_id' => 'integer',
+            // 'user_id' => 'required|integer',
+            // 'description' => 'string',
+            // 'start_time' => 'required',
+            // 'finish_time' => 'required'
         ];
     }
 }
