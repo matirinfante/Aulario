@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ClassroomRequest;
+use App\Http\Requests\ClassroomStoreRequest;
+use App\Http\Requests\ClassroomUpdateRequest;
 use App\Models\Assignment;
 use App\Models\Classroom;
 use Illuminate\Http\Request;
@@ -34,7 +35,7 @@ class ClassroomController extends Controller
      * Store a newly created resource in storage.
      *TODO: $request->all() dentro de create
      */
-    public function store(ClassroomRequest $request)
+    public function store(ClassroomStoreRequest $request)
     {
 
         try {
@@ -83,7 +84,7 @@ class ClassroomController extends Controller
      *
      * TODO: sync con horarios
      */
-    public function update(ClassroomRequest $request, Classroom $classroom)
+    public function update(ClassroomUpdateRequest $request, Classroom $classroom)
     {
         try {
             $classroom->update($request->all());

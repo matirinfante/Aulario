@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\Assignment;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -33,7 +35,7 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      */
-    public function store(UserRequest $request)
+    public function store(UserStoreRequest $request)
     {
         try {
             $user = User::create([
@@ -76,7 +78,7 @@ class UserController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param int $id
      */
-    public function update(UserRequest $request, User $user)
+    public function update(UserUpdateRequest $request, User $user)
     {
         //no se modifica la contraseña del usuario
         //TODO: validar request con UserRequest
