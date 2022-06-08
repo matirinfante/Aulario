@@ -98,9 +98,19 @@ class PetitionController extends Controller
      * @param \App\Models\Petition $petition
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Petition $petition)
+    public function update(PetitionRequest $request, $id) 
     {
-        //no
+        try {
+            $petition = Petition::findOrFail($id)->fill($request->all());
+
+            $petition->save();
+
+            flash('Estado modificado con éxito')->success();
+            return redirect(route('petition.index'));
+        } catch (\Exception $e) {
+            flash('Ha ocurrido un error al actualizar el estado')->error();
+            return back();
+        }
     }
 
     /**
