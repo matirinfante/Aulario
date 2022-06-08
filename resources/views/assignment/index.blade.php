@@ -223,8 +223,7 @@
                             {{-- </form> --}}
                         </td>
                         <td>
-                            <form method="POST" class="form-delete d-inline"
-                                action="">
+                            <form method="POST" class="form-delete d-inline" action="">
                                 @method('PUT')
                                 @csrf
                                 <button data-assignment="{{ $assignment->id }}" type="submit"
