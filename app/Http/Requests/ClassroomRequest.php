@@ -24,13 +24,14 @@ class ClassroomRequest extends FormRequest
     public function rules()
     {
         return [
-            'classroom_name' => 'required|unique:classroom',
-            'location' => 'required',
-            'capacity' => 'required|integer',
-            'type' => 'required', // in:Laboratorio, Aula común' como es la entrada por form
-            'building' => 'required|alpha',
-            'available_start' => 'required',
-            'available_finish' => 'required',
+            //Definir campos requeridos
+            // 'classroom_name' => 'required|unique:classroom', 
+            // 'location' => 'required',
+            // 'capacity' => 'required|integer',
+            // 'type' => 'required', // in:Laboratorio, Aula común' como es la entrada por form
+            // 'building' => 'required|alpha',
+            // 'available_start' => 'required',
+            // 'available_finish' => 'required',
         ];
     }
 }
