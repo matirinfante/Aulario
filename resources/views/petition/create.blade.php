@@ -16,46 +16,68 @@
     </style>
 
 <a class="btn btn-outline-dark" href="{{ url('petitions') }}" role="button" style="margin-left: 1%">Listado de Usuarios</a>
-
-
-
     <div id="container">
         <h3 class="text-center m-4">Creación de Usuario</h3>
         <form id="form" class="form_style" method="POST" action="{{route('petitions.store')}}">
             @csrf
             <div class="mb-3">
                 <label for="name" class="form-label">Nombre</label>
-                <input type="text" class="form-control" name="name" id="name" placeholder="Robert">
-                <p class="alerta d-none" id="errorName">Error</p>
+                <input type="text" class="form-control" name="name" id="name" value="{{$user->name}} {{$user->surname}}" disabled>
             </div>
             <div class="mb-3">
-                <label for="surname" class="form-label">Apellido</label>
-                <input type="text" class="form-control" name="surname" id="surname" placeholder="Kiyosaki">
-                <p class="alerta d-none" id="errorSurname">Error</p>
+                <input type="hidden" class="form-control" name="user_id" id="user_id" value="{{$user->id}}">
             </div>
             <div class="mb-3">
-                <label for="dni" class="form-label">Dni</label>
-                <input type="number" class="form-control" name="dni" id="dni" min="1000000" max="99999999"
-                       placeholder="39504700">
-                <p class="alerta d-none" id="errorDni">Error</p>
+                <label for="assignment_id" class="form-label">Materias</label>
+                <select name="assignment_id" class="form-select select2-user" aria-label="Materia" style="width: 100%">
+                    <option value="-1" disabled></option>
+                    @foreach ($assignments as $assignment)
+                        <option value="{{ $assignment->id }}">
+                            {{ $assignment->assignment_name }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
             <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" id="email" placeholder="robert@kiyosaki.com">
-                <p class="alerta d-none" id="errorEmail">Error</p>
+                <label for="estimated_people" class="form-label">Cantidad alumnos</label>
+                <input type="text" class="form-control" name="estimated_people" id="estimated_people">
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" name="password" id="password">
-                <p class="alerta d-none" id="errorPassword">Error</p>
+                <label for="classroom_type" class="form-label">Tipo Aula</label>
+                <input type="text" class="form-control" name="classroom_type" id="classroom_type" value="Híbrido">
             </div>
-            <button id="submit" type="submit" class="btn btn-primary disabled">Crear</button>
+            <div class="mb-3">
+                <label for="start_date" class="form-label">Fecha Inicio</label>
+                <input type="date" class="form-control" name="start_date" id="start_date">
+            </div>
+            <div class="mb-3">
+                <label for="finish_date" class="form-label">Fecha Fin</label>
+                <input type="date" class="form-control" name="finish_date" id="finish_date">
+            </div>
+            <div class="mb-3">
+                <label for="start_time" class="form-label">Hora Inicio</label>
+                <input type="time" class="form-control" name="start_time" id="start_time">
+            </div>
+            <div class="mb-3">
+                <label for="finish_time" class="form-label">Hora Fin</label>
+                <input type="time" class="form-control" name="finish_time" id="finish_time">
+            </div>
+            <div class="mb-3">
+                <label for="days" class="form-label">Dia</label>
+                <input type="text" class="form-control" name="days" id="days">
+            </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">Mensaje</label>
+                <input type="text" class="form-control" name="message" id="message">
+            </div>
+
+            <button id="submit" type="submit" class="btn btn-primary">Crear</button>
         </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.js"
             integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
        let d = document
         const $inputName = d.getElementById('name'),
             $inputSurname = d.getElementById('surname'),
@@ -151,5 +173,5 @@
                 $button.classList.remove('disabled')
             }
         })
-    </script>
+    </script> --}}
 @endsection
