@@ -55,7 +55,7 @@
                         </td>
                         <td>
                             {{-- Ver Usuario --}}
-                            <a class="btn btn-primary" style="pointer-events: auto;" onclick="seeUser({{$user}})">Ver</a>
+                            <a class="btn btn-primary btn-sm" style="pointer-events: auto;" onclick="seeUser({{$user}})">Ver</a>
                             {{-- Boton editar / activa el modal --}}
                             <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"data-bs-target="#updateModal{{ $user->id }}">Editar</button>
                             {{-- update modal --}}
@@ -106,13 +106,13 @@
                             <form method="POST"
                             action=" {{route('users.destroy',$user['id'] )}} ">
                             @csrf @method('delete')
-                            <button class="btn btn-danger">X</button>
+                            <button class="btn btn-danger btn-sm">X</button>
                             </form>
                             @else
                             <form method="POST"
                             action=" {{route('users.activate',$user['id'] )}} ">
                             @csrf @method('put')
-                            <button class="btn btn-success">X</button>
+                            <button class="btn btn-success btn-sm">X</button>
                             </form>
                             @endif
                         </td>
@@ -175,13 +175,7 @@
     <button type="" class="btn btn-success m-3 d-none" data-bs-toggle="modal" data-bs-target="#showModal" id="buttonShow">Ver usuario</button>
     <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap5.min.js"></script>
-    <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+  
 
     <script src="{{ asset('js/validationUserCreate.js') }}" defer></script>
 
@@ -333,8 +327,22 @@
                                 clearInterval(timerInterval)
                             }
                         })
-                        break;
-
+                        break;                      
+                    case 'Usuario habilitado correctamente':
+                        var timerInterval
+                        Swal.fire({
+                            toast: true,
+                            position: 'bottom-end',
+                            background: '#a5dc86',
+                            color: '#000',
+                            showConfirmButton: false,
+                            html: 'Usuario habilitado correctamente',
+                            timer: 2000,
+                            timerProgressBar: true,
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        })
                         break;
                 }
             }
