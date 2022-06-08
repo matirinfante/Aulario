@@ -18,10 +18,13 @@
             </thead>
             <tbody>
                 @forelse ($petitions as $petition)
+              {{-- Se arreglo la vista, 
+                fijate que tenes un ORM y 
+                accedes a los objetos que hacen referencia(user y materia) --}}
                 <tr>
                     <td> {{$petition['id']}} </td>
-                    <td> {{$petition['user_id']}}</td>
-                    <td> {{$petition['assignment_name']}}</td>
+                    <td> {{$petition->user->name}} {{$petition->user->surname}}</td>
+                    <td> {{$petition->assignment->assignment_name}}</td>
                     <td> {{$petition['estimated_people']}}</td>
                     <td> {{$petition['classroom_type']}} </td>
                     <td>
