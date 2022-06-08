@@ -51,7 +51,7 @@ class UserController extends Controller
                 'password' => Hash::make($request->password)
             ]);
             flash('Se ha registrado correctamente el nuevo usuario')->success();
-            return redirect(route('users.index', $user->id));
+            return redirect(route('users.show', $user->id));
         } catch (\Exception $e) {
             flash('Ha ocurrido un error al registrar al usuario')->error();
             return back();
@@ -109,11 +109,18 @@ class UserController extends Controller
      *
      * @param int $id
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        $user->delete();
-        flash('Se eliminó correctamente al usuario')->success();
-        return back();
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
+            flash('Se eliminó correctamente al usuario')->success();
+            return redirect(route('users.index'));
+
+        } catch (\Exception $e) {
+            flash('Ha ocurrido un error al eliminar el usuario')->error();
+            return back();
+        }
     }
 
 
