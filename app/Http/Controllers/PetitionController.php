@@ -15,7 +15,7 @@ class PetitionController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     *TODO: join Petition
      */
     public function index()
     {
@@ -45,7 +45,7 @@ class PetitionController extends Controller
      *TODO: implementar carga petition
      */
     public function store(PetitionRequest $request)
-    {   
+    {
         $petition = Petition::create([
             'user_id' => $request->user_id,
             'assignment_id' => $request->assignment_id,
