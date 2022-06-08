@@ -24,7 +24,7 @@ class ClassroomRequest extends FormRequest
     public function rules()
     {
         return [
-            //Definir campos requeridos
+            // Definir campos requeridos
             // 'classroom_name' => 'required|unique:classroom', 
             // 'location' => 'required',
             // 'capacity' => 'required|integer',

@@ -24,7 +24,7 @@ class PetitionRequest extends FormRequest
     public function rules()
     {
         return [
-            //Definir campos requeridos
+            // Definir campos requeridos
             // 'estimated_people' => 'required', 
             // 'start_time' =>'required',
             // 'finish_time' => 'required', 
