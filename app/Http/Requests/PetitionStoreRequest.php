@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClassroomRequest extends FormRequest
+class PetitionStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,13 +25,11 @@ class ClassroomRequest extends FormRequest
     {
         return [
             // Definir campos requeridos
-            // 'classroom_name' => 'required|unique:classroom', 
-            // 'location' => 'required',
-            // 'capacity' => 'required|integer',
-            // 'type' => 'required', // in:Laboratorio, Aula común' como es la entrada por form
-            // 'building' => 'required|alpha',
-            // 'available_start' => 'required',
-            // 'available_finish' => 'required',
+            // 'estimated_people' => ['required'], 
+            // 'start_time' =>['required'],
+            // 'finish_time' => ['required'], 
+            //....
+
         ];
     }
 }

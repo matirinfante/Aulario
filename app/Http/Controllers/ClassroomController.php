@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ClassroomRequest;
+use App\Http\Requests\ClassroomStoreRequest;
+use App\Http\Requests\ClassroomUpdateRequest;
 use App\Models\Classroom;
 use Illuminate\Http\Request;
 
@@ -33,7 +34,7 @@ class ClassroomController extends Controller
      * Store a newly created resource in storage.
      *
      */
-    public function store(ClassroomRequest $request)
+    public function store(ClassroomStoreRequest $request)
     {
         try {
             $classroom = Classroom::create([
@@ -80,7 +81,7 @@ class ClassroomController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param int $id
      */
-    public function update(ClassroomRequest $request, $id)
+    public function update(ClassroomUpdateRequest $request, $id)
     {
         try {
             $classroom = Classroom::findOrFail($id)->fill($request->all());

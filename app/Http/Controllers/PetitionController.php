@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\petitionsMail;
-use App\Http\Requests\PetitionRequest;
+use App\Http\Requests\PetitionStoreRequest;
 
 
 class PetitionController extends Controller
@@ -44,7 +44,7 @@ class PetitionController extends Controller
      * @param \Illuminate\Http\Request $request
      *TODO: implementar carga petition
      */
-    public function store(PetitionRequest $request)
+    public function store(PetitionStoreRequest $request)
     {   
         $petition = Petition::create([
             'user_id' => $request->user_id,
