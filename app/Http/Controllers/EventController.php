@@ -92,7 +92,7 @@ class EventController extends Controller
             $event->save();
 
             flash('Evento modificado con éxito')->success();
-            return redirect(route('assignments.index'));
+            return redirect(route('event.index'));
         } catch (\Exception $e) {
             flash('Ha ocurrido un error al actualizar el evento')->error();
             return back();
