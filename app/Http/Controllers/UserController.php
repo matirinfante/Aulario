@@ -51,7 +51,7 @@ class UserController extends Controller
                 'password' => Hash::make($request->password)
             ]);
             flash('Se ha registrado correctamente el nuevo usuario')->success();
-            return redirect(route('users.show', $user->id));
+            return redirect(route('users.index', $user->id));
         } catch (\Exception $e) {
             flash('Ha ocurrido un error al registrar al usuario')->error();
             return back();
