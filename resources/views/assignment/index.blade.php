@@ -2,46 +2,47 @@
 
 @section('content')
 
-@section('styles')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
-    <style>
-        .createModal,
-        .updateModal {
-            z-index: 1051;
-        }
-    </style>
-@endsection
+    @section('styles')
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+        <style>
+            .createModal,
+            .updateModal {
+                z-index: 1051;
+            }
+        </style>
+    @endsection
 
-{{-- Mensaje del controlador al realizar acción --}}
-<div id="flashMessage" class="text-center d-none">
-    @include('flash::message')
-</div>
+    {{-- Mensaje del controlador al realizar acción --}}
+    <div id="flashMessage" class="text-center d-none">
+        @include('flash::message')
+    </div>
 
-<h3 class="text-center m-4">Listado de Materias</h3>
+    <h3 class="text-center m-4">Listado de Materias</h3>
 
-<p class="text-center">Estados: <br>
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#1f9b08" class="bi bi-check-circle"
-        viewBox="0 0 16 16">
-        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-        <path
-            d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
-    </svg>
-    = Habilitado(H)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#9b0808" class="bi bi-x-circle"
-        viewBox="0 0 16 16">
-        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-        <path
-            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-    </svg>
-    = Deshabilitado(D)
-</p>
+    <p class="text-center">Estados: <br>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#1f9b08" class="bi bi-check-circle"
+             viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path
+                d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+        </svg>
+        = Habilitado(H)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#9b0808" class="bi bi-x-circle"
+             viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path
+                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+        </svg>
+        = Deshabilitado(D)
+    </p>
 
-<div class="card m-auto mt-3" style="width: 1000px;">
-    <div class="card-body">
-        <table class="table table-striped table-hover" id="assignments">
-            <button type="" class="btn btn-success m-3 btn-sm" data-bs-toggle="modal" data-bs-target="#createModal"
-                id="buttonCreate">Crear Materia</button>
-            <thead class="bg-secondary text-light">
+    <div class="card m-auto mt-3" style="width: 1000px;">
+        <div class="card-body">
+            <table class="table table-striped table-hover" id="assignments">
+                <button type="" class="btn btn-success m-3 btn-sm" data-bs-toggle="modal" data-bs-target="#createModal"
+                        id="buttonCreate">Crear Materia
+                </button>
+                <thead class="bg-secondary text-light">
                 <tr>
                     <td>Nombre de la materia</td>
                     <td>Profesor/a</td>
@@ -51,8 +52,8 @@
                     {{-- <td>Cuatrimestre</td> --}}
                     <td>D/H</td>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 @forelse ($assignments as $assignment)
                     <tr>
                         <td>{{ $assignment->assignment_name }} </td>
@@ -72,34 +73,35 @@
                         <td class="text-secondary" data-statusSvg="{{ $assignment->id }}">
                             @if (!isset($assignment->deleted_at))
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#1f9b08"
-                                    class="bi bi-check-circle" viewBox="0 0 16 16">
-                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                     class="bi bi-check-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                     <path
-                                        d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
+                                        d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
                                 </svg>
                             @else
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#9b0808"
-                                    class="bi bi-x-circle" viewBox="0 0 16 16">
-                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                     class="bi bi-x-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                     <path
-                                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                                 </svg>
                             @endif
                         </td>
                         <td class="text-center">
                             {{-- view modal button --}}
                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#viewModal{{ $assignment->id }}">Ver</button>
+                                    data-bs-target="#viewModal{{ $assignment->id }}">Ver
+                            </button>
 
                             {{-- view modal --}}
                             <div class="modal fade" id="viewModal{{ $assignment->id }}" tabindex="-1"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Datos de la materia</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                                    aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <h5 class="card-title"><span
@@ -165,28 +167,29 @@
 
                             {{-- update modal button --}}
                             <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#updateModal{{ $assignment->id }}">Editar</button>
+                                    data-bs-target="#updateModal{{ $assignment->id }}">Editar
+                            </button>
 
                             {{-- update modal --}}
                             <div class="modal fade updateModal" id="updateModal{{ $assignment->id }}" tabindex="-1"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Actualizar materia</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                                    aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <form name="form_assignment" method="POST"
-                                                action="{{ route('assignments.update', $assignment->id) }}">
+                                                  action="{{ route('assignments.update', $assignment->id) }}">
                                                 @csrf @method('PATCH')
                                                 {{-- nombre materia --}}
                                                 <div class="mb-3">
                                                     <label for="assignment_name" class="form-label">Nombre de
                                                         materia</label>
                                                     <input type="text" class="form-control" name="assignment_name"
-                                                        value="{{ $assignment->assignment_name }}" required>
+                                                           value="{{ $assignment->assignment_name }}" required>
                                                     <small id="errorAssignmentName"></small>
                                                 </div>
 
@@ -195,7 +198,7 @@
                                                     <label for="start_date" class="form-label">Fecha de
                                                         inicio</label>
                                                     <input type="date" class="form-control" name="start_date"
-                                                        value="{{ $assignment->start_date }}" required>
+                                                           value="{{ $assignment->start_date }}" required>
                                                     <small id="errorAssignmentStartDate"></small>
                                                 </div>
 
@@ -203,16 +206,17 @@
                                                 <div class="mb-3">
                                                     <label for="finish_date" class="form-label">Fecha fin</label>
                                                     <input type="date" class="form-control" name="finish_date"
-                                                        value="{{ $assignment->finish_date }}" required>
+                                                           value="{{ $assignment->finish_date }}" required>
                                                     <small id="errorAssignmentNameFinishDate"></small>
                                                 </div>
 
                                                 {{-- cuatrimestre --}}
                                                 <div class="mb-3">
                                                     <label for="cuatrimestre"
-                                                        class="form-label">Cuatrimestre</label>
+                                                           class="form-label">Cuatrimestre</label>
                                                     <select name="active" class="form-select select2-active"
-                                                        aria-label="cuatrimestre" style="width: 100%" data-minimum-results-for-search="Infinity">
+                                                            aria-label="cuatrimestre" style="width: 100%"
+                                                            data-minimum-results-for-search="Infinity">
                                                         <option value="-1" disabled></option>
                                                         <option value="0">Inactiva</option>
                                                         <option value="1">En curso</option>
@@ -225,7 +229,8 @@
                                                     <label for="nameTeacher" class="form-label">Profesor/a
                                                         asignado</label>
                                                     <select name="user_id[]" class="form-select select2-user"
-                                                        multiple="multiple" aria-label="Profesor/a" style="width: 100%">
+                                                            multiple="multiple" aria-label="Profesor/a"
+                                                            style="width: 100%">
                                                         <option value="-1" disabled></option>
                                                         @foreach ($users as $teacher)
                                                             <option value="{{ $teacher->id }}">
@@ -236,7 +241,8 @@
                                                     <small id="errorNameTeacher"></small>
                                                 </div>
                                                 <button id="submit" type="submit"
-                                                    class="btn btn-primary">Actualizar</button>
+                                                        class="btn btn-primary">Actualizar
+                                                </button>
                                             </form>
                                         </div>
                                     </div>
@@ -246,20 +252,20 @@
 
                         </td>
                         {{-- <td> --}}
-                            {{-- Cambiar Cuatrimestre de materia --}}
-                            {{-- <form method="POST" class="form-delete d-inline" action="">
-                                @method('PUT')
-                                @csrf
-                                <button data-assignment="{{ $assignment->id }}" type="submit"
-                                    class="btn btn-outline-secondary btn-sm">Cambiar</button>
+                        {{-- Cambiar Cuatrimestre de materia --}}
+                        {{-- <form method="POST" class="form-delete d-inline" action="">
+                            @method('PUT')
+                            @csrf
+                            <button data-assignment="{{ $assignment->id }}" type="submit"
+                                class="btn btn-outline-secondary btn-sm">Cambiar</button>
 
-                            </form>
-                        </td> --}}
+                        </form>
+                    </td> --}}
                         <td>
                             {{-- Habilitar/Deshabilitar materia (botón switch) --}}
                             <div class="form-check form-switch">
                                 <input data-id="{{ $assignment->id }}" data-token="{{ csrf_token() }}"
-                                    class="form-check-input activeSwitch" type="checkbox" role="switch"
+                                       class="form-check-input activeSwitch" type="checkbox" role="switch"
                                     {{ !$assignment->trashed() ? 'checked' : '' }}>
                             </div>
                         </td>
@@ -267,171 +273,243 @@
                 @empty
                     <td colspan="6" class="text-center text-secondary">No hay registros</td>
                 @endforelse
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
 
-<!-- Modal Crear-->
-@if (isset($assignment))
-    <div class="modal fade createModal" id="createModal" position="relative" tabindex="-1"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Crear Materia</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="createAssignmentForm" name="form_assignment" method="POST" action="{{ route('assignments.store') }}">
-                        @csrf
-                        {{-- nombre materia --}}
-                        <div class="mb-3">
-                            <label for="assignment_name" class="form-label">Nombre de materia</label>
-                            <input type="text" class="form-control" name="assignment_name" id="createName"
-                                placeholder="Programación Web Avanzada" required>
-                            <small id="errorCreateAssignmentName"></small>
-                        </div>
+    <!-- Modal Crear-->
+    @if (isset($assignment))
+        <div class="modal fade createModal" id="createModal" position="relative" tabindex="-1"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Crear Materia</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="createAssignmentForm" name="form_assignment" method="POST"
+                              action="{{ route('assignments.store') }}">
+                            @csrf
+                            {{-- nombre materia --}}
+                            <div class="mb-3">
+                                <label for="assignment_name" class="form-label">Nombre de materia</label>
+                                <input type="text" class="form-control" name="assignment_name" id="createName"
+                                       placeholder="Programación Web Avanzada" required>
+                                <small id="errorCreateAssignmentName"></small>
+                            </div>
 
-                        {{-- fecha inicio --}}
-                        <div class="mb-3 col-md-4">
-                            <label for="start_date" class="form-label">Fecha de inicio</label>
-                            <input type="date" class="form-control" name="start_date" id="createStartDate" required>
-                            <small id="errorCreateAssignmentStartDate"></small>
-                        </div>
+                            {{-- fecha inicio --}}
+                            <div class="mb-3 col-md-4">
+                                <label for="start_date" class="form-label">Fecha de inicio</label>
+                                <input type="date" class="form-control" name="start_date" id="createStartDate" required>
+                                <small id="errorCreateAssignmentStartDate"></small>
+                            </div>
 
-                        {{-- fecha fin --}}
-                        <div class="mb-3 col-md-4">
-                            <label for="finish_date" class="form-label">Fecha fin</label>
-                            <input type="date" class="form-control" name="finish_date" id="createFinishDate" required>
-                            <small id="errorCreateAssignmentFinishDate"></small>
-                        </div>
+                            {{-- fecha fin --}}
+                            <div class="mb-3 col-md-4">
+                                <label for="finish_date" class="form-label">Fecha fin</label>
+                                <input type="date" class="form-control" name="finish_date" id="createFinishDate"
+                                       required>
+                                <small id="errorCreateAssignmentFinishDate"></small>
+                            </div>
 
-                        {{-- profesores --}}
-                        <div class="mb-3 col-md-6">
-                            <label for="nameTeacher" class="form-label">Profesor/a asignado</label>
-                            <select name="user_id[]" class="form-select select2-user" multiple="multiple"
-                                aria-label="Profesor/a" style="width: 100%;">
-                                <option value="-1" disabled></option>
-                                @foreach ($users as $teacher)
-                                    <option value="{{ $teacher->id }}">{{ $teacher->name }},
-                                        {{ $teacher->surname }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <small id="errorCreateNameTeacher"></small>
-                        </div>
-                        <button id="createSubmit" type="submit" class="btn btn-primary disabled">Crear</button>
-                    </form>
+                            {{-- profesores --}}
+                            <div class="mb-3 col-md-6">
+                                <label for="nameTeacher" class="form-label">Profesor/a asignado</label>
+                                <select name="user_id[]" class="form-select select2-user" multiple="multiple"
+                                        aria-label="Profesor/a" style="width: 100%;">
+                                    <option value="-1" disabled></option>
+                                    @foreach ($users as $teacher)
+                                        <option value="{{ $teacher->id }}">{{ $teacher->name }},
+                                            {{ $teacher->surname }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <small id="errorCreateNameTeacher"></small>
+                            </div>
+                            <button id="createSubmit" type="submit" class="btn btn-primary disabled">Crear</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-@endif
-
-
+    @endif
 
 @endsection
 
 @section('scripts')
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap5.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap5.min.js"></script>
 
-<script src="https://unpkg.com/validator@latest/validator.min.js"></script>
-<script src="{{ asset('js/validationAssignmentCreate.js') }}" defer></script>
+    <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+    <script src="{{ asset('js/validationAssignmentCreate.js') }}" defer></script>
 
-{{-- DataTable SCRIPT --}}
-<script>
-    $(document).ready(function() {
-        $('#assignments').DataTable();
-    });
-</script>
+    {{-- DataTable SCRIPT --}}
+    <script>
+        $(document).ready(function () {
+            $('#assignments').DataTable();
+        });
+    </script>
 
 
-{{-- Habilitar/Deshabilitar una materia --}}
-<script>
-    $('.activeSwitch').change(function(e) {
-        var $id = $(this).data('id');
-        var status = $(this).prop('checked') == true ? 1 : 0;
+    {{-- Habilitar/Deshabilitar una materia --}}
+    <script>
+        $('.activeSwitch').change(function (e) {
+            var $id = $(this).data('id');
+            var status = $(this).prop('checked') == true ? 1 : 0;
 
-        if (status == 0) { // deshabilitar materia
-            var url = '{{ route('assignments.destroy', ':id') }}';
-            url = url.replace(':id', $id);
-            var token = $(this).data("token");
-            $.ajax({
-                type: 'post',
-                url: url,
-                cache: false,
-                data: {
-                    "id": $id,
-                    "_method": 'DELETE',
-                    "_token": token,
-                },
-                success: function(data) {
-                    console.log('entra DELETE');
-                    console.log(data);
-                    var $elementSvg = $("td[data-statusSvg='" + $id + "']");
-                    $elementSvg.replaceWith('<td class="text-secondary" data-statussvg="' + $id +
-                        '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#9b0808" class="bi bi-x-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" /><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" /></svg></td>'
-                    );
+            if (status == 0) { // deshabilitar materia
+                var url = '{{ route('assignments.destroy', ':id') }}';
+                url = url.replace(':id', $id);
+                var token = $(this).data("token");
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    cache: false,
+                    data: {
+                        "id": $id,
+                        "_method": 'DELETE',
+                        "_token": token,
+                    },
+                    success: function (data) {
+                        console.log('entra DELETE');
+                        console.log(data);
+                        var $elementSvg = $("td[data-statusSvg='" + $id + "']");
+                        $elementSvg.replaceWith('<td class="text-secondary" data-statussvg="' + $id +
+                            '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#9b0808" class="bi bi-x-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" /><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" /></svg></td>'
+                        );
 
-                    $('#flashMessage').html(
+                        $('#flashMessage').html(
                             '<div class="alert alert-success">Materia eliminada con éxito</div>')
-                        .delay(1000);
-                    var flash = $('#flashMessage');
-                    if (flash.find('.alert.alert-success').length > 0) {
-                        var timerInterval
-                        Swal.fire({
-                            toast: true,
-                            position: 'bottom-end',
-                            background: '#a5dc86',
-                            color: '#000',
-                            showConfirmButton: false,
-                            html: 'Materia deshabilitada con éxito.',
-                            timer: 2000,
-                            timerProgressBar: true,
-                            willClose: () => {
-                                clearInterval(timerInterval)
-                            }
-                        })
+                            .delay(1000);
+                        var flash = $('#flashMessage');
+                        if (flash.find('.alert.alert-success').length > 0) {
+                            var timerInterval
+                            Swal.fire({
+                                toast: true,
+                                position: 'bottom-end',
+                                background: '#a5dc86',
+                                color: '#000',
+                                showConfirmButton: false,
+                                html: 'Materia deshabilitada con éxito.',
+                                timer: 2000,
+                                timerProgressBar: true,
+                                willClose: () => {
+                                    clearInterval(timerInterval)
+                                }
+                            })
+                        }
                     }
-                }
 
-            });
-        } else {
-            // habilitar materia...
-            var url = '{{ route('assignments.activate', ':id') }}';
-            url = url.replace(':id', $id);
-            var token = $(this).data("token");
-            $.ajax({
-                type: 'POST',
-                url: url,
-                cache: false,
-                data: {
-                    "id": $id,
-                    "_method": 'PUT',
-                    "_token": token
-                },
-                success: function(data) {
-                    // console.log('entra PUT');
-                    // console.log(data);
-                    var $elementSvg = $("td[data-statusSvg='" + $id + "']");
-                    $elementSvg.replaceWith('<td class="text-secondary" data-statussvg="' + $id +
-                        '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#1f9b08" class="bi bi-check-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" /><path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" /></svg></td>'
-                    );
+                });
+            } else {
+                // habilitar materia...
+                var url = '{{ route('assignments.activate', ':id') }}';
+                url = url.replace(':id', $id);
+                var token = $(this).data("token");
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    cache: false,
+                    data: {
+                        "id": $id,
+                        "_method": 'PUT',
+                        "_token": token
+                    },
+                    success: function (data) {
+                        // console.log('entra PUT');
+                        // console.log(data);
+                        var $elementSvg = $("td[data-statusSvg='" + $id + "']");
+                        $elementSvg.replaceWith('<td class="text-secondary" data-statussvg="' + $id +
+                            '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#1f9b08" class="bi bi-check-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" /><path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" /></svg></td>'
+                        );
 
-                    $('#flashMessage').html(
+                        $('#flashMessage').html(
                             '<div class="alert alert-success">Materia habilitada correctamente</div>'
                         )
-                        .delay(1000);
-                    var flash = $('#flashMessage');
-                    if (flash.find('.alert.alert-success').length > 0) {
+                            .delay(1000);
+                        var flash = $('#flashMessage');
+                        if (flash.find('.alert.alert-success').length > 0) {
+                            var timerInterval
+                            Swal.fire({
+                                toast: true,
+                                position: 'bottom-end',
+                                background: '#a5dc86',
+                                color: '#000',
+                                showConfirmButton: false,
+                                html: 'Materia habilitada con éxito.',
+                                timer: 2000,
+                                timerProgressBar: true,
+                                willClose: () => {
+                                    clearInterval(timerInterval)
+                                }
+                            })
+                        }
+                    }
+
+                });
+            }
+        });
+    </script>
+
+
+
+    {{-- script para utilizar select2 --}}
+    <script>
+        $('.select2-user').select2({
+            placeholder: {
+                allowClear: true,
+                text: 'Seleccione el profesor asignado'
+            },
+            language: {
+
+                noResults: function () {
+
+                    return "No hay resultado";
+                },
+                searching: function () {
+
+                    return "Buscando..";
+                }
+            }
+        });
+
+        $('.select2-active').select2({
+            placeholder: {
+                allowClear: true,
+                text: 'Seleccione estado de cuatrimestre'
+            },
+            language: {
+
+                noResults: function () {
+
+                    return "No hay resultado";
+                },
+                searching: function () {
+
+                    return "Buscando..";
+                }
+            }
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            var flash = $('#flashMessage');
+            if (flash.find('.alert.alert-success').length > 0) {
+                var contentFlash = $("#flashMessage:first").text().trim();
+                switch (contentFlash) {
+                    // CREACION DE MATERIA
+                    case 'La materia se ha cargado exitosamente':
                         var timerInterval
                         Swal.fire({
                             toast: true,
@@ -439,103 +517,31 @@
                             background: '#a5dc86',
                             color: '#000',
                             showConfirmButton: false,
-                            html: 'Materia habilitada con éxito.',
+                            html: 'Materia creada con éxito.',
                             timer: 2000,
                             timerProgressBar: true,
                             willClose: () => {
                                 clearInterval(timerInterval)
                             }
                         })
-                    }
-                }
-
-            });
-        }
-    });
-</script>
-
-
-
-{{-- script para utilizar select2 --}}
-<script>
-    $('.select2-user').select2({
-        placeholder: {
-            allowClear: true,
-            text: 'Seleccione el profesor asignado'
-        },
-        language: {
-
-            noResults: function() {
-
-                return "No hay resultado";
-            },
-            searching: function() {
-
-                return "Buscando..";
-            }
-        }
-    });
-
-    $('.select2-active').select2({
-        placeholder: {
-            allowClear: true,
-            text: 'Seleccione estado de cuatrimestre'
-        },
-        language: {
-
-            noResults: function() {
-
-                return "No hay resultado";
-            },
-            searching: function() {
-
-                return "Buscando..";
-            }
-        }
-    });
-</script>
-
-
-<script>
-    $(document).ready(function() {
-        var flash = $('#flashMessage');
-        if (flash.find('.alert.alert-success').length > 0) {
-            var contentFlash = $("#flashMessage:first").text().trim();
-            switch (contentFlash) {
-                // CREACION DE MATERIA
-                case 'La materia se ha cargado exitosamente':
-                    var timerInterval
-                    Swal.fire({
-                        toast: true,
-                        position: 'bottom-end',
-                        background: '#a5dc86',
-                        color: '#000',
-                        showConfirmButton: false,
-                        html: 'Materia creada con éxito.',
-                        timer: 2000,
-                        timerProgressBar: true,
-                        willClose: () => {
-                            clearInterval(timerInterval)
-                        }
-                    })
-                    break;
+                        break;
                     // MODIFICACION DE MATERIA
-                case 'Materia modificada con éxito':
-                    var timerInterval
-                    Swal.fire({
-                        toast: true,
-                        position: 'bottom-end',
-                        background: '#a5dc86',
-                        color: '#000',
-                        showConfirmButton: false,
-                        html: 'Materia modificada con éxito.',
-                        timer: 2000,
-                        timerProgressBar: true,
-                        willClose: () => {
-                            clearInterval(timerInterval)
-                        }
-                    })
-                    break;
+                    case 'Materia modificada con éxito':
+                        var timerInterval
+                        Swal.fire({
+                            toast: true,
+                            position: 'bottom-end',
+                            background: '#a5dc86',
+                            color: '#000',
+                            showConfirmButton: false,
+                            html: 'Materia modificada con éxito.',
+                            timer: 2000,
+                            timerProgressBar: true,
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        })
+                        break;
                     // ELIMINACION DE MATERIA
                     // case 'Materia eliminada con éxito':
                     //     var timerInterval
@@ -554,58 +560,58 @@
                     //     })
                     //     break;
                     // ERROR CREACION DE MATERIA
-                case 'Ha ocurrido un error al añadir la materia':
-                    var timerInterval
-                    Swal.fire({
-                        toast: true,
-                        position: 'bottom-end',
-                        background: '#f27474',
-                        color: '#000',
-                        showConfirmButton: false,
-                        html: 'Error al crear materia.',
-                        timer: 2000,
-                        timerProgressBar: true,
-                        willClose: () => {
-                            clearInterval(timerInterval)
-                        }
-                    })
-                    break;
+                    case 'Ha ocurrido un error al añadir la materia':
+                        var timerInterval
+                        Swal.fire({
+                            toast: true,
+                            position: 'bottom-end',
+                            background: '#f27474',
+                            color: '#000',
+                            showConfirmButton: false,
+                            html: 'Error al crear materia.',
+                            timer: 2000,
+                            timerProgressBar: true,
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        })
+                        break;
                     // ERROR MODIFICACION DE MATERIA
-                case 'Ha ocurrido un error al actualizar la materia':
-                    var timerInterval
-                    Swal.fire({
-                        toast: true,
-                        position: 'bottom-end',
-                        background: '#f27474',
-                        color: '#000',
-                        showConfirmButton: false,
-                        html: 'Error al modificar materia.',
-                        timer: 2000,
-                        timerProgressBar: true,
-                        willClose: () => {
-                            clearInterval(timerInterval)
-                        }
-                    })
-                    break;
+                    case 'Ha ocurrido un error al actualizar la materia':
+                        var timerInterval
+                        Swal.fire({
+                            toast: true,
+                            position: 'bottom-end',
+                            background: '#f27474',
+                            color: '#000',
+                            showConfirmButton: false,
+                            html: 'Error al modificar materia.',
+                            timer: 2000,
+                            timerProgressBar: true,
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        })
+                        break;
                     // ERROR MODIFICACION DE MATERIA
-                case 'Ha ocurrido un error al eliminar la materia':
-                    var timerInterval
-                    Swal.fire({
-                        toast: true,
-                        position: 'bottom-end',
-                        background: '#f27474',
-                        color: '#000',
-                        showConfirmButton: false,
-                        html: 'Error al cambiar estado de materia.',
-                        timer: 2000,
-                        timerProgressBar: true,
-                        willClose: () => {
-                            clearInterval(timerInterval)
-                        }
-                    })
-                    break;
+                    case 'Ha ocurrido un error al eliminar la materia':
+                        var timerInterval
+                        Swal.fire({
+                            toast: true,
+                            position: 'bottom-end',
+                            background: '#f27474',
+                            color: '#000',
+                            showConfirmButton: false,
+                            html: 'Error al cambiar estado de materia.',
+                            timer: 2000,
+                            timerProgressBar: true,
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        })
+                        break;
+                }
             }
-        }
-    });
-</script>
+        });
+    </script>
 @endsection

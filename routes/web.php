@@ -28,7 +28,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/bookings/test',function(){
+//RUTA TEST
+Route::get('/bookings/test', function () {
     return view('booking.test');
 });
 
@@ -43,3 +44,4 @@ Route::resources([
 
 Route::put('/users/{user}', [UserController::class, 'activateUser'])->name('users.activate');
 Route::put('/assignments/{assignment}', [AssignmentController::class, 'activateAssignment'])->name('assignments.activate');
+Route::put('/classrooms/{classroom}', [ClassroomController::class, 'activateClassroom'])->name('classrooms.activate');
