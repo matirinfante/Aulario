@@ -27,7 +27,7 @@ class AssignmentRequest extends FormRequest
             'assignment_name' => ['required'],
             'start_date' => ['required'],
             'finish_date' => ['required'],
-            'active' => ['required'],
+            //'active' => ['required'],
         ];
     }
 }
