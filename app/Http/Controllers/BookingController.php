@@ -8,6 +8,7 @@ use App\Models\Classroom;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\BookingRequest;
 
 
 class BookingController extends Controller
@@ -120,19 +121,10 @@ class BookingController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param int $id
      */
-    public function update(Request $request, $id)
+    public function update(BookingRequest $request, $id)
     {
 
         try {
-            $request->validate([
-                'assignment_id' => 'integer',
-                'event_id' => 'integer',
-                'user_id' => 'required|integer',
-                'description' => 'string',
-                'start_time' => 'required',
-                'finish_time' => 'required'
-            ]);
-
             $booking = Booking::findOrFail($id)->fill($request->all());
 
             $booking->save();

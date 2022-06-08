@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use App\Http\Requests\EventRequest;
 
 class EventController extends Controller
 {
@@ -31,14 +32,9 @@ class EventController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      */
-    public function store(Request $request)
+    public function store(EventRequest $request)
     {
         try {
-            $request->validate([
-                'event_name' => 'required|unique:events',
-                'participants' => 'required'
-            ]);
-
             $event = Event::create([
                 'event_name' => $request->event_name,
                 'participants' => $request->participants
@@ -79,14 +75,9 @@ class EventController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param int $id
      */
-    public function update(Request $request, $id)
+    public function update(EventRequest $request, $id)
     {
         try {
-            $request->validate([
-                'event_name' => 'required|unique:events',
-                'participants' => 'required'
-            ]);
-
             $event = Event::findOrFail($id)->fill($request->all());
 
             $event->save();
