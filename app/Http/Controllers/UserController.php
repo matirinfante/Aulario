@@ -6,6 +6,7 @@ use App\Models\Assignment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UserRequest;
 
 
 class UserController extends Controller
@@ -33,16 +34,9 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         try {
-            $request->validate([
-                'name' => 'required',
-                'surname' => 'required',
-                'dni' => 'required | unique:users',
-                'email' => 'required | unique:users',
-                'password' => 'required'
-            ]);
             $user = User::create([
                 'name' => $request->name,
                 'surname' => $request->surname,
@@ -83,7 +77,7 @@ class UserController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param int $id
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
         //no se modifica la contraseña del usuario
         //TODO: validar request con UserRequest
@@ -109,11 +103,18 @@ class UserController extends Controller
      *
      * @param int $id
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        $user->delete();
-        flash('Se eliminó correctamente al usuario')->success();
-        return back();
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
+            flash('Se eliminó correctamente al usuario')->success();
+            return redirect(route('users.index'));
+
+        } catch (\Exception $e) {
+            flash('Ha ocurrido un error al eliminar el usuario')->error();
+            return back();
+        }
     }
 
 

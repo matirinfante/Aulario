@@ -1,10 +1,10 @@
 let d = document
-const $inputName = d.getElementById('name'),
-    $inputSurname = d.getElementById('surname'),
-    $inputEmail = d.getElementById('email'),
-    $inputDni = d.getElementById('dni'),
-    $inputPass = d.getElementById('password'),
-    $button = d.getElementById('submit'),
+const $inputName = d.getElementById('user_name'),
+    $inputSurname = d.getElementById('user_surname'),
+    $inputEmail = d.getElementById('user_email'),
+    $inputDni = d.getElementById('user_dni'),
+    $inputPass = d.getElementById('user_password'),
+    $button = d.getElementById('create_submit'),
     $errorName = d.getElementById('errorName'),
     $errorSurname = d.getElementById('errorSurname'),
     $errorDni = d.getElementById('errorDni'),
@@ -20,8 +20,10 @@ let v1 = false,
 
 form.addEventListener('click', e => {
     //Validamos que el nombre sea letras y no esté vacio
+
     if (!validator.isEmpty($inputName.value)) {
         if (validator.isAlpha($inputName.value)) {
+            console.log('goasldasd')
             v1 = true
             $errorName.classList.add('d-none')
         } else {
@@ -35,9 +37,11 @@ form.addEventListener('click', e => {
     //Validamos que el apellido sea letras y no esté vacio
     if (!validator.isEmpty($inputSurname.value)) {
         if (validator.isAlpha($inputSurname.value)) {
+            console.log('entre y servi')
             v2 = true
             $errorSurname.classList.add('d-none')
         } else {
+            console.log('entre ')
             $errorSurname.textContent = 'El apellido contiene numeros'
             $errorSurname.classList.remove('d-none')
         }
@@ -61,6 +65,7 @@ form.addEventListener('click', e => {
             $errorDni.classList.remove('d-none')
         }
     } else {
+        console.log('el dni esta vacio')
         $errorDni.textContent = 'El dni está vacio'
         $errorDni.classList.remove('d-none')
     }
@@ -87,9 +92,11 @@ form.addEventListener('click', e => {
             $errorPass.classList.remove('d-none')
         }
     } else {
+        console.log('goasldasd contraseña')
         $errorPass.textContent = 'La contraseña está vacia'
         $errorPass.classList.remove('d-none')
     }
+
     if (v1 && v2 && v3 && v4 && v5) {
         $button.classList.remove('disabled')
     }

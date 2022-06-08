@@ -48,7 +48,7 @@
                     <td>Cursada</td>
                     <td>Estado</td>
                     <td class="text-center">Acción</td>
-                    <td>Cuatrimestre</td>
+                    {{-- <td>Cuatrimestre</td> --}}
                     <td>D/H</td>
                 </tr>
             </thead>
@@ -117,7 +117,7 @@
                                             <p class="card-text"><span class="text-secondary">Fecha de
                                                     inicio:</span>
                                                 @if (isset($assignment->start_date))
-                                                    {{ date('d-m-Y', strtotime($assignment->start_date)) }}
+                                                    {{ date('d/m/Y', strtotime($assignment->start_date)) }}
                                                 @else
                                                     No disponible
                                                 @endif
@@ -125,7 +125,7 @@
                                             <hr>
                                             <p class="card-text"><span class="text-secondary">Fecha de fin:</span>
                                                 @if (isset($assignment->finish_date))
-                                                    {{ date('d-m-Y', strtotime($assignment->finish_date)) }}
+                                                    {{ date('d/m/Y', strtotime($assignment->finish_date)) }}
                                                 @else
                                                     No disponible
                                                 @endif
@@ -143,7 +143,7 @@
                                             <p class="card-text"><span class="text-secondary">Creación:
                                                 </span>
                                                 @if (isset($assignment->created_at))
-                                                    {{ date('d-m-Y | h:i:s', strtotime($assignment->created_at)) }}
+                                                    {{ date('d/m/Y - h:i:s', strtotime($assignment->created_at)) }}
                                                 @else
                                                     No disponible
                                                 @endif
@@ -152,7 +152,7 @@
                                             <p class="card-text"><span class="text-secondary">Última modificación:
                                                 </span>
                                                 @if (isset($assignment->updated_at))
-                                                    {{ date('d-m-Y | h:i:s', strtotime($assignment->updated_at)) }}
+                                                    {{ date('d/m/Y - h:i:s', strtotime($assignment->updated_at)) }}
                                                 @else
                                                     No disponible
                                                 @endif
@@ -181,6 +181,7 @@
                                             <form name="form_assignment" method="POST"
                                                 action="{{ route('assignments.update', $assignment->id) }}">
                                                 @csrf @method('PATCH')
+                                                {{-- nombre materia --}}
                                                 <div class="mb-3">
                                                     <label for="assignment_name" class="form-label">Nombre de
                                                         materia</label>
@@ -188,13 +189,45 @@
                                                         value="{{ $assignment->assignment_name }}" required>
                                                     <small id="errorAssignmentName"></small>
                                                 </div>
+
+                                                {{-- fecha inicio --}}
+                                                <div class="mb-3">
+                                                    <label for="start_date" class="form-label">Fecha de
+                                                        inicio</label>
+                                                    <input type="date" class="form-control" name="start_date"
+                                                        value="{{ $assignment->start_date }}" required>
+                                                    <small id="errorAssignmentStartDate"></small>
+                                                </div>
+
+                                                {{-- fecha fin --}}
+                                                <div class="mb-3">
+                                                    <label for="finish_date" class="form-label">Fecha fin</label>
+                                                    <input type="date" class="form-control" name="finish_date"
+                                                        value="{{ $assignment->finish_date }}" required>
+                                                    <small id="errorAssignmentNameFinishDate"></small>
+                                                </div>
+
+                                                {{-- cuatrimestre --}}
+                                                <div class="mb-3">
+                                                    <label for="cuatrimestre"
+                                                        class="form-label">Cuatrimestre</label>
+                                                    <select name="active" class="form-select select2-active"
+                                                        aria-label="cuatrimestre" style="width: 100%" data-minimum-results-for-search="Infinity">
+                                                        <option value="-1" disabled></option>
+                                                        <option value="0">Inactiva</option>
+                                                        <option value="1">En curso</option>
+                                                    </select>
+                                                    <small id="errorActive"></small>
+                                                </div>
+
+                                                {{-- profesores --}}
                                                 <div class="mb-3">
                                                     <label for="nameTeacher" class="form-label">Profesor/a
                                                         asignado</label>
-                                                    <select name="user_id" class="form-select select2-user"
+                                                    <select name="user_id[]" class="form-select select2-user"
                                                         multiple="multiple" aria-label="Profesor/a" style="width: 100%">
                                                         <option value="-1" disabled></option>
-                                                        @foreach ($assignment->users as $teacher)
+                                                        @foreach ($users as $teacher)
                                                             <option value="{{ $teacher->id }}">
                                                                 {{ $teacher->name }}, {{ $teacher->surname }}
                                                             </option>
@@ -211,27 +244,24 @@
                             </div>
 
 
-
-                            {{-- delete assignment button (form) --}}
-                            {{-- <form method="POST" class="form-delete d-inline"
-                                action="{{ route('assignments.destroy', $assignment->id) }}">
-                                @method('DELETE')
-                                @csrf --}}
-                            {{-- <button data-assignment="{{ $assignment->assignment_name }}" type="submit"
-                                    class="btn btn-outline-danger btn-sm">Cambiar estado</button> --}}
-
-                            {{-- </form> --}}
                         </td>
+<<<<<<< HEAD
                         <td>
                             <form method="POST" class="form-delete d-inline" action="">
+=======
+                        {{-- <td> --}}
+                            {{-- Cambiar Cuatrimestre de materia --}}
+                            {{-- <form method="POST" class="form-delete d-inline" action="">
+>>>>>>> be0fb76aeed6d299daa3d8b98f4fed9bcdf32ee4
                                 @method('PUT')
                                 @csrf
                                 <button data-assignment="{{ $assignment->id }}" type="submit"
                                     class="btn btn-outline-secondary btn-sm">Cambiar</button>
 
                             </form>
-                        </td>
+                        </td> --}}
                         <td>
+                            {{-- Habilitar/Deshabilitar materia (botón switch) --}}
                             <div class="form-check form-switch">
                                 <input data-id="{{ $assignment->id }}" data-token="{{ csrf_token() }}"
                                     class="form-check-input activeSwitch" type="checkbox" role="switch"
@@ -240,7 +270,7 @@
                         </td>
                     </tr>
                 @empty
-                    <td colspan="5" class="text-center text-secondary">No hay registros</td>
+                    <td colspan="6" class="text-center text-secondary">No hay registros</td>
                 @endforelse
             </tbody>
         </table>
@@ -259,17 +289,34 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form name="form_assignment" method="POST" action="{{ route('assignments.store') }}">
+                    <form id="createAssignmentForm" name="form_assignment" method="POST" action="{{ route('assignments.store') }}">
                         @csrf
+                        {{-- nombre materia --}}
                         <div class="mb-3">
                             <label for="assignment_name" class="form-label">Nombre de materia</label>
-                            <input type="text" class="form-control" name="assignment_name"
+                            <input type="text" class="form-control" name="assignment_name" id="createName"
                                 placeholder="Programación Web Avanzada" required>
-                            <small id="errorAssignmentName"></small>
+                            <small id="errorCreateAssignmentName"></small>
                         </div>
-                        <div class="mb-3">
+
+                        {{-- fecha inicio --}}
+                        <div class="mb-3 col-md-4">
+                            <label for="start_date" class="form-label">Fecha de inicio</label>
+                            <input type="date" class="form-control" name="start_date" id="createStartDate" required>
+                            <small id="errorCreateAssignmentStartDate"></small>
+                        </div>
+
+                        {{-- fecha fin --}}
+                        <div class="mb-3 col-md-4">
+                            <label for="finish_date" class="form-label">Fecha fin</label>
+                            <input type="date" class="form-control" name="finish_date" id="createFinishDate" required>
+                            <small id="errorCreateAssignmentFinishDate"></small>
+                        </div>
+
+                        {{-- profesores --}}
+                        <div class="mb-3 col-md-6">
                             <label for="nameTeacher" class="form-label">Profesor/a asignado</label>
-                            <select name="user_id" class="form-select select2-user" multiple="multiple"
+                            <select name="user_id[]" class="form-select select2-user" multiple="multiple"
                                 aria-label="Profesor/a" style="width: 100%;">
                                 <option value="-1" disabled></option>
                                 @foreach ($users as $teacher)
@@ -278,9 +325,9 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <small id="errorNameTeacher"></small>
+                            <small id="errorCreateNameTeacher"></small>
                         </div>
-                        <button id="submit" type="submit" class="btn btn-primary">Crear</button>
+                        <button id="createSubmit" type="submit" class="btn btn-primary disabled">Crear</button>
                     </form>
                 </div>
             </div>
@@ -301,6 +348,9 @@
 <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap5.min.js"></script>
 
+<script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+<script src="{{ asset('js/validationAssignmentCreate.js') }}" defer></script>
+
 {{-- DataTable SCRIPT --}}
 <script>
     $(document).ready(function() {
@@ -309,12 +359,11 @@
 </script>
 
 
+{{-- Habilitar/Deshabilitar una materia --}}
 <script>
     $('.activeSwitch').change(function(e) {
         var $id = $(this).data('id');
         var status = $(this).prop('checked') == true ? 1 : 0;
-        console.log($id);
-        console.log(status);
 
         if (status == 0) { // deshabilitar materia
             var url = '{{ route('assignments.destroy', ':id') }}';
@@ -330,8 +379,9 @@
                     "_token": token,
                 },
                 success: function(data) {
+                    console.log('entra DELETE');
+                    console.log(data);
                     var $elementSvg = $("td[data-statusSvg='" + $id + "']");
-                    // console.log($elementSvg[0]);
                     $elementSvg.replaceWith('<td class="text-secondary" data-statussvg="' + $id +
                         '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#9b0808" class="bi bi-x-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" /><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" /></svg></td>'
                     );
@@ -361,6 +411,50 @@
             });
         } else {
             // habilitar materia...
+            var url = '{{ route('assignments.activate', ':id') }}';
+            url = url.replace(':id', $id);
+            var token = $(this).data("token");
+            $.ajax({
+                type: 'POST',
+                url: url,
+                cache: false,
+                data: {
+                    "id": $id,
+                    "_method": 'PUT',
+                    "_token": token
+                },
+                success: function(data) {
+                    // console.log('entra PUT');
+                    // console.log(data);
+                    var $elementSvg = $("td[data-statusSvg='" + $id + "']");
+                    $elementSvg.replaceWith('<td class="text-secondary" data-statussvg="' + $id +
+                        '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#1f9b08" class="bi bi-check-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" /><path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" /></svg></td>'
+                    );
+
+                    $('#flashMessage').html(
+                            '<div class="alert alert-success">Materia habilitada correctamente</div>'
+                        )
+                        .delay(1000);
+                    var flash = $('#flashMessage');
+                    if (flash.find('.alert.alert-success').length > 0) {
+                        var timerInterval
+                        Swal.fire({
+                            toast: true,
+                            position: 'bottom-end',
+                            background: '#a5dc86',
+                            color: '#000',
+                            showConfirmButton: false,
+                            html: 'Materia habilitada con éxito.',
+                            timer: 2000,
+                            timerProgressBar: true,
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        })
+                    }
+                }
+
+            });
         }
     });
 </script>
@@ -386,29 +480,28 @@
             }
         }
     });
+
+    $('.select2-active').select2({
+        placeholder: {
+            allowClear: true,
+            text: 'Seleccione estado de cuatrimestre'
+        },
+        language: {
+
+            noResults: function() {
+
+                return "No hay resultado";
+            },
+            searching: function() {
+
+                return "Buscando..";
+            }
+        }
+    });
 </script>
 
 
 <script>
-    // $('.form-delete').submit(function(e) {
-    //     e.preventDefault();
-    //     Swal.fire({
-    //         title: '¿Está seguro de que desea cambiar el estado de la materia ' + $(this).children(
-    //             ':nth-child(3)').data('assignment') + '?',
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonColor: '#0a58ca',
-    //         cancelButtonColor: '#b02a37',
-    //         confirmButtonText: 'Cambiar',
-    //         cancelButtonText: 'Cancelar'
-    //     }).then((result) => {
-    //         if (result.isConfirmed) {
-    //             this.submit();
-    //         }
-    //     })
-    // });
-
-
     $(document).ready(function() {
         var flash = $('#flashMessage');
         if (flash.find('.alert.alert-success').length > 0) {

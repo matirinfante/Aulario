@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\AssignmentRequest;
 
 class AssignmentController extends Controller
 {
@@ -34,17 +35,16 @@ class AssignmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AssignmentRequest $request)
     {
         try {
-            $request->validate([
-                'assignment_name' => 'required',
-            ]);
-
             $assignment = Assignment::create([
                 'assignment_name' => $request->assignment_name,
+                'active' => 0,
+                'start_date' => $request->start_date,
+                'finish_date' => $request->finish_date
             ]);
-            $assignment->users()->sync((array)$request->input('users'));
+            $assignment->users()->sync((array)$request->input('user_id'));
             $assignment->save();
             flash('La materia se ha cargado exitosamente')->success();
             return redirect(route('assignments.index'));
@@ -80,14 +80,9 @@ class AssignmentController extends Controller
      * Update the specified resource in storage.
      *TODO:sincronizar profes con materia sync()
      */
-    public function update(Request $request, $id)
+    public function update(AssignmentRequest $request, $id)
     {
         try {
-            $request->validate([
-                'assignment_name' => 'required',
-                'active' => 'required'
-            ]);
-
             $assignment = Assignment::findOrFail($id)->fill($request->all());
 
             $assignment->save();
@@ -95,7 +90,6 @@ class AssignmentController extends Controller
             flash('Materia modificada con éxito')->success();
             return redirect(route('assignments.index'));
         } catch (\Exception $e) {
-            dd('llegue');
             flash('Ha ocurrido un error al actualizar la materia')->error();
             return back();
         }

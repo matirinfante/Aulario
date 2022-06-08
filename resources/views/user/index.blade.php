@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+    {{-- Mensaje del controlador al realizar acción --}}
+    <div id="flashMessage" class="text-center d-none">
+        @include('flash::message')
+    </div>  
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
     <h3 class="text-center m-4">Listado de Usuarios</h3>
@@ -22,8 +26,8 @@
                     <tr>
                         <td> {{$user['name']}} {{$user['surname']}}</td>
                         <td>{{$user['email']}}</td>
-                        <td class="text-secondary">
-                            {{-- @if ($user['deleted_at'] != null)
+                        <td>
+                            @if (!($user->trashed()))
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#1f9b08"
                                     class="bi bi-check-circle" viewBox="0 0 16 16">
                                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
@@ -37,23 +41,74 @@
                                     <path
                                         d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                                 </svg>
-                            @endif --}}
-                           hola
+                            @endif
                         </td>
-                      
                         <td>
+                            {{-- Ver Usuario --}}
                             <a class="btn btn-primary" style="pointer-events: auto;" onclick="seeUser({{$user}})">Ver</a>
-                            <a class="btn btn-secondary" onclick="editUser({{$user}})" >Editar</a>
+                            {{-- Boton editar / activa el modal --}}
+                            <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"data-bs-target="#updateModal{{ $user->id }}">Editar</button>
+                            {{-- update modal --}}
+                            <div class="modal fade updateModal" id="updateModal{{ $user->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Actualizar materia</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form name="form_update" method="post"
+                                                action="{{ route('users.update', $user->id) }}">
+                                                @csrf @method('PATCH')
+                                                <div class="mb-3">
+                                                    <label for="name" class="form-label">Nombre</label>
+                                                    <input type="text" class="form-control" name="name" value=" {{$user['name']}} ">
+                                                   
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="surname" class="form-label">Apellido</label>
+                                                    <input type="text" class="form-control" name="surname"  value="{{$user['surname']}}">
+                                                   
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="dni" class="form-label">Dni</label>
+                                                    <input type="number" class="form-control" name="dni"  min="1000000" max="99999999"
+                                                        value="{{$user['dni']}}">
+                                  
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="email" class="form-label">Email</label>
+                                                    <input type="email" class="form-control" name="email"  value="{{$user['email']}}">
+                                                   
+                                                </div>
+                                            
+                                                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
                         </td>
                         <td>
-                            <a class="btn btn-danger" href="">X</a>
+                            {{-- Se corrigio metodo POST, se agrego condicion, si el usuario no esta borrado  --}}
+                            @if(!($user->trashed()))
+                            <form method="POST" 
+                            action=" {{route('users.destroy',$user['id'] )}} ">
+                            @csrf @method('delete')
+                            <button class="btn btn-danger">X</button>
+                            </form>
+                            @else
+                            <form method="POST" 
+                            action=" {{route('users.activate',$user['id'] )}} ">
+                            @csrf @method('put')
+                            <button class="btn btn-success">X</button>
+                            </form>
+                            @endif
                         </td>
                     </tr>
                 @empty
-                    <td>No hay registros</td>
-                    <td>No hay registros</td>
-                    <td>No hay registros</td>
-                    <td>No hay registros</td>
+                    <td colspan="5">No hay registros</td>
                 @endforelse
                 </tbody>
             </table>
@@ -70,38 +125,37 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
                 <div class="modal-body">
-                    <form id="form" class="" method="POST" action="{{route('users.store')}}">
+                    <form id="form" method="POST" action="{{route('users.store')}}">
                         @csrf
                         <div class="mb-3">
                             <label for="name" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" name="name" id="name" placeholder="Robert">
+                            <input type="text" class="form-control" name="name" id="user_name" placeholder="Robert">
                             <p class="alerta d-none" id="errorName">Error</p>
                         </div>
                         <div class="mb-3">
                             <label for="surname" class="form-label">Apellido</label>
-                            <input type="text" class="form-control" name="surname" id="surname" placeholder="Kiyosaki">
+                            <input type="text" class="form-control" name="surname" id="user_surname" placeholder="Kiyosaki">
                             <p class="alerta d-none" id="errorSurname">Error</p>
                         </div>
                         <div class="mb-3">
                             <label for="dni" class="form-label">Dni</label>
-                            <input type="number" class="form-control" name="dni" id="dni" min="1000000" max="99999999"
-                                placeholder="39504700">
+                            <input type="number" class="form-control" name="dni" id="user_dni" min="1000000" max="99999999" placeholder="39504700">
                             <p class="alerta d-none" id="errorDni">Error</p>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email" id="email" placeholder="robert@kiyosaki.com">
+                            <input type="email" class="form-control" name="email" id="user_email" placeholder="robert@kiyosaki.com">
                             <p class="alerta d-none" id="errorEmail">Error</p>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" name="password" id="password">
+                            <input type="password" class="form-control" name="password" id="user_password">
                             <p class="alerta d-none" id="errorPassword">Error</p>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button id="submit" type="submit" class="btn btn-primary disabled">Crear</button>
+                        <button id="create_submit" type="submit" class="btn btn-primary disabled">Crear</button>
                     </form>
                 </div>
             </div>
@@ -111,20 +165,16 @@
     <button type="" class="btn btn-success m-3 d-none" data-bs-toggle="modal" data-bs-target="#showModal" id="buttonShow">Ver usuario</button>
     <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     </div>
-    <!-- Modal Editar-->
-    <button type="" class="btn btn-success m-3 d-none" data-bs-toggle="modal" data-bs-target="#editModal" id="buttonEdit">editar usuario</button>
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    </div>
-
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap5.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+    
     <script src="{{ asset('js/validationUserCreate.js') }}" defer></script>
+    
     <script>
         function seeUser(user){
             document.getElementById('showModal').innerHTML = `<div></div>`
@@ -160,41 +210,8 @@
             document.getElementById('showModal').innerHTML = html 
             $('#buttonShow').click()
         }
-        function editUser(user){
-            document.getElementById('editModal').innerHTML = `<div></div>`
-            html = `
-                <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ver Usuario</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h3 class="text-center m-4">Editar Usuario</h3>
-                        <div class="card m-auto mt-3">
-                            <div class="card-body text-center">
-                                <div class="card-body" id="modal_body_user_see">
-                                    <h5 class="card-title">Usuario: ${user['name']} </h5>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">Apellido: ${user['surname']} </li>
-                                        <li class="list-group-item">Dni: ${user['dni']} </li>
-                                        <li class="list-group-item">Email: ${user['email']}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-
-                    </div>
-                </div>
-            </div>
-           
-            `
-            document.getElementById('editModal').innerHTML = html 
-            $('#buttonEdit').click()
-        }
     </script>
+    
     <script>
         $(document).ready(function () {
             $('#users').DataTable();
@@ -217,16 +234,13 @@
                 }
             })
         });
-
-
-
         $(document).ready(function () {
             var flash = $('#flashMessage');
             if (flash.find('.alert.alert-success').length > 0) {
                 var contentFlash = $("#flashMessage:first").text().trim();
                 switch (contentFlash) {
-                    // CREACION DE MATERIA
-                    case 'La materia se ha cargado exitosamente':
+                    // CREACION DE USUARIO
+                    case 'Se ha registrado correctamente el nuevo usuario':
                         var timerInterval
                         Swal.fire({
                             toast: true,
@@ -234,7 +248,7 @@
                             background: '#a5dc86',
                             color: '#000',
                             showConfirmButton: false,
-                            html: 'Materia creada con éxito.',
+                            html: 'Se ha registrado correctamente el nuevo usuario.',
                             timer: 2000,
                             timerProgressBar: true,
                             willClose: () => {
@@ -243,7 +257,7 @@
                         })
                         break;
                     // MODIFICACION DE MATERIA
-                    case 'Materia modificada con éxito':
+                    case 'Se actualizó correctamente al usuario':
                         var timerInterval
                         Swal.fire({
                             toast: true,
@@ -251,7 +265,7 @@
                             background: '#a5dc86',
                             color: '#000',
                             showConfirmButton: false,
-                            html: 'Materia modificada con éxito.',
+                            html: 'Se actualizó correctamente al usuario.',
                             timer: 2000,
                             timerProgressBar: true,
                             willClose: () => {
@@ -260,7 +274,7 @@
                         })
                         break;
                     // ELIMINACION DE MATERIA
-                    case 'Materia eliminada con éxito':
+                    case 'Se eliminó correctamente al usuario':
                         var timerInterval
                         Swal.fire({
                             toast: true,
@@ -268,7 +282,7 @@
                             background: '#a5dc86',
                             color: '#000',
                             showConfirmButton: false,
-                            html: 'Materia eliminada con éxito.',
+                            html: 'Se DESHABILITÓ correctamente al usuario.',
                             timer: 2000,
                             timerProgressBar: true,
                             willClose: () => {
@@ -276,8 +290,8 @@
                             }
                         })
                         break;
-                    // ERROR CREACION DE MATERIA
-                    case 'Ha ocurrido un error al añadir la materia':
+                    // ERROR CREACION DE USUARIO
+                    case 'Ha ocurrido un error al registrar al usuario':
                         var timerInterval
                         Swal.fire({
                             toast: true,
@@ -285,24 +299,7 @@
                             background: '#f27474',
                             color: '#000',
                             showConfirmButton: false,
-                            html: 'Error al crear materia.',
-                            timer: 2000,
-                            timerProgressBar: true,
-                            willClose: () => {
-                                clearInterval(timerInterval)
-                            }
-                        })
-                        break;
-                    // ERROR MODIFICACION DE MATERIA
-                    case 'Ha ocurrido un error al actualizar la materia':
-                        var timerInterval
-                        Swal.fire({
-                            toast: true,
-                            position: 'bottom-end',
-                            background: '#f27474',
-                            color: '#000',
-                            showConfirmButton: false,
-                            html: 'Error al modificar materia.',
+                            html: 'Ha ocurrido un error al registrar al usuario.',
                             timer: 2000,
                             timerProgressBar: true,
                             willClose: () => {
@@ -311,7 +308,7 @@
                         })
                         break;
                     // ERROR MODIFICACION DE MATERIA
-                    case 'Ha ocurrido un error al eliminar la materia':
+                    case 'Ha ocurrido un error al actualizar al usuario':
                         var timerInterval
                         Swal.fire({
                             toast: true,
@@ -319,21 +316,19 @@
                             background: '#f27474',
                             color: '#000',
                             showConfirmButton: false,
-                            html: 'Error al eliminar materia.',
+                            html: 'Ha ocurrido un error al actualizar al usuario',
                             timer: 2000,
                             timerProgressBar: true,
                             willClose: () => {
                                 clearInterval(timerInterval)
                             }
                         })
+                        break;
+                    
                         break;
                 }
             }
         });
-    
-
-
-
     </script>
 @endsection
 
