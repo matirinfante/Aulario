@@ -24,8 +24,8 @@ class EventRequest extends FormRequest
     public function rules()
     {
         return [
-            'event_name' => 'required|unique:events',
-            'participants' => 'required'
+            'event_name' => ['required','unique:events'],
+            'participants' => ['required']
         ];
     }
 }

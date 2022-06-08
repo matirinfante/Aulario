@@ -24,10 +24,10 @@ class AssignmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'assignment_name' => 'required',
-            'start_date' => 'required',
-            'finish_date' => 'required',
-            'active' => 'required',
+            'assignment_name' => ['required'],
+            'start_date' => ['required'],
+            'finish_date' => ['required'],
+            'active' => ['required'],
         ];
     }
 }
