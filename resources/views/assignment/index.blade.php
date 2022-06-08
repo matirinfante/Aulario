@@ -181,20 +181,40 @@
                                             <form name="form_assignment" method="POST"
                                                 action="{{ route('assignments.update', $assignment->id) }}">
                                                 @csrf @method('PATCH')
+                                                {{-- nombre materia --}}
                                                 <div class="mb-3">
                                                     <label for="assignment_name" class="form-label">Nombre de
                                                         materia</label>
                                                     <input type="text" class="form-control" name="assignment_name"
-                                                        value="{{ $assignment->assignment_name }}" required>
+                                                        value="{{$assignment->assignment_name}}" required>
                                                     <small id="errorAssignmentName"></small>
                                                 </div>
+
+                                                {{-- fecha inicio --}}
+                                                <div class="mb-3">
+                                                    <label for="start_date" class="form-label">Fecha de
+                                                        inicio</label>
+                                                    <input type="date" class="form-control" name="start_date" value="{{$assignment->start_date}}"
+                                                        required>
+                                                    <small id="errorAssignmentStartDate"></small>
+                                                </div>
+
+                                                {{-- fecha fin --}}
+                                                <div class="mb-3">
+                                                    <label for="finish_date" class="form-label">Fecha fin</label>
+                                                    <input type="date" class="form-control" name="finish_date" value="{{$assignment->finish_date}}"
+                                                        required>
+                                                    <small id="errorAssignmentNameFinishDate"></small>
+                                                </div>
+
+                                                {{-- profesores --}}
                                                 <div class="mb-3">
                                                     <label for="nameTeacher" class="form-label">Profesor/a
                                                         asignado</label>
-                                                    <select name="user_id" class="form-select select2-user"
+                                                    <select name="user_id[]" class="form-select select2-user"
                                                         multiple="multiple" aria-label="Profesor/a" style="width: 100%">
                                                         <option value="-1" disabled></option>
-                                                        @foreach ($assignment->users as $teacher)
+                                                        @foreach ($users as $teacher)
                                                             <option value="{{ $teacher->id }}">
                                                                 {{ $teacher->name }}, {{ $teacher->surname }}
                                                             </option>
@@ -214,8 +234,7 @@
                         </td>
                         <td>
                             {{-- Cambiar Cuatrimestre de materia --}}
-                            <form method="POST" class="form-delete d-inline"
-                                action="">
+                            <form method="POST" class="form-delete d-inline" action="">
                                 @method('PUT')
                                 @csrf
                                 <button data-assignment="{{ $assignment->id }}" type="submit"
@@ -268,7 +287,7 @@
                             <input type="date" class="form-control" name="start_date" required>
                             <small id="errorAssignmentStartDate"></small>
                         </div>
-                        
+
                         {{-- fecha fin --}}
                         <div class="mb-3">
                             <label for="finish_date" class="form-label">Fecha fin</label>
@@ -392,7 +411,8 @@
                     );
 
                     $('#flashMessage').html(
-                            '<div class="alert alert-success">Materia habilitada correctamente</div>')
+                            '<div class="alert alert-success">Materia habilitada correctamente</div>'
+                            )
                         .delay(1000);
                     var flash = $('#flashMessage');
                     if (flash.find('.alert.alert-success').length > 0) {
@@ -443,7 +463,6 @@
 
 
 <script>
-
     $(document).ready(function() {
         var flash = $('#flashMessage');
         if (flash.find('.alert.alert-success').length > 0) {
