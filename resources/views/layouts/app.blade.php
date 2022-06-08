@@ -171,9 +171,9 @@
                                         Peticiones
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item"
+                                        <!-- <li><a class="dropdown-item"
                                                 href="{{ route('petitions.create') }}">Crear</a>
-                                        </li>
+                                        </li> -->
                                         <li><a class="dropdown-item" href="{{ url('petitions') }}">Ver listado</a>
                                         </li>
                                     </ul>
