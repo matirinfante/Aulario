@@ -254,15 +254,32 @@
                 <div class="modal-body">
                     <form name="form_assignment" method="POST" action="{{ route('assignments.store') }}">
                         @csrf
+                        {{-- nombre materia --}}
                         <div class="mb-3">
                             <label for="assignment_name" class="form-label">Nombre de materia</label>
                             <input type="text" class="form-control" name="assignment_name"
                                 placeholder="Programación Web Avanzada" required>
                             <small id="errorAssignmentName"></small>
                         </div>
+
+                        {{-- fecha inicio --}}
+                        <div class="mb-3">
+                            <label for="start_date" class="form-label">Fecha de inicio</label>
+                            <input type="date" class="form-control" name="start_date" required>
+                            <small id="errorAssignmentStartDate"></small>
+                        </div>
+                        
+                        {{-- fecha fin --}}
+                        <div class="mb-3">
+                            <label for="finish_date" class="form-label">Fecha fin</label>
+                            <input type="date" class="form-control" name="finish_date" required>
+                            <small id="errorAssignmentNameFinishDate"></small>
+                        </div>
+
+                        {{-- profesores --}}
                         <div class="mb-3">
                             <label for="nameTeacher" class="form-label">Profesor/a asignado</label>
-                            <select name="user_id" class="form-select select2-user" multiple="multiple"
+                            <select name="user_id[]" class="form-select select2-user" multiple="multiple"
                                 aria-label="Profesor/a" style="width: 100%;">
                                 <option value="-1" disabled></option>
                                 @foreach ($users as $teacher)
