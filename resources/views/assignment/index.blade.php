@@ -117,7 +117,7 @@
                                             <p class="card-text"><span class="text-secondary">Fecha de
                                                     inicio:</span>
                                                 @if (isset($assignment->start_date))
-                                                    {{ date('d-m-Y', strtotime($assignment->start_date)) }}
+                                                    {{ date('d/m/Y', strtotime($assignment->start_date)) }}
                                                 @else
                                                     No disponible
                                                 @endif
@@ -125,7 +125,7 @@
                                             <hr>
                                             <p class="card-text"><span class="text-secondary">Fecha de fin:</span>
                                                 @if (isset($assignment->finish_date))
-                                                    {{ date('d-m-Y', strtotime($assignment->finish_date)) }}
+                                                    {{ date('d/m/Y', strtotime($assignment->finish_date)) }}
                                                 @else
                                                     No disponible
                                                 @endif
@@ -143,7 +143,7 @@
                                             <p class="card-text"><span class="text-secondary">Creación:
                                                 </span>
                                                 @if (isset($assignment->created_at))
-                                                    {{ date('d-m-Y | h:i:s', strtotime($assignment->created_at)) }}
+                                                    {{ date('d/m/Y - h:i:s', strtotime($assignment->created_at)) }}
                                                 @else
                                                     No disponible
                                                 @endif
@@ -152,7 +152,7 @@
                                             <p class="card-text"><span class="text-secondary">Última modificación:
                                                 </span>
                                                 @if (isset($assignment->updated_at))
-                                                    {{ date('d-m-Y | h:i:s', strtotime($assignment->updated_at)) }}
+                                                    {{ date('d/m/Y - h:i:s', strtotime($assignment->updated_at)) }}
                                                 @else
                                                     No disponible
                                                 @endif
