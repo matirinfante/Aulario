@@ -27,7 +27,7 @@
                         <td> {{$user['name']}} {{$user['surname']}}</td>
                         <td>{{$user['email']}}</td>
                         <td>
-                            @if ($user['deleted_at'] == null)
+                            @if (!($user->trashed()))
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#1f9b08"
                                     class="bi bi-check-circle" viewBox="0 0 16 16">
                                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
@@ -91,10 +91,20 @@
                             </div>
                         </td>
                         <td>
-                            <form method="delete" 
-                            {{-- action=" {{route('users.destoy') , $user['id']}} "> --}}
-                                <button class="btn btn-danger">X</button>
+                            {{-- Se corrigio metodo POST, se agrego condicion, si el usuario no esta borrado  --}}
+                            @if(!($user->trashed()))
+                            <form method="POST" 
+                            action=" {{route('users.destroy',$user['id'] )}} ">
+                            @csrf @method('delete')
+                            <button class="btn btn-danger">X</button>
                             </form>
+                            @else
+                            <form method="POST" 
+                            action=" {{route('users.activate',$user['id'] )}} ">
+                            @csrf @method('put')
+                            <button class="btn btn-success">X</button>
+                            </form>
+                            @endif
                         </td>
                     </tr>
                 @empty
