@@ -95,23 +95,50 @@
                                 </div>
                             </div>
                         </div>
-
-                        <button action=''>
-                            <a class="link-success" href=" {{route('petitions.edit', $petition['id'])}}">Editar</a>
-                            <a class="link-danger buttonDelete" href="">Borrar</a>
-                    </td>
-                </tr>
-                @empty
-                <td>No hay registros</td>
-                <td>No hay registros</td>
-                <td>No hay registros</td>
-                <td>No hay registros</td>
-                <td>No hay registros</td>
-                <td>No hay registros</td>
-                <td>No hay registros</td>
-                @endforelse
-            </tbody>
-        </table>
+                                {{-- <a href="{{ route('petitions.changeStatus', "$petition->id") }}">a</a> --}}
+                            </td>
+                            <td>
+                                <a class="link-primary" href="{{ route('petitions.show', $petition['id']) }}">Ver
+                                    Completo</a>
+                                <a class="link-success"
+                                    href=" {{ route('petitions.edit', $petition['id']) }}">Editar</a>
+                                <a class="link-danger buttonDelete" href="">Borrar</a>
+                            </td>
+                        </tr>
+                    @empty
+                        <td>No hay registros</td>
+                        <td>No hay registros</td>
+                        <td>No hay registros</td>
+                        <td>No hay registros</td>
+                        <td>No hay registros</td>
+                        <td>No hay registros</td>
+                        <td>No hay registros</td>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+@endsection
+
+@section('scripts')
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    {{-- <script>
+        $('.changeState').click(function(e) {
+            var id = $(this).data('id');
+            var status = $(this).val();
+            console.log(id);
+            console.log(status);
+            // var url = "{{ route('petitions.changeStatus') }}";
+
+            $.ajax({
+                type: 'post',
+                url: "url",
+                data: 'data',
+                success: function(response) {
+                  console.log(response);
+                }
+            });
+        });
+    </script> --}}
 @endsection

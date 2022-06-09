@@ -28,6 +28,9 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+//Reject petition route
+Route::patch('/petitions/reject/{petition}', [PetitionController::class, 'rejectPetition'])->name('petitions.reject');
+
 //RUTA TEST
 Route::get('/bookings/test', function () {
     return view('booking.test');
