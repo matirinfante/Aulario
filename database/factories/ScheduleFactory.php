@@ -17,7 +17,10 @@ class ScheduleFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'classroom_id' => $this->faker->numberBetween(1, 10),
+            'day' => $this->faker->randomElement(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']),
+            'start_time' => $this->faker->time(),
+            'finish_time' => $this->faker->time(),
         ];
     }
 }

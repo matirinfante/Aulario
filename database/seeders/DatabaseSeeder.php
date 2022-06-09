@@ -6,6 +6,7 @@ use App\Models\Assignment;
 use App\Models\Classroom;
 use App\Models\Event;
 use App\Models\Petition;
+use App\Models\Schedule;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -115,8 +116,9 @@ class DatabaseSeeder extends Seeder
         Event::factory(10)->create();
         Assignment::factory(10)->create();
         Petition::factory(10)->create();
+        Schedule::factory(20)->create();
 
-        User::find(11)->assignments()->sync([2,3]);
+        User::find(11)->assignments()->sync([2, 3]);
         User::find(1)->assignments()->sync(Classroom::find(2));
         User::find(2)->assignments()->sync(Classroom::find(4));
 
