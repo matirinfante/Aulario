@@ -45,6 +45,15 @@ class UserController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password)
             ]);
+
+            if ($request->role == 'teacher') {
+                $user->assignRole('teacher');
+            } else if ($request->role == 'bedel') {
+                $user->assignRole('bedel');
+            } else {
+                $user->assignRole('user');
+            }
+
             flash('Se ha registrado correctamente el nuevo usuario')->success();
             return redirect(route('users.show', $user->id));
         } catch (\Exception $e) {
