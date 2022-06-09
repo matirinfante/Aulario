@@ -13,7 +13,7 @@ class UserStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class UserStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required','alpha'],
+            'surname' => ['required','alpha'],
+            'dni' => ['required','unique:users','min:1000000','max:99999999'],
+            'email' => ['required','unique:users','email'],
         ];
     }
 }
