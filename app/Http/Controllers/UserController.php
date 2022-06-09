@@ -78,11 +78,14 @@ class UserController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param int $id
      */
-    public function update(UserUpdateRequest $request, User $user)
+    public function update(UserUpdateRequest $request, $id)
     {
         //no se modifica la contraseña del usuario
         //TODO: validar request con UserRequest
+
         try {
+            $user = User::withTrashed()->findOrFail($id);
+
             $user->update($request->input());
 
             flash('Se actualizó correctamente al usuario')->success();
