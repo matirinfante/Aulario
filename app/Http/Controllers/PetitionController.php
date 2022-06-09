@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\petitionsMail;
 use App\Http\Requests\PetitionRequest;
-
+use App\Mail\petitionReject;
 
 class PetitionController extends Controller
 {
@@ -131,9 +131,23 @@ class PetitionController extends Controller
      * TODO: implementar cambio de estado de la petición
      */
 
-    public function changeStatus(Petition $petition)
+    public function rejectPetition(Request $request, Petition $petition)
     {
+      try {
+        $petition->status = 'rejected';
+        // $petition->reason = '$request->input('test-input')';
+        
+        $petition->save();
 
+        // dd($petition->user->email);
+
+        Mail::to($petition->user->email)->send(new petitionReject($request->input('test-reason')));
+        
+        return back();
+        
+      } catch (\Exception $e) {
+        
+      }
     }
 
 
