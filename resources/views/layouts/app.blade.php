@@ -18,6 +18,11 @@
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap5.min.js"></script>
     <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+    <script> 
+        $(document).ready(function() {
+            $('#users').DataTable();
+        });
+    </script>
 
 
     <!-- Fonts -->
@@ -106,8 +111,6 @@
                                         Aulas
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item"
-                                                href="{{ route('classrooms.create') }}">Crear</a></li>
                                         <li><a class="dropdown-item" href="{{ url('classrooms') }}">Ver listado</a>
                                         </li>
                                     </ul>
