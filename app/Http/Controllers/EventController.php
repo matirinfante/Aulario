@@ -43,7 +43,7 @@ class EventController extends Controller
             ]);
             $event->save();
             flash('Se ha creado un nuevo evento con éxito')->success();
-            return redirect(route('event.index'));
+            return redirect(route('events.index'));
         } catch (\Exception $e) {
             flash('Ha ocurrido un error al crear un nuevo evento')->error();
             return back();
@@ -85,7 +85,7 @@ class EventController extends Controller
             $event->save();
 
             flash('Evento modificado con éxito')->success();
-            return redirect(route('event.index'));
+            return redirect(route('events.index'));
         } catch (\Exception $e) {
             flash('Ha ocurrido un error al actualizar el evento')->error();
             return back();
@@ -99,9 +99,26 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        $event = Event::find($id);
-        $event->delete();
-        return redirect(route('event.index'));
+        try {
+            $event = Event::find($id);
+            $event->delete();
+            flash('Se ha deshabilitado correctamente el evento');
+            return redirect(route('events.index'));
+        } catch (\Exception $e) {
+            flash('Ha ocurrido un error al deshabilitar el evento');
+            return redirect(route('events.index'));
+        }
+
+    }
+
+    /**
+     * Reactiva el evento
+     */
+    public function activateEvent($id)
+    {
+        Event::withTrashed()->where('id', $id)->restore();
+        flash('Se ha habilitado correctamente el evento');
+        return back();
     }
 
 }

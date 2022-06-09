@@ -30,9 +30,25 @@
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control" name="email"  value="{{$user['email']}}">
-
                     </div>
-
+                    <div class="mb-3">
+                        <label for="select" class="form-label">Seleccione Rol</label>
+                        <select class="form-select" name="role">
+                            @if ($user->roles->first()->name == 'teacher')
+                                <option value="teacher" selected> Profesor </option>
+                                <option value="bedel"> Bedel </option>
+                                <option value="user"> Usuario </option>
+                            @elseif ($user->roles->first()->name == 'bedel')
+                                <option value="teacher"> Profesor </option>
+                                <option value="bedel" selected> Bedel </option>
+                                <option value="user"> Usuario </option>
+                            @else
+                                <option value="teacher"> Profesor </option>
+                                <option value="bedel"> Bedel </option>
+                                <option value="user" selected> Usuario </option>
+                            @endif
+                        </select>
+                    </div>
                         <button type="submit" class="btn btn-primary">Actualizar</button>
                     </form>
                 </div>
