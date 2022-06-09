@@ -29,6 +29,15 @@
                         <p class="alerta d-none" id="errorEmail">Error</p>
                     </div>
                     <div class="mb-3">
+                        <label for="select" class="form-label">Seleccione Rol</label>
+                        <select class="form-select" name="role">
+                            <option value="" selected> Elija un Rol </option>
+                            <option value="teacher"> Profesor </option>
+                            <option value="bedel"> Bedel </option>
+                            <option value="user"> Usuario </option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="password" class="form-label">Contraseña</label>
                         <input type="password" class="form-control" name="password" id="user_password">
                         <p class="alerta d-none" id="errorPassword">Error</p>
