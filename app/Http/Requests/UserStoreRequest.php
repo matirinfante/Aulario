@@ -24,10 +24,10 @@ class UserStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required','alpha'],
-            'surname' => ['required','alpha'],
-            'dni' => ['required','unique:users'],
-            'email' => ['required','unique:users','email'],
+            'name' => ['required', 'regex:/^[a-zA-Z ]*$/'],
+            'surname' => ['required', 'regex:/^[a-zA-Z ]*$/'],
+            'dni' => ['required', 'unique:users'],
+            'email' => ['required', 'unique:users', 'email'],
         ];
     }
 }
