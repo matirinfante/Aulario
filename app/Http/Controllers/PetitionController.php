@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PetitionStoreRequest;
 use App\Models\Assignment;
 use App\Models\Petition;
 use Illuminate\Http\Request;
@@ -44,8 +45,9 @@ class PetitionController extends Controller
      * @param \Illuminate\Http\Request $request
      *TODO: implementar carga petition
      */
-    public function store(PetitionRequest $request)
-    {   
+    public function store(PetitionStoreRequest $request)
+    {
+
         try {
             $petition = Petition::create([
                 'user_id' => $request->user_id,
@@ -97,9 +99,19 @@ class PetitionController extends Controller
      * @param \App\Models\Petition $petition
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Petition $petition)
+    public function update(PetitionRequest $request, $id)
     {
-        //no
+        try {
+            $petition = Petition::findOrFail($id)->fill($request->all());
+
+            $petition->save();
+
+            flash('Estado modificado con éxito')->success();
+            return redirect(route('petition.index'));
+        } catch (\Exception $e) {
+            flash('Ha ocurrido un error al actualizar el estado')->error();
+            return back();
+        }
     }
 
     /**
