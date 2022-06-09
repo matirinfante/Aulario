@@ -71,19 +71,6 @@
 
 {{-- Seccion de scripts --}}
 @section('scripts')
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap5.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+    {{-- Script para validar el formulario de crear evento --}}
     <script src="{{ asset('js/events/validationEventCreate.js') }}" defer></script>
-    <script src="{{ asset('js/events/validationEventUpdate.js') }}" defer></script>
-    
-    <script>
-        $(document).ready(function() {
-            $('#events').DataTable();
-        });
-    </script>
 @endsection
