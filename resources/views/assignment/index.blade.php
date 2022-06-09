@@ -49,7 +49,6 @@
                     <td>Cursada</td>
                     <td>Estado</td>
                     <td class="text-center">Acción</td>
-                    {{-- <td>Cuatrimestre</td> --}}
                     <td>D/H</td>
                 </tr>
                 </thead>
@@ -94,75 +93,7 @@
                             </button>
 
                             {{-- view modal --}}
-                            <div class="modal fade" id="viewModal{{ $assignment->id }}" tabindex="-1"
-                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Datos de la materia</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <h5 class="card-title"><span
-                                                    class="text-secondary">Nombre:<br><br></span>
-                                                {{ $assignment->assignment_name }}</h5>
-                                            <hr>
-                                            <p class="card-text"><span class="text-secondary">Cursada:</span>
-                                                @if ($assignment->active == 1)
-                                                    En curso
-                                                @else
-                                                    Inactiva
-                                                @endif
-                                            </p>
-                                            <hr>
-                                            <p class="card-text"><span class="text-secondary">Fecha de
-                                                    inicio:</span>
-                                                @if (isset($assignment->start_date))
-                                                    {{ date('d/m/Y', strtotime($assignment->start_date)) }}
-                                                @else
-                                                    No disponible
-                                                @endif
-                                            </p>
-                                            <hr>
-                                            <p class="card-text"><span class="text-secondary">Fecha de fin:</span>
-                                                @if (isset($assignment->finish_date))
-                                                    {{ date('d/m/Y', strtotime($assignment->finish_date)) }}
-                                                @else
-                                                    No disponible
-                                                @endif
-                                            </p>
-                                            <hr>
-                                            <p class="card-text"><span class="text-secondary">Estado:
-                                                </span>
-                                                @if (!isset($assignment->deleted_at))
-                                                    Habilitada
-                                                @else
-                                                    Deshabilitada
-                                                @endif
-                                            </p>
-                                            <hr>
-                                            <p class="card-text"><span class="text-secondary">Creación:
-                                                </span>
-                                                @if (isset($assignment->created_at))
-                                                    {{ date('d/m/Y - h:i:s', strtotime($assignment->created_at)) }}
-                                                @else
-                                                    No disponible
-                                                @endif
-                                            </p>
-                                            <hr>
-                                            <p class="card-text"><span class="text-secondary">Última modificación:
-                                                </span>
-                                                @if (isset($assignment->updated_at))
-                                                    {{ date('d/m/Y - h:i:s', strtotime($assignment->updated_at)) }}
-                                                @else
-                                                    No disponible
-                                                @endif
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @include('assignment.show', ['assignment' => $assignment])
 
 
                             {{-- update modal button --}}
@@ -171,95 +102,11 @@
                                 onclick="precargarSelect({{ $assignment }});">Editar</button>
 
                             {{-- update modal --}}
-                            <div class="modal fade updateModal" id="updateModal{{ $assignment->id }}" tabindex="-1"
-                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Actualizar materia</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form name="form_assignment" method="POST"
-                                                  action="{{ route('assignments.update', $assignment->id) }}">
-                                                @csrf @method('PATCH')
-                                                {{-- nombre materia --}}
-                                                <div class="mb-3">
-                                                    <label for="assignment_name" class="form-label">Nombre de
-                                                        materia</label>
-                                                    <input type="text" class="form-control" name="assignment_name"
-                                                           value="{{ $assignment->assignment_name }}" required>
-                                                    <small id="errorAssignmentName"></small>
-                                                </div>
-
-                                                {{-- fecha inicio --}}
-                                                <div class="mb-3">
-                                                    <label for="start_date" class="form-label">Fecha de
-                                                        inicio</label>
-                                                    <input type="date" class="form-control" name="start_date"
-                                                           value="{{ $assignment->start_date }}" required>
-                                                    <small id="errorAssignmentStartDate"></small>
-                                                </div>
-
-                                                {{-- fecha fin --}}
-                                                <div class="mb-3">
-                                                    <label for="finish_date" class="form-label">Fecha fin</label>
-                                                    <input type="date" class="form-control" name="finish_date"
-                                                           value="{{ $assignment->finish_date }}" required>
-                                                    <small id="errorAssignmentNameFinishDate"></small>
-                                                </div>
-
-                                                {{-- cuatrimestre --}}
-                                                <div class="mb-3">
-                                                    <label for="cuatrimestre"
-                                                           class="form-label">Cuatrimestre</label>
-                                                    <select name="active" class="form-select select2-active"
-                                                        aria-label="cuatrimestre" style="width: 100%"
-                                                        data-minimum-results-for-search="Infinity">
-                                                        <option value="-1" disabled></option>
-                                                        <option value="0">Inactiva</option>
-                                                        <option value="1">En curso</option>
-                                                    </select>
-                                                    <small id="errorActive"></small>
-                                                </div>
-
-                                                {{-- profesores --}}
-                                                <div class="mb-3">
-                                                    <label for="nameTeacher" class="form-label">Profesor/a
-                                                        asignado</label>
-                                                    <select name="user_id[]" class="form-select select2-user"
-                                                            multiple="multiple" aria-label="Profesor/a"
-                                                            style="width: 100%">
-                                                        <option value="-1" disabled></option>
-                                                        @foreach ($users as $teacher)
-                                                            <option value="{{ $teacher->id }}">
-                                                                {{ $teacher->name }}, {{ $teacher->surname }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                    <small id="errorNameTeacher"></small>
-                                                </div>
-                                                <button id="submit" type="submit"
-                                                        class="btn btn-primary">Actualizar
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @include('assignment.edit', ['assignment' => $assignment])
 
 
                         </td>
-                        {{-- Cambiar Cuatrimestre de materia --}}
-                        {{-- <form method="POST" class="form-delete d-inline" action="">
-                                @method('PUT')
-                                @csrf
-                                <button data-assignment="{{ $assignment->id }}" type="submit"
-                                    class="btn btn-outline-secondary btn-sm">Cambiar</button>
 
-                            </form>
-                        </td> --}}
                         <td>
                             {{-- Habilitar/Deshabilitar materia (botón switch) --}}
                             <div class="form-check form-switch">
@@ -279,61 +126,7 @@
 
 
 <!-- Modal Crear-->
-
-    <div class="modal fade createModal" id="createModal" position="relative" tabindex="-1"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Crear Materia</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="createAssignmentForm" name="form_assignment" method="POST"
-                        action="{{ route('assignments.store') }}">
-                        @csrf
-                        {{-- nombre materia --}}
-                        <div class="mb-3">
-                            <label for="assignment_name" class="form-label">Nombre de materia</label>
-                            <input type="text" class="form-control" name="assignment_name" id="createName"
-                                placeholder="Programación Web Avanzada" required>
-                            <small id="errorCreateAssignmentName"></small>
-                        </div>
-
-                        {{-- fecha inicio --}}
-                        <div class="mb-3 col-md-4">
-                            <label for="start_date" class="form-label">Fecha de inicio</label>
-                            <input type="date" class="form-control" name="start_date" id="createStartDate" required>
-                            <small id="errorCreateAssignmentStartDate"></small>
-                        </div>
-
-                        {{-- fecha fin --}}
-                        <div class="mb-3 col-md-4">
-                            <label for="finish_date" class="form-label">Fecha fin</label>
-                            <input type="date" class="form-control" name="finish_date" id="createFinishDate" required>
-                            <small id="errorCreateAssignmentFinishDate"></small>
-                        </div>
-
-                        {{-- profesores --}}
-                        <div class="mb-3 col-md-6">
-                            <label for="nameTeacher" class="form-label">Profesor/a asignado</label>
-                            <select name="user_id[]" class="form-select select2-user" multiple="multiple"
-                                aria-label="Profesor/a" style="width: 100%;">
-                                <option value="-1" disabled></option>
-                                @foreach ($users as $teacher)
-                                    <option value="{{ $teacher->id }}">{{ $teacher->name }},
-                                        {{ $teacher->surname }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <small id="errorCreateNameTeacher"></small>
-                        </div>
-                        <button id="createSubmit" type="submit" class="btn btn-primary disabled">Crear</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+@include('assignment.create', ['assignment' => $assignment])
 
 
 @endsection

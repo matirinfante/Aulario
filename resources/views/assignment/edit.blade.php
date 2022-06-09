@@ -1,68 +1,77 @@
-@extends('layouts.app')
+<div class="modal fade updateModal" id="updateModal{{ $assignment->id }}" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+       <div class="modal-content">
+           <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Actualizar materia</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal"
+                       aria-label="Close"></button>
+           </div>
+           <div class="modal-body">
+               <form name="form_assignment" method="POST"
+                     action="{{ route('assignments.update', $assignment->id) }}">
+                   @csrf @method('PATCH')
+                   {{-- nombre materia --}}
+                   <div class="mb-3">
+                       <label for="assignment_name" class="form-label">Nombre de
+                           materia</label>
+                       <input type="text" class="form-control" name="assignment_name"
+                              value="{{ $assignment->assignment_name }}" required>
+                       <small id="errorAssignmentName"></small>
+                   </div>
 
-@section('content')
-@section('styles')
-    <style>
-        textarea.select2-search__field {
-            text-align: center;
-        }
-    </style>
-@endsection
-<a class="btn btn-outline-dark" href="{{ url('assignments') }}" role="button" style="margin-left: 1%">Listado de
-    materias</a>
+                   {{-- fecha inicio --}}
+                   <div class="mb-3">
+                       <label for="start_date" class="form-label">Fecha de
+                           inicio</label>
+                       <input type="date" class="form-control" name="start_date"
+                              value="{{ $assignment->start_date }}" required>
+                       <small id="errorAssignmentStartDate"></small>
+                   </div>
 
-<h3 class="text-center m-4">Modificación de una materia</h3>
-<form id="form_assignment" name="form_assignment" class="form_style" method="POST"
-    action="{{ route('assignments.update', $assignment->id) }}">
-    @method('PATCH')
-    <div class="mb-3">
-        <label for="assignment_name" class="form-label">Nombre de materia</label>
-        <input type="text" class="form-control text-center" name="assignment_name" id="assignment_name"
-            value="{{ $assignment->assignment_name }}" required>
-        <small id="errorAssignmentName"></small>
-    </div>
-    {{-- El profesor de la materia se selecciona según los usuarios cargados en sistema --}}
-    <div class="mb-3">
-        <label for="nameTeacher" class="form-label">Profesor/a asignado</label>
-        <select name="user_id" id="user_id" class="form-select" multiple="multiple" aria-label="Profesor/a"
-            style="width: 100%">
-            <option value="-1" disabled></option>
-            @foreach ($teachers as $teacher)
-                <option value="{{ $teacher->id }}">{{ $teacher->name }}, {{ $teacher->surname }}</option>
-            @endforeach
-        </select>
-        <small id="errorNameTeacher"></small>
-    </div>
-    <button id="submit" type="submit" class="btn btn-primary">Actualizar</button>
-    @csrf
-</form>
-@endsection
+                   {{-- fecha fin --}}
+                   <div class="mb-3">
+                       <label for="finish_date" class="form-label">Fecha fin</label>
+                       <input type="date" class="form-control" name="finish_date"
+                              value="{{ $assignment->finish_date }}" required>
+                       <small id="errorAssignmentNameFinishDate"></small>
+                   </div>
 
-@section('scripts')
-{{-- enlaces jquery para select2 (uso temporario de cdn ) --}}
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-crossorigin="anonymous"></script>
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+                   {{-- cuatrimestre --}}
+                   <div class="mb-3">
+                       <label for="cuatrimestre"
+                              class="form-label">Cuatrimestre</label>
+                       <select name="active" class="form-select select2-active"
+                           aria-label="cuatrimestre" style="width: 100%"
+                           data-minimum-results-for-search="Infinity">
+                           <option value="-1" disabled></option>
+                           <option value="0">Inactiva</option>
+                           <option value="1">En curso</option>
+                       </select>
+                       <small id="errorActive"></small>
+                   </div>
 
-{{-- script para utilizar select2 --}}
-<script>
-    $('#user_id').select2({
-        placeholder: {
-            allowClear: true,
-            text: 'Seleccione el profesor asignado'
-        },
-        language: {
-
-            noResults: function() {
-
-                return "No hay resultado";
-            },
-            searching: function() {
-
-                return "Buscando..";
-            }
-        }
-    });
-</script>
-@endsection
+                   {{-- profesores --}}
+                   <div class="mb-3">
+                       <label for="nameTeacher" class="form-label">Profesor/a
+                           asignado</label>
+                       <select name="user_id[]" class="form-select select2-user"
+                               multiple="multiple" aria-label="Profesor/a"
+                               style="width: 100%">
+                           <option value="-1" disabled></option>
+                           @foreach ($users as $teacher)
+                               <option value="{{ $teacher->id }}">
+                                   {{ $teacher->name }}, {{ $teacher->surname }}
+                               </option>
+                           @endforeach
+                       </select>
+                       <small id="errorNameTeacher"></small>
+                   </div>
+                   <button id="submit" type="submit"
+                           class="btn btn-primary">Actualizar
+                   </button>
+               </form>
+           </div>
+       </div>
+   </div>
+</div>
