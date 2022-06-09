@@ -12,11 +12,12 @@ class Event extends Model
     protected $fillable = [
         'event_name',
         'participants'];
-          //ORM bidireccion a reserva
+
+    //ORM bidireccion a reserva
 
     public function bookings()
     {
-        $colbooking=$this->hasMany(Booking::class);
+        $colbooking = $this->hasMany(Booking::class);
         return $colbooking;
     }
 
