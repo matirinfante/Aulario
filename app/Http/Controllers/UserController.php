@@ -55,7 +55,7 @@ class UserController extends Controller
             }
 
             flash('Se ha registrado correctamente el nuevo usuario')->success();
-            return redirect(route('users.show', $user->id));
+            return redirect(route('users.index'));
         } catch (\Exception $e) {
             flash('Ha ocurrido un error al registrar al usuario')->error();
             return back();
