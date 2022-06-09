@@ -24,7 +24,6 @@
             $('#users').DataTable();
             $('#assignments').DataTable();
             $('#events').DataTable();
-            $('#classroom').DataTable();
         });
     </script>
 
