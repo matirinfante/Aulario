@@ -167,8 +167,8 @@
 
                             {{-- update modal button --}}
                             <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#updateModal{{ $assignment->id }}">Editar
-                            </button>
+                                data-bs-target="#updateModal{{ $assignment->id }}"
+                                onclick="precargarSelect({{ $assignment }});">Editar</button>
 
                             {{-- update modal --}}
                             <div class="modal fade updateModal" id="updateModal{{ $assignment->id }}" tabindex="-1"
@@ -215,8 +215,8 @@
                                                     <label for="cuatrimestre"
                                                            class="form-label">Cuatrimestre</label>
                                                     <select name="active" class="form-select select2-active"
-                                                            aria-label="cuatrimestre" style="width: 100%"
-                                                            data-minimum-results-for-search="Infinity">
+                                                        aria-label="cuatrimestre" style="width: 100%"
+                                                        data-minimum-results-for-search="Infinity">
                                                         <option value="-1" disabled></option>
                                                         <option value="0">Inactiva</option>
                                                         <option value="1">En curso</option>
@@ -254,13 +254,13 @@
                         {{-- <td> --}}
                         {{-- Cambiar Cuatrimestre de materia --}}
                         {{-- <form method="POST" class="form-delete d-inline" action="">
-                            @method('PUT')
-                            @csrf
-                            <button data-assignment="{{ $assignment->id }}" type="submit"
-                                class="btn btn-outline-secondary btn-sm">Cambiar</button>
+                                @method('PUT')
+                                @csrf
+                                <button data-assignment="{{ $assignment->id }}" type="submit"
+                                    class="btn btn-outline-secondary btn-sm">Cambiar</button>
 
-                        </form>
-                    </td> --}}
+                            </form>
+                        </td> --}}
                         <td>
                             {{-- Habilitar/Deshabilitar materia (botón switch) --}}
                             <div class="form-check form-switch">
@@ -273,8 +273,66 @@
                 @empty
                     <td colspan="6" class="text-center text-secondary">No hay registros</td>
                 @endforelse
-                </tbody>
-            </table>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- Modal Crear-->
+@if (isset($assignment))
+    <div class="modal fade createModal" id="createModal" position="relative" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Crear Materia</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createAssignmentForm" name="form_assignment" method="POST"
+                        action="{{ route('assignments.store') }}">
+                        @csrf
+                        {{-- nombre materia --}}
+                        <div class="mb-3">
+                            <label for="assignment_name" class="form-label">Nombre de materia</label>
+                            <input type="text" class="form-control" name="assignment_name" id="createName"
+                                placeholder="Programación Web Avanzada" required>
+                            <small id="errorCreateAssignmentName"></small>
+                        </div>
+
+                        {{-- fecha inicio --}}
+                        <div class="mb-3 col-md-4">
+                            <label for="start_date" class="form-label">Fecha de inicio</label>
+                            <input type="date" class="form-control" name="start_date" id="createStartDate" required>
+                            <small id="errorCreateAssignmentStartDate"></small>
+                        </div>
+
+                        {{-- fecha fin --}}
+                        <div class="mb-3 col-md-4">
+                            <label for="finish_date" class="form-label">Fecha fin</label>
+                            <input type="date" class="form-control" name="finish_date" id="createFinishDate" required>
+                            <small id="errorCreateAssignmentFinishDate"></small>
+                        </div>
+
+                        {{-- profesores --}}
+                        <div class="mb-3 col-md-6">
+                            <label for="nameTeacher" class="form-label">Profesor/a asignado</label>
+                            <select name="user_id[]" class="form-select select2-user" multiple="multiple"
+                                aria-label="Profesor/a" style="width: 100%;">
+                                <option value="-1" disabled></option>
+                                @foreach ($users as $teacher)
+                                    <option value="{{ $teacher->id }}">{{ $teacher->name }},
+                                        {{ $teacher->surname }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <small id="errorCreateNameTeacher"></small>
+                        </div>
+                        <button id="createSubmit" type="submit" class="btn btn-primary disabled">Crear</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -461,87 +519,114 @@
     </script>
 
 
+{{-- script para utilizar select2 --}}
+<script>
+    $('.select2-user').select2({
+        placeholder: {
+            allowClear: true,
+            text: 'Seleccione el profesor asignado'
+        },
+        language: {
 
-    {{-- script para utilizar select2 --}}
-    <script>
-        $('.select2-user').select2({
-            placeholder: {
-                allowClear: true,
-                text: 'Seleccione el profesor asignado'
+            noResults: function() {
+
+                return "No hay resultado";
             },
-            language: {
+            searching: function() {
 
-                noResults: function () {
-
-                    return "No hay resultado";
-                },
-                searching: function () {
-
-                    return "Buscando..";
-                }
+                return "Buscando..";
             }
-        });
+        }
+    });
 
-        $('.select2-active').select2({
-            placeholder: {
-                allowClear: true,
-                text: 'Seleccione estado de cuatrimestre'
+    $('.select2-active').select2({
+        placeholder: {
+            allowClear: true,
+            text: 'Seleccione estado de cuatrimestre'
+        },
+        language: {
+
+            noResults: function() {
+
+                return "No hay resultado";
             },
-            language: {
+            searching: function() {
 
-                noResults: function () {
-
-                    return "No hay resultado";
-                },
-                searching: function () {
-
-                    return "Buscando..";
-                }
+                return "Buscando..";
             }
+        }
+    });
+</script>
+
+{{-- Precargar cuatrimestre y profesores en select al editar una materia --}}
+<script>
+    function precargarSelect(assignment) {
+        var profesores = assignment.users;
+        var arregloSelected = [];
+        var arregloCuatrimestre = [];
+        var elemCuatrimestre = $( "#updateModal"+assignment.id+"" ).find( ".select2-active" );
+        var elemProfesor = $( "#updateModal"+assignment.id+"" ).find( ".select2-user" );
+
+        // asigno el estado actual de 'active' en select de cuatrimestre
+        arregloCuatrimestre.push(assignment.active);
+
+        elemCuatrimestre.val(arregloCuatrimestre);
+        elemCuatrimestre.trigger('change');
+
+        $.each(profesores, function(key, value) {
+            arregloSelected.push(value.id);
         });
-    </script>
+        if (arregloSelected.length != 0) { // si existen profesores en la materia
+            elemProfesor.val(arregloSelected);
+            elemProfesor.trigger('change');
+        } else {
+            elemProfesor.val('');
+            elemProfesor.trigger('change');
+        }
+    }
+</script>
 
 
-    <script>
-        $(document).ready(function () {
-            var flash = $('#flashMessage');
-            if (flash.find('.alert.alert-success').length > 0) {
-                var contentFlash = $("#flashMessage:first").text().trim();
-                switch (contentFlash) {
-                    // CREACION DE MATERIA
-                    case 'La materia se ha cargado exitosamente':
-                        var timerInterval
-                        Swal.fire({
-                            toast: true,
-                            position: 'bottom-end',
-                            background: '#a5dc86',
-                            color: '#000',
-                            showConfirmButton: false,
-                            html: 'Materia creada con éxito.',
-                            timer: 2000,
-                            timerProgressBar: true,
-                            willClose: () => {
-                                clearInterval(timerInterval)
-                            }
-                        })
-                        break;
+<script>
+    $(document).ready(function() {
+        var flash = $('#flashMessage');
+        if (flash.find('.alert.alert-success').length > 0) {
+            var contentFlash = $("#flashMessage:first").text().trim();
+            switch (contentFlash) {
+                // CREACION DE MATERIA
+                case 'La materia se ha cargado exitosamente':
+                    var timerInterval
+                    Swal.fire({
+                        toast: true,
+                        position: 'bottom-end',
+                        background: '#a5dc86',
+                        color: '#000',
+                        showConfirmButton: false,
+                        html: 'Materia creada con éxito.',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                        }
+                    })
+                    break;
                     // MODIFICACION DE MATERIA
-                    case 'Materia modificada con éxito':
-                        var timerInterval
-                        Swal.fire({
-                            toast: true,
-                            position: 'bottom-end',
-                            background: '#a5dc86',
-                            color: '#000',
-                            showConfirmButton: false,
-                            html: 'Materia modificada con éxito.',
-                            timer: 2000,
-                            timerProgressBar: true,
-                            willClose: () => {
-                                clearInterval(timerInterval)
-                            }
-                        })
-                        break;
+                case 'Materia modificada con éxito':
+                    var timerInterval
+                    Swal.fire({
+                        toast: true,
+                        position: 'bottom-end',
+                        background: '#a5dc86',
+                        color: '#000',
+                        showConfirmButton: false,
+                        html: 'Materia modificada con éxito.',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                        }
+                    })
+                    break;
                     // ELIMINACION DE MATERIA
                     // case 'Materia eliminada con éxito':
                     //     var timerInterval
