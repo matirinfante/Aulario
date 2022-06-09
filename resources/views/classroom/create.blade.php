@@ -24,7 +24,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="building" class="form-label">Edificio</label>
-                        <select name="type" id="type" class="form-select" style="width: 100%">
+                        <select name="building" id="building" class="form-select" style="width: 100%">
                             <option value="-1" disabled></option>
                             @foreach ($buildings as $building)
                                 <option value="{{ $building }}">{{ $building }}</option>
