@@ -31,7 +31,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 //Reject petition route
 Route::patch('/petitions/reject/{petition}', [PetitionController::class, 'rejectPetition'])->name('petitions.reject');
-
+//Mass toggle semester route
+Route::get('/assignments/semester', [AssignmentController::class, 'toggleSemester'])->name('assignments.toggle');
 //RUTA TEST
 Route::get('/bookings/test', function () {
     return view('booking.test');
