@@ -5,6 +5,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PetitionController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\UserController;
 use App\Models\Booking;
 use Illuminate\Support\Facades\Route;
@@ -30,7 +31,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 //Reject petition route
 Route::patch('/petitions/reject/{petition}', [PetitionController::class, 'rejectPetition'])->name('petitions.reject');
-
+//Mass toggle semester route
+Route::get('/assignments/semester', [AssignmentController::class, 'toggleSemester'])->name('assignments.toggle');
 //RUTA TEST
 Route::get('/bookings/test', function () {
     return view('booking.test');
@@ -43,6 +45,7 @@ Route::resources([
     'events' => EventController::class,
     'users' => UserController::class,
     'petitions' => PetitionController::class,
+    'schedules' => ScheduleController::class,
 ]);
 
 Route::put('/users/{user}', [UserController::class, 'activateUser'])->name('users.activate');

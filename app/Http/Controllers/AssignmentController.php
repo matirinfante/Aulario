@@ -119,5 +119,20 @@ class AssignmentController extends Controller
         flash('Materia habilitada correctamente')->success();
         return back();
     }
+
+    /**
+     * Alterna el estado activo que representa el cuatrimestre de actividad.
+     *
+     * ¿Mejorable? 5000 rows = 5.47676s
+     */
+    public function toggleSemester()
+    {
+        $actives = Assignment::withTrashed()->get();
+
+        foreach ($actives as $active) {
+            $active->update(['active' => ($active->active == 1 ? 0 : 1)]);
+        }
+        dd($actives);
+    }
 }
 
