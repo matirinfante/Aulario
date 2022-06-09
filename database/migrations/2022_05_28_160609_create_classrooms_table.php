@@ -19,8 +19,6 @@ return new class extends Migration {
             $table->integer('capacity'); //Capacidad
             $table->enum('type', ['Laboratorio', 'Aula común']); //Tipo de aula
             $table->enum('building', ['Informática', 'Economía', 'Humanidades', 'Aulas comunes', 'Biblioteca']);
-            $table->time('available_start');
-            $table->time('available_finish');
             $table->softDeletes();
             $table->timestamps();
         });
