@@ -27,6 +27,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::patch('/petitions/reject/{petition}', [PetitionController::class, 'rejectPetition'])->name('petitions.reject');
 
 Route::resources([
     'assignments' => AssignmentController::class,
@@ -40,4 +41,3 @@ Route::resources([
 Route::put('/users/{user}', [UserController::class, 'activateUser'])->name('users.activate');
 Route::put('/assignments/{assignment}', [AssignmentController::class, 'activateAssignment'])->name('assignments.activate');
 
-// Route::put('/petitions/{petition}', [PetitionController::class, 'changeStatus'])->name('petitions.changeStatus');
