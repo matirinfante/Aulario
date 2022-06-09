@@ -18,6 +18,17 @@
     </div>
 
     <h3 class="text-center m-4">Listado de Materias</h3>
+    @if($errors->any())
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+
+            @foreach($errors->all() as $error)
+                {{ $error }}<br/>
+            @endforeach
+        </div>
+    @endif 
 
     <p class="text-center">Estados: <br>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#1f9b08" class="bi bi-check-circle"
