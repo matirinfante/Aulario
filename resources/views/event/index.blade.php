@@ -2,7 +2,23 @@
 
 @section('content')
     <div class="container">
-        <h3 class="text-center m-4">Bienvenido a la página principal de Eventos</h3>
+        <h3 class="text-center m-4">Listado de Eventos</h3>
+        <p class="text-center">Estados: <br>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#1f9b08" class="bi bi-check-circle"
+                viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                <path
+                    d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
+            </svg>
+            = Habilitado(H)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#9b0808" class="bi bi-x-circle"
+                viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                <path
+                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+            = Deshabilitado(D)
+        </p>
         <div class="card m-auto mt-3" style="width: 1000px;">
             <div class="card-body">
                 <table class="table table-striped table-hover" id="events">
@@ -12,6 +28,7 @@
                         <tr>
                             <th scope='col' class='text-center'>Nombre</th>
                             <th scope='col' class='text-center'>Capacidad</th>
+                            <th scope='col' class='text-center'>Estado</th>
                             <th scope='col' class='text-center'>Accion</th>
                             <th scope='col' class='text-center'>Eliminar Evento</th>
                         </tr>
@@ -21,136 +38,50 @@
                             <tr>
                                 <td class="text-center">{{ $event->event_name }}</td>
                                 <td class="text-center">{{ $event->participants }}</td>
+                                <td class="text-center"></td>
                                 <td class="text-center">
-                                    <a class="btn btn-primary" style="pointer-events: auto;"
-                                        onclick="seeEvent({{ $event }})">Ver</a>
-                                    <a class="btn btn-secondary" onclick="editEvent({{ $event }})">Editar</a>
+                                    {{-- Boton ver evento --}}
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#viewModal{{ $event->id }}">Ver
+                                    </button>
+                                    {{-- Modulo ver evento en archivo show.blade.php --}}
+                                    @include('event.show', ['event' => $event])
+                                    {{-- Boton actualizar evento --}}
+                                    <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#updateModal{{ $event->id }}">Editar
+                                    </button>
+                                    {{-- Modulo editar evento en archivo edit.blade.php --}}
+                                    @include('event.edit', ['event' => $event])
                                 </td>
                                 <td class="text-center">
                                     <a class="btn btn-danger" href="">X</a>
                                 </td>
                             </tr>
                         @empty
-                            <td colspan="3" class="text-center text-secondary">No hay registros</td>
+                            <td colspan="5" class="text-center text-secondary">No hay registros</td>
                         @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
-        <!-- Modal Crear-->
-        <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Crear Evento</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="form" class="" method="POST" action="{{ route('events.store') }}">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="event_name" class="form-label">Nombre Evento</label>
-                                <input type="text" class="form-control" id="event_name" name="event_name"
-                                    placeholder="Parcial PWA">
-                            </div>
-                            <div class="mb-3">
-                                <label for="participants" class="form-label">Participantes</label>
-                                <input type="number" class="form-control" id="participants" name="participants"
-                                    placeholder="50">
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button id="submit" type="submit" class="btn btn-primary disabled">Crear</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal Ver-->
-        <button type="" class="btn btn-success m-3 d-none" data-bs-toggle="modal" data-bs-target="#showModal"
-            id="buttonShow">Ver usuario</button>
-        <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        </div>
-        <!-- Modal Editar-->
-        <button type="" class="btn btn-success m-3 d-none" data-bs-toggle="modal" data-bs-target="#editModal"
-            id="buttonEdit">Editar Evento</button>
-        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-        <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-        <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
-        <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap5.min.js"></script>
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
-
-        <script>
-            function editEvent(event) {
-                document.getElementById('editModal').innerHTML = `<div></div>`
-                html = `
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Editar Evento</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="form" class="" method="POST" action="">
-                                    @csrf
-                                    <div class="mb-3">
-                                        <label for="event_name" class="form-label">Nombre Evento</label>
-                                        <input type="text" class="form-control" id="event_name" name="event_name" value="${ event['event_name'] }">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="participants" class="form-label">Participantes</label>
-                                        <input type="number" class="form-control" id="participants" name="participants value="${event['participants']}">
-                                    </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                <button id="submit" type="submit" class="btn btn-primary disabled">Modificar</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    `
-                document.getElementById('editModal').innerHTML = html
-                $('#buttonEdit').click()
-            }
-
-            function seeEvent(event) {
-                document.getElementById('showModal').innerHTML = `<div></div>`
-                html = `
-                <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ver Eventos</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h3 class="text-center m-4">Detalles del Evento</h3>
-                        <div class="card m-auto mt-3">
-                            <div class="card-body text-center">
-                                <div class="card-body" id="modal_body_user_see">
-                                    <h5 class="card-title">Nombre: ${event['event_name']} </h5>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">Participantes: ${event['participants']} </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>`
-                document.getElementById('showModal').innerHTML = html
-                $('#buttonShow').click()
-            }
-        </script>
-        <script>
-            $(document).ready(function() {
-                $('#events').DataTable();
-            });
-        </script>
+        <!-- Modulo crear evento en archivo create.blade.php-->
+        @include('event.create')
     </div>
+@endsection
+
+{{-- Seccion de scripts --}}
+@section('scripts')
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap5.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#events').DataTable();
+        });
+    </script>
 @endsection
