@@ -165,7 +165,8 @@
 
                             {{-- update modal button --}}
                             <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#updateModal{{ $assignment->id }}">Editar</button>
+                                data-bs-target="#updateModal{{ $assignment->id }}"
+                                onclick="precargarSelect({{ $assignment }});">Editar</button>
 
                             {{-- update modal --}}
                             <div class="modal fade updateModal" id="updateModal{{ $assignment->id }}" tabindex="-1"
@@ -212,7 +213,8 @@
                                                     <label for="cuatrimestre"
                                                         class="form-label">Cuatrimestre</label>
                                                     <select name="active" class="form-select select2-active"
-                                                        aria-label="cuatrimestre" style="width: 100%" data-minimum-results-for-search="Infinity">
+                                                        aria-label="cuatrimestre" style="width: 100%"
+                                                        data-minimum-results-for-search="Infinity">
                                                         <option value="-1" disabled></option>
                                                         <option value="0">Inactiva</option>
                                                         <option value="1">En curso</option>
@@ -246,8 +248,8 @@
 
                         </td>
                         {{-- <td> --}}
-                            {{-- Cambiar Cuatrimestre de materia --}}
-                            {{-- <form method="POST" class="form-delete d-inline" action="">
+                        {{-- Cambiar Cuatrimestre de materia --}}
+                        {{-- <form method="POST" class="form-delete d-inline" action="">
                                 @method('PUT')
                                 @csrf
                                 <button data-assignment="{{ $assignment->id }}" type="submit"
@@ -284,7 +286,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="createAssignmentForm" name="form_assignment" method="POST" action="{{ route('assignments.store') }}">
+                    <form id="createAssignmentForm" name="form_assignment" method="POST"
+                        action="{{ route('assignments.store') }}">
                         @csrf
                         {{-- nombre materia --}}
                         <div class="mb-3">
@@ -493,6 +496,34 @@
             }
         }
     });
+</script>
+
+{{-- Precargar cuatrimestre y profesores en select al editar una materia --}}
+<script>
+    function precargarSelect(assignment) {
+        var profesores = assignment.users;
+        var arregloSelected = [];
+        var arregloCuatrimestre = [];
+        var elemCuatrimestre = $( "#updateModal"+assignment.id+"" ).find( ".select2-active" );
+        var elemProfesor = $( "#updateModal"+assignment.id+"" ).find( ".select2-user" );
+
+        // asigno el estado actual de 'active' en select de cuatrimestre
+        arregloCuatrimestre.push(assignment.active);
+
+        elemCuatrimestre.val(arregloCuatrimestre);
+        elemCuatrimestre.trigger('change');
+
+        $.each(profesores, function(key, value) {
+            arregloSelected.push(value.id);
+        });
+        if (arregloSelected.length != 0) { // si existen profesores en la materia
+            elemProfesor.val(arregloSelected);
+            elemProfesor.trigger('change');
+        } else {
+            elemProfesor.val('');
+            elemProfesor.trigger('change');
+        }
+    }
 </script>
 
 
