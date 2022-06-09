@@ -78,7 +78,9 @@
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap5.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
-
+    <script src="{{ asset('js/events/validationEventCreate.js') }}" defer></script>
+    <script src="{{ asset('js/events/validationEventUpdate.js') }}" defer></script>
+    
     <script>
         $(document).ready(function() {
             $('#events').DataTable();
