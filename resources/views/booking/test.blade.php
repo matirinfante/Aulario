@@ -41,13 +41,13 @@
 
         $(function () {
             $("#logs").append('<table class="table">');
-            var isDraggable = true;
-            var isResizable = true;
+            var isDraggable = false;
+            var isResizable = false;
             var $sc = $("#schedule").timeSchedule({
                 startTime: "07:00", // schedule start time(HH:ii)
                 endTime: "21:00",   // schedule end time(HH:ii)
-                widthTime: 60 * 10,  // cell timestamp example 10 minutes
-                timeLineY: 60,       // height(px)
+                widthTime: 60 * 20,  // cell timestamp example 10 minutes
+                timeLineY: 50,       // height(px)
                 verticalScrollbar: 20,   // scrollbar (px)
                 timeLineBorder: 2,   // border(top and bottom)
                 bundleMoveWidth: 6,  // width to move all schedules to the right of the clicked time line cell
@@ -61,7 +61,7 @@
                             {
                                 start: '09:00',
                                 end: '12:00',
-                                text: 'Text Area',
+                                text: 'Elu puto',
                                 data: {}
                             },
                             {
@@ -152,19 +152,19 @@
                         node.addClass('sc_bar_photo');
                     }
                 },
-                onScheduleClick: function (node, time, timeline) {
-                    var start = time;
-                    var end = $(this).timeSchedule('formatTime', $(this).timeSchedule('calcStringTime', time) + 3600);
-                    $(this).timeSchedule('addSchedule', timeline, {
-                        start: start,
-                        end: end,
-                        text: 'Insert Schedule',
-                        data: {
-                            class: 'sc_bar_insert'
-                        }
-                    });
-                    addLog('onScheduleClick', time + ' ' + timeline);
-                },
+                // onScheduleClick: function (node, time, timeline) {
+                //     var start = time;
+                //     var end = $(this).timeSchedule('formatTime', $(this).timeSchedule('calcStringTime', time) + 3600);
+                //     $(this).timeSchedule('addSchedule', timeline, {
+                //         start: start,
+                //         end: end,
+                //         text: 'Insert Schedule',
+                //         data: {
+                //             class: 'sc_bar_insert'
+                //         }
+                //     });
+                //     addLog('onScheduleClick', time + ' ' + timeline);
+                // },
             });
             $('#event_timelineData').on('click', function () {
                 addLog('timelineData', $sc.timeSchedule('timelineData'));

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PetitionStoreRequest;
 use App\Models\Assignment;
 use App\Models\Petition;
 use Illuminate\Http\Request;
@@ -33,9 +34,9 @@ class PetitionController extends Controller
         $assignments = $user->assignments()->get();
 
         //TEST ONLY
-        $petition = Petition::where('status', 'unsolved')->first();
-        Mail::to(env('MAIL_ADMIN'))->send(new petitionsMail($petition));
-        return view('petition.create', compact('assignments'));
+        //$petition = Petition::where('status', 'unsolved')->first();
+        //Mail::to(env('MAIL_ADMIN'))->send(new petitionsMail($petition));
+        return view('petition.create', compact('user','assignments'));
     }
 
     /**
@@ -44,9 +45,24 @@ class PetitionController extends Controller
      * @param \Illuminate\Http\Request $request
      *TODO: implementar carga petition
      */
-    public function store(PetitionRequest $request)
+    public function store(PetitionStoreRequest $request)
     {
+
         try {
+            $petition = Petition::create([
+                'user_id' => $request->user_id,
+                'assignment_id' => $request->assignment_id,
+                'estimated_people' => $request->estimated_people,
+                'classroom_type' => $request->classroom_type,
+                'start_time' => $request->start_time,
+                'finish_time' => $request->finish_time,
+                'start_date' => $request->start_date,
+                'finish_date' => $request->finish_date,
+                'days' => $request->days,
+                'message' => $request->message,
+                'status' => 'unsolved'
+            ]);
+            Mail::to(env('MAIL_ADMIN'))->send(new petitionsMail($petition));
             flash('Se ha cargado una nueva petición con éxito')->success();
             return redirect(route('petitions.index'));
         } catch (\Exception $e) {
@@ -83,9 +99,19 @@ class PetitionController extends Controller
      * @param \App\Models\Petition $petition
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Petition $petition)
+    public function update(PetitionRequest $request, $id)
     {
-        //no
+        try {
+            $petition = Petition::findOrFail($id)->fill($request->all());
+
+            $petition->save();
+
+            flash('Estado modificado con éxito')->success();
+            return redirect(route('petition.index'));
+        } catch (\Exception $e) {
+            flash('Ha ocurrido un error al actualizar el estado')->error();
+            return back();
+        }
     }
 
     /**

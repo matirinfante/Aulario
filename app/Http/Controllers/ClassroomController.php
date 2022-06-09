@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ClassroomRequest;
+use App\Http\Requests\ClassroomStoreRequest;
+use App\Http\Requests\ClassroomUpdateRequest;
+use App\Models\Assignment;
 use App\Models\Classroom;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 
 class ClassroomController extends Controller
@@ -16,8 +19,8 @@ class ClassroomController extends Controller
     {
         $classrooms = Classroom::all();
         $buildings = ['Informática', 'Economía', 'Humanidades', 'Aulas comunes', 'Biblioteca'];
-
-        return view('classroom.index', compact('classrooms', 'buildings'));
+        $types = ['Laboratorio', 'Aula Común', 'Hibrido'];
+        return view('classroom.index', compact('classrooms', 'buildings', 'types'));
     }
 
     /**
@@ -31,9 +34,9 @@ class ClassroomController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
+     *TODO: $request->all() dentro de create
      */
-    public function store(ClassroomRequest $request)
+    public function store(ClassroomStoreRequest $request)
     {
         try {
             $classroom = Classroom::create([
@@ -42,10 +45,20 @@ class ClassroomController extends Controller
                 'capacity' => $request->capacity,
                 'type' => $request->type,
                 'building' => $request->building,
-                'available_start' => $request->available_start,
-                'available_finish' => $request->available_finish,
             ]);
             $classroom->save();
+
+            if ($request->building == 'Informática') {
+                $days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+                foreach ($days as $day) {
+                    Schedule::create([
+                        'day' => $day,
+                        'start_time' => '08:00:00',
+                        'finish_time' => '20:00:00'
+                    ])->save();
+                }
+
+            }
             flash('Se ha añadido un nuevo aula con éxito')->success();
             return redirect(route('classrooms.index'));
         } catch (\Exception $e) {
@@ -77,16 +90,11 @@ class ClassroomController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
      */
-    public function update(ClassroomRequest $request, $id)
+    public function update(ClassroomUpdateRequest $request, Classroom $classroom)
     {
         try {
-            $classroom = Classroom::findOrFail($id)->fill($request->all());
-
-            $classroom->save();
-
+            $classroom->update($request->all());
             flash('Se ha actualizado el aula con éxito')->success();
             return redirect(route('classrooms.index'));
         } catch (\Exception $e) {
@@ -103,7 +111,25 @@ class ClassroomController extends Controller
      */
     public function destroy(Classroom $classroom)
     {
-        $classroom->delete();
-        return redirect(route('classrooms.index'));
+        try {
+            $classroom->delete();
+            flash('Se ha deshabilitado correctamente el aula')->success();
+            return redirect(route('classrooms.index'));
+        } catch (\Exception $e) {
+            flash('Ha ocurrido un error al deshabilitar el aula')->error();
+            return back();
+        }
+    }
+
+    /**
+     * Se encarga de revivir el aula
+     *
+     */
+
+    public function activateClassroom($id)
+    {
+        $classroom = Classroom::withTrashed()->where('id', $id)->restore();
+        flash('Aula habilitada correctamente')->success();
+        return back();
     }
 }

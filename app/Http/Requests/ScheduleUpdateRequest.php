@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PetitionRequest extends FormRequest
+class ScheduleUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class PetitionRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,12 +24,7 @@ class PetitionRequest extends FormRequest
     public function rules()
     {
         return [
-            // Definir campos requeridos
-            // 'estimated_people' => 'required', 
-            // 'start_time' =>'required',
-            // 'finish_time' => 'required', 
-            //....
-
+            //
         ];
     }
 }

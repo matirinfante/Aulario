@@ -6,6 +6,7 @@ use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PetitionController;
 use App\Http\Controllers\UserController;
+use App\Models\Booking;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,7 +28,13 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+//Reject petition route
 Route::patch('/petitions/reject/{petition}', [PetitionController::class, 'rejectPetition'])->name('petitions.reject');
+
+//RUTA TEST
+Route::get('/bookings/test', function () {
+    return view('booking.test');
+});
 
 Route::resources([
     'assignments' => AssignmentController::class,
@@ -40,4 +47,4 @@ Route::resources([
 
 Route::put('/users/{user}', [UserController::class, 'activateUser'])->name('users.activate');
 Route::put('/assignments/{assignment}', [AssignmentController::class, 'activateAssignment'])->name('assignments.activate');
-
+Route::put('/classrooms/{classroom}', [ClassroomController::class, 'activateClassroom'])->name('classrooms.activate');

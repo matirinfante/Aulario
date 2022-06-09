@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AssignmentRequest extends FormRequest
+class PetitionStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,9 @@ class AssignmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'assignment_name' => ['required'],
-            'start_date' => ['required'],
-            'finish_date' => ['required'],
-            //'active' => ['required'],
+            // 'estimated_people' => ['required'],
+            // 'start_time' =>['required'],
+            // 'finish_time' => ['required'],
         ];
     }
 }
