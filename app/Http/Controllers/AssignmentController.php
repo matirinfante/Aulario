@@ -80,13 +80,11 @@ class AssignmentController extends Controller
      * Update the specified resource in storage.
      *TODO:sincronizar profes con materia sync()
      */
-    public function update(AssignmentRequest $request, $id)
+    public function update(AssignmentRequest $request, Assignment $assignment)
     {
         try {
-            $assignment = Assignment::findOrFail($id)->fill($request->all());
-
-            $assignment->save();
-
+            $assignment->update($request->all());
+            $assignment->users()->sync((array)$request->input('user_id'));
             flash('Materia modificada con éxito')->success();
             return redirect(route('assignments.index'));
         } catch (\Exception $e) {
