@@ -5,6 +5,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PetitionController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\UserController;
 use App\Models\Booking;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,7 @@ Route::resources([
     'events' => EventController::class,
     'users' => UserController::class,
     'petitions' => PetitionController::class,
+    'schedules' => ScheduleController::class,
 ]);
 
 Route::put('/users/{user}', [UserController::class, 'activateUser'])->name('users.activate');
