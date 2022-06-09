@@ -24,6 +24,7 @@
         $(document).ready(function() {
             $('#users').DataTable();
             $('#assignments').DataTable();
+            $('#events').DataTable();
         });
     </script>
 

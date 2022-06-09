@@ -18,11 +18,21 @@ let v1 = false,
     v4 = false,
     v5 = false
 
+
+const isString = (value) => {
+    let rta = false
+    if (isNaN(value)) {
+        rta = true
+    }
+    return rta
+}
+
+
 form.addEventListener('click', e => {
     //Validamos que el nombre sea letras y no esté vacio
 
     if (!validator.isEmpty($inputName.value)) {
-        if (validator.isAlpha($inputName.value)) {
+        if (isString($inputName.value)) {
             console.log('goasldasd')
             v1 = true
             $errorName.classList.add('d-none')
@@ -36,7 +46,7 @@ form.addEventListener('click', e => {
     }
     //Validamos que el apellido sea letras y no esté vacio
     if (!validator.isEmpty($inputSurname.value)) {
-        if (validator.isAlpha($inputSurname.value)) {
+        if (isString($inputSurname.value)) {
             console.log('entre y servi')
             v2 = true
             $errorSurname.classList.add('d-none')
