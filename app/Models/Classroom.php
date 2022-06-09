@@ -16,9 +16,7 @@ class Classroom extends Model
         'location',
         'capacity',
         'type',
-        'building',
-        'available_start',
-        'available_finish'];
+        'building'];
 
     //ORM bidireccion a reserva
     public function bookings()
@@ -29,8 +27,8 @@ class Classroom extends Model
 
     //ORM  a schedule
     public function schedule()
-        {
-            return $this->belongsToMany(Schedule::class);
-        }
-    
+    {
+        return $this->hasMany(Schedule::class);
+    }
+
 }
