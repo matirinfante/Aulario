@@ -251,7 +251,6 @@
 
 
                         </td>
-                        {{-- <td> --}}
                         {{-- Cambiar Cuatrimestre de materia --}}
                         {{-- <form method="POST" class="form-delete d-inline" action="">
                                 @method('PUT')
