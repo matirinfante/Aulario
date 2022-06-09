@@ -108,9 +108,13 @@
 
 
                             {{-- update modal button --}}
-                            <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                            @if ($assignment->deleted_at == null)
+                                <button type="button" id="buttonEdit{{ $assignment->id }}" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#updateModal{{ $assignment->id }}"
                                 onclick="precargarSelect({{ $assignment }});">Editar</button>
+                            @else
+                                <button type="button" class="btn btn-secondary btn-sm disabled">Editar</button>
+                            @endif
 
                             {{-- update modal --}}
                             @include('assignment.edit', ['assignment' => $assignment])
