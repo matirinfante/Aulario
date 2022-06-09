@@ -111,8 +111,6 @@
                                         Aulas
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item"
-                                                href="{{ route('classrooms.create') }}">Crear</a></li>
                                         <li><a class="dropdown-item" href="{{ url('classrooms') }}">Ver listado</a>
                                         </li>
                                     </ul>
