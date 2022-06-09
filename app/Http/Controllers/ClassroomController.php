@@ -17,7 +17,7 @@ class ClassroomController extends Controller
      */
     public function index()
     {
-        $classrooms = Classroom::all();
+        $classrooms = Classroom::withTrashed()->get();
         $buildings = ['Informática', 'Economía', 'Humanidades', 'Aulas comunes', 'Biblioteca'];
         $types = ['Laboratorio', 'Aula Común', 'Hibrido'];
         return view('classroom.index', compact('classrooms', 'buildings', 'types'));
