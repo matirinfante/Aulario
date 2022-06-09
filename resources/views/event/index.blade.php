@@ -25,15 +25,14 @@
     <div class="card m-auto mt-3" style="width: 1000px;">
         <div class="card-body">
             <table class="table table-striped table-hover" id="events">
-                <button type="" class="btn btn-success m-3" data-bs-toggle="modal" data-bs-target="#createModal"
+                <button type="" class="btn btn-success m-3 btn-sm" data-bs-toggle="modal" data-bs-target="#createModal"
                     id="buttonCreate">Crear Evento</button>
                 <thead class="bg-secondary text-light">
                     <tr>
                         <th scope='col' class='text-center'>Nombre</th>
                         <th scope='col' class='text-center'>Capacidad</th>
-                        <th scope='col' class='text-center'>Estado</th>
                         <th scope='col' class='text-center'>Accion</th>
-                        <th scope='col' class='text-center'>Eliminar Evento</th>
+                        <th scope='col' class='text-center'>Estado</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,7 +40,6 @@
                         <tr>
                             <td class="text-center">{{ $event->event_name }}</td>
                             <td class="text-center">{{ $event->participants }}</td>
-                            <td class="text-center"></td>
                             <td class="text-center">
                                 {{-- Boton ver evento --}}
                                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
@@ -49,15 +47,27 @@
                                 </button>
                                 {{-- Modulo ver evento en archivo show.blade.php --}}
                                 @include('event.show', ['event' => $event])
+
                                 {{-- Boton actualizar evento --}}
-                                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#updateModal{{ $event->id }}">Editar
-                                </button>
+                                @if ($event->deleted_at == null)
+                                    {{-- {{dd($event)}} --}}
+                                    <button type="button" id="buttonEdit{{ $event->id }}"
+                                        class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#updateModal{{ $event->id }}">Editar
+                                    </button>
+                                @else
+                                    <button type="button" class="btn btn-secondary btn-sm disabled">Editar</button>
+                                @endif
                                 {{-- Modulo editar evento en archivo edit.blade.php --}}
                                 @include('event.edit', ['event' => $event])
                             </td>
                             <td class="text-center">
-                                <a class="btn btn-danger" href="">X</a>
+                                {{-- Habilitar/Deshabilitar materia (botón switch) --}}
+                                <div class="form-check form-switch">
+                                    <input data-id="{{ $event->id }}" data-token="{{ csrf_token() }}"
+                                        class="form-check-input activeSwitch" type="checkbox" role="switch"
+                                        {{ !$event->trashed() ? 'checked' : '' }}>
+                                </div>
                             </td>
                         </tr>
                     @empty
@@ -75,5 +85,8 @@
 @section('scripts')
     {{-- Script para validar el formulario de crear evento --}}
     <script src="{{ asset('js/events/validationEventCreate.js') }}" defer></script>
+    {{-- Script para las sweet alerts de eventos --}}
     <script src="{{ asset('js/events/sweetAlert.js') }}" defer></script>
+    {{-- Deshabilitar evento --}}
+    <script src="{{ asset('js/events/disableEvent.js') }}" defer></script>
 @endsection

@@ -37,23 +37,6 @@ $(document).ready(function () {
                     }
                 })
                 break;
-            // ELIMINACION DE EVENTO
-            // case 'Se eliminó correctamente al usuario':
-            //     var timerInterval
-            //     Swal.fire({
-            //         toast: true,
-            //         position: 'bottom-end',
-            //         background: '#a5dc86',
-            //         color: '#000',
-            //         showConfirmButton: false,
-            //         html: 'Se DESHABILITÓ correctamente al usuario.',
-            //         timer: 2000,
-            //         timerProgressBar: true,
-            //         willClose: () => {
-            //             clearInterval(timerInterval)
-            //         }
-            //     })
-            //     break;
             // ERROR CREACION DE USUARIO
             case 'Ha ocurrido un error al crear un nuevo evento':
                 var timerInterval
@@ -88,22 +71,6 @@ $(document).ready(function () {
                     }
                 })
                 break;
-            // case 'Usuario habilitado correctamente':
-            //     var timerInterval
-            //     Swal.fire({
-            //         toast: true,
-            //         position: 'bottom-end',
-            //         background: '#a5dc86',
-            //         color: '#000',
-            //         showConfirmButton: false,
-            //         html: 'Usuario habilitado correctamente',
-            //         timer: 2000,
-            //         timerProgressBar: true,
-            //         willClose: () => {
-            //             clearInterval(timerInterval)
-            //         }
-            //     })
-            //     break;
         }
     }
 });
