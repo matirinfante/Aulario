@@ -2,6 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Assignment;
+use App\Models\Classroom;
+use App\Models\Event;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +21,16 @@ class BookingFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'user_id' => User::all()->random()->id,
+            'classroom_id' => Classroom::all()->random()->id,
+            'assignment_id' => Assignment::all()->random()->id,
+            'event_id' => Event::all()->random()->id,
+            'description' => $this->faker->sentence($nbWords=4,$variableNbWords=true),
+            'status' => $this->faker->randomElement(['pending','in_progress','finished']),
+            'week_day' =>$this->faker->randomElement(['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado']),
+            'booking_date' =>$this->faker->date($format='Y-m-d'),
+            'start_time' =>$this->faker->time($format='H:i:s'),
+            'finish_time' =>$this->faker->time($format='H:i:s')
         ];
     }
 }

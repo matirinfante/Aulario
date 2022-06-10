@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Assignment;
+use App\Models\Booking;
 use App\Models\Classroom;
 use App\Models\Event;
 use App\Models\Petition;
@@ -117,6 +118,7 @@ class DatabaseSeeder extends Seeder
         Assignment::factory(10)->create();
         Petition::factory(10)->create();
         Schedule::factory(20)->create();
+        Booking::factory(10)->create();
 
         User::find(11)->assignments()->sync([2, 3]);
         User::find(1)->assignments()->sync(Classroom::find(2));
