@@ -9,6 +9,9 @@
             .updateModal {
                 z-index: 1051;
             }
+            .bg-warning {
+                background-color: #ffd968 !important;
+            }
         </style>
     @endsection
 
@@ -56,7 +59,7 @@
                 <thead class="bg-secondary text-light">
                 <tr>
                     <td>Nombre de materia</td>
-                    <td>Profesor/a</td>
+                    <td style="width: 200px;">Profesor/a</td>
                     <td>Cursada</td>
                     <td class="text-center">Acción</td>
                     <td class="text-center">Estado</td>
@@ -68,8 +71,10 @@
                         <td>{{ $assignment->assignment_name }} </td>
                         <td>
                             @foreach ($assignment->users as $teacher)
+                                <div>
                                 <span class="label label-info bg-warning p-1 rounded">{{ $teacher->name }}
                                     {{ $teacher->surname }}</span>
+                                </div>
                             @endforeach
                         </td>
                         <td>
