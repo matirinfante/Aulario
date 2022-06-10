@@ -8,9 +8,9 @@ const $inputName = d.getElementById('createName'),
     $errorStartDate = d.getElementById('errorCreateAssignmentStartDate'),
     $errorFinishDate = d.getElementById('errorCreateAssignmentFinishDate'),
 
-    $formCreate = d.getElementById('createAssignmentForm'),
-    $container = d.querySelector('#container')
-let v1 = false,
+    $formCreate = d.getElementById('createAssignmentForm');
+    
+    let v1 = false,
     v2 = false,
     v3 = false
 
@@ -47,10 +47,19 @@ $formCreate.addEventListener('click', e => {
 
     $('#createFinishDate').change(function () {
         $esValida = esfechavalida(this.value);
+        $comparacion = compararFechas($('#createStartDate').val(), this.value);
+        $esMayor = $comparacion[0];
+        $esIgual = $comparacion[1];
         if ($esValida) {
-            v3 = true;
-            $errorFinishDate.classList.add('d-none')
-            $errorFinishDate.classList.remove('alerta');
+            if($esMayor && !$esIgual){
+                v3 = true;
+                $errorFinishDate.classList.add('d-none')
+                $errorFinishDate.classList.remove('alerta');
+            }else{
+                $errorFinishDate.textContent = 'La fecha de fin no puede ser menor o igual a la de inicio';
+                $errorFinishDate.classList.remove('d-none');
+                $errorFinishDate.classList.add('alerta');
+            }      
         } else {
             $errorFinishDate.textContent = 'Fecha inválida';
             $errorFinishDate.classList.remove('d-none');
@@ -119,3 +128,32 @@ function esfechavalida($fecha) {
     }
     return $retorno;
 }
+
+function compararFechas($fechaInicio, $fechaFin) {
+    var $esMenor = false;
+    var $esIgual = false;
+    var $retorno = [];
+    // Mediante el delimitador "-" separa dia, mes y año
+    var $inicio = $fechaInicio.split("-");
+    var $anioInicio = parseInt($inicio[0]);
+    var $mesInicio = parseInt($inicio[1]);
+    var $diaInicio = parseInt($inicio[2]);
+    // Mediante el delimitador "-" separa dia, mes y año
+    var $fin = $fechaFin.split("-");
+    var $anioFin = parseInt($fin[0]);
+    var $mesFin = parseInt($fin[1]);
+    var $diaFin = parseInt($fin[2]);
+
+    var $comparaInicio = new Date($mesInicio+'/'+$diaInicio+'/'+$anioInicio);
+    var $comparaFin = new Date($mesFin+'/'+$diaFin+'/'+$anioFin);
+    if($comparaInicio < $comparaFin){
+        $esMenor = true;
+    }
+    if($comparaInicio == $comparaFin){
+        $esIgual = true;
+    }
+
+    $retorno = [$esMenor, $esIgual];
+    return $retorno;
+}
+
