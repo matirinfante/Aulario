@@ -43,14 +43,14 @@
                     @endif
                 </p>
                 <hr> --}}
-                {{-- <p class="card-text"><span class="text-secondary">Estado:
+                <p class="card-text"><span class="text-secondary">Estado:
                    </span>
-                   @if (!isset($assignment->deleted_at))
+                   @if (!isset($class->deleted_at))
                        Habilitada
                    @else
                        Deshabilitada
                    @endif
-               </p> --}}
+               </p>
                 <hr>
                 <p class="card-text"><span class="text-secondary">Creación:
                     </span>
