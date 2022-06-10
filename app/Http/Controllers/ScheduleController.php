@@ -37,15 +37,21 @@ class ScheduleController extends Controller
      */
     public function store(ScheduleStoreRequest $request)
     {
+        $verificationSchedule=>scheduleVerification($request);
+        if($verificationSchedule){
         try {
             Schedule::create([$request->all()])->save();
 
             flash('Se ha registrado el horario correctamente')->success();
             return redirect(route('schedules.index'));
+        
         } catch (\Exception $e) {
             flash('Ha ocurrido un error al crear el horario')->error();
             return back();
         }
+    }else{
+        flash('Ya existe un horario')->error();
+    }
     }
 
     /**
@@ -86,6 +92,33 @@ class ScheduleController extends Controller
             return back();
         }
     }
+
+    //funcion para validar si se puede agregar un horario de disponibilidad para un aula
+    public function scheduleVerification($request)
+    {
+        //traemos en la condicion una coleccion de aulas que se correspondan con el dia que tiene el request
+        $schedule = Schedule::where('classroom_id', $request['classroom_id'])->where('day', $request['day'])->get();
+        $start_time_request = $request['start_time'];
+        $finish_time_request = $request['finish_time'];
+        $flag = true;
+        if (count($schedule) > 0) {
+            //recorremos la coleccion, trayendo el horario de inicio y fin existente por posicion del arreglo
+            while ($i <= count($schedule) && $flag=true) {
+                $start_time = $schedule[$i]->start_time;
+                $finish_time = $schedule[$i]->finish_time;
+                //mejor no preguntar que hace la condicion(si el horario de inicio del aula pisa un  rango de horario 
+                //ya existente O la hora de fin pisa un rango de horario existente no puede cargar la disponibilidad )
+                if (($start_time_request >= $start_time && $start_time_request <= $finish_time) ||
+                    ($finish_time_request >= $start_time && $finish_time_request <= $finish_time)){
+                    $flag = false;
+                }
+                $i++;
+            }
+          }
+        return $flag;
+    }
+
+
 
     /**
      * Remove the specified resource from storage.
