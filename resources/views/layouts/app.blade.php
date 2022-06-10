@@ -86,9 +86,8 @@
                                     </a>
                                     
                                 </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('assignments') }}" role="button">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
                                             <path
@@ -96,12 +95,6 @@
                                         </svg>
                                         Materias
                                     </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        {{-- <li><a class="dropdown-item"
-                                                href="{{ route('assignments.create') }}">Crear</a></li> --}}
-                                        <li><a class="dropdown-item" href="{{ url('assignments') }}">Ver listado</a>
-                                        </li>
-                                    </ul>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
