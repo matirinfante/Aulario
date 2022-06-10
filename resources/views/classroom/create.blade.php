@@ -34,7 +34,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="capacity" class="form-label">Capacidad</label>
-                        <input type="number" class="form-control" name="capacity" id="capacity" min="5" max="200"
+                        <input type="number" class="form-control" name="capacity" id="capacity" min="1" max="200"
                             placeholder="30">
                         <p class="alerta d-none" id="errorCapacity">Error</p>
                     </div>
