@@ -1,4 +1,4 @@
-<div class="modal fade" id="viewModal{{ $assignment->id }}" tabindex="-1"
+<div class="modal fade text-center" id="viewModal{{ $assignment->id }}" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog">
        <div class="modal-content">
@@ -37,7 +37,7 @@
                    @endif
                </p>
                <hr>
-               <p class="card-text"><span class="text-secondary">Estado:
+               <p class="card-text statusUpdate"><span class="text-secondary">Estado:
                    </span>
                    @if (!isset($assignment->deleted_at))
                        Habilitada
