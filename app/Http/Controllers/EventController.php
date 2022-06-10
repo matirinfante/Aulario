@@ -16,7 +16,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::all();
+        $events = Event::withTrashed()->get();
         return view('event.index', compact('events'));
     }
 
