@@ -3,7 +3,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Actualizar materia</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Actualizar Usuario</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                     aria-label="Close"></button>
             </div>
@@ -13,27 +13,27 @@
                     @csrf @method('PATCH')
                     <div class="mb-3">
                         <label for="name" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" name="name" value=" {{$user['name']}} ">
+                        <input type="text" class="form-control" name="name" value=" {{$user['name']}} " required>
 
                     </div>
                     <div class="mb-3">
                         <label for="surname" class="form-label">Apellido</label>
-                        <input type="text" class="form-control" name="surname"  value="{{$user['surname']}}">
+                        <input type="text" class="form-control" name="surname"  value="{{$user['surname']}}" required>
 
                     </div>
                     <div class="mb-3">
                         <label for="dni" class="form-label">Dni</label>
                         <input type="number" class="form-control" name="dni"  min="1000000" max="99999999"
-                            value="{{$user['dni']}}">
+                            value="{{$user['dni']}}" required>
 
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email"  value="{{$user['email']}}">
+                        <input type="email" class="form-control" name="email"  value="{{$user['email']}}" required>
                     </div>
                     <div class="mb-3">
                         <label for="select" class="form-label">Seleccione Rol</label>
-                        <select class="form-select" name="role">
+                        <select class="form-select" name="role" required>
                             @if ($user->roles->first()->name == 'teacher')
                                 <option value="teacher" selected> Profesor </option>
                                 <option value="bedel"> Bedel </option>
