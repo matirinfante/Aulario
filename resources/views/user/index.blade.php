@@ -133,6 +133,7 @@
                                         <li class="list-group-item">Apellido: ${user['surname']} </li>
                                         <li class="list-group-item">Dni: ${user['dni']} </li>
                                         <li class="list-group-item">Email: ${user['email']}</li>
+                                        <li class="list-group-item">Estado: ${user['deleted_at'] ? 'Deshabilitado' : 'Habilitado' } </li>
                                     </ul>
                                 </div>
                             </div>
