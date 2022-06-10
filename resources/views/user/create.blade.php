@@ -31,8 +31,7 @@
                     <div class="mb-3">
                         <label for="select" class="form-label">Seleccione Rol</label>
                         <select class="form-select" name="role">
-                            <option value="" selected> Elija un Rol </option>
-                            <option value="teacher"> Profesor </option>
+                            <option value="teacher"  selected> Profesor </option>
                             <option value="bedel"> Bedel </option>
                             <option value="user"> Usuario </option>
                         </select>
