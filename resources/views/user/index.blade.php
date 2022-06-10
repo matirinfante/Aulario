@@ -12,7 +12,6 @@
     @endforeach
 @endif
 
-
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
     <h3 class="text-center m-4">Listado de Usuarios</h3>
     @if($errors->any())
@@ -25,10 +24,11 @@
                 {{ $error }}<br/>
             @endforeach
         </div>
-    @endif <div class="card" style="width: 1000px; margin: auto;">
+    @endif 
+    <div class="card" style="width: 1000px; margin: auto;">
         <div class="card-body">
             <table class="table table-striped table-hover" id="users">
-                <button type="" class="btn btn-success m-3" data-bs-toggle="modal" data-bs-target="#createModal" id="buttonCreate">Crear Usuario</button>
+                <button type="" class="btn btn-success m-3 btn-sm" data-bs-toggle="modal" data-bs-target="#createModal" id="buttonCreate">Crear Usuario</button>
                 <thead class="bg-secondary text-light">
                 <tr>
                     <td>Nombre</td>

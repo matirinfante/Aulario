@@ -3,7 +3,7 @@
 $('.activeSwitch').change(function (e) {
     var $id = $(this).data('id');
     var status = $(this).prop('checked') == true ? 1 : 0;
-
+    
     if (status == 0) { // deshabilitar materia
         var url = `/assignments/${$id}`;
         url = url.replace(':id', $id);
@@ -20,6 +20,8 @@ $('.activeSwitch').change(function (e) {
             success: function (data) {
                 let buttonEdit = document.getElementById(`buttonEdit${$id}`)
                 buttonEdit.classList.add('disabled');
+                var elemStatusAssigment = $(`#viewModal${$id}`).find('.statusUpdate');
+                elemStatusAssigment.html('<span class="text-secondary">Estado: </span>Deshabilitada');
 
 
                 $('#flashMessage').html(
@@ -62,6 +64,8 @@ $('.activeSwitch').change(function (e) {
             success: function (data) {
                 let buttonEdit = document.getElementById(`buttonEdit${$id}`)
                 buttonEdit.classList.remove('disabled');
+                var elemStatusAssigment = $(`#viewModal${$id}`).find('.statusUpdate');
+                elemStatusAssigment.html('<span class="text-secondary">Estado: </span>Habilitada');
 
                 $('#flashMessage').html(
                     '<div class="alert alert-success">Materia habilitada correctamente</div>'
