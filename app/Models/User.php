@@ -53,24 +53,27 @@ class User extends Authenticatable
     //ORM bidireccion a eventos
     public function events()
     {
-        $colEvents=$this->hasMany(Event::class);
+        $colEvents = $this->hasMany(Event::class);
         return $colEvents;
     }
 
     //Mutador para nombre
-    protected function name(): Attribute{
+    protected function name(): Attribute
+    {
         return new Attribute(
-            set: function($value){
-                $value= strtolower($value);
+            set: function ($value) {
+                $value = strtolower($value);
                 return ucwords($value);
             }
         );
     }
+
     //Mutador para apellido
-    protected function surname(): Attribute{
+    protected function surname(): Attribute
+    {
         return new Attribute(
-            set: function($value){
-                $value= strtolower($value);
+            set: function ($value) {
+                $value = strtolower($value);
                 return ucwords($value);
             }
         );
