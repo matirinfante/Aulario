@@ -9,6 +9,8 @@
 :root {
     --textColor: #171717;
     --backgroundColor: #F5F5F5;
+    --greenLight: #B5FF9D;
+    --redLight: #FFA39D;
 }
 
 body {
@@ -143,4 +145,9 @@ h3 {
     border: 1px solid #f5c2c7;
     padding: 3px;
     margin: 3px;
+}
+
+.schedule_time_table {
+    text-align: center;
+    font-weight: 700;
 }

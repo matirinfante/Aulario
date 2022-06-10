@@ -1,0 +1,1 @@
+$('#select_classrooms_schedule').select2()

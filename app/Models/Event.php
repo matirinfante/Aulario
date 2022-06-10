@@ -22,4 +22,10 @@ class Event extends Model
         return $colbooking;
     }
 
+    //ORM bidireccion a user
+
+    public function users(){
+        return $this->belongsToMany(User::class, 'user_id');
+    }
+
 }

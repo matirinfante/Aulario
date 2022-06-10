@@ -49,6 +49,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Booking::class);
     }
+
+    //ORM bidireccion a eventos
+    public function events()
+    {
+        $colEvents=$this->hasMany(Event::class);
+        return $colEvents;
+    }
+
     //Mutador para nombre
     protected function name(): Attribute{
         return new Attribute(

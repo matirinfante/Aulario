@@ -51,7 +51,7 @@
                        Deshabilitada
                    @endif
                </p>
-                <hr>
+                {{-- <hr>
                 <p class="card-text"><span class="text-secondary">Creación:
                     </span>
                     @if (isset($class->created_at))
@@ -68,7 +68,7 @@
                     @else
                         No disponible
                     @endif
-                </p>
+                </p> --}}
             </div>
         </div>
     </div>

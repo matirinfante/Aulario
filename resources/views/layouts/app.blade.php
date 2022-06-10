@@ -85,7 +85,6 @@
                                         </svg>
                                         Usuarios
                                     </a>
-                                    
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ url('assignments') }}" role="button">
@@ -175,6 +174,10 @@
                                                 d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
                                         </svg>
                                         Peticiones
+                                        <span class="position-absolute top-0 start-70 translate-middle badge rounded-pill bg-danger">
+                                            Las que quieras bb
+                                           
+                                          </span>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <!-- <li><a class="dropdown-item"
@@ -183,6 +186,15 @@
                                         <li><a class="dropdown-item" href="{{ url('petitions') }}">Ver listado</a>
                                         </li>
                                     </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('schedules') }}" role="button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 516 516" width="16" height="16">
+                                            <path d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z"/>
+                                        </svg>
+                                        Horarios
+                                    </a>
+                                    
                                 </li>
                             </ul>
                         </div>
