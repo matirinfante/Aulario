@@ -46,8 +46,8 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'create bookings']);
         Permission::create(['name' => 'edit bookings']);
         Permission::create(['name' => 'delete bookings']);
-        Permission::create(['name' => 'end bookings']); //cambiar el estado de la reserva
-        Permission::create(['name' => 'see bookings']); //para ver sus propias reservas
+        Permission::create(['name' => 'cancel own bookings']); //cambiar el estado de la reserva
+        Permission::create(['name' => 'see own bookings']); //para ver sus propias reservas
 
         Permission::create(['name' => 'show classrooms']);
         Permission::create(['name' => 'create classrooms']);
@@ -63,13 +63,21 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'create petitions']);
         Permission::create(['name' => 'edit petitions']);
         Permission::create(['name' => 'delete petitions']);
+        Permission::create(['name' => 'reject petitions']);
+        Permission::create(['name' => 'accept petitions']);
 
         Permission::create(['name' => 'show users']);
         Permission::create(['name' => 'create users']);
         Permission::create(['name' => 'edit users']);
         Permission::create(['name' => 'delete users']);
 
-        Permission::create(['name' => 'respirar']);
+        Permission::create(['name' => 'show logbook']);
+        Permission::create(['name' => 'edit logbook']);
+
+        Permission::create(['name' => 'show schedule']);
+        Permission::create(['name' => 'edit schedule']);
+        Permission::create(['name' => 'delete schedule']);
+
 
         //Se crean los roles
         $roleAdmin = Role::create(['name' => 'admin']); //Bootea siendo supremo
@@ -84,17 +92,21 @@ class DatabaseSeeder extends Seeder
         $roleTeacher->givePermissionTo('show events');
         $roleTeacher->givePermissionTo('delete events');
         $roleTeacher->givePermissionTo('create bookings');
-        $roleTeacher->givePermissionTo('see bookings');
-        $roleTeacher->givePermissionTo('end bookings');
+        $roleTeacher->givePermissionTo('see own bookings');
+        $roleTeacher->givePermissionTo('end own bookings');
 
         $roleUser->givePermissionTo('create events');
         $roleUser->givePermissionTo('show events');
         $roleUser->givePermissionTo('delete events');
         $roleUser->givePermissionTo('create bookings');
-        $roleUser->givePermissionTo('see bookings');
-        $roleUser->givePermissionTo('end bookings');
+        $roleUser->givePermissionTo('see own bookings');
+        $roleUser->givePermissionTo('end own bookings');
 
-        $roleBedel->givePermissionTo('respirar');
+        $roleBedel->givePermissionTo('show bookings');
+        $roleBedel->givePermissionTo('show logbook');
+        $roleBedel->givePermissionTo('edit logbook');
+
+
         User::factory(10)->create();
 
         $users = User::all();
