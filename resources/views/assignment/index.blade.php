@@ -22,10 +22,7 @@
 
     <h3 class="text-center m-4">Listado de Materias</h3>
     @if($errors->any())
-        <div class="alert alert-danger" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
+        <div class="alert alert-danger d-none" id="errorsMsj" role="alert">
 
             @foreach($errors->all() as $error)
                 {{ $error }}<br/>
@@ -120,7 +117,7 @@
                         </td>
                     </tr>
                 @empty
-                    <td colspan="6" class="text-center text-secondary">No hay registros</td>
+                    <td colspan="5" class="text-center text-secondary">No hay registros</td>
                 @endforelse
             </tbody>
         </table>
