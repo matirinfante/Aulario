@@ -14,6 +14,7 @@ return new class extends Migration {
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id(); //event_id
+            $table->foreignId('user_id')->constrained();
             $table->string('event_name'); //Nombre del evento
             $table->integer('participants'); //Participantes
             $table->softDeletes();
