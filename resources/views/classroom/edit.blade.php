@@ -8,8 +8,8 @@
             </div>
             <div class="modal-body">
                 <form id="form_classroom" name="form_classroom" method="POST"
-                    action="{{ route('classrooms.store') }}">
-                    @csrf
+                    action="{{ route('classrooms.update', $class->id) }}">
+                    @csrf @method('PATCH')
                     <div class="mb-3">
                         <label for="classroom_name" class="form-label">Nombre del
                             aula</label>
@@ -37,7 +37,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="capacity" class="form-label">Capacidad</label>
-                        <input type="number" class="form-control" name="capacity" id="capacity" min="5" max="200"
+                        <input type="number" class="form-control" name="capacity" id="capacity" min="1" max="200"
                             value="{{ $class->capacity }}">
                         <p class="alerta d-none" id="errorCapacity">Error</p>
                     </div>

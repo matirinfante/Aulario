@@ -3,6 +3,11 @@
 @section('content')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
 
+    {{-- Mensaje del controlador al realizar acción --}}
+    <div id="flashMessage" class="text-center d-none">
+        @include('flash::message')
+    </div>
+
     <h3 class="text-center m-4">Listado de Aulas</h3>
 
     @if ($errors->any())
@@ -102,67 +107,12 @@
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap5.min.js"></script>
 
-    {{-- DataTable SCRIPT --}}
-    <script>
-        $(document).ready(function() {
-            $('#classroom').DataTable();
-        });
-    </script>
 
-    {{-- Habilitar/Deshabilitar un aula --}}
-    <script>
-        $('.activeSwitch').change(function(e) {
-            var $id = $(this).data('id');
-            var status = $(this).prop('checked') == true ? 1 : 0;
-            console.log($id);
-            console.log(status);
+    {{-- Validator --}}
+    <script src="{{ asset('js/classrooms/validationClassroomCreate.js') }}" defer></script>
+    {{-- Sweet alert --}}
+    <script src="{{ asset('js/classrooms/sweetAlert.js') }}" defer></script>
+    {{-- Deshabilitar aula --}}
+    <script src="{{ asset('js/classrooms/disableClassroom.js') }}" defer></script>
 
-            if (status == 0) { // deshabilitar aula
-                var url = '{{ route('classrooms.destroy', ':id') }}';
-                url = url.replace(':id', $id);
-                var token = $(this).data("token");
-                $.ajax({
-                    type: 'post',
-                    url: url,
-                    cache: false,
-                    data: {
-                        "id": $id,
-                        "_method": 'DELETE',
-                        "_token": token,
-                    },
-                    success: function(data) {
-                        var $elementSvg = $("td[data-statusSvg='" + $id + "']");
-                        // console.log($elementSvg[0]);
-                        $elementSvg.replaceWith('<td class="text-secondary" data-statussvg="' + $id +
-                            '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#9b0808" class="bi bi-x-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" /><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" /></svg></td>'
-                        );
-
-                        $('#flashMessage').html(
-                                '<div class="alert alert-success">deshabilitado</div>')
-                            .delay(1000);
-                        var flash = $('#flashMessage');
-                        if (flash.find('.alert.alert-success').length > 0) {
-                            var timerInterval
-                            Swal.fire({
-                                toast: true,
-                                position: 'bottom-end',
-                                background: '#a5dc86',
-                                color: '#000',
-                                showConfirmButton: false,
-                                html: 'Aula deshabilitada con éxito.',
-                                timer: 2000,
-                                timerProgressBar: true,
-                                willClose: () => {
-                                    clearInterval(timerInterval)
-                                }
-                            })
-                        }
-                    }
-
-                });
-            } else {
-                // habilitar aula...
-            }
-        });
-    </script>
 @endsection
