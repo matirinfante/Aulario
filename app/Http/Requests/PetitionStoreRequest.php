@@ -24,9 +24,15 @@ class PetitionStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'estimated_people' => ['required'],
-            // 'start_time' =>['required'],
-            // 'finish_time' => ['required'],
+            'user_id' => ['required', 'integer'],
+            'assignment_id' => ['required', 'integer'],
+            'estimated_people' => ['required', 'integer'],
+            'classroom_type' => ['required', 'string'],
+            'start_time' => ['required', 'date_format:H:i'],
+            'finish_time' => ['required', 'date_format:H:i','after:start_time'],
+            'start_date' => ['required', 'date_format:Y-m-d'],
+            'finish_date' => ['required', 'date_format:Y-m-d','after:start_date'],
+            'days' => ['required', 'string']
         ];
     }
 }
