@@ -10,17 +10,16 @@
 
     <h3 class="text-center m-4">Listado de Aulas</h3>
 
-    @if ($errors->any())
-        <div class="alert alert-danger" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
+    {{-- Mensaje de error --}}
+    @if($errors->any())
+        <div class="alert alert-danger d-none" id="errorsMsj" role="alert">
 
-            @foreach ($errors->all() as $error)
-                {{ $error }}<br />
+            @foreach($errors->all() as $error)
+                {{ $error }}<br/>
             @endforeach
         </div>
-    @endif
+    @endif 
+
     <div class="card" style="width: 1000px; margin: auto;">
         <div class="card-body">
             <table class="table table-striped table-hover" id="classroom">
@@ -30,56 +29,42 @@
                 <thead class="bg-secondary text-light">
                     <tr>
                         <td>Nombre</td>
-                        <td>Locación</td>
                         <td>Edificio</td>
                         <td>Capacidad</td>
                         <td>Tipo de aula</td>
-                        <td>Estado</td>
                         <td>Acción</td>
-                        <td>H/D</td>
+                        <td>Estado</td>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($classrooms as $class)
                         <tr>
                             <td> {{ $class->classroom_name }} </td>
-                            <td>{{ $class->location }}</td>
                             <td>{{ $class->building }}</td>
                             <td>{{ $class->capacity }}</td>
                             <td>{{ $class->type }}</td>
-                            <td class="text-secondary" data-statusSvg="{{ $class->id }}">
-                                @if (!isset($class->deleted_at))
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#1f9b08"
-                                        class="bi bi-check-circle" viewBox="0 0 16 16">
-                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                        <path
-                                            d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
-                                    </svg>
-                                @else
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#9b0808"
-                                        class="bi bi-x-circle" viewBox="0 0 16 16">
-                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                        <path
-                                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                                    </svg>
-                                @endif
-                            </td>
                             <td>
-                                {{-- view modal button --}}
+                                {{-- Boton Ver --}}
                                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#viewModal{{ $class->id }}">Ver
                                 </button>
-                                {{-- view modal --}}
+                                {{-- Modal Ver --}}
                                 @include('classroom.show', ['classroom' => $class])
 
-                                {{-- update modal button --}}
-                                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#updateModal{{ $class->id }}">Editar
-                                </button>
-                                {{-- update modal --}}
+                                {{-- Boton editar --}}
+                                @if ($class->deleted_at == null)
+                                    <button type="button" id="buttonEdit{{ $class->id }}"
+                                        class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#updateModal{{ $class->id }}" onclick="precargarSelect({{ $class }});">Editar</button>
+                                @else
+                                    <button type="button" id="buttonEdit{{ $class->id }}"
+                                        class="btn btn-secondary btn-sm disabled" data-bs-toggle="modal"
+                                        data-bs-target="#updateModal{{ $class->id }}">Editar</button>
+                                @endif
+                                {{-- Modal Editar --}}
                                 @include('classroom.edit', ['classroom' => $class])
 
-                                {{-- Boton Deshabilitar/Habilitar --}}
+                            {{-- Boton Deshabilitar/Habilitar --}}
                             <td>
                                 <div class="form-check form-switch">
                                     <input data-id="{{ $class->id }}" data-token="{{ csrf_token() }}"
@@ -114,5 +99,7 @@
     <script src="{{ asset('js/classrooms/sweetAlert.js') }}" defer></script>
     {{-- Deshabilitar aula --}}
     <script src="{{ asset('js/classrooms/disableClassroom.js') }}" defer></script>
+    {{-- Select2 --}}
+    <script src="{{ asset('js/classrooms/select2.js') }}" defer></script>
 
 @endsection
