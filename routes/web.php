@@ -51,3 +51,4 @@ Route::resources([
 Route::put('/users/{user}', [UserController::class, 'activateUser'])->name('users.activate');
 Route::put('/assignments/{assignment}', [AssignmentController::class, 'activateAssignment'])->name('assignments.activate');
 Route::put('/classrooms/{classroom}', [ClassroomController::class, 'activateClassroom'])->name('classrooms.activate');
+Route::put('/events/{event}', [EventController::class, 'activateEvent'])->name('events.activate');
