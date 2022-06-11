@@ -33,18 +33,18 @@
                         </div>
                     <div class="mb-3">
                         <label for="name" class="form-label">Hora Inicio:</label>
-                        <input class="form-control" type="time" name="" id="start_time">
+                        <input class="form-control" type="time" name="start_time" id="start_time">
                         <p class="alerta d-none" id="errorStart">Error</p>
                     </div>
                     <div class="mb-3">
                         <label for="name" class="form-label">Hora Final:</label>
-                        <input class="form-control" type="time" name="" id="finish_time">
+                        <input class="form-control" type="time" name="finish_time" id="finish_time">
                         <p class="alerta d-none" id="errorFinish">Error</p>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button id="create_schedule_submit" type="submit" class="btn btn-primary disabled">Crear Horario</button>
+                    <button id="create_schedule_submit" type="submit" class="btn btn-primary">Crear Horario</button>
                 </form>
             </div>
         </div>
