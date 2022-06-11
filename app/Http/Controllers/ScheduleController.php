@@ -6,6 +6,7 @@ use App\Http\Requests\ScheduleStoreRequest;
 use App\Http\Requests\ScheduleUpdateRequest;
 use App\Models\Classroom;
 use App\Models\Schedule;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
@@ -98,8 +99,8 @@ class ScheduleController extends Controller
     {
         //traemos en la condicion una coleccion de horarios que se correspondan con el dia que tiene el request
         $schedule = Schedule::where('classroom_id', $request->classroom_id)->where('day', $request->day)->get();
-        $start_time_request = $request->start_time;
-        $finish_time_request = $request->finish_time;
+        $start_time_request = Carbon::parse($request->start_time)->format('H:i:s');;
+        $finish_time_request = Carbon::parse($request->finish_time)->format('H:i:s');;
         $flag = true;
         $i = 0;
         if (count($schedule) > 0) {
