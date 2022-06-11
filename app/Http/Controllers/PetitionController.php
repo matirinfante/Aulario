@@ -143,10 +143,10 @@ class PetitionController extends Controller
 
             Mail::to($petition->user->email)->send(new petitionReject($request->input('test-reason')));
 
-            return back();
+            return redirect(route('petitions.index'));
 
         } catch (\Exception $e) {
-
+            return back();
         }
     }
 

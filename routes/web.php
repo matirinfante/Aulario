@@ -27,28 +27,31 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //Reject petition route
-Route::patch('/petitions/reject/{petition}', [PetitionController::class, 'rejectPetition'])->name('petitions.reject');
+    Route::patch('/petitions/reject/{petition}', [PetitionController::class, 'rejectPetition'])->name('petitions.reject');
 //Mass toggle semester route
-Route::get('/assignments/semester', [AssignmentController::class, 'toggleSemester'])->name('assignments.toggle');
+    Route::get('/assignments/semester', [AssignmentController::class, 'toggleSemester'])->name('assignments.toggle');
 //RUTA TEST
-Route::get('/bookings/test', function () {
-    return view('booking.test');
+    Route::get('/bookings/test', function () {
+        return view('booking.test');
+    });
+
+    Route::resources([
+        'assignments' => AssignmentController::class,
+        'bookings' => BookingController::class,
+        'classrooms' => ClassroomController::class,
+        'events' => EventController::class,
+        'users' => UserController::class,
+        'petitions' => PetitionController::class,
+        'schedules' => ScheduleController::class,
+    ]);
+
+    Route::put('/users/{user}', [UserController::class, 'activateUser'])->name('users.activate');
+    Route::put('/assignments/{assignment}', [AssignmentController::class, 'activateAssignment'])->name('assignments.activate');
+    Route::put('/classrooms/{classroom}', [ClassroomController::class, 'activateClassroom'])->name('classrooms.activate');
+    Route::put('/events/{event}', [EventController::class, 'activateEvent'])->name('events.activate');
 });
 
-Route::resources([
-    'assignments' => AssignmentController::class,
-    'bookings' => BookingController::class,
-    'classrooms' => ClassroomController::class,
-    'events' => EventController::class,
-    'users' => UserController::class,
-    'petitions' => PetitionController::class,
-    'schedules' => ScheduleController::class,
-]);
-
-Route::put('/users/{user}', [UserController::class, 'activateUser'])->name('users.activate');
-Route::put('/assignments/{assignment}', [AssignmentController::class, 'activateAssignment'])->name('assignments.activate');
-Route::put('/classrooms/{classroom}', [ClassroomController::class, 'activateClassroom'])->name('classrooms.activate');
-Route::put('/events/{event}', [EventController::class, 'activateEvent'])->name('events.activate');
