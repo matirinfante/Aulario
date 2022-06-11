@@ -42,6 +42,7 @@
                          {{-- <a href="{{ route('petitions.changeStatus', "$petition->id") }}">a</a> --}}
                      </td>
                      <td>
+                         @if ($petition['status'] == 'unsolved')
                          <!-- Boton Aceptar Peticion -->
                          <button type="button" class="btn btn-success btn-sm" data-bs-target="{{ $petition['id'] }}">Aceptar</button>
                          <span class="vr"></span>
@@ -50,6 +51,7 @@
                          <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rejectedModal{{ $petition['id'] }}">Rechazar</button>
                          <!-- Modal Rechazar Detalles -->
                          @include('petition.edit', ['petition' => $petition])
+                         @endif
                      </td>
                  </tr>
                  @empty

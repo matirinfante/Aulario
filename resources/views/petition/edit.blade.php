@@ -47,17 +47,26 @@
                     </span>
                 </p>
                 <hr>
-                <h5>Razón del rechazo</h5>
-                <textarea name="reasonRejection" id="reasonRejection" cols="36" rows="5"></textarea>
 
                 <!-- BOTON DE RECHAZO DEFINITIVO-->
-                <div class="container">
-                    <div class="row">
-                        <div class="col" align=center>
-                            <button type="button" class="btn btn-danger btn-xl">Rechazar</button>
+                <!-- Se llama al metodo de la ruta 'petitions.reject' usando el 'id' de la peticion como parametro -->
+                <form action="{{ route('petitions.reject', $petition->id) }}" method="POST" name="form_petition" id="form_petition">
+                    @csrf @method('PATCH')<!-- Token y metodo patch para llamar al metodo -->
+                    
+                    <h5>Razón del rechazo</h5>
+                    
+                    <textarea name="reason" id="reason" cols="36" rows="5"></textarea>
+                    
+                    <div class="container">
+                        <div class="row">
+                            <div class="col" align=center>
+                                <button type="submit" class="btn btn-danger btn-xl">Rechazar</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+
+                </form>
+                
             </div>
         </div>
     </div>
