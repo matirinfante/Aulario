@@ -4,6 +4,22 @@
 @endsection
 
 @section('content')
+
+{{-- Mensaje del controlador al realizar acción --}}
+<div id="flashMessage" class="text-center d-none">
+    @include('flash::message')
+</div>
+
+@if($errors->any())
+    <div class="d-none" id="errorsMsj" role="alert">
+        @foreach($errors->all() as $error)
+            {{ $error }}<br/>
+        @endforeach
+    </div>
+@endif 
+
+
+
 <div class="card" style="width: 1000px; margin: auto;">
     <div class="card-body">
         <table class="table table-striped table-hover" id="users">
@@ -29,9 +45,11 @@
                         {{$scheduled['finish_time']}}
                     </td>
                     <td>
-                        <div class="form-check form-switch">
+                        <div class="form-check form-switch d-flex justify-content-center">
                             <input data-id="{{ $scheduled->id }}" data-token="{{ csrf_token() }}"
-                                class="form-check-input activeSwitch" type="checkbox" role="switch">
+                                class="form-check-input activeSwitch" type="checkbox" role="switch"
+                                    checked
+                                >
                         </div>
                     </td>
                 </tr>
@@ -45,6 +63,8 @@
 
 @include('schedule.create' , $classrooms)
     <script src="{{ asset('js/scheduled/select2.js') }}"></script>
+    <script src="{{ asset('js/scheduled/sweetAlert.js') }}"></script>
+    <script src="{{ asset('js/scheduled/disabledSchedule.js') }}"></script>
     {{-- <script src="{{ asset('js/scheduled/validatorSchedule.js') }}"></script> --}}
 @endsection
 

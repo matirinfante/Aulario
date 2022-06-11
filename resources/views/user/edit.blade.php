@@ -8,28 +8,29 @@
                     aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form name="form_update" method="post"
+                <form class="form_update" name="form_update" method="post"
                     action="{{ route('users.update', $user->id) }}">
                     @csrf @method('PATCH')
                     <div class="mb-3">
                         <label for="name" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" name="name" value=" {{$user['name']}} " required>
-
+                        <input  type="text" class="form-control name_edit" name="name" value=" {{$user['name']}} " required>
+                        <p  class="name_error_edit alerta d-none"> </p>
                     </div>
                     <div class="mb-3">
                         <label for="surname" class="form-label">Apellido</label>
-                        <input type="text" class="form-control" name="surname"  value="{{$user['surname']}}" required>
-
+                        <input  type="text" class="form-control surname_edit" name="surname"  value="{{$user['surname']}}" required>
+                        <p  class="surname_error_edit alerta d-none"> </p>
                     </div>
                     <div class="mb-3">
                         <label for="dni" class="form-label">Dni</label>
-                        <input type="number" class="form-control" name="dni"  min="1000000" max="99999999"
+                        <input  type="number" class="form-control dni_edit" name="dni"  min="1000000" max="99999999"
                             value="{{$user['dni']}}" required>
-
+                            <p  class="dni_error_edit alerta d-none"> </p>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email"  value="{{$user['email']}}" required>
+                        <input  type="email" class="form-control email_edit" name="email"  value="{{$user['email']}}" required>
+                        <p  class="email_error_edit alerta d-none"> </p>
                     </div>
                     <div class="mb-3">
                         <label for="select" class="form-label">Seleccione Rol</label>
@@ -49,9 +50,10 @@
                             @endif
                         </select>
                     </div>
-                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                        <button  type="submit" class="button_edit btn btn-primary">Actualizar</button>
                     </form>
                 </div>
             </div>
         </div>
 </div>
+
