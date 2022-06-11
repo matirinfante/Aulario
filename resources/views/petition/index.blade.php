@@ -7,7 +7,6 @@
          <table class="table table-striped table-hover" id="users">
              <thead class="bg-secondary text-light">
                  <tr>
-                     <td>Nro</td>
                      <td>Usuario</td>
                      <td>Materia</td>
                      <td>Personas Estimadas</td>
@@ -20,7 +19,6 @@
              <tbody>
                  @forelse ($petitions as $petition)
                  <tr>
-                     <td> {{$petition['id']}} </td>
                      <td> {{$petition->user->name}} {{$petition->user->surname}}</td>
                      <td> {{$petition->assignment->assignment_name}}</td>
                      <td> {{$petition['estimated_people']}}</td>
