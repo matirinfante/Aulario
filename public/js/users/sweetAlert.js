@@ -1,21 +1,23 @@
-$('.form-delete').submit(function(e) {
-    e.preventDefault();
-    Swal.fire({
-        title: '¿Está seguro de que desea eliminar la materia?',
-        text: "Esta acción es irreversible!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#b02a37',
-        cancelButtonColor: '#0a58ca',
-        confirmButtonText: 'Eliminar',
-        cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            this.submit();
-        }
-    })
-});
 $(document).ready(function() {
+
+    var $errorMessage = $('#errorsMsj').text().trim();
+    if ($('#errorsMsj').length > 0) {
+        var timerInterval
+        Swal.fire({
+            toast: true,
+            position: 'bottom-end',
+            background: '#f27474',
+            color: '#000',
+            showConfirmButton: false,
+            html: $errorMessage,
+            timer: 7000,
+            timerProgressBar: true,
+            willClose: () => {
+                clearInterval(timerInterval)
+            }
+        })
+    }
+
     var flash = $('#flashMessage');
     if (flash.find('.alert.alert-success').length > 0) {
         var contentFlash = $("#flashMessage:first").text().trim();

@@ -93,14 +93,14 @@ class DatabaseSeeder extends Seeder
         $roleTeacher->givePermissionTo('delete events');
         $roleTeacher->givePermissionTo('create bookings');
         $roleTeacher->givePermissionTo('see own bookings');
-        $roleTeacher->givePermissionTo('end own bookings');
+        $roleTeacher->givePermissionTo('cancel own bookings');
 
         $roleUser->givePermissionTo('create events');
         $roleUser->givePermissionTo('show events');
         $roleUser->givePermissionTo('delete events');
         $roleUser->givePermissionTo('create bookings');
         $roleUser->givePermissionTo('see own bookings');
-        $roleUser->givePermissionTo('end own bookings');
+        $roleUser->givePermissionTo('cancel own bookings');
 
         $roleBedel->givePermissionTo('show bookings');
         $roleBedel->givePermissionTo('show logbook');
