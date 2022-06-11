@@ -22,8 +22,8 @@ $(document).ready(function() {
     if (flash.find('.alert.alert-success').length > 0) {
         var contentFlash = $("#flashMessage:first").text().trim();
         switch (contentFlash) {
-            // CREACION DE USUARIO
-            case 'Se ha registrado correctamente el nuevo usuario':
+            // CREACION DE HORARIO
+            case 'Se ha registrado el horario correctamente':
                 var timerInterval
                 Swal.fire({
                     toast: true,
@@ -39,8 +39,8 @@ $(document).ready(function() {
                     }
                 })
                 break;
-                // MODIFICACION DE USUARIO
-            case 'Se actualizó correctamente al usuario':
+                // MODIFICACION DE HORARIO
+            case 'Se ha actualizado el horario correctamente':
                 var timerInterval
                 Swal.fire({
                     toast: true,
@@ -48,7 +48,7 @@ $(document).ready(function() {
                     background: '#a5dc86',
                     color: '#000',
                     showConfirmButton: false,
-                    html: 'Se actualizó correctamente al usuario.',
+                    html: 'Se ha actualizado el horario correctamente',
                     timer: 2000,
                     timerProgressBar: true,
                     willClose: () => {
@@ -56,8 +56,8 @@ $(document).ready(function() {
                     }
                 })
                 break;
-                // ELIMINACION DE USUARIO
-            case 'Se eliminó correctamente al usuario':
+                // ELIMINACION DE HORARIO
+            case 'Se ha eliminado el horario correctamente':
                 var timerInterval
                 Swal.fire({
                     toast: true,
@@ -65,7 +65,7 @@ $(document).ready(function() {
                     background: '#a5dc86',
                     color: '#000',
                     showConfirmButton: false,
-                    html: 'Se DESHABILITÓ correctamente al usuario.',
+                    html: 'Se ha eliminado el horario correctamente',
                     timer: 2000,
                     timerProgressBar: true,
                     willClose: () => {
@@ -73,8 +73,8 @@ $(document).ready(function() {
                     }
                 })
                 break;
-                // ERROR CREACION DE USUARIO
-            case 'Ha ocurrido un error al registrar al usuario':
+                // ERROR CREACION DE HORARIO
+            case 'Ha ocurrido un error al crear el horario':
                 var timerInterval
                 Swal.fire({
                     toast: true,
@@ -90,8 +90,8 @@ $(document).ready(function() {
                     }
                 })
                 break;
-                // ERROR MODIFICACION DE USUARIO
-            case 'Ha ocurrido un error al actualizar al usuario':
+                // ERROR MODIFICACION DE HORARIO
+            case 'Ha ocurrido un error al actualizar el horario':
                 var timerInterval
                 Swal.fire({
                     toast: true,
@@ -99,7 +99,23 @@ $(document).ready(function() {
                     background: '#f27474',
                     color: '#000',
                     showConfirmButton: false,
-                    html: 'Ha ocurrido un error al actualizar al usuario',
+                    html: 'Ha ocurrido un error al actualizar el horario',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                })
+                break;
+            case 'Ya existe un horario':
+                var timerInterval
+                Swal.fire({
+                    toast: true,
+                    position: 'bottom-end',
+                    background: '#f27474',
+                    color: '#000',
+                    showConfirmButton: false,
+                    html: 'Ya existe un horario',
                     timer: 2000,
                     timerProgressBar: true,
                     willClose: () => {

@@ -72,7 +72,7 @@ $('.activeSwitch').change(function(e) {
                 );
 
                 $('#flashMessage').html(
-                        '<div class="alert alert-success">Materia habilitada correctamente</div>'
+                        '<div class="alert alert-success">Usuario habilitada correctamente</div>'
                     )
                     .delay(1000);
                 var flash = $('#flashMessage');
