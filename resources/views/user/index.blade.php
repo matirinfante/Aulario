@@ -6,25 +6,17 @@
         @include('flash::message')
     </div>
 
-    @if ($errors->any())
-    @foreach ($errors as $error)
-        <h1> {{$error}} </h1>
-    @endforeach
-@endif
-
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
-    <h3 class="text-center m-4">Listado de Usuarios</h3>
     @if($errors->any())
-        <div class="alert alert-danger" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
-
+        <div class="d-none" id="errorsMsj" role="alert">
             @foreach($errors->all() as $error)
                 {{ $error }}<br/>
             @endforeach
         </div>
     @endif 
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+    <h3 class="text-center m-4">Listado de Usuarios</h3>
+
     <div class="card" style="width: 1000px; margin: auto;">
         <div class="card-body">
             <table class="table table-striped table-hover" id="users">
