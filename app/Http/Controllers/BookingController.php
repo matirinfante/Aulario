@@ -9,7 +9,7 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\BookingRequest;
-
+use Hamcrest\Arrays\IsArray;
 
 class BookingController extends Controller
 {
@@ -53,14 +53,19 @@ class BookingController extends Controller
     public function create()
     {
         $classrooms = Classroom::all();
-        $booking_type = [];
+        //$booking_type = [];
+        $assignments=[];
+        $events=[];
         if (auth()->user()->hasRole('admin')) {
-            $booking_type = Assignment::all();
+            //$booking_type = Assignment::all();
+            $assignments=Assignment::all();
+            $events=Event::all();
         } else if (auth()->user()->hasAnyRole('teacher', 'user')) {
-            $booking_type = Event::with('user_id', auth()->user()->id); //pero no hay relación xd
+            //$booking_type = Event::with('user_id', auth()->user()->id); //pero no hay relación xd
+            $events=Event::with('user_id', auth()->user()->id);
         }
 
-        return view('booking.create', compact('booking_type', 'classrooms'));
+        return view('booking.create', compact('assignments','events', 'classrooms'));
     }
 
     /**
@@ -70,25 +75,66 @@ class BookingController extends Controller
      * TODO:implementar store de Booking
      */
     public function store(Request $request)
-    {
+    {      
         try {
-            if ($request->assignment) {
+            if ($request->assignment_id) {
                 //Se carga la reserva de la materia según el user_id asociado.
                 $assignment = Assignment::findOrFail($request->assignment_id);
                 $user_id = $assignment->users()->first();
             } else {
                 //Ya ni me acuerdo que estaba pensando pero lo dejo porsiaca
-                $event = Event::findOrCreate('event_name', $request->event_name);
+                //$event = Event::findOrCreate('event_name', $request->event_name);
+                $event = Event::findOrFail($request->event_id);
+                $user_id = $event->user_id;
                 //$event->user_id;
             }
+            $booking= Booking::create([
+                'user_id' => $user_id,
+                'classroom_id' => $request->classroom_id[0],
+                'assignment_id' => 5,
+                'event_id' => $request->event_id,
+                'description' => $request->description,
+                'status' => 'pending',
+                'week_day' => $request->week_day,
+                'booking_date' =>$request->booking_date,
+                'start_time' =>$request->start_time,
+                'finish_time' =>$request->finish_time
+            ]);
 
-            //Añadir lógica restante
+            // $booking= Booking::create([
+            //     'user_id' => 5,
+            //     'classroom_id' => 3,
+            //     'assignment_id' => 5,
+            //     'event_id' => 3,
+            //     'description' => 'basura',
+            //     'status' => 'pending',
+            //     'week_day' => 'Lunes',
+            //     'booking_date' => '1970-12-14',
+            //     'start_time' => '10:49:17',
+            //     'finish_time' => '03:36:00'
+            // ]);
 
             flash('Se ha agregado una nueva reserva con éxito')->success();
             return redirect(route('bookings.index'));
         } catch (\Exception $e) {
             flash('Ha ocurrido un error al agregar una nueva reserva')->error();
             return back();
+        }
+    }
+
+    //Si hay mas de un classroom en el formulario esta funcion carga 1 booking por cada classroom
+    public function multiStore(Request $request){
+        dd('holi');
+        $reservas=count($request->classroom_id);
+        for ($i=0;$i<$reservas;$i++){
+            $newRequest=[];
+            $newRequest['classroom_id']=$request->classroom_id[$i];
+            $newRequest['week_day']=$request->week_day[$i];
+            $newRequest['start_time']=$request->start_time[$i];
+            $newRequest['finish_time']=$request->finish_time[$i];
+            $newRequest['event_id']=$request->event_id;
+
+            Booking::store($newRequest);
         }
     }
 
