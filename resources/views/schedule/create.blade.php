@@ -10,10 +10,10 @@
                     @csrf
                     <div class="mb-3">
                         <label for="name" class="form-label">Aulas</label>
-                        <select class="form-select" name="classrooms" >
+                        <select class="form-select" name="classroom_id" >
                             @forelse ($classrooms as $classroom)
                                 <option value="{{$classroom['id']}}"> {{$classroom['classroom_name']}} </option>
-                                <option value="{{$classroom['id']}}"> {{$classroom['classroom_name']}} </option>
+                                {{-- <option value="{{$classroom['id']}}"> {{$classroom['classroom_name']}} </option> --}}
                             @empty
                                 <option value=""> No hay registro </option>
                             @endforelse
@@ -22,7 +22,7 @@
                     <div class="mb-3">
                         <div class="mb-3">
                             <label for="name" class="form-label">Dia</label>
-                            <select class="form-select" name="classrooms" >
+                            <select class="form-select" name="day" >
                                     <option value="Lunes" selected> Lunes </option>
                                     <option value="Martes"> Martes </option>
                                     <option value="Miercoles"> Miercoles </option>
@@ -33,12 +33,12 @@
                         </div>
                     <div class="mb-3">
                         <label for="name" class="form-label">Hora Inicio:</label>
-                        <input class="form-control" type="datetime" name="" id="start_time">
+                        <input class="form-control" type="time" name="" id="start_time">
                         <p class="alerta d-none" id="errorStart">Error</p>
                     </div>
                     <div class="mb-3">
                         <label for="name" class="form-label">Hora Final:</label>
-                        <input class="form-control" type="datetime" name="" id="finish_time">
+                        <input class="form-control" type="time" name="" id="finish_time">
                         <p class="alerta d-none" id="errorFinish">Error</p>
                     </div>
                 </div>

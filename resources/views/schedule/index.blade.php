@@ -45,7 +45,7 @@
 
 @include('schedule.create' , $classrooms)
     <script src="{{ asset('js/scheduled/select2.js') }}"></script>
-    <script src="{{ asset('js/scheduled/validatorSchedule.js') }}"></script>
+    {{-- <script src="{{ asset('js/scheduled/validatorSchedule.js') }}"></script> --}}
 @endsection
 
 
