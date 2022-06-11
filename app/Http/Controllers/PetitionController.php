@@ -20,7 +20,7 @@ class PetitionController extends Controller
      */
     public function index()
     {
-        $petitions = Petition::all();
+        $petitions = Petition::orderBy('status')->get();
         return view('petition.index', compact('petitions'));
     }
 
@@ -36,7 +36,7 @@ class PetitionController extends Controller
         //TEST ONLY
         //$petition = Petition::where('status', 'unsolved')->first();
         //Mail::to(env('MAIL_ADMIN'))->send(new petitionsMail($petition));
-        return view('petition.create', compact('user','assignments'));
+        return view('petition.create', compact('user', 'assignments'));
     }
 
     /**
@@ -133,21 +133,21 @@ class PetitionController extends Controller
 
     public function rejectPetition(Request $request, Petition $petition)
     {
-      try {
-        $petition->status = 'rejected';
-        // $petition->reason = '$request->input('test-input')';
-        
-        $petition->save();
+        try {
+            $petition->status = 'rejected';
+            // $petition->reason = '$request->input('test-input')';
 
-        // dd($petition->user->email);
+            $petition->save();
 
-        Mail::to($petition->user->email)->send(new petitionReject($request->input('test-reason')));
-        
-        return back();
-        
-      } catch (\Exception $e) {
-        
-      }
+            // dd($petition->user->email);
+
+            Mail::to($petition->user->email)->send(new petitionReject($request->input('test-reason')));
+
+            return back();
+
+        } catch (\Exception $e) {
+
+        }
     }
 
 
