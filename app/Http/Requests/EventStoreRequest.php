@@ -24,8 +24,13 @@ class EventStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'event_name' => ['required','unique:events'],
-            // 'participants' => ['required']
+            'event_name' => ['required',  'regex:/^([a-zA-Z\s{0-9}ÁÉÍÓÚáéíóúÑñ]+)$/'],
+            'participants' => ['required','integer']
+        ];
+    }
+    public function messages(){
+        return [
+            'event_name.regex: El nombre solo puede contener letras, números y espacios.',
         ];
     }
 }
