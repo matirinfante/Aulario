@@ -24,10 +24,15 @@ class AssignmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'assignment_name' => ['required'],
-            'start_date' => ['required'],
+            'assignment_name' => ['required','regex:/^([a-zA-Z\sÁÉÍÓÚáéíóúÑñ]+)$/'], 
+            'start_date' => ['required','before:finish_date'],
             'finish_date' => ['required'],
-            //'active' => ['required'],
+        ];
+    }
+    public function messages(){
+        return [
+            'assignment_name.regex'=>'El nombre solo puede contener letras y espacios.',
+            'start_date.before'=>'La fecha de inicio debe ser anterior a la fecha de fin.',
         ];
     }
 }
