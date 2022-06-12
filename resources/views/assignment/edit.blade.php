@@ -16,8 +16,8 @@
                        <label for="assignment_name" class="form-label">Nombre de
                            materia</label>
                        <input type="text" class="form-control" name="assignment_name"
-                              value="{{ $assignment->assignment_name }}" required>
-                       <small id="errorAssignmentName"></small>
+                              value="{{ $assignment->assignment_name }}" id="assignmentNameUpdate{{ $assignment->id }}" required>
+                       <small id="errorAssignmentNameUpdate{{ $assignment->id }}"></small>
                    </div>
 
                    {{-- fecha inicio --}}
@@ -25,16 +25,16 @@
                        <label for="start_date" class="form-label">Fecha de
                            inicio</label>
                        <input type="date" class="form-control" name="start_date"
-                              value="{{ $assignment->start_date }}" required>
-                       <small id="errorAssignmentStartDate"></small>
+                              value="{{ $assignment->start_date }}" id="assignmentStartDateUpdate{{ $assignment->id }}" required>
+                       <small id="errorAssignmentStartDateUpdate{{ $assignment->id }}"></small>
                    </div>
 
                    {{-- fecha fin --}}
                    <div class="mb-3">
                        <label for="finish_date" class="form-label">Fecha fin</label>
                        <input type="date" class="form-control" name="finish_date"
-                              value="{{ $assignment->finish_date }}" required>
-                       <small id="errorAssignmentNameFinishDate"></small>
+                              value="{{ $assignment->finish_date }}" id="assignmentFinishDateUpdate{{ $assignment->id }}" required>
+                       <small id="errorAssignmentFinishDateUpdate{{ $assignment->id }}"></small>
                    </div>
 
                    {{-- cuatrimestre --}}
@@ -67,7 +67,7 @@
                        </select>
                        <small id="errorNameTeacher"></small>
                    </div>
-                   <button id="submit" type="submit"
+                   <button id="updateSubmit{{ $assignment->id }}" type="submit"
                            class="btn btn-primary">Actualizar
                    </button>
                </form>
