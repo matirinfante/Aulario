@@ -53,6 +53,10 @@
                 <button type="" class="btn btn-success m-3 btn-sm" data-bs-toggle="modal" data-bs-target="#createModal"
                         id="buttonCreate">Crear Materia
                 </button>
+                <form method="GET" action="{{ route('assignments.toggle') }}">
+                    @csrf @method('HEAD')
+                   <button type="submit" class="btn btn-sm btn-outline-success">Cambiar todas las materias a 'En curso'</button>
+                </form>
                 <thead class="bg-secondary text-light">
                 <tr>
                     <td>Nombre de materia</td>
