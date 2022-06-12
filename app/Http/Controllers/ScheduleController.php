@@ -38,11 +38,17 @@ class ScheduleController extends Controller
      */
     public function store(ScheduleStoreRequest $request)
     {
+        
         $verificationSchedule = $this->scheduleVerification($request);
         if ($verificationSchedule) {
             try {
-                Schedule::create([$request->all()])->save();
-
+                $schedule= Schedule::create([
+                    'classroom_id' =>$request->classroom_id ,
+                    'day'=> $request->day,
+                    'start_time'=>$request->start_time,
+                    'finish_time'=>$request->finish_time
+                ]);
+                $schedule->save();
                 flash('Se ha registrado el horario correctamente')->success();
                 return redirect(route('schedules.index'));
 
@@ -52,6 +58,7 @@ class ScheduleController extends Controller
             }
         } else {
             flash('Ya existe un horario')->error();
+            return back();
         }
     }
 
