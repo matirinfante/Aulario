@@ -31,7 +31,7 @@ $(document).ready(function() {
                     background: '#a5dc86',
                     color: '#000',
                     showConfirmButton: false,
-                    html: 'Se ha registrado correctamente el nuevo usuario.',
+                    html: 'Se ha registrado correctamente el nuevo horario.',
                     timer: 2000,
                     timerProgressBar: true,
                     willClose: () => {
@@ -82,7 +82,7 @@ $(document).ready(function() {
                     background: '#f27474',
                     color: '#000',
                     showConfirmButton: false,
-                    html: 'Ha ocurrido un error al registrar al usuario.',
+                    html: 'Ha ocurrido un error al registrar el horario',
                     timer: 2000,
                     timerProgressBar: true,
                     willClose: () => {
@@ -123,7 +123,7 @@ $(document).ready(function() {
                     }
                 })
                 break;
-            case 'Usuario habilitado correctamente':
+            case 'Horario habilitado correctamente':
                 var timerInterval
                 Swal.fire({
                     toast: true,
@@ -131,7 +131,7 @@ $(document).ready(function() {
                     background: '#a5dc86',
                     color: '#000',
                     showConfirmButton: false,
-                    html: 'Usuario habilitado correctamente',
+                    html: 'Horario habilitado correctamente',
                     timer: 2000,
                     timerProgressBar: true,
                     willClose: () => {
