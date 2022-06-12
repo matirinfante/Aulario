@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ClassroomStoreRequest extends FormRequest
 {
@@ -24,13 +25,27 @@ class ClassroomStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'classroom_name' => ['required','unique:classroom','alpha_num'],
-            // 'location' => ['required'],
-            // 'capacity' => ['required','integer'],
-            // 'type' => ['required'], // in:Laboratorio, Aula común' como es la entrada por form
-            // 'building' => ['required','alpha'],
-            // 'available_start' => ['required'],
-            // 'available_finish' => ['required'],
+            'classroom_name' => ['required','unique:classrooms','regex:/^([a-zA-Z-\s{0-9}]+)$/'],
+            'location' => ['required'], //Que formato entra ??
+            'capacity' => ['required','integer'],
+            'type' => ['required'], 
+            'building' => ['required'],
+        ];
+    }
+
+    public function attributes()
+    {
+        return[
+            'classroom_name'=>'nombre de la materia',
+            'location'=>'locación',
+            'capacity'=>'capacidad',
+            'type'=>'tipo',
+            'building'=>'edificio',
+        ];
+    }
+    public function messages(){
+        return [
+            'classroom_name.regex'=>'El nombre solo puede contener letras, números y espacios.',
         ];
     }
 }
