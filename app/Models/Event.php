@@ -11,6 +11,7 @@ class Event extends Model
     use HasFactory, softDeletes;
 
     protected $fillable = [
+        'user_id',
         'event_name',
         'participants'];
 
@@ -26,7 +27,7 @@ class Event extends Model
 
     public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
 
 }
