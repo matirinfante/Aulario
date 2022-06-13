@@ -89,10 +89,8 @@ class BookingController extends Controller
                 //$event->user_id;
             }
             $reservas = count($request->classroom_id);
-            //dd($reservas);
             //Dependiendo de la cantidad de aulas seleccionadas es la cantidad de reservas a crear
             for ($i = 0; $i < $reservas; $i++) {
-                //dd($i);
                 $booking = Booking::create([
                     'user_id' => $user_id,
                     'classroom_id' => $request->classroom_id[$i],
@@ -106,19 +104,6 @@ class BookingController extends Controller
                     'finish_time' => $request->finish_time
                 ]);
             }
-            //Para testear
-            // $booking= Booking::create([
-            //     'user_id' => 5,
-            //     'classroom_id' => 3,
-            //     'assignment_id' => 5,
-            //     'event_id' => 3,
-            //     'description' => 'basura',
-            //     'status' => 'pending',
-            //     'week_day' => 'Lunes',
-            //     'booking_date' => '1970-12-14',
-            //     'start_time' => '10:49:17',
-            //     'finish_time' => '03:36:00'
-            // ]);
 
             flash('Se ha agregado una nueva reserva con éxito')->success();
             return redirect(route('bookings.index'));
