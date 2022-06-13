@@ -54,18 +54,18 @@ class BookingController extends Controller
     {
         $classrooms = Classroom::all();
         //$booking_type = [];
-        $assignments=[];
-        $events=[];
+        $assignments = [];
+        $events = [];
         if (auth()->user()->hasRole('admin')) {
             //$booking_type = Assignment::all();
-            $assignments=Assignment::all();
-            $events=Event::all();
+            $assignments = Assignment::all();
+            $events = Event::all();
         } else if (auth()->user()->hasAnyRole('teacher', 'user')) {
             //$booking_type = Event::with('user_id', auth()->user()->id); //pero no hay relación xd
-            $events=Event::with('user_id', auth()->user()->id);
+            $events = Event::with('user_id', auth()->user()->id);
         }
 
-        return view('booking.create', compact('assignments','events', 'classrooms'));
+        return view('booking.create', compact('assignments', 'events', 'classrooms'));
     }
 
     /**
@@ -75,7 +75,7 @@ class BookingController extends Controller
      * TODO:implementar store de Booking
      */
     public function store(Request $request)
-    {   
+    {
         try {
             if ($request->assignment_id) {
                 //Se carga la reserva de la materia según el user_id asociado.
@@ -88,12 +88,12 @@ class BookingController extends Controller
                 $user_id = $event->user_id;
                 //$event->user_id;
             }
-            $reservas=count($request->classroom_id);
+            $reservas = count($request->classroom_id);
             //dd($reservas);
             //Dependiendo de la cantidad de aulas seleccionadas es la cantidad de reservas a crear
-            for($i=0;$i<$reservas;$i++){
+            for ($i = 0; $i < $reservas; $i++) {
                 //dd($i);
-                $booking= Booking::create([
+                $booking = Booking::create([
                     'user_id' => $user_id,
                     'classroom_id' => $request->classroom_id[$i],
                     'assignment_id' => $request->assignment_id,
@@ -101,9 +101,9 @@ class BookingController extends Controller
                     'description' => $request->description,
                     'status' => 'pending',
                     'week_day' => $request->week_day,
-                    'booking_date' =>$request->booking_date,
-                    'start_time' =>$request->start_time,
-                    'finish_time' =>$request->finish_time
+                    'booking_date' => $request->booking_date,
+                    'start_time' => $request->start_time,
+                    'finish_time' => $request->finish_time
                 ]);
             }
             //Para testear
@@ -157,6 +157,7 @@ class BookingController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
+     * TODO: no se edita
      */
     public function update(BookingRequest $request, $id)
     {
