@@ -24,7 +24,10 @@ class ScheduleStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'classroom_id'=>['required'],
+            'day' => ['required'], 
+            'start_time' => ['required','date_format:H:i','before:finish_time'], 
+            'finish_time' => ['required'],
         ];
     }
 }

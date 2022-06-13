@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EventStoreRequest;
-use App\Http\Requests\EventUpdateRequest;
 use App\Models\Event;
 use Illuminate\Http\Request;
-use App\Http\Requests\EventRequest;
 
 class EventController extends Controller
 {
@@ -77,7 +75,7 @@ class EventController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param int $id
      */
-    public function update(EventUpdateRequest $request, $id)
+    public function update(EventStoreRequest $request, $id)
     {
         try {
             $event = Event::findOrFail($id)->fill($request->all());
