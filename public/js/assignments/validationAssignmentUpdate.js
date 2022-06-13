@@ -1,24 +1,28 @@
 function validarUpdate($id) {
+    // elementos
     let $inputName = $('#assignmentNameUpdate' + $id);
+    let $startDate = $('#assignmentStartDateUpdate' + $id);
+    let $finishDate = $('#assignmentFinishDateUpdate' + $id);
+
+    let $buttonUpdate = $('#updateSubmit' + $id);
 
     // elementos de errores
     let $errorName = $('#errorAssignmentNameUpdate' + $id);
-    let $errorStartDate = $('#errorAssignmentStartDateUpdate' + $id);
-    let $errorFinishDate = $('#errorAssignmentFinishDateUpdate' + $id);
+    let $errorStart = $('#errorAssignmentStartDateUpdate' + $id);
+    let $errorFinish = $('#errorAssignmentFinishDateUpdate' + $id);
 
 
-    $('#assignmentNameUpdate' + $id).bind("propertychange change keyup input paste", function () {
-        if (!validator.isEmpty($inputName.val())) {
-            if (validator.isAlpha($inputName.val())) {
-                v1 = true;
+    $inputName.bind("propertychange change keyup input paste", function () {
+        if (!validator.isEmpty($(this).val())) {
+            if (validator.isAlpha($(this).val())) {
                 $errorName.addClass('d-none')
                 $errorName.removeClass('alerta');
-                $esVacio1 = campoVacio($('#assignmentNameUpdate' + $id).val());
-                $esVacio2 = campoVacio($('#assignmentStartDateUpdate' + $id).val());
-                $esVacio3 = campoVacio($('#assignmentFinishDateUpdate' + $id).val());
+                $esVacio1 = campoVacio($(this).val());
+                $esVacio2 = campoVacio($startDate.val());
+                $esVacio3 = campoVacio($finishDate.val());
                 if ((!$esVacio1 && !$esVacio2 && !$esVacio3)) {
-                    if (!$('#errorAssignmentStartDateUpdate' + $id).hasClass('alerta') && !$('#errorAssignmentFinishDateUpdate' + $id).hasClass('alerta')) {
-                        $('#updateSubmit' + $id).removeClass('disabled');
+                    if (!$errorStart.hasClass('alerta') && !$errorFinish.hasClass('alerta')) {
+                        $buttonUpdate.removeClass('disabled');
                     }
                 }
             }
@@ -26,68 +30,66 @@ function validarUpdate($id) {
             $errorName.html('El nombre está vacio');
             $errorName.removeClass('d-none');
             $errorName.addClass('alerta');
-            $('#updateSubmit' + $id).addClass('disabled');
+            $buttonUpdate.addClass('disabled');
         }
     });
 
-    $('#assignmentStartDateUpdate' + $id).change(function () {
-        $('#updateSubmit' + $id).addClass('disabled');
-        $errorFinishDate.addClass('d-none')
-        $errorFinishDate.removeClass('alerta');
-        $('#assignmentFinishDateUpdate' + $id).val('');
-        $errorFinishDate.html('Fecha fin faltante');
-        $errorFinishDate.removeClass('d-none');
-        $errorFinishDate.addClass('alerta');
+    $startDate.change(function () {
+        $buttonUpdate.addClass('disabled');
+        $errorFinish.addClass('d-none')
+        $errorFinish.removeClass('alerta');
+        $finishDate.val('');
+        $errorFinish.html('Fecha fin faltante');
+        $errorFinish.removeClass('d-none');
+        $errorFinish.addClass('alerta');
 
-        $esValida = esfechavalida($('#assignmentStartDateUpdate' + $id).val());
+        $esValida = esfechavalida($(this).val());
         if ($esValida) {
-            $errorStartDate.addClass('d-none')
-            $errorStartDate.removeClass('alerta');
-            $esVacio1 = campoVacio($('#assignmentNameUpdate' + $id).val());
-            $esVacio2 = campoVacio($('#assignmentStartDateUpdate' + $id).val());
-            $esVacio3 = campoVacio($('#assignmentFinishDateUpdate' + $id).val());
+            $errorStart.addClass('d-none')
+            $errorStart.removeClass('alerta');
+            $esVacio1 = campoVacio($inputName.val());
+            $esVacio2 = campoVacio($(this).val());
+            $esVacio3 = campoVacio($finishDate.val());
             if ((!$esVacio1 && !$esVacio2 && !$esVacio3)) {
-                $('#updateSubmit' + $id).removeClass('disabled');
+                $buttonUpdate.removeClass('disabled');
             }
         } else {
-            v2 = false;
-            $errorStartDate.html('Fecha inválida');
-            $errorStartDate.removeClass('d-none');
-            $errorStartDate.addClass('alerta');
+            $errorStart.html('Fecha inválida');
+            $errorStart.removeClass('d-none');
+            $errorStart.addClass('alerta');
         }
     });
 
-    $('#assignmentFinishDateUpdate' + $id).change(function () {
+    $finishDate.change(function () {
         $esValida = esfechavalida(this.value);
-        $comparacion = compararFechas($('#assignmentStartDateUpdate' + $id).val(), $('#assignmentFinishDateUpdate' + $id).val());
+        $comparacion = compararFechas($startDate.val(), $(this).val());
         $esMayor = $comparacion[0];
         $esIgual = $comparacion[1];
         if ($esValida) {
             if ($esMayor && !$esIgual) {
-                $errorFinishDate.addClass('d-none')
-                $errorFinishDate.removeClass('alerta');
-                $esVacio1 = campoVacio($('#assignmentNameUpdate' + $id).val());
-                $esVacio2 = campoVacio($('#assignmentStartDateUpdate' + $id).val());
-                $esVacio3 = campoVacio($('#assignmentFinishDateUpdate' + $id).val());
+                $errorFinish.addClass('d-none')
+                $errorFinish.removeClass('alerta');
+                $esVacio1 = campoVacio($inputName.val());
+                $esVacio2 = campoVacio($startDate.val());
+                $esVacio3 = campoVacio($(this).val());
                 if ((!$esVacio1 && !$esVacio2 && !$esVacio3)) {
-                    $('#updateSubmit' + $id).removeClass('disabled');
+                    $buttonUpdate.removeClass('disabled');
                 }
             } else {
-                if ($('#errorAssignmentStartDateUpdate' + $id).hasClass('alerta')) {
-                    $errorFinishDate.html('La fecha de inicio no es válida. Por favor, elija una fecha correcta');
+                if ($errorStart.hasClass('alerta')) {
+                    $errorFinish.html('La fecha de inicio no es válida. Por favor, elija una fecha correcta');
                 } else {
-
-                    $errorFinishDate.html('La fecha de fin no puede ser menor o igual a la de inicio');
+                    $errorFinish.html('La fecha de fin no puede ser menor o igual a la de inicio');
                 }
-                $errorFinishDate.removeClass('d-none');
-                $errorFinishDate.addClass('alerta');
-                $('#updateSubmit' + $id).addClass('disabled');
+                $errorFinish.removeClass('d-none');
+                $errorFinish.addClass('alerta');
+                $buttonUpdate.addClass('disabled');
             }
         } else {
-            $errorFinishDate.html('Fecha inválida');
-            $errorFinishDate.removeClass('d-none');
-            $errorFinishDate.addClass('alerta');
-            $('#updateSubmit' + $id).addClass('disabled');
+            $errorFinish.html('Fecha inválida');
+            $errorFinish.removeClass('d-none');
+            $errorFinish.addClass('alerta');
+            $buttonUpdate.addClass('disabled');
         }
     });
 
@@ -146,6 +148,34 @@ function validarUpdate($id) {
         if ($error == true) {
             $retorno = false;
         }
+        return $retorno;
+    }
+
+    function compararFechas($fechaInicio, $fechaFin) {
+        var $esMenor = false;
+        var $esIgual = false;
+        var $retorno = [];
+        // Mediante el delimitador "-" separa dia, mes y año
+        var $inicio = $fechaInicio.split("-");
+        var $anioInicio = parseInt($inicio[0]);
+        var $mesInicio = parseInt($inicio[1]);
+        var $diaInicio = parseInt($inicio[2]);
+        // Mediante el delimitador "-" separa dia, mes y año
+        var $fin = $fechaFin.split("-");
+        var $anioFin = parseInt($fin[0]);
+        var $mesFin = parseInt($fin[1]);
+        var $diaFin = parseInt($fin[2]);
+
+        var $comparaInicio = new Date($mesInicio + '/' + $diaInicio + '/' + $anioInicio);
+        var $comparaFin = new Date($mesFin + '/' + $diaFin + '/' + $anioFin);
+        if ($comparaInicio < $comparaFin) {
+            $esMenor = true;
+        }
+        if ($comparaInicio == $comparaFin) {
+            $esIgual = true;
+        }
+
+        $retorno = [$esMenor, $esIgual];
         return $retorno;
     }
 
