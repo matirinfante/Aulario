@@ -37,7 +37,8 @@ class EventController extends Controller
         try {
             $event = Event::create([
                 'event_name' => $request->event_name,
-                'participants' => $request->participants
+                'participants' => $request->participants,
+                'user_id' =>$request->user_id
             ]);
             $event->save();
             flash('Se ha creado un nuevo evento con éxito')->success();

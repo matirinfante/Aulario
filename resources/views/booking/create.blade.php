@@ -5,14 +5,21 @@
         select{
             min-width:200px;
         }
+        form{
+            margin:auto; 
+            width:500px; 
+            background-color:lightblue; 
+            padding:10px
+        }
     </style>
 @endsection
 
 @section('content')
 
-{{-- {{$booking_type}} --}}
+<p>Por ahora solo carga las reservas con los eventos ya existentes. Si se elige mas de un aula hace una reserva por cada aula.</p>
+
 <br>
-    <form method="POST" id="form-store" action="{{route('bookings.store')}}" style="margin:auto; width:500px; background-color:antiquewhite">
+    <form method="POST" id="form-store" action="{{route('bookings.store')}}">
         @csrf
         <div class="mb-3">
             <label for="classroom_id">Aulas</label>
@@ -24,7 +31,7 @@
         </div>
         {{-- Capacidad total de aulas --}}
         <label for="capacidad">Capacidad</label>
-        <input type="text" id="capacidad">
+        <input type="text" id="capacidad" disabled>
         
         {{-- @if (!empty($assignments))
             <div class="mb-3">
@@ -36,6 +43,10 @@
             </div>
         @endif --}}
 
+        <div class="mb-3">
+            <button type="button" class="btn btn-secondary" id="crearEvento">Crear Evento</button>
+        </div>
+        
         @if (!empty($events))
             <div class="mb-3" id="event_id">
                 <label for="event_id">Eventos</label>
@@ -47,13 +58,14 @@
             </div>
             {{-- Cantidad de participantes --}}
             <label for="cantidad">Participantes</label>
-            <input type="text" id="cantidad"> 
+            <input type="text" id="cantidad" disabled> 
         @endif
         
         {{-- Resultado de la cuenta matematica --}}
         <div id="cuenta">
         </div>
 
+        <br>
         <div class="mb-3">
             <select class="js-example-basic-simple" name="week_day" id="week_day">
                 <option>Lunes</option>
@@ -131,6 +143,10 @@
                 $("#cuenta").css('color','red');
             }
         }
+
+        $('#crearEvento').click(function(){
+            alert('Se podría abrir un modal para crear un evento, en caso de que el usuario lo necesite.')
+        });
 
         //La idea de esto es que meta en un arreglo todos los parametros necesarios para verificar que cada aula de las usadas este libre en el horario elegido. No se como poronga mandar los parametros a una funcion del Controller desde acá
         $('#roomCheck').click(function(){

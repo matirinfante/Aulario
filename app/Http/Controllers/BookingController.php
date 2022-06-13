@@ -75,7 +75,7 @@ class BookingController extends Controller
      * TODO:implementar store de Booking
      */
     public function store(Request $request)
-    {      
+    {   
         try {
             if ($request->assignment_id) {
                 //Se carga la reserva de la materia según el user_id asociado.
@@ -88,19 +88,25 @@ class BookingController extends Controller
                 $user_id = $event->user_id;
                 //$event->user_id;
             }
-            $booking= Booking::create([
-                'user_id' => $user_id,
-                'classroom_id' => $request->classroom_id[0],
-                'assignment_id' => 5,
-                'event_id' => $request->event_id,
-                'description' => $request->description,
-                'status' => 'pending',
-                'week_day' => $request->week_day,
-                'booking_date' =>$request->booking_date,
-                'start_time' =>$request->start_time,
-                'finish_time' =>$request->finish_time
-            ]);
-
+            $reservas=count($request->classroom_id);
+            //dd($reservas);
+            //Dependiendo de la cantidad de aulas seleccionadas es la cantidad de reservas a crear
+            for($i=0;$i<$reservas;$i++){
+                //dd($i);
+                $booking= Booking::create([
+                    'user_id' => $user_id,
+                    'classroom_id' => $request->classroom_id[$i],
+                    'assignment_id' => $request->assignment_id,
+                    'event_id' => $request->event_id,
+                    'description' => $request->description,
+                    'status' => 'pending',
+                    'week_day' => $request->week_day,
+                    'booking_date' =>$request->booking_date,
+                    'start_time' =>$request->start_time,
+                    'finish_time' =>$request->finish_time
+                ]);
+            }
+            //Para testear
             // $booking= Booking::create([
             //     'user_id' => 5,
             //     'classroom_id' => 3,
@@ -122,21 +128,6 @@ class BookingController extends Controller
         }
     }
 
-    //Si hay mas de un classroom en el formulario esta funcion carga 1 booking por cada classroom
-    public function multiStore(Request $request){
-        dd('holi');
-        $reservas=count($request->classroom_id);
-        for ($i=0;$i<$reservas;$i++){
-            $newRequest=[];
-            $newRequest['classroom_id']=$request->classroom_id[$i];
-            $newRequest['week_day']=$request->week_day[$i];
-            $newRequest['start_time']=$request->start_time[$i];
-            $newRequest['finish_time']=$request->finish_time[$i];
-            $newRequest['event_id']=$request->event_id;
-
-            Booking::store($newRequest);
-        }
-    }
 
     /**
      * Display the specified resource.
