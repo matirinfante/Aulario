@@ -19,14 +19,14 @@
                         </div>
 
                         {{-- fecha inicio --}}
-                        <div class="mb-3 col-md-4">
+                        <div class="mb-3">
                             <label for="start_date" class="form-label">Fecha de inicio</label>
                             <input type="date" class="form-control" name="start_date" id="createStartDate" required>
                             <small id="errorCreateAssignmentStartDate"></small>
                         </div>
 
                         {{-- fecha fin --}}
-                        <div class="mb-3 col-md-4">
+                        <div class="mb-3">
                             <label for="finish_date" class="form-label">Fecha fin</label>
                             <input type="date" class="form-control" name="finish_date" id="createFinishDate" required>
                             <small id="errorCreateAssignmentFinishDate"></small>
