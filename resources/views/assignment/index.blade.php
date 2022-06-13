@@ -53,6 +53,10 @@
                 <button type="" class="btn btn-success m-3 btn-sm" data-bs-toggle="modal" data-bs-target="#createModal"
                         id="buttonCreate">Crear Materia
                 </button>
+                <form method="GET" action="{{ route('assignments.toggle') }}">
+                    @csrf @method('HEAD')
+                   <button type="submit" class="btn btn-sm btn-outline-success">Cambiar todas las materias a 'En curso'</button>
+                </form>
                 <thead class="bg-secondary text-light">
                 <tr>
                     <td>Nombre de materia</td>
@@ -96,7 +100,7 @@
                             @if ($assignment->deleted_at == null)
                                 <button type="button" id="buttonEdit{{ $assignment->id }}" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#updateModal{{ $assignment->id }}"
-                                onclick="precargarSelect({{ $assignment }});">Editar</button>
+                                onclick="precargarSelect({{ $assignment }}); validarUpdate({{ $assignment->id }});">Editar</button>
                             @else
                                 <button type="button" class="btn btn-secondary btn-sm disabled">Editar</button>
                             @endif
@@ -133,11 +137,13 @@
 
 @section('scripts')
 
-    {{-- Validator --}}
+    {{-- Validator create--}}
     <script src="{{ asset('js/assignments/validationAssignmentCreate.js') }}" defer></script>
+    {{-- Validator update--}}
+    <script src="{{ asset('js/assignments/validationAssignmentUpdate.js') }}" defer></script>
     {{-- Sweet alert --}}
     <script src="{{ asset('js/assignments/sweetAlert.js') }}" defer></script>
-    {{-- Deshabilitar usuario --}}
+    {{-- Deshabilitar materia --}}
     <script src="{{ asset('js/assignments/disableAssignment.js') }}" defer></script>
     {{-- Select2 --}}
     <script src="{{ asset('js/assignments/select2.js') }}" defer></script>

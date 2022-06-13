@@ -1,29 +1,28 @@
-let d = document;
-let $formCreate = d.getElementById('createAssignmentForm');
-let $buttonCreate = $('#createSubmit');
+function validarUpdate($id) {
+    // elementos
+    let $inputName = $('#assignmentNameUpdate' + $id);
+    let $startDate = $('#assignmentStartDateUpdate' + $id);
+    let $finishDate = $('#assignmentFinishDateUpdate' + $id);
 
-let $inputName = $('#createName');
-let $startDate = $('#createStartDate');
-let $finishDate = $('#createFinishDate');
+    let $buttonUpdate = $('#updateSubmit' + $id);
 
-let $errorName = $('#errorCreateAssignmentName');
-let $errorStart = $('#errorCreateAssignmentStartDate');
-let $errorFinish = $('#errorCreateAssignmentFinishDate');
+    // elementos de errores
+    let $errorName = $('#errorAssignmentNameUpdate' + $id);
+    let $errorStart = $('#errorAssignmentStartDateUpdate' + $id);
+    let $errorFinish = $('#errorAssignmentFinishDateUpdate' + $id);
 
-$formCreate.addEventListener('click', e => {
 
-    //Validamos que el nombre no esté vacio
     $inputName.bind("propertychange change keyup input paste", function () {
         if (!validator.isEmpty($(this).val())) {
             if (validator.isAlpha($(this).val())) {
-                $errorName.addClass('d-none');
+                $errorName.addClass('d-none')
                 $errorName.removeClass('alerta');
                 $esVacio1 = campoVacio($(this).val());
                 $esVacio2 = campoVacio($startDate.val());
                 $esVacio3 = campoVacio($finishDate.val());
                 if ((!$esVacio1 && !$esVacio2 && !$esVacio3)) {
                     if (!$errorStart.hasClass('alerta') && !$errorFinish.hasClass('alerta')) {
-                        $buttonCreate.removeClass('disabled');
+                        $buttonUpdate.removeClass('disabled');
                     }
                 }
             }
@@ -31,28 +30,28 @@ $formCreate.addEventListener('click', e => {
             $errorName.html('El nombre está vacio');
             $errorName.removeClass('d-none');
             $errorName.addClass('alerta');
-            $buttonCreate.addClass('disabled');
+            $buttonUpdate.addClass('disabled');
         }
     });
 
     $startDate.change(function () {
-        $finishDate.val('');
-        $buttonCreate.addClass('disabled');
-        $errorFinish.addClass('d-none');
+        $buttonUpdate.addClass('disabled');
+        $errorFinish.addClass('d-none')
         $errorFinish.removeClass('alerta');
+        $finishDate.val('');
         $errorFinish.html('Fecha fin faltante');
         $errorFinish.removeClass('d-none');
         $errorFinish.addClass('alerta');
 
         $esValida = esfechavalida($(this).val());
         if ($esValida) {
-            $errorStart.addClass('d-none');
+            $errorStart.addClass('d-none')
             $errorStart.removeClass('alerta');
             $esVacio1 = campoVacio($inputName.val());
             $esVacio2 = campoVacio($(this).val());
             $esVacio3 = campoVacio($finishDate.val());
             if ((!$esVacio1 && !$esVacio2 && !$esVacio3)) {
-                $buttonCreate.removeClass('disabled');
+                $buttonUpdate.removeClass('disabled');
             }
         } else {
             $errorStart.html('Fecha inválida');
@@ -68,13 +67,13 @@ $formCreate.addEventListener('click', e => {
         $esIgual = $comparacion[1];
         if ($esValida) {
             if ($esMayor && !$esIgual) {
-                $errorFinish.addClass('d-none');
+                $errorFinish.addClass('d-none')
                 $errorFinish.removeClass('alerta');
                 $esVacio1 = campoVacio($inputName.val());
                 $esVacio2 = campoVacio($startDate.val());
                 $esVacio3 = campoVacio($(this).val());
                 if ((!$esVacio1 && !$esVacio2 && !$esVacio3)) {
-                    $buttonCreate.removeClass('disabled');
+                    $buttonUpdate.removeClass('disabled');
                 }
             } else {
                 if ($errorStart.hasClass('alerta')) {
@@ -84,15 +83,16 @@ $formCreate.addEventListener('click', e => {
                 }
                 $errorFinish.removeClass('d-none');
                 $errorFinish.addClass('alerta');
-                $buttonCreate.addClass('disabled');
+                $buttonUpdate.addClass('disabled');
             }
         } else {
             $errorFinish.html('Fecha inválida');
             $errorFinish.removeClass('d-none');
             $errorFinish.addClass('alerta');
-            $buttonCreate.addClass('disabled');
+            $buttonUpdate.addClass('disabled');
         }
     });
+
 
 
     function esfechavalida($fecha) {
@@ -187,6 +187,6 @@ $formCreate.addEventListener('click', e => {
         }
         return $esVacio;
     }
-});
 
 
+}
