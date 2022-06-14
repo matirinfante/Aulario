@@ -12,9 +12,8 @@
                 {{ $error }}<br/>
             @endforeach
         </div>
-    @endif 
+    @endif
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
     <h3 class="text-center m-4">Listado de Usuarios</h3>
 
     <div class="card" style="width: 1000px; margin: auto;">
@@ -80,7 +79,7 @@
         </div>
     </div>
 
-   
+
 
 
     <!-- Modal Crear-->
@@ -89,7 +88,7 @@
     <button type="" class="btn btn-success m-3 d-none" data-bs-toggle="modal" data-bs-target="#showModal" id="buttonShow">Ver usuario</button>
     <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     </div>
-  
+
     <script>
         $(document).ready(function() {
             $('.select_role').select2();
@@ -105,7 +104,7 @@
 
     {{-- Ver usuario --}}
     <script>
-       
+
         function seeUser(user){
             document.getElementById('showModal').innerHTML = `<div></div>`
             html = `
@@ -143,7 +142,7 @@
         }
     </script>
 
-    
+
 @endsection
 
 
