@@ -50,7 +50,7 @@ Route::middleware(['auth'])->group(function () {
         'petitions' => PetitionController::class,
         'schedules' => ScheduleController::class,
     ]);
-
+    
     Route::put('/users/{user}', [UserController::class, 'activateUser'])->name('users.activate');
     Route::put('/assignments/{assignment}', [AssignmentController::class, 'activateAssignment'])->name('assignments.activate');
     Route::put('/classrooms/{classroom}', [ClassroomController::class, 'activateClassroom'])->name('classrooms.activate');
