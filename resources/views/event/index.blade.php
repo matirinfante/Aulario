@@ -5,7 +5,10 @@
     <div id="flashMessage" class="text-center d-none">
         @include('flash::message')
     </div>
-    <h3 class="text-center m-4">Listado de Eventos</h3>
+    @hasanyrole('user|teacher')
+        <h3 class="text-center m-4">Mis Eventos</h3>
+    @else
+        <h3 class="text-center m-4">Listado de Eventos</h3>
     <p class="text-center">Estados: <br>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#1f9b08" class="bi bi-check-circle"
             viewBox="0 0 16 16">
@@ -22,6 +25,7 @@
         </svg>
         = Deshabilitado(D)
     </p>
+    @endhasanyrole
     <div class="card m-auto mt-3" style="width: 1000px;">
         <div class="card-body">
             <table class="table table-striped table-hover" id="events">
@@ -32,7 +36,9 @@
                         <th scope='col' class='text-center'>Nombre</th>
                         <th scope='col' class='text-center'>Capacidad</th>
                         <th scope='col' class='text-center'>Accion</th>
-                        <th scope='col' class='text-center'>Estado</th>
+                        @can('delete events')
+                            <th scope='col' class='text-center'>Estado</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody>
@@ -48,6 +54,7 @@
                                 {{-- Modulo ver evento en archivo show.blade.php --}}
                                 @include('event.show', ['event' => $event])
 
+                                @can('edit events')
                                 {{-- Boton actualizar evento --}}
                                 @if ($event->deleted_at == null)
                                     {{-- {{dd($event)}} --}}
@@ -60,7 +67,9 @@
                                 @endif
                                 {{-- Modulo editar evento en archivo edit.blade.php --}}
                                 @include('event.edit', ['event' => $event])
+                                @endcan
                             </td>
+                            @can('delete events')
                             <td class="text-center">
                                 {{-- Habilitar/Deshabilitar materia (botón switch) --}}
                                 <div class="form-check form-switch">
@@ -69,6 +78,7 @@
                                         {{ !$event->trashed() ? 'checked' : '' }}>
                                 </div>
                             </td>
+                            @endcan
                         </tr>
                     @empty
                         <td colspan="5" class="text-center text-secondary">No hay registros</td>
