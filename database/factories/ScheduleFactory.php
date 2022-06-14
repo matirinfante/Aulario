@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,11 +17,12 @@ class ScheduleFactory extends Factory
      */
     public function definition()
     {
+        $start = $this->faker->time('H:i:s', '20:00:00');
         return [
             'classroom_id' => $this->faker->numberBetween(1, 10),
             'day' => $this->faker->randomElement(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']),
-            'start_time' => $this->faker->time(),
-            'finish_time' => $this->faker->time(),
+            'start_time' => $start,
+            'finish_time' => Carbon::createFromTimeString($start)->addHours(rand(1, 3)),
         ];
     }
 }
