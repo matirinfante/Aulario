@@ -46,8 +46,11 @@ class BookingController extends Controller
                 ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
                 ->get(['bookings.id as booking_id', 'bookings.description as booking_description', 'bookings.booking_date as booking_date', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status',
                     'assignments.assignment_name as assignment_name', 'classrooms.classroom_name as classroom_name']);
-        }
-        return view('booking.index', compact('bookings', 'bookings_assignments',));
+        
+            $classrooms = Classroom::all();
+            }
+
+        return view('booking.index', compact('bookings', 'bookings_assignments', 'classrooms'));
     }
 
     /**
