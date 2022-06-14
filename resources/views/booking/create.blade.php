@@ -16,7 +16,7 @@
 
 @section('content')
 
-<p>Por ahora solo carga las reservas con los eventos ya existentes. Si se elige mas de un aula hace una reserva por cada aula.</p>
+<p>Por ahora solo carga las reservas con los eventos ya existentes.<br>Si se elige mas de un aula hace una reserva por cada aula.<br>Verifica que la capacidad coincida con los participantes antes de enviar el formulario.</p>
 
 <br>
     <form method="POST" id="form-store" action="{{route('bookings.store')}}">
@@ -62,8 +62,7 @@
         @endif
         
         {{-- Resultado de la cuenta matematica --}}
-        <div id="cuenta">
-        </div>
+        <div id="cuenta" value="false"></div>
 
         <br>
         <div class="mb-3">
@@ -90,7 +89,7 @@
             <button class="btn btn-success" type="button" id="roomCheck">Check</button>
         </div>
 
-        <input type="submit" value="enviar">
+        <input type="submit" value="enviar" id="send">
     </form>
     
 @endsection
@@ -109,6 +108,7 @@
     <script>
         var $partyTotal=0;  //Total de participantes del evento
         var $capTotal=0;    //Capacidad total de aulas en conjunto
+        //Se toma la cantidad de participantes en el evento y se llama a la funcion math
         $("#event_id").change(function(){
             $( "#event_id option:selected" ).each(function() {
                 $participants=$(this)[0].part.value;
@@ -117,6 +117,7 @@
             });
             math($capTotal,$partyTotal);
         });
+        //Se toma el espacio disponible en el(las) aula/s y se llama a la funcion math
         $("#classroom_id").change(function(){
             $capTotal=0;
             var $largo=($( "#classroom_id option:selected" )).length;
@@ -126,43 +127,54 @@
                 $("#capacidad").attr('value',$capTotal);
             });
             math($capTotal,$partyTotal);
-            if ($largo>1){
-                //Cambiar la ruta del action. Que vaya a bookings.multiStore
-            }else{
-                //Cambiar la ruta del action. Que vaya a bookings.store
-            }
         });
 
         //Funcion math: evalua la diferencia entre los parametros y genera un mensaje en un div
+        //Setea un atributo value en true o false para una posterior verificacion.
         function math($cap,$party){
             if ($cap>=$party){
                 $("#cuenta").html('Hay espacio para los nenes');
+                $("#cuenta").attr('value','true');  //Para verificar al submitir
                 $("#cuenta").css('color','green');
             }else{
                 $("#cuenta").html('Hay pibes que miran desde la ventana');
+                $("#cuenta").attr('value','false');
                 $("#cuenta").css('color','red');
             }
         }
+
 
         $('#crearEvento').click(function(){
             alert('Se podría abrir un modal para crear un evento, en caso de que el usuario lo necesite.')
         });
 
+
+        //Al submitir el formulario se chequea que las aulas tengan espacio suficiente.
+        $('#send').click(function(){
+            var $valid= $('#cuenta').attr('value');
+            if ($valid=='false'){
+                event.preventDefault();
+                alert('No hay espacio suficiente en las aulas seleccionadas.');
+            }
+        });
+
+
         //La idea de esto es que meta en un arreglo todos los parametros necesarios para verificar que cada aula de las usadas este libre en el horario elegido. No se como poronga mandar los parametros a una funcion del Controller desde acá
         $('#roomCheck').click(function(){
         //Odio JQuery
             $classrooms=$('#classroom_id option:selected');
-            console.log($classrooms);
+            //console.log($classrooms);
             $cant=$classrooms.length;
             var $arreglo=[];
-            var $day= $('#week_day')[0].value;
-            var $date= $('#booking_date')[0].value;
-            var $start= $('#start_time')[0].value;
-            var $finish= $('#finish_time')[0].value;
+            var $day= $('#week_day').val();
+            var $date= $('#booking_date').val();
+            var $start= $('#start_time').val();
+            var $finish= $('#finish_time').val();
             for (var i = 0; i < $cant; i++){
                 $id=$classrooms[i].attributes.ide.value;
                 $arreglo[i]={id:$id,week_day:$day,booking_date:$date,start_time:$start,finish_time:$finish};
             }
+            console.log($arreglo);
 
             //NO ANDA ESTA PORONGA
             // var $url={{route('bookings.store')}};
