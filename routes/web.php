@@ -38,6 +38,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bookings/test', function () {
         return view('booking.test');
     });
+    //Period gen
+    Route::get('/bookings/periods', [BookingController::class, 'getGaps'])->name('bookings.gaps');
 
     Route::resources([
         'assignments' => AssignmentController::class,

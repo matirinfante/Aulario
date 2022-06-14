@@ -6,10 +6,14 @@ use App\Models\Assignment;
 use App\Models\Booking;
 use App\Models\Classroom;
 use App\Models\Event;
+use App\Models\Schedule;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\BookingRequest;
 use Hamcrest\Arrays\IsArray;
+use Spatie\Period\Period;
+use Spatie\Period\Precision;
 
 class BookingController extends Controller
 {
@@ -52,7 +56,6 @@ class BookingController extends Controller
      */
     public function create()
     {
-        $classrooms = Classroom::all();
         //$booking_type = [];
         $assignments = [];
         $events = [];
@@ -77,6 +80,8 @@ class BookingController extends Controller
     public function store(Request $request)
     {
         try {
+
+
             if ($request->assignment_id) {
                 //Se carga la reserva de la materia según el user_id asociado.
                 $assignment = Assignment::findOrFail($request->assignment_id);
@@ -173,20 +178,26 @@ class BookingController extends Controller
     }
 
     /**
-     * Se encarga de cambiar el estado de la reserva
-     * TODO: implementar estado de la reserva
+     *
+     *
      */
-    public function changeStatus(Booking $booking)
+    public function getGaps()
     {
+        $totalTime = Schedule::where('classroom_id', 3)->get(['start_time', 'finish_time']);
+        $availability = array();
 
+        foreach ($totalTime as $times) {
+            $start_date = Carbon::today()->setTimeFromTimeString($times->start_time . ':00')->format('Y-m-d H:i:s');
+            $finish_date = Carbon::today()->setTimeFromTimeString($times->finish_time)->format('Y-m-d H:i:s');
+
+            $availability[] = Period::make($start_date, $finish_date, Precision::MINUTE());
+        }
+        $date = Carbon::createFromFormat('Y-m-d', '2021-09-24');
+        $reservedEvents = Booking::where('classroom_id', 3)->where('booking_date', $date->format('Y-m-d'))->get(['start_time', 'finish_time']);
+
+        $reservedAssignments = Booking::where('classroom_id', 3)->where('week_day', ucfirst($date->dayName))->get();
+        dd($reservedEvents);
+        return $availability;
     }
 
-    /**
-     * Muestra solo reservas de materias
-     * TODO: implementar mostrar solo reservas de materias
-     */
-    public function showSchedule()
-    {
-
-    }
 }
