@@ -40,6 +40,8 @@ Route::middleware(['auth'])->group(function () {
     });
     //Period gen
     Route::post('/bookings/periods', [BookingController::class, 'getGaps'])->name('bookings.gaps');
+    //MyBookings
+    Route::get('/myBookings', [BookingController::class, 'myBookings'])->name('bookings.mybookings');
 
     Route::resources([
         'assignments' => AssignmentController::class,
