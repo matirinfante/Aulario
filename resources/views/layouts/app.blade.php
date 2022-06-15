@@ -110,7 +110,7 @@
                                 @can('see own bookings')
                                     @hasanyrole('user|teacher')
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#" role="button">
+                                            <a class="nav-link" href="{{ route('bookings.mybookings') }}" role="button">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
                                                     <path
