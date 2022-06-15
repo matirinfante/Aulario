@@ -18,8 +18,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::withTrashed()->get();
-        return view('user.index', compact('users'));
+        if (auth()->user()->hasAnyRole('admin')) {
+            $users = User::withTrashed()->get();
+            return view('user.index', compact('users'));
+        } else {
+            return abort(403);
+        }
+
     }
 
     /**

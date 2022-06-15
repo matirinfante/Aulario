@@ -6,31 +6,29 @@
 @section('content')
 <link href="{{ asset('css/calendar.css') }}" rel="stylesheet">
 
-        <div class="container">
+        <div class="container text-center">
             <h3>Datos de la reserva</h3>
-            <div class="col-auto">
-                <span>Ingrese cantidad de participantes</span>
-                <input type="number" placeholder="">
-            </div>
-            <div class="col-auto">
-                <span>Seleccione el aula</span>
-                <select name="" id="">
-                    @forelse ($classrooms as $classroom)
-                        <option 
-                        data-bs-capacity="{{$classroom['capacity']}}" 
-                        value="{{$classroom['id']}}"> 
-                        Edificio: {{$classroom['building']}} Nombre: {{$classroom['classroom_name']}}   Capacidad: {{$classroom['capacity']}}
-                    </option>
-                    @empty
-                        <option value="">No hay nada para robar :</option>
-                    @endforelse
-                </select>
-            </div>
-            <div class="col-auto">
-                <span>Input copado</span>
-                <input type="text" placeholder="">
-            </div>
-
+            <form class="filter" action="">
+                <div class="col-auto">
+                    <span>Ingrese cantidad de participantes</span>
+                    <input id="participants" class="form-control" type="number" placeholder="40">
+                </div>
+                <div class="col-auto">
+                    <span>Seleccione el aula</span>
+                    <select class="form-select" name="" id="select">
+                        @forelse ($classrooms as $classroom)
+                            <option 
+                            data-capacity="{{$classroom['capacity']}}" 
+                            value="{{$classroom['id']}}"> 
+                            Edificio: {{$classroom['building']}} Nombre: {{$classroom['classroom_name']}}   Capacidad: {{$classroom['capacity']}}
+                        </option>
+                        @empty
+                            <option value="">No hay nada para robar :</option>
+                        @endforelse
+                    </select>
+                </div>
+                <button class="btn btn-primary m-3"> Filtrar </button>
+            </form>
         </div>
     
    
