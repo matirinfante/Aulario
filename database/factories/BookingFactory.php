@@ -20,6 +20,7 @@ class BookingFactory extends Factory
      */
     public function definition()
     {
+        
         return [
             'user_id' => User::all()->random()->id,
             'classroom_id' => Classroom::all()->random()->id,
@@ -28,7 +29,7 @@ class BookingFactory extends Factory
             'description' => $this->faker->sentence($nbWords=4,$variableNbWords=true),
             'status' => $this->faker->randomElement(['pending','in_progress','finished']),
             'week_day' =>$this->faker->randomElement(['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado']),
-            'booking_date' =>$this->faker->date($format='Y-m-d'),
+            'booking_date' =>$this->faker->dateTimeThisYear('+2 months'),
             'start_time' =>$this->faker->time($format='H:i:s'),
             'finish_time' =>$this->faker->time($format='H:i:s')
         ];
