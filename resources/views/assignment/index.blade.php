@@ -49,16 +49,16 @@
 
     <div class="card m-auto mt-3" style="width: 1000px;">
         <div class="card-body">
+            <form method="POST" action="{{ route('assignments.toggle') }}">
+                @csrf
+                <button type="submit" class="btn btn-sm btn-outline-success">Cambiar de cuatrimestre
+                </button>
+            </form>
             <table class="table table-striped table-hover" id="assignments">
                 <button type="" class="btn btn-success m-3 btn-sm" data-bs-toggle="modal" data-bs-target="#createModal"
                         id="buttonCreate">Crear Materia
                 </button>
-                <form method="GET" action="{{ route('assignments.toggle') }}">
-                    @csrf @method('HEAD')
-                    <button type="submit" class="btn btn-sm btn-outline-success">Cambiar todas las materias a 'En
-                        curso'
-                    </button>
-                </form>
+
                 <thead class="bg-secondary text-light">
                 <tr>
                     <td>Nombre de materia</td>
