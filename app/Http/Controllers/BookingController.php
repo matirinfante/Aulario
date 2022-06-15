@@ -61,19 +61,7 @@ class BookingController extends Controller
      */
     public function create()
     {
-        //$booking_type = [];
-        $assignments = [];
-        $events = [];
-        if (auth()->user()->hasRole('admin')) {
-            //$booking_type = Assignment::all();
-            $assignments = Assignment::all();
-            $events = Event::all();
-        } else if (auth()->user()->hasAnyRole('teacher', 'user')) {
-            //$booking_type = Event::with('user_id', auth()->user()->id); //pero no hay relación xd
-            $events = Event::with('user_id', auth()->user()->id);
-        }
-
-        return view('booking.create', compact('assignments', 'events', 'classrooms'));
+        return view('booking.create');
     }
 
     /**
@@ -85,38 +73,47 @@ class BookingController extends Controller
     public function store(Request $request)
     {
         try {
+            if (auth()->user()->hasAnyRole('user', 'teacher')) {
+                $event = Event::create([
+                    'event_name' => $request->event_name,
+                    'user_id' => auth()->user()->id,
+                    'participants' => $request->participants
+                ]);
 
-
-            if ($request->assignment_id) {
-                //Se carga la reserva de la materia según el user_id asociado.
-                $assignment = Assignment::findOrFail($request->assignment_id);
-                $user_id = $assignment->users()->first();
-            } else {
-                //Ya ni me acuerdo que estaba pensando pero lo dejo porsiaca
-                //$event = Event::findOrCreate('event_name', $request->event_name);
-                $event = Event::findOrFail($request->event_id);
-                $user_id = $event->user_id;
-                //$event->user_id;
-            }
-            $reservas = count($request->classroom_id);
-            //Dependiendo de la cantidad de aulas seleccionadas es la cantidad de reservas a crear
-            for ($i = 0; $i < $reservas; $i++) {
                 $booking = Booking::create([
-                    'user_id' => $user_id,
-                    'classroom_id' => $request->classroom_id[$i],
-                    'assignment_id' => $request->assignment_id,
-                    'event_id' => $request->event_id,
+                    'user_id' => auth()->user()->id,
+                    'classroom_id' => $request->classroom_id,
+                    'event_id' => $event->id,
                     'description' => $request->description,
                     'status' => 'pending',
-                    'week_day' => $request->week_day,
                     'booking_date' => $request->booking_date,
                     'start_time' => $request->start_time,
                     'finish_time' => $request->finish_time
                 ]);
-            }
+                flash('Se ha registrado la reserva con exito')->success();
+                return redirect(route('bookings.mybookings'));
+            } else if (auth()->user()->hasRole('admin')) {
+                if ($request->assignment_id) {
+                    //Se carga la reserva de la materia según el user_id asociado.
+                    $assignment = Assignment::findOrFail($request->assignment_id);
+                    $user_id = $assignment->users()->first();
+                } else {
+                    //Ya ni me acuerdo que estaba pensando pero lo dejo porsiaca
+                    //$event = Event::findOrCreate('event_name', $request->event_name);
+                    $event = Event::findOrFail($request->event_id);
+                    $user_id = $event->user_id;
+                    //$event->user_id;
+                }
+                $reservas = count($request->classroom_id);
+                //Dependiendo de la cantidad de aulas seleccionadas es la cantidad de reservas a crear
+                for ($i = 0; $i < $reservas; $i++) {
 
-            flash('Se ha agregado una nueva reserva con éxito')->success();
-            return redirect(route('bookings.index'));
+                }
+                flash('Se ha registrado la reserva con exito')->success();
+                return redirect(route('bookings.index'));
+            } else {
+                return abort(403);
+            }
         } catch (\Exception $e) {
             flash('Ha ocurrido un error al agregar una nueva reserva')->error();
             return back();
@@ -238,6 +235,12 @@ class BookingController extends Controller
         }
 
         return $gaps;
+    }
+
+    public function myBookings()
+    {
+        $bookings = Booking::where('user_id', auth()->user()->id);
+        return view('booking.mybookings', compact('bookings'));
     }
 
 }
