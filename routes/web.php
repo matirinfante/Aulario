@@ -4,6 +4,7 @@ use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\LogbookController;
 use App\Http\Controllers\PetitionController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\UserController;
@@ -52,6 +53,7 @@ Route::middleware(['auth'])->group(function () {
         'users' => UserController::class,
         'petitions' => PetitionController::class,
         'schedules' => ScheduleController::class,
+        'logbooks' => LogbookController::class,
     ]);
 
     Route::put('/users/{user}', [UserController::class, 'activateUser'])->name('users.activate');
