@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BookingStoreRequest;
 use App\Models\Assignment;
 use App\Models\Booking;
 use App\Models\Classroom;
@@ -68,12 +69,14 @@ class BookingController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * TODO:implementar store de Booking
+     * TODO:Validar fecha hasta dos semanas por StoreRequest
      */
-    public function store(Request $request)
+    public function store(BookingStoreRequest $request)
     {
+        //Carbon::parse($request->date)->addWeeks(2);
         try {
             if (auth()->user()->hasAnyRole('user', 'teacher')) {
+
                 $event = Event::create([
                     'event_name' => $request->event_name,
                     'user_id' => auth()->user()->id,
