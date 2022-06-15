@@ -45,4 +45,9 @@ class Booking extends Model
         return $this->belongsTo(Assignment::class, 'assignment_id');
     }
 
+    public function logbook()
+    {
+        return $this->belongsTo(Logbook::class);
+    }
+
 }

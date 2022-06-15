@@ -57,6 +57,11 @@ class User extends Authenticatable
         return $colEvents;
     }
 
+    public function logbooks()
+    {
+        return $this->hasMany(Logbook::class);
+    }
+
     //Mutador para nombre
     protected function name(): Attribute
     {

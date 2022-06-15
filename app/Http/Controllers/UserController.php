@@ -8,6 +8,7 @@ use App\Models\Assignment;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 
 class UserController extends Controller
@@ -58,7 +59,7 @@ class UserController extends Controller
             } else {
                 $user->assignRole('user');
             }
-
+            dd(QrCode::generate($user->dni, url('/qrstorage/qr' . $user->surname . '.svg')));
             flash('Se ha registrado correctamente el nuevo usuario')->success();
             return redirect(route('users.index'));
         } catch (\Exception $e) {
