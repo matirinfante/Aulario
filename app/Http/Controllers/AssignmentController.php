@@ -132,7 +132,7 @@ class AssignmentController extends Controller
         foreach ($actives as $active) {
             $active->update(['active' => ($active->active == 1 ? 0 : 1)]);
         }
-        dd($actives);
+        return redirect(route('assignments.index'));
     }
 }
 
