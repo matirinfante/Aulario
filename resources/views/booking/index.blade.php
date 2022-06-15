@@ -8,14 +8,15 @@
 
         <div class="container text-center">
             <h3>Datos de la reserva</h3>
-            <form class="filter" action="">
+            <form class="filter" method='POST' action="{{route('bookings.filter')}}">
+                @csrf
                 <div class="col-auto">
                     <span>Ingrese cantidad de participantes</span>
                     <input id="participants" class="form-control" type="number" placeholder="40">
                 </div>
                 <div class="col-auto">
                     <span>Seleccione el aula</span>
-                    <select class="form-select" name="" id="select">
+                    <select class="form-select" name="classroom_id" id="select">
                         <option value="">Cargamela...</option>
                         @forelse ($classrooms as $classroom)
                             <option 
@@ -40,8 +41,8 @@
     <div id="bookings_assignments" class="d-none">
         {{$bookings_assignments}}
     </div>
-
-
+    
+    
     <div id="calendar" class="p-5">
     </div>
 
