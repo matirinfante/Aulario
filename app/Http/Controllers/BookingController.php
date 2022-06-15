@@ -9,10 +9,12 @@ use App\Models\Event;
 use App\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\BookingRequest;
 use Hamcrest\Arrays\IsArray;
 use Spatie\Period\Period;
+use Spatie\Period\PeriodCollection;
 use Spatie\Period\Precision;
 
 class BookingController extends Controller
@@ -46,9 +48,9 @@ class BookingController extends Controller
                 ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
                 ->get(['bookings.id as booking_id', 'bookings.description as booking_description', 'bookings.booking_date as booking_date', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status',
                     'assignments.assignment_name as assignment_name', 'classrooms.classroom_name as classroom_name']);
-        
+
             $classrooms = Classroom::all();
-            }
+        }
 
         return view('booking.index', compact('bookings', 'bookings_assignments', 'classrooms'));
     }
@@ -181,26 +183,61 @@ class BookingController extends Controller
     }
 
     /**
+     * Función dedicada a comparar la disponibilidad de un aula y las reservas actuales sobre la misma.
+     * Como resultado, retorna un conjunto de bloques de 30 minutos, distribuidos en subconjuntos de espacios de encontrarse
+     * fragmentado múltiples veces.
+     * Se hace uso de la libreria Period, para crear objetos Period y comparar los espacios disponibles.
      *
-     *
+     * @param Request $request (los mismos conteniendo el id del aula y la fecha seleccionada)
+     * @return array $gaps
      */
-    public function getGaps()
+    public function getGaps(Request $request)
     {
-        $totalTime = Schedule::where('classroom_id', 3)->get(['start_time', 'finish_time']);
-        $availability = array();
+        $totalTime = Schedule::where('classroom_id', $request->classroom_id)->get(['start_time', 'finish_time']);
+        $availability = new PeriodCollection();
+        $occupiedTimes = new PeriodCollection();
 
+        //Se crean los Period de disponibilidad del aula
         foreach ($totalTime as $times) {
-            $start_date = Carbon::today()->setTimeFromTimeString($times->start_time . ':00')->format('Y-m-d H:i:s');
+            $start_date = Carbon::today()->setTimeFromTimeString($times->start_time)->format('Y-m-d H:i:s');
             $finish_date = Carbon::today()->setTimeFromTimeString($times->finish_time)->format('Y-m-d H:i:s');
 
-            $availability[] = Period::make($start_date, $finish_date, Precision::MINUTE());
+            $availability = $availability->add(Period::make($start_date, $finish_date, Precision::SECOND()));
         }
-        $date = Carbon::createFromFormat('Y-m-d', '2021-09-24');
-        $reservedEvents = Booking::where('classroom_id', 3)->where('booking_date', $date->format('Y-m-d'))->get(['start_time', 'finish_time']);
+        //Se realizan queries para obtener los Period de los espacios ocupados por reservas de evento y materias
+        $date = Carbon::createFromFormat('Y-m-d', $request->date);
+        $reservedEvents = Booking::where('classroom_id', $request->classroom_id)->where('booking_date', $date->format('Y-m-d'))->get(['start_time', 'finish_time']);
+        $reservedAssignments = Booking::where('classroom_id', $request->classroom_id)->where('week_day', ucfirst($date->dayName))->get(['start_time', 'finish_time']);
+        $occupiedTimesTemp = $reservedEvents->concat($reservedAssignments);
 
-        $reservedAssignments = Booking::where('classroom_id', 3)->where('week_day', ucfirst($date->dayName))->get();
-        dd($reservedEvents);
-        return $availability;
+        //Se crean los Period de los espacios ocupados
+        foreach ($occupiedTimesTemp as $time) {
+            $start_date = Carbon::today()->setTimeFromTimeString($time->start_time)->format('Y-m-d H:i:s');
+            $finish_date = Carbon::today()->setTimeFromTimeString($time->finish_time)->format('Y-m-d H:i:s');
+
+            $period = Period::make($start_date, $finish_date, Precision::SECOND());
+            $occupiedTimes = $occupiedTimes->add($period);
+        }
+
+        //Se obtienen los espacios disponibles comparando la disponibilidad y las reservas sobre las mismas
+        $totalGaps = $availability->subtract($occupiedTimes);
+
+        //Se crean bloques de 30 minutos con los datos obtenidos anteriormente y se agrupan
+        //según subconjunto de espacio disponible
+        $gaps = [];
+        $i = 0;
+        foreach ($totalGaps as $elem) {
+
+            $init = Carbon::today()->setTimeFromTimeString(($elem->start()->format('H:i:s')));
+            $end = Carbon::today()->setTimeFromTimeString(($elem->end()->format('H:i:s')));
+            $gaps[$i][] = $init->format('H:i:s');
+            do {
+                $gaps[$i][] = $init->addMinutes(30)->format('H:i:s');
+            } while ($init->lessThanOrEqualTo($end));
+            $i++;
+        }
+
+        return $gaps;
     }
 
 }
