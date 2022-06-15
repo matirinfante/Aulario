@@ -5,7 +5,7 @@ const getBookings = () => {
         return {
             title: `${el.event_name} ${el.booking_description}`,
             start: el.booking_date,
-            finish: "2022-06-09 " + el.finish_time
+            end: "2022-04-05"
         }
     });
 
@@ -19,7 +19,7 @@ const getBookingsAssignments = () => {
             title: el.assignment_name,
             description: el.booking_description,
             start: el.booking_date,
-            finish: "2022-06-09"
+            end: "2022-04-05"
         }
     });
 
@@ -30,7 +30,6 @@ const filter = (value) => {
     for (let i = 0; i < $select.length; i++) {
         const option = $select[i];
         if (parseInt(option.getAttribute('data-capacity')) < value) {
-            console.log($select[i])
             option.classList.add('d-none')
         } else {
             option.classList.remove('d-none')
@@ -52,9 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let materias = getBookingsAssignments();
     let eventos = getBookings()
 
-
-    let rta = Object.assign(materias, eventos)
-
+    let rta = eventos.concat(materias);
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         locale: 'es',
@@ -63,10 +60,15 @@ document.addEventListener('DOMContentLoaded', function() {
             center: 'title',
             right: 'dayGridMonth, timeGridWeek, listWeek'
         },
-        contentHeight: 600,
+        timeZone: 'local',
         events: rta,
-        eventColor: '#378006'
+        contentHeight: 600,
+        eventColor: '#378006',
+        // dateClick: function(info) {
+        //     alert('info:' + info.date)
+        // }
     });
 
+    // calendar.eventAdd(event[])
     calendar.render();
 });

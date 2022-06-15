@@ -16,6 +16,7 @@
                 <div class="col-auto">
                     <span>Seleccione el aula</span>
                     <select class="form-select" name="" id="select">
+                        <option value="">Cargamela...</option>
                         @forelse ($classrooms as $classroom)
                             <option 
                             data-capacity="{{$classroom['capacity']}}" 
