@@ -13,7 +13,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     @yield('styles')
 </head>
 
@@ -201,25 +201,25 @@
             </div>
         </nav>
 
-        {{-- Aqui se muestra el contenido --}}
-        <main class="py-4">
-            @yield('content')
-        </main>
+    {{-- Aqui se muestra el contenido --}}
+    <main class="py-4">
+        @yield('content')
+    </main>
 
-    </div>
-    <script src="{{ asset(mix('js/app.js')) }}"></script>
-    <script>
-        $(document).ready(function() {
-            $('#users').DataTable();
-            $('#assignments').DataTable();
-            $('#events').DataTable();
-            $('#classroom').DataTable();
-            $('#petitions').DataTable();
-        });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
-    @yield('scripts')
+</div>
+<script src="{{ asset(mix('js/app.js')) }}"></script>
+<script>
+    $(document).ready(function () {
+        $('#users').DataTable();
+        $('#assignments').DataTable();
+        $('#events').DataTable();
+        $('#classroom').DataTable();
+        $('#petitions').DataTable();
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+@yield('scripts')
 </body>
 
 </html>
