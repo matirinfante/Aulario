@@ -3,8 +3,8 @@
 @section('styles')
 @endsection
 @php
-//   $bookings=[];
-// $bookings_assignments=[];
+  $bookings=[];
+$bookings_assignments=[];
 // $classrooms=[];
 @endphp
 @section('content')
@@ -12,7 +12,7 @@
 
         <div class="container text-center">
             <h3>Datos de la reserva</h3>
-            <form class="filter" method='POST' action="">
+            {{-- <form class="filter" method='POST' action="{{route('bookings.filter')}}">
                 @csrf
                 <div class="col-auto">
                     <span>Ingrese cantidad de participantes</span>
@@ -34,7 +34,7 @@
                     </select>
                 </div>
                 <button class="btn btn-primary m-3" id="filter-butom"> Filtrar </button>
-            </form>
+            </form> --}}
         </div>
     
    

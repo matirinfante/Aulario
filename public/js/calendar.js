@@ -1,3 +1,20 @@
+
+$('.form-select').on('change',function (e) {
+let classroom_id=($(this).find('option:selected').val());
+    $.ajax({
+    
+        type:'POST',
+        url:`/bookings/filter`,
+        cache:false,
+        data:{_token:'{{csrf_token()}}',classroom_id:classroom_id},
+        success:function(data){
+            console.log(data)
+        }
+        
+        
+    })  
+
+})
 const getBookings = () => {
     let bookings = document.getElementById('bookings').textContent
     let booking = JSON.parse(bookings)
@@ -7,7 +24,7 @@ const getBookings = () => {
             // title: el.classroom_id + " - " + el.classroom_name, //borrar
 
             start: el.booking_date + "T" + el.start_time,
-            end: el.booking_date + "T" + el.finish_time
+            end: el.booking_date + "T" + el.finish_time,
             color:'blue',
             textColor:'yellow'
         }
@@ -24,7 +41,7 @@ const getBookingsAssignments = () => {
             // title: el.classroom_id + " - " + el.classroom_name, //borrar
             description: el.booking_description,
             start: el.booking_date + "T" + el.start_time,
-            end: el.booking_date + "T" + el.finish_time
+            end: el.booking_date + "T" + el.finish_time,
             color:'green',
             textColor:'white'
 
@@ -55,6 +72,30 @@ $inputParticipants.addEventListener('keyup', e => {
 
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
+    $('#calendar').empty();
+    let rta;
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: "es",
+        headerToolbar: {
+            left: 'prev, next, today',
+            center: 'title',
+            right: 'dayGridMonth, timeGridWeek, listWeek'
+        },
+        timeZone: 'local',
+        events: rta,
+        contentHeight: 600,
+        // eventColor: '#378006',
+        // dateClick: function(info) {
+        //     alert('info:' + info.date)
+        // }
+    });
+    calendar.render();
+    let btnfilter=document.getElementById('filter-butom');
+
+    btnfilter.addEventListener('click',function(e){
+       
+        // e.preventDefault();
 
     let eventos = getBookings()
     let materias = getBookingsAssignments();
@@ -79,4 +120,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // calendar.eventAdd(event[])
     calendar.render();
+})
 });
