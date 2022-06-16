@@ -6,7 +6,7 @@
         <div class="alert alert-danger d-none" id="errorsMsj" role="alert">
 
             @foreach ($errors->all() as $error)
-                {{ $error }}<br/>
+                {{ $error }}<br />
             @endforeach
         </div>
     @endif
@@ -15,8 +15,8 @@
     </button>
 
 
-    <div class="modal fade createModal" id="createModal" position="relative" tabindex="-1"
-         aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade createModal" id="createModal" position="relative" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -24,16 +24,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    {{-- <form id="createBookingForm" name="form_booking" method="POST" action="{{ route('bookings.store') }}"> --}}
                     <form id="createBookingForm" name="form_booking" method="POST"
-                          action="{{ route('bookings.store') }}">
-                        {{-- pasar como parámetros en action = 'classroom_id', 'participants', 'booking_date' --}}
+                        action="{{ route('bookings.store') }}">
                         @csrf
                         {{-- nombre evento --}}
                         <div class="mb-3">
                             <label for="booking_name" class="form-label">Nombre del evento</label>
                             <input type="text" class="form-control" name="event_name" id="createName"
-                                   placeholder="Parcial ADyDS" required>
+                                placeholder="Parcial ADyDS" required>
                             <small id="errorCreateBookingName"></small>
                         </div>
 
@@ -48,7 +46,8 @@
                         <div class="mb-3">
                             <label for="startTime" class="form-label">Hora de inicio</label>
                             <select name="start_time" class="form-select start_time">
-
+                                <option disabled selected>Elija una opción
+                                </option>
                             </select>
                             <small id="errorCreateBookingStartTime"></small>
                         </div>
@@ -56,16 +55,16 @@
                         {{-- horas disponibles (fin) --}}
                         <div class="mb-3">
                             <label for="finishTime" class="form-label">Hora de fin</label>
-                            <select name="finish_time" class="form-select finish_time">
+                            <select disabled name="finish_time" class="form-select finish_time">
                                 <option disabled selected>Elija una opción
                                 </option>
                             </select>
                             <small id="errorCreateBookingStartTime"></small>
                         </div>
-                        <input type="hidden" class="classroomID" name="classroom_id" data-classId="8" value="8">
-                        <input type="hidden" class="participants" name="participants" data-participants="10" value="10">
-                        <input type="hidden" class="booking_date" name="booking_date" data-classId="2022-06-27"
-                               value="2022-06-27">
+                        {{-- los siguientes parametros en value serán los que lleguen desde el calendario --}}
+                        <input type="hidden" class="classroomID" name="classroom_id" value="8">
+                        <input type="hidden" class="participants" name="participants" value="10">
+                        <input type="hidden" class="bookingDate" name="booking_date" value="2022-06-27">
 
                         <button id="createBooking" type="submit" class="btn btn-primary">Crear</button>
                     </form>
@@ -77,11 +76,10 @@
 
 @section('scripts')
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             var url = `/bookings/periods`;
-            // var classroomId = $('.classroomID').data("classId");
-            var classroomId = 8;
-            var date = "2022-06-27";
+            var classroomId = $('.classroomID').val();
+            var date = $('.bookingDate').val();
             var inicioArr = [];
             $.ajax({
                 type: 'POST',
@@ -92,15 +90,17 @@
                     classroom_id: classroomId,
                     date: date
                 },
-                success: function (data) {
+                success: function(data) {
                     if (data.length > 1) {
-                        data.forEach(function (elem) {
+                        data.forEach(function(elem) {
                             elem.pop()
                             inicioArr.push(elem)
                         })
                         for (let i = 0; i < inicioArr.length; i++) {
                             for (let j = 0; j < inicioArr[i].length; j++) {
-                                $('.start_time').append(`<option value="${inicioArr[i][j]}" data-position-startset="${i}" data-position-hourset="${j}">${inicioArr[i][j]}</option>`)
+                                $('.start_time').append(
+                                    `<option value="${inicioArr[i][j]}" data-position-startset="${i}" data-position-hourset="${j}">${inicioArr[i][j]}</option>`
+                                )
                             }
                         }
                     } else {
@@ -109,8 +109,9 @@
                 }
             });
 
-            $('.start_time').on('change', function () {
+            $('.start_time').on('change', function() {
                 $('.finish_time').empty();
+                $('.finish_time').removeAttr('disabled');
                 $('.finish_time').append(`<option disabled selected>Elija una opción</option>`)
                 var timeSet = $(this).find('option:selected').data("position-startset")
                 var hourSet = $(this).find('option:selected').data("position-hourset")
@@ -124,13 +125,14 @@
                         classroom_id: classroomId,
                         date: date
                     },
-                    success: function (data) {
+                    success: function(data) {
                         if (data.length > 1) {
                             for (let i = hourSet + 1; i < data[timeSet].length; i++) {
-                                $('.finish_time').append(`<option value="${data[timeSet][i]}">${data[timeSet][i]}</option>`)
+                                $('.finish_time').append(
+                                    `<option value="${data[timeSet][i]}">${data[timeSet][i]}</option>`
+                                )
                             }
-                        } else {
-                        }
+                        } else {}
                     }
                 });
             })
