@@ -1,18 +1,21 @@
-
-$('.form-select').on('change',function (e) {
-let classroom_id=($(this).find('option:selected').val());
+$('.form-select').on('change', function (e) {
+    let classroom_id = ($(this).find('option:selected').val());
     $.ajax({
-    
-        type:'POST',
-        url:`/bookings/filter`,
-        cache:false,
-        data:{_token:'{{csrf_token()}}',classroom_id:classroom_id},
-        success:function(data){
+        headers: {
+            'X-CSRF-TOKEN': window.CSRF_TOKEN
+        },
+        type: 'POST',
+        url: `/bookings/filter`,
+        cache: false,
+        data: {
+            classroom_id: classroom_id
+        },
+        success: function (data) {
             console.log(data)
         }
-        
-        
-    })  
+
+
+    })
 
 })
 const getBookings = () => {
@@ -25,8 +28,8 @@ const getBookings = () => {
 
             start: el.booking_date + "T" + el.start_time,
             end: el.booking_date + "T" + el.finish_time,
-            color:'blue',
-            textColor:'yellow'
+            color: 'blue',
+            textColor: 'yellow'
         }
     });
 
@@ -42,8 +45,8 @@ const getBookingsAssignments = () => {
             description: el.booking_description,
             start: el.booking_date + "T" + el.start_time,
             end: el.booking_date + "T" + el.finish_time,
-            color:'green',
-            textColor:'white'
+            color: 'green',
+            textColor: 'white'
 
         }
     });
@@ -70,7 +73,7 @@ $inputParticipants.addEventListener('keyup', e => {
 })
 
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
     $('#calendar').empty();
     let rta;
@@ -91,34 +94,34 @@ document.addEventListener('DOMContentLoaded', function() {
         // }
     });
     calendar.render();
-    let btnfilter=document.getElementById('filter-butom');
+    let btnfilter = document.getElementById('filter-butom');
 
-    btnfilter.addEventListener('click',function(e){
-       
+    btnfilter.addEventListener('click', function (e) {
+
         // e.preventDefault();
 
-    let eventos = getBookings()
-    let materias = getBookingsAssignments();
+        let eventos = getBookings()
+        let materias = getBookingsAssignments();
 
-    let rta = eventos.concat(materias);
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        locale: "es",
-        headerToolbar: {
-            left: 'prev, next, today',
-            center: 'title',
-            right: 'dayGridMonth, timeGridWeek, listWeek'
-        },
-        timeZone: 'local',
-        events: rta,
-        contentHeight: 600,
-        // eventColor: '#378006',
-        // dateClick: function(info) {
-        //     alert('info:' + info.date)
-        // }
-    });
+        let rta = eventos.concat(materias);
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: "es",
+            headerToolbar: {
+                left: 'prev, next, today',
+                center: 'title',
+                right: 'dayGridMonth, timeGridWeek, listWeek'
+            },
+            timeZone: 'local',
+            events: rta,
+            contentHeight: 600,
+            // eventColor: '#378006',
+            // dateClick: function(info) {
+            //     alert('info:' + info.date)
+            // }
+        });
 
-    // calendar.eventAdd(event[])
-    calendar.render();
-})
+        // calendar.eventAdd(event[])
+        calendar.render();
+    })
 });
