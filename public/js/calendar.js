@@ -5,8 +5,8 @@ const getBookings = () => {
         return {
             title: `${el.event_name} ${el.booking_description}`,
             // title: el.classroom_id + " - " + el.classroom_name, //borrar
-            start: el.booking_date,
-            end: "2022-04-05"
+            start: el.booking_date + "T" + el.start_time,
+            end: el.booking_date + "T" + el.finish_time
         }
     });
 
@@ -20,8 +20,8 @@ const getBookingsAssignments = () => {
             title: el.assignment_name, // Borra lo de id aula
             // title: el.classroom_id + " - " + el.classroom_name, //borrar
             description: el.booking_description,
-            start: el.booking_date,
-            end: "2022-04-05"
+            start: el.booking_date + "T" + el.start_time,
+            end: el.booking_date + "T" + el.finish_time
         }
     });
 
