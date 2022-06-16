@@ -20,14 +20,17 @@ use Spatie\Period\Precision;
 
 class BookingController extends Controller
 {
+    
+    
+  
     /**
      * Display a listing of the resource.
      *TODO: filtrar por materia activa
      */
     public function index()
     {
-        $bookings = [];
-        $bookings_assignments = [];
+        // $bookings = null;
+        // $bookings_assignments = null;
 
         if (auth()->user()->hasAnyRole('teacher', 'user')) {
             $bookings = DB::table('bookings')
@@ -52,8 +55,8 @@ class BookingController extends Controller
 
             $classrooms = Classroom::all();
         }
-
-        return view('booking.index', compact('bookings', 'bookings_assignments', 'classrooms'));
+        //compact('bookings', 'bookings_assignments', 'classrooms')
+        return view('booking.index',compact('classrooms','bookings', 'bookings_assignments'));
     }
 
     /**
@@ -248,7 +251,9 @@ class BookingController extends Controller
     public function classroomBookings(Request $request, Booking $bookings)
     {
         $id = $request->classroom_id;
-
+    $bookings=[];
+    $bookings_assignments=[];
+    $array=[];
         $bookings = DB::table('bookings')
             ->join('events', 'bookings.event_id', '=', 'events.id')
             ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
@@ -265,7 +270,10 @@ class BookingController extends Controller
 
         $classrooms = Classroom::all();
 
-        return view('booking.index', compact('bookings', 'bookings_assignments', 'classrooms'));
+        // $arraybookings=array_push($arraybookings, $bookings);
+        // $arraybookings_assignments=array_push($arraybookings_assignments, $bookings_assignments);
+        $response = $bookings->concat($bookings_assignments);
+        return $response;
     }
 
 }
