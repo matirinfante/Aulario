@@ -73,7 +73,6 @@ class BookingController extends Controller
      */
     public function store(BookingStoreRequest $request)
     {
-        //Carbon::parse($request->date)->addWeeks(2);
         try {
             if (auth()->user()->hasAnyRole('user', 'teacher')) {
 
@@ -230,9 +229,9 @@ class BookingController extends Controller
 
             $init = Carbon::today()->setTimeFromTimeString(($elem->start()->format('H:i:s')));
             $end = Carbon::today()->setTimeFromTimeString(($elem->end()->format('H:i:s')));
-            $gaps[$i][] = $init->format('H:i:s');
+            $gaps[$i][] = $init->format('H:i');
             do {
-                $gaps[$i][] = $init->addMinutes(30)->format('H:i:s');
+                $gaps[$i][] = $init->addMinutes(30)->format('H:i');
             } while ($init->lessThan($end));
             $i++;
         }

@@ -42,7 +42,7 @@ Route::middleware(['auth'])->group(function () {
     //Period gen
     Route::post('/bookings/periods', [BookingController::class, 'getGaps'])->name('bookings.gaps');
     //MyBookings
-    Route::post('/myBookings', [BookingController::class, 'myBookings'])->name('bookings.mybookings');
+    Route::get('/myBookings', [BookingController::class, 'myBookings'])->name('bookings.mybookings');
 
     Route::post('/bookings/filter', [BookingController::class, 'classroomBookings'])->name('bookings.filter');
     Route::resources([
