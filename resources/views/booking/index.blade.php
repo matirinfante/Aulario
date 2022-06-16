@@ -46,7 +46,8 @@
     <div id="calendar" class="p-5">
     </div>
 
-
+    
     <script src="{{ asset('js/fullcalendar.js') }}" defer></script>
     <script src="{{ asset('js/calendar.js') }}" defer></script>
+    <script src="{{ asset('js/fullcalendar/es.js') }}" defer></script>
 @endsection

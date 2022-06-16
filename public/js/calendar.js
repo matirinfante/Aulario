@@ -6,7 +6,9 @@ const getBookings = () => {
             title: `${el.event_name} ${el.booking_description}`,
             // title: el.classroom_id + " - " + el.classroom_name, //borrar
             start: el.booking_date,
-            end: "2022-04-05"
+            end: "2022-04-05",
+            color:'blue',
+            textColor:'yellow'
         }
     });
 
@@ -21,7 +23,9 @@ const getBookingsAssignments = () => {
             // title: el.classroom_id + " - " + el.classroom_name, //borrar
             description: el.booking_description,
             start: el.booking_date,
-            end: "2022-04-05"
+            end: "2022-04-05",
+            color:'green',
+            textColor:'white'
         }
     });
 
@@ -56,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let rta = eventos.concat(materias);
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        locale: 'es',
+        locale: "es",
         headerToolbar: {
             left: 'prev, next, today',
             center: 'title',
@@ -65,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
         timeZone: 'local',
         events: rta,
         contentHeight: 600,
-        eventColor: '#378006',
+        // eventColor: '#378006',
         // dateClick: function(info) {
         //     alert('info:' + info.date)
         // }
