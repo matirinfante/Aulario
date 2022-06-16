@@ -248,7 +248,7 @@ class BookingController extends Controller
         return view('booking.mybookings', compact('bookings'));
     }
 
-    public function classroomBookings(Request $request, Booking $bookings)
+    public function classroomBookings(Request $request)
     {
         $id = $request->classroom_id;
     $bookings=[];
@@ -268,10 +268,6 @@ class BookingController extends Controller
             ->get(['bookings.id as booking_id', 'bookings.description as booking_description', 'bookings.booking_date as booking_date', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status',
                 'assignments.assignment_name as assignment_name', 'classrooms.classroom_name as classroom_name', 'bookings.classroom_id as classroom_id']);
 
-        $classrooms = Classroom::all();
-
-        // $arraybookings=array_push($arraybookings, $bookings);
-        // $arraybookings_assignments=array_push($arraybookings_assignments, $bookings_assignments);
         $response = $bookings->concat($bookings_assignments);
         return $response;
     }
