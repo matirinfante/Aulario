@@ -12,6 +12,8 @@ $('.form-select').on('change', function (e) {
         },
         success: function (data) {
             console.log(data)
+            $('#bookings').textContent=data;
+            $('#bookings_assignments').textContent=data;
         }
 
 
@@ -20,25 +22,31 @@ $('.form-select').on('change', function (e) {
 })
 const getBookings = () => {
     let bookings = document.getElementById('bookings').textContent
-    let booking = JSON.parse(bookings)
-    let eventos = booking.map(el => {
-        return {
-            title: `${el.event_name} ${el.booking_description}`,
-            // title: el.classroom_id + " - " + el.classroom_name, //borrar
-
-            start: el.booking_date + "T" + el.start_time,
-            end: el.booking_date + "T" + el.finish_time,
-            color: 'blue',
-            textColor: 'yellow'
+    let arraybookings=[];
+    arraybookings.push(bookings);
+    console.log(bookings)
+    let eventos="";
+    // let booking = JSON.parse(bookings)
+for (let i = 0; i < arraybookings.length; i++) {
+    const el = arraybookings[i];
+     eventos +=`
+     { 
+            'title'= ${el.event_name} ${el.booking_description},
+            'start'= ${el.booking_date}T${el.start_time},
+            'end'= ${el.booking_date}T${el.finish_time},
+            'color'= 'blue',
+            'textColor'= 'yellow'}`
         }
-    });
-
-    return eventos
+        return JSON.parse(eventos.trim())
+    
 }
+   
+
 const getBookingsAssignments = () => {
     let bookings_assignments = document.getElementById('bookings_assignments').textContent
-    let booking_assignments = JSON.parse(bookings_assignments)
-    let materias = booking_assignments.map(el => {
+    console.log(bookings_assignments)
+    // let booking_assignments = JSON.parse(bookings_assignments)
+    let materias = bookings_assignments.foreach(el => {
         return {
             title: el.assignment_name, // Borra lo de id aula
             // title: el.classroom_id + " - " + el.classroom_name, //borrar
@@ -73,10 +81,13 @@ $inputParticipants.addEventListener('keyup', e => {
 })
 
 
-document.addEventListener('DOMContentLoaded', function () {
+$('#select').on('change' , function (e) {
+
     var calendarEl = document.getElementById('calendar');
-    $('#calendar').empty();
-    let rta;
+    let eventos = getBookings();
+    let materias = getBookingsAssignments();
+    console.log(eventos);
+    let rta = eventos.concat(materias);
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         locale: "es",
@@ -93,35 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
         //     alert('info:' + info.date)
         // }
     });
-    calendar.render();
-    let btnfilter = document.getElementById('filter-butom');
-
-    btnfilter.addEventListener('click', function (e) {
-
-        // e.preventDefault();
-
-        let eventos = getBookings()
-        let materias = getBookingsAssignments();
-
-        let rta = eventos.concat(materias);
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            locale: "es",
-            headerToolbar: {
-                left: 'prev, next, today',
-                center: 'title',
-                right: 'dayGridMonth, timeGridWeek, listWeek'
-            },
-            timeZone: 'local',
-            events: rta,
-            contentHeight: 600,
-            // eventColor: '#378006',
-            // dateClick: function(info) {
-            //     alert('info:' + info.date)
-            // }
-        });
-
-        // calendar.eventAdd(event[])
+         // calendar.eventAdd(event[])
         calendar.render();
-    })
+    
 });
