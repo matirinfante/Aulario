@@ -25,8 +25,8 @@ class BookingStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_user'=>['required'],
-            'participants'=>['required','integer'],
+            //'id_user'=>['required'],
+            'participants'=>['required','numeric'],
             'description'=>['required','string'],
             'booking_date'=>['required',new CheckTwoWeeks],
             'start_time'=>['required','date_format:H:i:s','before:finish_time'],
@@ -43,5 +43,5 @@ class BookingStoreRequest extends FormRequest
             'finish_time'=>'hora fin',
         ];
     }
-    
+
 }
