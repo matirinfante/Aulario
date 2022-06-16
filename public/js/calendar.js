@@ -4,6 +4,7 @@ const getBookings = () => {
     let eventos = booking.map(el => {
         return {
             title: `${el.event_name} ${el.booking_description}`,
+            // title: el.classroom_id + " - " + el.classroom_name, //borrar
             start: el.booking_date,
             end: "2022-04-05"
         }
@@ -16,7 +17,8 @@ const getBookingsAssignments = () => {
     let booking_assignments = JSON.parse(bookings_assignments)
     let materias = booking_assignments.map(el => {
         return {
-            title: el.assignment_name,
+            title: el.assignment_name, // Borra lo de id aula
+            // title: el.classroom_id + " - " + el.classroom_name, //borrar
             description: el.booking_description,
             start: el.booking_date,
             end: "2022-04-05"
@@ -48,8 +50,8 @@ $inputParticipants.addEventListener('keyup', e => {
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 
-    let materias = getBookingsAssignments();
     let eventos = getBookings()
+    let materias = getBookingsAssignments();
 
     let rta = eventos.concat(materias);
     var calendar = new FullCalendar.Calendar(calendarEl, {
