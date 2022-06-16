@@ -14,25 +14,31 @@
         <div class="alert alert-danger d-none" id="errorsMsj" role="alert">
 
             @foreach ($errors->all() as $error)
-                {{ $error }}<br/>
+                {{ $error }}<br />
             @endforeach
         </div>
     @endif
-    <div>
-        @foreach($bookings as $booking)
-            <div class="card bg-success bg-opacity-25">
-                @isset($booking->assignment)
-                    <div class="card-header">{{$booking->assignment->assignment_name}}</div>
-                @endisset
-                @isset($booking->event)
-                    <div class="card-header">{{$booking->event->event_name}}</div>
-                @endisset
-                <div class="card-body">
-                    <p>{{$booking->start_time}} - {{$booking->finish_time}}</p>
-                    <p>Aula: {{$booking->classroom->classroom_name}}</p>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            @foreach ($bookings as $booking)
+                <div class="card text-center bg-success bg-opacity-25 mb-4">
+                    @isset($booking->assignment)
+                        <div class="card-header">{{ $booking->assignment->assignment_name }}</div>
+                    @endisset
+                    @isset($booking->event)
+                        <div class="card-header">{{ $booking->event->event_name }}</div>
+                    @endisset
+                    <div class="card-body">
+                        <p>Fecha: {{ date('d/m/Y', strtotime($booking->booking_date)) }}</p>
+                        <p>Inicio: {{ date('h:i', strtotime($booking->start_time)) }} Hs &nbsp;&nbsp;&nbsp; Fin:
+                            {{ date('h:i', strtotime($booking->finish_time)) }} Hs</p>
+                        <p>Descripción: {{ $booking->description }}</p>
+                        <p>Aula: {{ $booking->classroom->classroom_name }}</p>
+
+                    </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        </div>
     </div>
 @endsection
 
