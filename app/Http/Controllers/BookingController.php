@@ -20,9 +20,9 @@ use Spatie\Period\Precision;
 
 class BookingController extends Controller
 {
-    
-    
-  
+
+
+
     /**
      * Display a listing of the resource.
      *TODO: filtrar por materia activa
@@ -265,7 +265,7 @@ class BookingController extends Controller
             ->join('assignments', 'bookings.assignment_id', '=', 'assignments.id')
             ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
             ->where('classroom_id', $id)
-            ->get(['bookings.id as booking_id', 'bookings.description as booking_description', 'bookings.booking_date as booking_date', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status',
+            ->get(['bookings.id as booking_id', 'bookings.description as booking_description', 'bookings.week_day as week_day', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status',
                 'assignments.assignment_name as assignment_name', 'classrooms.classroom_name as classroom_name', 'bookings.classroom_id as classroom_id']);
 
         $response = $bookings->concat($bookings_assignments);
