@@ -8,14 +8,15 @@
 
         <div class="container text-center">
             <h3>Datos de la reserva</h3>
-            <form class="filter" action="">
+            <form class="filter" action="{{route('bookings.filter')}}" method="POST">
+            @csrf
                 <div class="col-auto">
                     <span>Ingrese cantidad de participantes</span>
-                    <input id="participants" class="form-control" type="number" placeholder="40">
+                    <input id="participants" name="participants" class="form-control" type="number" placeholder="40">
                 </div>
                 <div class="col-auto">
                     <span>Seleccione el aula</span>
-                    <select class="form-select" name="" id="select">
+                    <select class="form-select" id="select">
                         <option value="">Cargamela...</option>
                         @forelse ($classrooms as $classroom)
                             <option 
@@ -24,16 +25,14 @@
                             Edificio: {{$classroom['building']}} Nombre: {{$classroom['classroom_name']}}   Capacidad: {{$classroom['capacity']}}
                         </option>
                         @empty
-                            <option value="">No hay nada para robar :</option>
+                            <option value="">No hay ningun aula cargada</option>
                         @endforelse
                     </select>
                 </div>
-                <button class="btn btn-primary m-3"> Filtrar </button>
+                <button type="submit" class="btn btn-primary m-3"> Filtrar </button>
             </form>
         </div>
     
-   
-
     <div id="bookings" class="d-none">
         {{$bookings}}
     </div>
@@ -41,10 +40,8 @@
         {{$bookings_assignments}}
     </div>
 
-
     <div id="calendar" class="p-5">
     </div>
-
 
     <script src="{{ asset('js/fullcalendar.js') }}" defer></script>
     <script src="{{ asset('js/calendar.js') }}" defer></script>
