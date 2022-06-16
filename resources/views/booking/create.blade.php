@@ -1,192 +1,139 @@
 @extends('layouts.app')
 
-@section('styles')
-    <style>
-        select{
-            min-width:200px;
-        }
-        form{
-            margin:auto; 
-            width:500px; 
-            background-color:lightblue; 
-            padding:10px
-        }
-    </style>
-@endsection
-
 @section('content')
 
-<p>Por ahora solo carga las reservas con los eventos ya existentes.<br>Si se elige mas de un aula hace una reserva por cada aula.<br>Verifica que la capacidad coincida con los participantes antes de enviar el formulario.</p>
+    @if ($errors->any())
+        <div class="alert alert-danger d-none" id="errorsMsj" role="alert">
 
-<br>
-    <form method="POST" id="form-store" action="{{route('bookings.store')}}">
-        @csrf
-        <div class="mb-3">
-            <label for="classroom_id">Aulas</label>
-            <select class="js-example-basic-multiple" multiple='multiple' id="classroom_id" name="classroom_id[]" id="classroom_id">
-                @foreach ($classrooms as $classroom)
-                    <option cap="{{$classroom->capacity}}" value="{{$classroom->id}}" ide="{{$classroom->id}}">{{$classroom->classroom_name}} : {{$classroom->capacity}}</option>                
-                @endforeach
-            </select>
+            @foreach ($errors->all() as $error)
+                {{ $error }}<br/>
+            @endforeach
         </div>
-        {{-- Capacidad total de aulas --}}
-        <label for="capacidad">Capacidad</label>
-        <input type="text" id="capacidad" disabled>
-        
-        {{-- @if (!empty($assignments))
-            <div class="mb-3">
-                <select class="js-example-basic-single" name="assignment_id" id="nombre">
-                    @foreach ($assignments as $assignment)
-                        <option>{{$assignment->assignment_name}}</option>                
-                    @endforeach
-                </select>
+    @endif
+
+    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createModal">Ver
+    </button>
+
+
+    <div class="modal fade createModal" id="createModal" position="relative" tabindex="-1"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Crear Reserva de evento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{-- <form id="createBookingForm" name="form_booking" method="POST" action="{{ route('bookings.store') }}"> --}}
+                    <form id="createBookingForm" name="form_booking" method="POST"
+                          action="{{ route('bookings.store') }}">
+                        {{-- pasar como parámetros en action = 'classroom_id', 'participants', 'booking_date' --}}
+                        @csrf
+                        {{-- nombre evento --}}
+                        <div class="mb-3">
+                            <label for="booking_name" class="form-label">Nombre del evento</label>
+                            <input type="text" class="form-control" name="event_name" id="createName"
+                                   placeholder="Parcial ADyDS" required>
+                            <small id="errorCreateBookingName"></small>
+                        </div>
+
+                        {{-- descripción --}}
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Descripción</label>
+                            <input type="text" class="form-control" name="description" id="createDescription" required>
+                            <small id="errorCreateBookingDescription"></small>
+                        </div>
+
+                        {{-- horas disponibles (inicio) --}}
+                        <div class="mb-3">
+                            <label for="startTime" class="form-label">Hora de inicio</label>
+                            <select name="start_time" class="form-select start_time">
+
+                            </select>
+                            <small id="errorCreateBookingStartTime"></small>
+                        </div>
+
+                        {{-- horas disponibles (fin) --}}
+                        <div class="mb-3">
+                            <label for="finishTime" class="form-label">Hora de fin</label>
+                            <select name="finish_time" class="form-select finish_time">
+                                <option disabled selected>Elija una opción
+                                </option>
+                            </select>
+                            <small id="errorCreateBookingStartTime"></small>
+                        </div>
+                        <input type="hidden" class="classroomID" name="classroom_id" data-classId="8" value="8">
+                        <input type="hidden" class="participants" name="participants" data-participants="10" value="10">
+                        <input type="hidden" class="booking_date" name="booking_date" data-classId="2022-06-27"
+                               value="2022-06-27">
+
+                        <button id="createBooking" type="submit" class="btn btn-primary">Crear</button>
+                    </form>
+                </div>
             </div>
-        @endif --}}
-
-        <div class="mb-3">
-            <button type="button" class="btn btn-secondary" id="crearEvento">Crear Evento</button>
         </div>
-        
-        @if (!empty($events))
-            <div class="mb-3" id="event_id">
-                <label for="event_id">Eventos</label>
-                <select class="js-example-basic-single" name="event_id" id="event_id">
-                    @foreach ($events as $event)
-                        <option value="{{$event->id}}" part="{{$event->participants}}">{{$event->event_name}}</option>                
-                    @endforeach
-                </select>
-            </div>
-            {{-- Cantidad de participantes --}}
-            <label for="cantidad">Participantes</label>
-            <input type="text" id="cantidad" disabled> 
-        @endif
-        
-        {{-- Resultado de la cuenta matematica --}}
-        <div id="cuenta" value="false"></div>
-
-        <br>
-        <div class="mb-3">
-            <select class="js-example-basic-simple" name="week_day" id="week_day">
-                <option>Lunes</option>
-                <option>Martes</option>
-                <option>Miercoles</option>
-                <option>Jueves</option>
-                <option>Viernes</option>
-                <option>Sabado</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <input type="text" name="description" id="description" placeholder="descripcion">
-            <input type="date" name="booking_date" id="booking_date">
-        </div>
-        <div class="mb-3">
-            <input type="time" name="start_time" id="start_time">
-            <input type="time" name="finish_time" id="finish_time">
-        </div>
-        {{-- Disponibilidad de aulas --}}
-        <div class="mb-3">
-            <label>Chequear Disponibilidad de aulas</label>
-            <button class="btn btn-success" type="button" id="roomCheck">Check</button>
-        </div>
-
-        <input type="submit" value="enviar" id="send">
-    </form>
-    
+    </div>
 @endsection
 
 @section('scripts')
     <script>
-        $(document).ready(function() {
-            $('.js-example-basic-single').select2();
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('.js-example-basic-multiple').select2();
-        });
-    </script>
-    <script>
-        var $partyTotal=0;  //Total de participantes del evento
-        var $capTotal=0;    //Capacidad total de aulas en conjunto
-        //Se toma la cantidad de participantes en el evento y se llama a la funcion math
-        $("#event_id").change(function(){
-            $( "#event_id option:selected" ).each(function() {
-                $participants=$(this)[0].part.value;
-                $partyTotal=$participants;
-                $("#cantidad").attr('value',$partyTotal);
+        $(document).ready(function () {
+            var url = `/bookings/periods`;
+            // var classroomId = $('.classroomID').data("classId");
+            var classroomId = 8;
+            var date = "2022-06-27";
+            var inicioArr = [];
+            $.ajax({
+                type: 'POST',
+                url: url,
+                cache: false,
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    classroom_id: classroomId,
+                    date: date
+                },
+                success: function (data) {
+                    if (data.length > 1) {
+                        data.forEach(function (elem) {
+                            elem.pop()
+                            inicioArr.push(elem)
+                        })
+                        for (let i = 0; i < inicioArr.length; i++) {
+                            for (let j = 0; j < inicioArr[i].length; j++) {
+                                $('.start_time').append(`<option value="${inicioArr[i][j]}" data-position-startset="${i}" data-position-hourset="${j}">${inicioArr[i][j]}</option>`)
+                            }
+                        }
+                    } else {
+
+                    }
+                }
             });
-            math($capTotal,$partyTotal);
+
+            $('.start_time').on('change', function () {
+                $('.finish_time').empty();
+                $('.finish_time').append(`<option disabled selected>Elija una opción</option>`)
+                var timeSet = $(this).find('option:selected').data("position-startset")
+                var hourSet = $(this).find('option:selected').data("position-hourset")
+                var endTime = []
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    cache: false,
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        classroom_id: classroomId,
+                        date: date
+                    },
+                    success: function (data) {
+                        if (data.length > 1) {
+                            for (let i = hourSet + 1; i < data[timeSet].length; i++) {
+                                $('.finish_time').append(`<option value="${data[timeSet][i]}">${data[timeSet][i]}</option>`)
+                            }
+                        } else {
+                        }
+                    }
+                });
+            })
         });
-        //Se toma el espacio disponible en el(las) aula/s y se llama a la funcion math
-        $("#classroom_id").change(function(){
-            $capTotal=0;
-            var $largo=($( "#classroom_id option:selected" )).length;
-            $( "#classroom_id option:selected" ).each(function() {
-                $capacity=$(this)[0].attributes.cap.value;
-                $capTotal+=parseInt($capacity);
-                $("#capacidad").attr('value',$capTotal);
-            });
-            math($capTotal,$partyTotal);
-        });
-
-        //Funcion math: evalua la diferencia entre los parametros y genera un mensaje en un div
-        //Setea un atributo value en true o false para una posterior verificacion.
-        function math($cap,$party){
-            if ($cap>=$party){
-                $("#cuenta").html('Hay espacio para los nenes');
-                $("#cuenta").attr('value','true');  //Para verificar al submitir
-                $("#cuenta").css('color','green');
-            }else{
-                $("#cuenta").html('Hay pibes que miran desde la ventana');
-                $("#cuenta").attr('value','false');
-                $("#cuenta").css('color','red');
-            }
-        }
-
-
-        $('#crearEvento').click(function(){
-            alert('Se podría abrir un modal para crear un evento, en caso de que el usuario lo necesite.')
-        });
-
-
-        //Al submitir el formulario se chequea que las aulas tengan espacio suficiente.
-        $('#send').click(function(){
-            var $valid= $('#cuenta').attr('value');
-            if ($valid=='false'){
-                event.preventDefault();
-                alert('No hay espacio suficiente en las aulas seleccionadas.');
-            }
-        });
-
-
-        //La idea de esto es que meta en un arreglo todos los parametros necesarios para verificar que cada aula de las usadas este libre en el horario elegido. No se como poronga mandar los parametros a una funcion del Controller desde acá
-        $('#roomCheck').click(function(){
-        //Odio JQuery
-            $classrooms=$('#classroom_id option:selected');
-            //console.log($classrooms);
-            $cant=$classrooms.length;
-            var $arreglo=[];
-            var $day= $('#week_day').val();
-            var $date= $('#booking_date').val();
-            var $start= $('#start_time').val();
-            var $finish= $('#finish_time').val();
-            for (var i = 0; i < $cant; i++){
-                $id=$classrooms[i].attributes.ide.value;
-                $arreglo[i]={id:$id,week_day:$day,booking_date:$date,start_time:$start,finish_time:$finish};
-            }
-            console.log($arreglo);
-
-            //NO ANDA ESTA PORONGA
-            // var $url={{route('bookings.store')}};
-            // $.ajax({
-            //     type: "POST",
-            //     url: $url,
-            //     data: $arreglo,
-            //     success: function (data){
-            //         console.log('exito');
-            //     }
-            // });
-        });
-
     </script>
 @endsection

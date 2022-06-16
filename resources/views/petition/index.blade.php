@@ -1,8 +1,8 @@
 <!-- 
-    [x](Usa los permisos, mas facil que crear una vista)  Crear vista de reservas segun el usuario que reservo, sus propias reservas.
-    [x]Aceptar reserva, modificar el controlador.
-    [x]Vista 'crear' falta arreglar, pero esta arreglada y el modal implementado.
-    [x]Si el admin no puede crear reserva, entonces que el id de usuario y nombre que las crea, sea predefinido en el sistema, y evitar cambios. 
+    [](Usa los permisos, mas facil que crear una vista)  Crear vista de reservas segun el usuario que reservo, sus propias reservas.
+    []Aceptar reserva, modificar el controlador.
+    []Vista 'crear' falta arreglar, pero esta arreglada y el modal implementado.
+    []Si el admin no puede crear reserva, entonces que el id de usuario y nombre que las crea, sea predefinido en el sistema, y evitar cambios. 
 -->
 
 @extends('layouts.app')

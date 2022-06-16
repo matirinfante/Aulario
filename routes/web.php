@@ -44,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
     //MyBookings
     Route::get('/myBookings', [BookingController::class, 'myBookings'])->name('bookings.mybookings');
 
-    Route::post('/bookings/filter' ,[BookingController::class,'classroomBookings'])->name('bookings.filter');
+    Route::post('/bookings/filter', [BookingController::class, 'classroomBookings'])->name('bookings.filter');
     Route::resources([
         'assignments' => AssignmentController::class,
         'bookings' => BookingController::class,

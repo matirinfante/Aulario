@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\CheckTwoWeeks;
 
@@ -25,23 +26,24 @@ class BookingStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_user'=>['required'],
-            'participants'=>['required','integer'],
-            'description'=>['required','string'],
-            'booking_date'=>['required',new CheckTwoWeeks],
-            'start_time'=>['required','date_format:H:i:s','before:finish_time'],
-            'finish_time'=>['required']
+            //'id_user'=>['required'],
+            'participants' => ['required', 'numeric'],
+            'description' => ['required', 'string'],
+            'booking_date' => ['required', new CheckTwoWeeks()],
+            'start_time' => ['required', 'date_format:H:i', 'before:finish_time'],
+            'finish_time' => ['required']
         ];
     }
+
     public function attributes()
     {
-        return[
-            'participants'=>'cantidad participantes',
-            'description'=>'descripción',
-            'booking_date'=>'fecha',
-            'start_time'=>'hora inicio',
-            'finish_time'=>'hora fin',
+        return [
+            'participants' => 'cantidad participantes',
+            'description' => 'descripción',
+            'booking_date' => 'fecha',
+            'start_time' => 'hora inicio',
+            'finish_time' => 'hora fin',
         ];
     }
-    
+
 }
