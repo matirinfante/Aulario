@@ -1,8 +1,8 @@
 <tr>
 <td class="header">
-<a href="{{ $url }}" style="display: inline-block;">
+<a href="https://aulario.fi.uncoma.edu.ar" style="display: inline-block;">
 @if (trim($slot) === 'Aulario')
-<img src="{{asset('assets/img/aulario.png')}}" class="logo" alt="Aulario">
+<h1>AULARIO</h1>
 @else
 {{ $slot }}
 @endif
