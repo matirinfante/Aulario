@@ -63,7 +63,6 @@ class BookingController extends Controller
      */
     public function store(BookingStoreRequest $request)
     {
-        dd($request);
         try {
             if (auth()->user()->hasAnyRole('user', 'teacher')) {
 
@@ -183,7 +182,7 @@ class BookingController extends Controller
      */
     public function getGaps(Request $request)
     {
-       
+
         $totalTime = Schedule::where('classroom_id', $request->classroom_id)->where('day', Carbon::parse($request->date)->dayName)->get(['start_time', 'finish_time']);
         $availability = new PeriodCollection();
         $occupiedTimes = new PeriodCollection();
