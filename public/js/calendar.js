@@ -38,12 +38,89 @@ $('.form-select').on('change', function(e) {
                 events: rta,
                 contentHeight: 600,
                 dateClick: function(info) {
+                    
                     let today = new Date().toISOString().slice(0, 10);
                     var currentDate=Date.parse(today);
                     var chosenDate = Date.parse(info.dateStr);
                     var dif=chosenDate-currentDate;
                     if (dif>=0 && dif<=1209600000){
-                        alert('info:' + info.date);
+                        
+                        console.log(info.dateStr);
+                        $('.bookingDate').val(info.dateStr);
+                        $('.participants').val($('#participants').val());
+                        let optionClassroom = $('#select').find('option:selected').val();
+                        console.log(optionClassroom);
+                        let classroomName=$('#select').find('option:selected').data('classroomName');
+                        // console.log(classroomName);
+                        $('.classroomID').val(optionClassroom);
+                        $('#classroomdata').text(classroomName);
+                        // alert('info:' + info.date);
+                        //no intentes comprender
+                        $('#createModal').modal("show");
+                            var url = `/bookings/periods`;
+                            var classroomId = $('.classroomID').val();
+                            var date = $('.bookingDate').val();
+                            var inicioArr = [];
+                            $.ajax({
+                                headers: {
+                                    'X-CSRF-TOKEN': window.CSRF_TOKEN
+                                },
+                                type: 'POST',
+                                url: url,
+                                cache: false,
+                                data: {
+                                    classroom_id: classroomId,
+                                    date: date
+                                },
+                                success: function(data) {
+                                    if (data.length > 1) {
+                                        data.forEach(function(elem) {
+                                            elem.pop()
+                                            inicioArr.push(elem)
+                                        })
+                                        for (let i = 0; i < inicioArr.length; i++) {
+                                            for (let j = 0; j < inicioArr[i].length; j++) {
+                                                $('.start_time').append(
+                                                    `<option value="${inicioArr[i][j]}" data-position-startset="${i}" data-position-hourset="${j}">${inicioArr[i][j]}</option>`
+                                                )
+                                            }
+                                        }
+                                    } else {
+                    
+                                    }
+                                }
+                            });
+                    
+                            $('.start_time').on('change', function() {
+                                $('.finish_time').empty();
+                                $('.finish_time').removeAttr('disabled');
+                                $('.finish_time').append(`<option disabled selected>Elija una opción</option>`)
+                                var timeSet = $(this).find('option:selected').data("position-startset")
+                                var hourSet = $(this).find('option:selected').data("position-hourset")
+                                var endTime = []
+                                $.ajax({
+                                    type: 'POST',
+                                    url: url,
+                                    cache: false,
+                                    data: {
+                                        _token: '{{ csrf_token() }}',
+                                        classroom_id: classroomId,
+                                        date: date
+                                    },
+                                    success: function(data) {
+                                        if (data.length > 1) {
+                                            for (let i = hourSet + 1; i < data[timeSet].length; i++) {
+                                                $('.finish_time').append(
+                                                    `<option value="${data[timeSet][i]}">${data[timeSet][i]}</option>`
+                                                )
+                                            }
+                                        } else {}
+                                    }
+                                });
+                            })
+                       
+
+
                     }
                 }
             });
