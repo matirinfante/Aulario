@@ -8,8 +8,8 @@ const $inputStart = d.getElementById('start_time'),
     $container = d.querySelector('#container')
 
 let v1 = false,
-    v2 = false,
-    v3 = false
+    v2 = false
+
 
 const isNum = (value) => {
     let rta = false
@@ -28,19 +28,7 @@ form.addEventListener('click', e => {
     start = ($inputStart.value)
     finish = ($inputFinish.value)
 
-    if (!validator.isEmpty($inputStart.value)) {
-        if (isNum($inputStart.value) || ($inputStart.value).includes(':')) {
-            v1 = true
-            $errorStart.classList.add('d-none')
-        } else {
-            $errorStart.textContent = 'El horario contiene letras '
-            $errorStart.classList.remove('d-none')
-        }
-    } else {
-        $errorStart.textContent = 'El horario de inicio está vacio '
-        $errorStart.classList.remove('d-none')
-    }
-    //Validamos que el apellido sea letras y no esté vacio
+    //Validamos el input de inicio no sea mayor que el de finalizacion
     if (!validator.isEmpty($inputFinish.value)) {
         if (isNum($inputFinish.value) || ($inputFinish.value).includes(':')) {
             v2 = true
@@ -54,15 +42,22 @@ form.addEventListener('click', e => {
         $errorFinish.classList.remove('d-none')
     }
 
-    if (finish > start) {
-        v3 = true
+    if (!validator.isEmpty($inputStart.value)) {
+        if (isNum($inputStart.value) || ($inputStart.value).includes(':')) {
+            v1 = true
+            $errorStart.classList.add('d-none')
+        } else {
+            $errorStart.textContent = 'El horario contiene letras '
+            $errorStart.classList.remove('d-none')
+        }
     } else {
-        $errorStart.textContent += '- El horario de inicio no puede superar al de finalizacion'
+        $errorStart.textContent = 'El horario de inicio está vacio '
         $errorStart.classList.remove('d-none')
     }
 
 
-    if (v1 && v2 && v3) {
+
+    if (v1 && v2) {
         $button.classList.remove('disabled')
     }
 })

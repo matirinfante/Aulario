@@ -44,7 +44,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button id="create_schedule_submit" type="submit" class="btn btn-primary">Crear Horario</button>
+                        <button id="create_schedule_submit" type="submit" class="btn btn-primary disabled">Crear Horario</button>
                 </form>
             </div>
         </div>
