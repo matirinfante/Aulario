@@ -38,13 +38,23 @@
         </form>
     </div>
 
+    @can('create bookings')
+        @hasAnyRole('user|teacher')
+        //invocar modal reserva evento
+        @endHasAnyRole
+        @hasAnyRole('admin')
+        //invocar vista adminCreate
+        @endHasAnyRole
+    @endcan
+
+
 
 
     <div id="bookings" class="d-none">
-   
+
     </div>
     <div id="bookings_assignments" class="d-none">
-       
+
     </div>
 
 
