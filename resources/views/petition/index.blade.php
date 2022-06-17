@@ -4,6 +4,7 @@
     [x]Vista 'crear' falta arreglar, pero esta arreglada y el modal implementado.
     []Si el admin no puede crear reserva, entonces que el id de usuario y nombre que las crea, sea predefinido en el sistema, y evitar cambios.
     []Hacer la comprobacion de campos.
+    []Eliminar comentarios
 -->
 
 @extends('layouts.app')
