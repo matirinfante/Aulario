@@ -1,4 +1,4 @@
-$('.form-select').on('change', function (e) {
+$('.form-select').on('change', function(e) {
     let classroom_id = ($(this).find('option:selected').val());
     $.ajax({
         headers: {
@@ -10,13 +10,38 @@ $('.form-select').on('change', function (e) {
         data: {
             classroom_id: classroom_id
         },
-        success: function (data) {
+        success: function(data) {
             console.log(data)
-            
+
             //modificar como se muestra la fecha de materias
             //arreglar el calendario que se renderiza tarde
             $('#bookings').html(JSON.stringify(data[0]));
-             $('#bookings_assignments').html(JSON.stringify(data[1]));
+            $('#bookings_assignments').html(JSON.stringify(data[1]));
+
+            var calendarEl = document.getElementById('calendar');
+            let eventos = getBookings();
+            let materias = getBookingsAssignments();
+
+            let rta = eventos.concat(materias);
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: "es",
+                headerToolbar: {
+                    left: 'prev, next, today',
+                    center: 'title',
+                    right: 'dayGridMonth, timeGridWeek, listWeek'
+                },
+                timeZone: 'local',
+                events: rta,
+                contentHeight: 600,
+                // eventColor: '#378006',
+                // dateClick: function(info) {
+                //     alert('info:' + info.date)
+                // }
+            });
+            // calendar.eventAdd(event[])
+            calendar.render();
+
         }
 
 
@@ -26,12 +51,12 @@ $('.form-select').on('change', function (e) {
 
 const getBookings = () => {
     let bookings = document.getElementById('bookings').textContent
-  
+
     let booking = JSON.parse(bookings)
-    
+
     let eventos = booking.map(el => {
         return {
-            title:`${el.event_name} ${el.booking_description}`,
+            title: `${el.event_name} ${el.booking_description}`,
             // title: el.classroom_id + " - " + el.classroom_name, //borrar
             start: el.booking_date + "T" + el.start_time,
             end: el.booking_date + "T" + el.finish_time
@@ -40,19 +65,19 @@ const getBookings = () => {
 
     return eventos
 }
-   
+
 
 const getBookingsAssignments = () => {
     let bookings_assignments = document.getElementById('bookings_assignments').textContent
-      
+
     let booking_assignments = JSON.parse(bookings_assignments)
-  
+
     let materias = booking_assignments.map(ba => {
         return {
             title: ba.assignment_name, // Borra lo de id aula
             // title: el.classroom_id + " - " + el.classroom_name, //borrar
             description: ba.booking_description,
-            start: ba.booking_date + "T" +ba.start_time,
+            start: ba.booking_date + "T" + ba.start_time,
             end: ba.booking_date + "T" + ba.finish_time,
             color: 'green',
             textColor: 'white'
@@ -81,31 +106,36 @@ $inputParticipants.addEventListener('keyup', e => {
     filter(participants)
 })
 
+$('#bookings').on('change', e => {
+    console.log('hola holaaa')
+})
 
-$('#select').on('change' , function (e) {
 
-    var calendarEl = document.getElementById('calendar');
-    let eventos = getBookings();
-    let materias = getBookingsAssignments();
-   
-    let rta = eventos.concat(materias);
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        locale: "es",
-        headerToolbar: {
-            left: 'prev, next, today',
-            center: 'title',
-            right: 'dayGridMonth, timeGridWeek, listWeek'
-        },
-        timeZone: 'local',
-        events: rta,
-        contentHeight: 600,
-        // eventColor: '#378006',
-        // dateClick: function(info) {
-        //     alert('info:' + info.date)
-        // }
-    });
-         // calendar.eventAdd(event[])
-        calendar.render();
-    
-});
+
+// $('#select').on('change', function(e) {
+
+//     var calendarEl = document.getElementById('calendar');
+//     let eventos = getBookings();
+//     let materias = getBookingsAssignments();
+
+//     let rta = eventos.concat(materias);
+//     var calendar = new FullCalendar.Calendar(calendarEl, {
+//         initialView: 'dayGridMonth',
+//         locale: "es",
+//         headerToolbar: {
+//             left: 'prev, next, today',
+//             center: 'title',
+//             right: 'dayGridMonth, timeGridWeek, listWeek'
+//         },
+//         timeZone: 'local',
+//         events: rta,
+//         contentHeight: 600,
+//         // eventColor: '#378006',
+//         // dateClick: function(info) {
+//         //     alert('info:' + info.date)
+//         // }
+//     });
+//     // calendar.eventAdd(event[])
+//     calendar.render();
+
+// });
