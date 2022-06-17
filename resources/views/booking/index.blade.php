@@ -16,7 +16,7 @@
             @csrf
             <div class="col-auto">
                 <span>Ingrese cantidad de participantes</span>
-                <input id="participants" class="form-control" type="number" placeholder="40">
+                <input required id="participants" class="form-control" type="number" placeholder="40">
             </div>
             <div class="col-auto">
                 <span>Seleccione el aula</span>
@@ -25,6 +25,8 @@
                     @forelse ($classrooms as $classroom)
                         <option
                             data-capacity="{{$classroom['capacity']}}"
+                            data-classroomName="{{$classroom['classroom_name']}}"
+                            data-building="{{$classroom['building']}}"
                             value="{{$classroom['id']}}">
                             Edificio: {{$classroom['building']}} Nombre: {{$classroom['classroom_name']}}
                             Capacidad: {{$classroom['capacity']}}
@@ -34,13 +36,75 @@
                     @endforelse
                 </select>
             </div>
-            <button class="btn btn-primary m-3" id="filter-butom"> Filtrar</button>
+           
         </form>
     </div>
 
     @can('create bookings')
         @hasAnyRole('user|teacher')
-        //invocar modal reserva evento
+        <div class="modal fade createModal" id="createModal" position="relative" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Crear Reserva de evento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createBookingForm" name="form_booking" method="POST"
+                        action="{{ route('bookings.store') }}">
+                     
+                        @csrf
+                        {{-- nombre evento --}}
+                        <div class="mb-3">
+                            <label for="booking_name" class="form-label">Nombre del evento</label>
+                            <input type="text" class="form-control" name="event_name" id="createName"
+                                placeholder="Parcial ADyDS" required>
+                            <small id="errorCreateBookingName"></small>
+                        </div>
+
+                        {{-- descripción --}}
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Descripción</label>
+                            <input type="text" class="form-control" name="description" id="createDescription" required>
+                            <small id="errorCreateBookingDescription"></small>
+                        </div>
+
+                        {{-- horas disponibles (inicio) --}}
+                        <div class="mb-3">
+                            <label for="startTime" class="form-label">Hora de inicio</label>
+                            <select name="start_time" class="form-select start_time">
+                                <option disabled selected>Elija una opción
+                                </option>
+                            </select>
+                            <small id="errorCreateBookingStartTime"></small>
+                        </div>
+
+                        {{-- horas disponibles (fin) --}}
+                        <div class="mb-3">
+                            <label for="finishTime" class="form-label">Hora de fin</label>
+                            <select disabled name="finish_time" class="form-select finish_time">
+                                <option disabled selected>Elija una opción
+                                </option>
+                            </select>
+                            <small id="errorCreateBookingStartTime"></small>
+                        </div>
+                        {{-- los siguientes parametros en value serán los que lleguen desde el calendario --}}
+                        <input type="hidden" class="classroomID" name="classroom_id" value="">
+                        <input type="hidden" class="participants" name="participants" value="">
+                        
+                        <div id="classroomdata">
+                            
+                        </div>
+                        
+                        <input type="hidden" class="bookingDate" name="booking_date" value="">
+
+                        <button id="createBooking" type="submit" class="btn btn-primary">Crear</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
         @endHasAnyRole
         @hasAnyRole('admin')
         //invocar vista adminCreate
@@ -63,11 +127,12 @@
 
 @endsection
 @section('scripts')
+
     <script type="text/javascript">
         window.CSRF_TOKEN = '{{ csrf_token() }}';
     </script>
     <script src="{{ asset('js/fullcalendar.js') }}" defer></script>
     <script src="{{ asset('js/calendar.js') }}" defer></script>
     <script src="{{ asset('js/fullcalendar/es.js') }}" defer></script>
-
+   
 @endsection

@@ -51,7 +51,6 @@ class UserController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password)
             ]);
-
             if ($request->role == 'teacher') {
                 $user->assignRole('teacher');
             } else if ($request->role == 'bedel') {
@@ -59,7 +58,7 @@ class UserController extends Controller
             } else {
                 $user->assignRole('user');
             }
-            dd(QrCode::generate($user->dni, url('/qrstorage/qr' . $user->surname . '.svg')));
+            //dd(QrCode::generate($user->dni, url('/qrstorage/qr' . $user->surname . '.svg')));
             flash('Se ha registrado correctamente el nuevo usuario')->success();
             return redirect(route('users.index'));
         } catch (\Exception $e) {
@@ -100,9 +99,23 @@ class UserController extends Controller
 
         try {
             $user = User::withTrashed()->findOrFail($id);
-
+            $lastRole = $user->roles()->first()->name;
             $user->update($request->input());
-
+            $user->removeRole($lastRole);
+            switch ($request->role) {
+                case 'admin':
+                    $user->assignRole('admin');
+                    break;
+                case 'user':
+                    $user->assignRole('user');
+                    break;
+                case 'teacher':
+                    $user->assignRole('teacher');
+                    break;
+                case 'bedel':
+                    $user->assignRole('bedel');
+                    break;
+            }
             flash('Se actualizó correctamente al usuario')->success();
             return redirect(route('users.index'));
 
