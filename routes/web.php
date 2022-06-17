@@ -43,7 +43,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/bookings/periods', [BookingController::class, 'getGaps'])->name('bookings.gaps');
     //MyBookings
     Route::get('/myBookings', [BookingController::class, 'myBookings'])->name('bookings.mybookings');
-
+    //AdminBookingCreation
+    Route::post('/bookings/create/petition', [BookingController::class, 'createFromPetition'])->name('bookings.petition');
+    Route::post('/bookings/admin/create', [BookingController::class, 'createAdmin'])->name('bookings.createAdmin');
     Route::post('/bookings/filter', [BookingController::class, 'classroomBookings'])->name('bookings.filter');
     Route::resources([
         'assignments' => AssignmentController::class,
