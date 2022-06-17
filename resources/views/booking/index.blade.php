@@ -41,10 +41,10 @@
 
 
     <div id="bookings" class="d-none">
-        {{$bookings}}
+   
     </div>
     <div id="bookings_assignments" class="d-none">
-        {{$bookings_assignments}}
+       
     </div>
 
 
