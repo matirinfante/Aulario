@@ -6,7 +6,7 @@
         <div class="alert alert-danger d-none" id="errorsMsj" role="alert">
 
             @foreach ($errors->all() as $error)
-                {{ $error }}<br />
+                {{ $error }}<br/>
             @endforeach
         </div>
     @endif
@@ -15,8 +15,9 @@
     </button>
 
 
-    <div class="modal fade createModal" id="createModal" position="relative" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade createModal" id="createModal" position="relative" tabindex="-1"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -25,13 +26,13 @@
                 </div>
                 <div class="modal-body">
                     <form id="createBookingForm" name="form_booking" method="POST"
-                        action="{{ route('bookings.store') }}">
+                          action="{{ route('bookings.store') }}">
                         @csrf
                         {{-- nombre evento --}}
                         <div class="mb-3">
                             <label for="booking_name" class="form-label">Nombre del evento</label>
                             <input type="text" class="form-control" name="event_name" id="createName"
-                                placeholder="Parcial ADyDS" required>
+                                   placeholder="Parcial ADyDS" required>
                             <small id="errorCreateBookingName"></small>
                         </div>
 
@@ -62,9 +63,9 @@
                             <small id="errorCreateBookingStartTime"></small>
                         </div>
                         {{-- los siguientes parametros en value serán los que lleguen desde el calendario --}}
-                        <input type="hidden" class="classroomID" name="classroom_id" value="8">
+                        <input type="hidden" class="classroomID" name="classroom_id" value="7">
                         <input type="hidden" class="participants" name="participants" value="10">
-                        <input type="hidden" class="bookingDate" name="booking_date" value="2022-06-27">
+                        <input type="hidden" class="bookingDate" name="booking_date" value="2022-06-21">
 
                         <button id="createBooking" type="submit" class="btn btn-primary">Crear</button>
                     </form>
@@ -76,7 +77,7 @@
 
 @section('scripts')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             var url = `/bookings/periods`;
             var classroomId = $('.classroomID').val();
             var date = $('.bookingDate').val();
@@ -90,9 +91,9 @@
                     classroom_id: classroomId,
                     date: date
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.length > 1) {
-                        data.forEach(function(elem) {
+                        data.forEach(function (elem) {
                             elem.pop()
                             inicioArr.push(elem)
                         })
@@ -104,12 +105,16 @@
                             }
                         }
                     } else {
-
+                        for (let k = 0; k < data[0].length; k++) {
+                            $('.start_time').append(
+                                `<option value="${data[0][k]}" data-position-startset="${k}" data-position-hourset="${k}">${data[0][k]}</option>`
+                            )
+                        }
                     }
                 }
             });
 
-            $('.start_time').on('change', function() {
+            $('.start_time').on('change', function () {
                 $('.finish_time').empty();
                 $('.finish_time').removeAttr('disabled');
                 $('.finish_time').append(`<option disabled selected>Elija una opción</option>`)
@@ -125,14 +130,20 @@
                         classroom_id: classroomId,
                         date: date
                     },
-                    success: function(data) {
+                    success: function (data) {
                         if (data.length > 1) {
                             for (let i = hourSet + 1; i < data[timeSet].length; i++) {
                                 $('.finish_time').append(
                                     `<option value="${data[timeSet][i]}">${data[timeSet][i]}</option>`
                                 )
                             }
-                        } else {}
+                        } else {
+                            for (let i = hourSet + 1; i < data[0].length; i++) {
+                                $('.finish_time').append(
+                                    `<option value="${data[0][i]}">${data[0][i]}</option>`
+                                )
+                            }
+                        }
                     }
                 });
             })
