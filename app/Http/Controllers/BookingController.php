@@ -22,41 +22,27 @@ class BookingController extends Controller
 {
 
 
-
     /**
      * Display a listing of the resource.
      *TODO: filtrar por materia activa
      */
     public function index()
     {
-        // $bookings = null;
-        // $bookings_assignments = null;
+        $bookings = DB::table('bookings')
+            ->join('events', 'bookings.event_id', '=', 'events.id')
+            ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
+            ->get(['bookings.id as booking_id', 'bookings.description as booking_description', 'bookings.booking_date as booking_date', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status',
+                'events.event_name as event_name', 'classrooms.classroom_name as classroom_name']);
 
-        if (auth()->user()->hasAnyRole('teacher', 'user')) {
-            $bookings = DB::table('bookings')
-                ->join('events', 'bookings.event_id', '=', 'events.id')
-                ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
-                ->where('user_id', '=', auth()->user()->id)
-                ->get(['bookings.id as booking_id', 'bookings.description as booking_description', 'bookings.booking_date as booking_date', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status',
-                    'events.event_name as event_name', 'classrooms.classroom_name as classroom_name']);
+        $bookings_assignments = DB::table('bookings')
+            ->join('assignments', 'bookings.assignment_id', '=', 'assignments.id')
+            ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
+            ->get(['bookings.id as booking_id', 'bookings.description as booking_description', 'bookings.booking_date as booking_date', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status',
+                'assignments.assignment_name as assignment_name', 'classrooms.classroom_name as classroom_name']);
 
-        } else if (auth()->user()->hasRole('admin')) {
-            $bookings = DB::table('bookings')
-                ->join('events', 'bookings.event_id', '=', 'events.id')
-                ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
-                ->get(['bookings.id as booking_id', 'bookings.description as booking_description', 'bookings.booking_date as booking_date', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status',
-                    'events.event_name as event_name', 'classrooms.classroom_name as classroom_name']);
+        $classrooms = Classroom::all();
 
-            $bookings_assignments = DB::table('bookings')
-                ->join('assignments', 'bookings.assignment_id', '=', 'assignments.id')
-                ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
-                ->get(['bookings.id as booking_id', 'bookings.description as booking_description', 'bookings.booking_date as booking_date', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status',
-                    'assignments.assignment_name as assignment_name', 'classrooms.classroom_name as classroom_name']);
-
-            $classrooms = Classroom::all();
-        }
-        //compact('bookings', 'bookings_assignments', 'classrooms')
-        return view('booking.index',compact('classrooms','bookings', 'bookings_assignments'));
+        return view('booking.index', compact('classrooms', 'bookings', 'bookings_assignments'));
     }
 
     /**
@@ -251,9 +237,9 @@ class BookingController extends Controller
     public function classroomBookings(Request $request)
     {
         $id = $request->classroom_id;
-    $bookings=[];
-    $bookings_assignments=[];
-    
+        $bookings = [];
+        $bookings_assignments = [];
+
         $bookings = DB::table('bookings')
             ->join('events', 'bookings.event_id', '=', 'events.id')
             ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
@@ -265,11 +251,11 @@ class BookingController extends Controller
             ->join('assignments', 'bookings.assignment_id', '=', 'assignments.id')
             ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
             ->where('classroom_id', $id)
-            ->get(['bookings.id as booking_id', 'bookings.booking_date as booking_date','bookings.description as booking_description', 'bookings.week_day as week_day', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status',
+            ->get(['bookings.id as booking_id', 'bookings.booking_date as booking_date', 'bookings.description as booking_description', 'bookings.week_day as week_day', 'bookings.start_time as start_time', 'bookings.finish_time as finish_time', 'bookings.status as status',
                 'assignments.assignment_name as assignment_name', 'classrooms.classroom_name as classroom_name', 'bookings.classroom_id as classroom_id']);
 
-         $response =[$bookings,$bookings_assignments];
-   
+        $response = [$bookings, $bookings_assignments];
+
         return $response;
     }
 
