@@ -23,6 +23,9 @@ $('.form-select').on('change', function(e) {
             let materias = getBookingsAssignments();
 
             let rta = eventos.concat(materias);
+
+            
+
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 locale: "es",
@@ -34,13 +37,18 @@ $('.form-select').on('change', function(e) {
                 timeZone: 'local',
                 events: rta,
                 contentHeight: 600,
-                // eventColor: '#378006',
-                // dateClick: function(info) {
-                //     alert('info:' + info.date)
-                // }
+                dateClick: function(info) {
+                    let today = new Date().toISOString().slice(0, 10);
+                    var currentDate=Date.parse(today);
+                    var chosenDate = Date.parse(info.dateStr);
+                    var dif=chosenDate-currentDate;
+                    if (dif>=0 && dif<=1209600000){
+                        alert('info:' + info.date);
+                    }
+                }
             });
             // calendar.eventAdd(event[])
-            calendar.render();
+            calendar.render();            
 
         }
 
