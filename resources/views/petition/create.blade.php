@@ -1,4 +1,4 @@
-<div class="modal fade" id="createModal{{ $user }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="createModal{{ $user->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,7 +8,7 @@
             <div class="modal-body">
                 <div id="container">
                     <h3 class="text-center m-4">Crear Petición</h3>
-                    <form id="form" class="form_style" method="POST" action="{{route('petitions.store')}}">
+                    <form id="form" method="POST" action="{{route('petitions.store')}}">
                         @csrf
                         <div class="mb-3">
                             <label for="name" class="form-label">Nombre</label>

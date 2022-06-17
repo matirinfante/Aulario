@@ -1,8 +1,8 @@
-<!-- 
+<!--
     [](Usa los permisos, mas facil que crear una vista)  Crear vista de reservas segun el usuario que reservo, sus propias reservas.
     []Aceptar reserva, modificar el controlador.
     []Vista 'crear' falta arreglar, pero esta arreglada y el modal implementado.
-    []Si el admin no puede crear reserva, entonces que el id de usuario y nombre que las crea, sea predefinido en el sistema, y evitar cambios. 
+    []Si el admin no puede crear reserva, entonces que el id de usuario y nombre que las crea, sea predefinido en el sistema, y evitar cambios.
 -->
 
 @extends('layouts.app')
@@ -16,8 +16,8 @@
             @php
             $user = auth()->user();
             @endphp
-            <button type='button' class='btn btn-primary' data-bs-toggle="modal" data-bs-target="#createModal{{ $user }}">Crear nueva peticion</button>
-            @include('petition.create', [$user])
+            <button type='button' class='btn btn-primary' data-bs-toggle="modal" data-bs-target="#createModal{{ $user->id }}">Crear nueva peticion</button>
+            @include('petition.create', ['user' => $user])
         </div>
     </div>
 </div>
@@ -61,7 +61,7 @@
                     <td>
                         @if ($petition['status'] == 'unsolved')
                         <!-- Boton Aceptar Peticion -->
-                        <button type="button" class="btn btn-success btn-sm" data-bs-target="{{ $petition['id'] }}">Aceptar</button>
+                        <button type="button" class="btn btn-success btn-sm" data-bs-target="{{ $petition['id'] }}">Asignar aulas</button>
                         <span class="vr"></span>
 
                         <!-- Boton Rechazar Peticion -->
