@@ -159,3 +159,28 @@ h3 {
     text-align: center;
     font-weight: 700;
 }
+
+
+/* My Petitions view */
+
+#myBooking {
+    width: 50%;
+    margin: 55px auto;
+    box-shadow: 6px 10px 23px -12px rgba(77, 77, 77, 0.75);
+    -webkit-box-shadow: 6px 10px 23px -12px rgba(77, 77, 77, 0.75);
+    -moz-box-shadow: 6px 10px 23px -12px rgba(77, 77, 77, 0.75);
+}
+
+#myBooking h2 {
+    font-weight: 700;
+    padding: 15px;
+    color: #0a0060;
+}
+
+#myBooking .classroom {
+    font-size: 20px;
+}
+
+#myBooking p {
+    font-weight: 500;
+}
