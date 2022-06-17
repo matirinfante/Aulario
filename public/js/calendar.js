@@ -84,10 +84,16 @@ $('.filtro').on('change', function (e) {
                                         }
                                     }
                                 } else {
-                                    for (let k = 0; k < data[0].length; k++) {
+                                    if (data.length === 0) {
                                         $('.start_time').append(
-                                            `<option value="${data[0][k]}" data-position-startset="${k}" data-position-hourset="${k}">${data[0][k]}</option>`
+                                            `<option value="" data-position-startset="" data-position-hourset="" disabled>NO HAY DATOS</option>`
                                         )
+                                    } else {
+                                        for (let k = 0; k < data[0].length; k++) {
+                                            $('.start_time').append(
+                                                `<option value="${data[0][k]}" data-position-startset="${k}" data-position-hourset="${k}">${data[0][k]}</option>`
+                                            )
+                                        }
                                     }
                                 }
                             }
