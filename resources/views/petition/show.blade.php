@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p class="card-text"><span class="text-secondary">Nombre profesor:<br><br></span>
+                <p class="card-text"><span class="text-secondary">Nombre profesor:</span>
                     {{ $petition->user->name }} {{ $petition->user->surname }}
                 </p>
                 <hr>
