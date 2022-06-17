@@ -12,47 +12,48 @@ $('.form-select').on('change', function (e) {
         },
         success: function (data) {
             console.log(data)
-            $('#bookings').textContent=data;
-            $('#bookings_assignments').textContent=data;
+            
+            //modificar como se muestra la fecha de materias
+            //arreglar el calendario que se renderiza tarde
+            $('#bookings').html(JSON.stringify(data[0]));
+             $('#bookings_assignments').html(JSON.stringify(data[1]));
         }
 
 
     })
 
 })
+
 const getBookings = () => {
     let bookings = document.getElementById('bookings').textContent
-    let arraybookings=[];
-    arraybookings.push(bookings);
-    console.log(bookings)
-    let eventos="";
-    // let booking = JSON.parse(bookings)
-for (let i = 0; i < arraybookings.length; i++) {
-    const el = arraybookings[i];
-     eventos +=`
-     { 
-            'title'= ${el.event_name} ${el.booking_description},
-            'start'= ${el.booking_date}T${el.start_time},
-            'end'= ${el.booking_date}T${el.finish_time},
-            'color'= 'blue',
-            'textColor'= 'yellow'}`
-        }
-        return JSON.parse(eventos.trim())
+  
+    let booking = JSON.parse(bookings)
     
+    let eventos = booking.map(el => {
+        return {
+            title:`${el.event_name} ${el.booking_description}`,
+            // title: el.classroom_id + " - " + el.classroom_name, //borrar
+            start: el.booking_date + "T" + el.start_time,
+            end: el.booking_date + "T" + el.finish_time
+        }
+    });
+
+    return eventos
 }
    
 
 const getBookingsAssignments = () => {
     let bookings_assignments = document.getElementById('bookings_assignments').textContent
-    console.log(bookings_assignments)
-    // let booking_assignments = JSON.parse(bookings_assignments)
-    let materias = bookings_assignments.foreach(el => {
+      
+    let booking_assignments = JSON.parse(bookings_assignments)
+  
+    let materias = booking_assignments.map(ba => {
         return {
-            title: el.assignment_name, // Borra lo de id aula
+            title: ba.assignment_name, // Borra lo de id aula
             // title: el.classroom_id + " - " + el.classroom_name, //borrar
-            description: el.booking_description,
-            start: el.booking_date + "T" + el.start_time,
-            end: el.booking_date + "T" + el.finish_time,
+            description: ba.booking_description,
+            start: ba.booking_date + "T" +ba.start_time,
+            end: ba.booking_date + "T" + ba.finish_time,
             color: 'green',
             textColor: 'white'
 
@@ -86,7 +87,7 @@ $('#select').on('change' , function (e) {
     var calendarEl = document.getElementById('calendar');
     let eventos = getBookings();
     let materias = getBookingsAssignments();
-    console.log(eventos);
+   
     let rta = eventos.concat(materias);
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
