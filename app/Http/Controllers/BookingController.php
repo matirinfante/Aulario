@@ -7,6 +7,7 @@ use App\Models\Assignment;
 use App\Models\Booking;
 use App\Models\Classroom;
 use App\Models\Event;
+use App\Models\Petition;
 use App\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -259,4 +260,22 @@ class BookingController extends Controller
         return $response;
     }
 
+    /**
+     * Funcion para redireccionar a CreateAdmin desde Petition
+     */
+    public function createFromPetition(Request $request)
+    {
+        $petition = Petition::findOrFail($request->id);
+        return view('booking.adminCreate', compact('petition'));
+    }
+
+    /**
+     * Funcion para redireccionar a CreateAdmin desde Calendar
+     */
+    public function createAdmin(Request $request)
+    {
+        //TODO: check request
+        $calendar_data = $request->all();
+        return view('booking.adminCreate', compact('calendar_data'));
+    }
 }
