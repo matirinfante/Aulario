@@ -19,7 +19,7 @@ class ClassroomController extends Controller
     {
         $classrooms = Classroom::withTrashed()->get();
         $buildings = ['Informática', 'Economía', 'Humanidades', 'Aulas comunes', 'Biblioteca'];
-        $types = ['Laboratorio', 'Aula Común', 'Hibrido'];
+        $types = ['Laboratorio', 'Aula común'];
         return view('classroom.index', compact('classrooms', 'buildings', 'types'));
     }
 
