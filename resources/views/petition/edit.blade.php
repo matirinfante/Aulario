@@ -37,12 +37,13 @@
                 <!-- BOTON DE RECHAZO DEFINITIVO-->
                 <!-- Se llama al metodo de la ruta 'petitions.reject' usando el 'id' de la peticion como parametro -->
                 <form action="{{ route('petitions.reject', $petition->id) }}" method="POST" name="form_petition" id="form_petition">
-                    @csrf @method('PATCH')<!-- Token y metodo patch para llamar al metodo -->
-                    
+                    <!-- Token y metodo patch para llamar al metodo -->
+                    @csrf @method('PATCH')
+
                     <h5>Razón del rechazo</h5>
-                    
+
                     <textarea name="reason" id="reason" cols="36" rows="5"></textarea>
-                    
+
                     <div class="container">
                         <div class="row">
                             <div class="col" align=center>
@@ -50,9 +51,7 @@
                             </div>
                         </div>
                     </div>
-
                 </form>
-                
             </div>
         </div>
     </div>
