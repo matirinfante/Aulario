@@ -12,8 +12,6 @@ $('.filtro').on('change', function (e) {
             classroom_id: classroom_id
         },
         success: function (data) {
-            console.log(data)
-
             //modificar como se muestra la fecha de materias
             //arreglar el calendario que se renderiza tarde
             $('#bookings').html(JSON.stringify(data[0]));
@@ -56,7 +54,7 @@ $('.filtro').on('change', function (e) {
                         $('#createModal').modal("show");
                         var url = `/bookings/periods`;
                         var classroomId = optionClassroom;
-                        var date = $('.bookingDate').val();
+                        var date = info.dateStr;
                         var inicioArr = [];
                         $.ajax({
                             headers: {
@@ -70,7 +68,8 @@ $('.filtro').on('change', function (e) {
                                 date: date
                             },
                             success: function (data) {
-                                console.log(data)
+                                $('.start_time').empty();
+                                $('.finish_time').empty();
                                 if (data.length > 1) {
                                     data.forEach(function (elem) {
                                         elem.pop()
@@ -86,9 +85,10 @@ $('.filtro').on('change', function (e) {
                                 } else {
                                     if (data.length === 0) {
                                         $('.start_time').append(
-                                            `<option value="" data-position-startset="" data-position-hourset="" disabled>NO HAY DATOS</option>`
+                                            `<option value="" data-position-startset="" data-position-hourset="" disabled selected>NO HAY DATOS</option>`
                                         )
                                     } else {
+                                        data[0].pop();
                                         for (let k = 0; k < data[0].length; k++) {
                                             $('.start_time').append(
                                                 `<option value="${data[0][k]}" data-position-startset="${k}" data-position-hourset="${k}">${data[0][k]}</option>`
@@ -98,44 +98,6 @@ $('.filtro').on('change', function (e) {
                                 }
                             }
                         });
-
-                        $('.start_time').on('change', function () {
-                            $('.finish_time').empty();
-                            $('.finish_time').removeAttr('disabled');
-                            $('.finish_time').append(`<option disabled selected>Elija una opción</option>`)
-                            var timeSet = $(this).find('option:selected').data("position-startset")
-                            var hourSet = $(this).find('option:selected').data("position-hourset")
-                            var endTime = []
-                            $.ajax({
-                                headers: {
-                                    'X-CSRF-TOKEN': window.CSRF_TOKEN
-                                },
-                                type: 'POST',
-                                url: url,
-                                cache: false,
-                                data: {
-                                    classroom_id: classroomId,
-                                    date: date
-                                },
-                                success: function (data) {
-                                    if (data.length > 1) {
-                                        for (let i = hourSet + 1; i < data[timeSet].length; i++) {
-                                            $('.finish_time').append(
-                                                `<option value="${data[timeSet][i]}">${data[timeSet][i]}</option>`
-                                            )
-                                        }
-                                    } else {
-                                        for (let i = hourSet + 1; i < data[0].length; i++) {
-                                            $('.finish_time').append(
-                                                `<option value="${data[0][i]}">${data[0][i]}</option>`
-                                            )
-                                        }
-                                    }
-                                }
-                            });
-                        })
-
-
                     }
                 }
             });
@@ -147,6 +109,45 @@ $('.filtro').on('change', function (e) {
 
     })
 
+})
+
+$('.start_time').on('change', function () {
+    var url = `/bookings/periods`;
+    var classroomId = $('#select').find('option:selected').val();
+    var date = $('.bookingDate').val();
+    $('.finish_time').removeAttr('disabled');
+    $('.finish_time').append(`<option disabled selected>Elija una opción</option>`)
+    var timeSet = $(this).find('option:selected').data("position-startset")
+    var hourSet = $(this).find('option:selected').data("position-hourset")
+    var endTime = []
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': window.CSRF_TOKEN
+        },
+        type: 'POST',
+        url: url,
+        cache: false,
+        data: {
+            classroom_id: classroomId,
+            date: date
+        },
+        success: function (data) {
+            $('.finish_time').empty();
+            if (data.length > 1) {
+                for (let i = hourSet + 1; i < data[timeSet].length; i++) {
+                    $('.finish_time').append(
+                        `<option value="${data[timeSet][i]}">${data[timeSet][i]}</option>`
+                    )
+                }
+            } else {
+                for (let i = hourSet + 1; i < data[0].length; i++) {
+                    $('.finish_time').append(
+                        `<option value="${data[0][i]}">${data[0][i]}</option>`
+                    )
+                }
+            }
+        }
+    });
 })
 
 const getBookings = () => {
