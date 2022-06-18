@@ -14,14 +14,16 @@
         <h3>Datos de la reserva</h3>
         <form class="filter" method='POST' action="">
             @csrf
+            
             <div class="col-auto">
                 <span>Ingrese cantidad de participantes</span>
-                <input required id="participants" class="form-control" type="number" placeholder="40">
+                <input id="participants" class="form-control" type="number" min="1" placeholder="solo numeros">
+           
             </div>
-            <div class="col-auto">
+            <div class="d-none col-auto" id="select-aula">
                 <span>Seleccione el aula</span>
                 <select class="form-select filtro" name="classroom_id" id="select">
-                    <option value="">Cargamela...</option>
+                    <option value="">Seleccione un aula</option>
                     @forelse ($classrooms as $classroom)
                         <option
                             data-capacity="{{$classroom['capacity']}}"
@@ -36,8 +38,11 @@
                     @endforelse
                 </select>
             </div>
-
+            
         </form>
+        <div class="mt-5" id="aviso_reserva">
+
+        </div>
     </div>
 
     @can('create bookings')
@@ -106,6 +111,8 @@
                 </div>
             </div>
         </div>
+
+
         @endhasanyrole
         @hasrole('admin')
         //invocar vista adminCreate
