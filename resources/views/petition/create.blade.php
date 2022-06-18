@@ -10,8 +10,8 @@
             </div>
             <div class="modal-body">
                 <div id="container">
-                    <form id="form" method="POST" action="{{route('petitions.store')}}">
-                        @csrf
+                    <form id="create_petition" name="create_petition" method="POST" action="{{route('petitions.store')}}">
+                        @csrf @method('POST')
                         <div class="mb-3">
                             <label for="name" class="form-label">Nombre</label>
                             <input type="text" class="form-control" name="name" id="name" value="{{$user->name}} {{$user->surname}}" disabled>
@@ -59,7 +59,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="days" class="form-label">Día</label>
-                            <select name="days" id="days" class="form-select select2-user" aria-label="Dia" style="width: 100%">
+                            <select name="days" id="days" class="form-select select2-user" aria-label="days" style="width: 100%">
                                 <option value="Lunes">Lunes</option>
                                 <option value="Martes">Martes</option>
                                 <option value="Miercoles">Miercoles</option>
@@ -72,7 +72,6 @@
                             <label for="message" class="form-label">Mensaje</label>
                             <input type="text" class="form-control" name="message" id="message">
                         </div>
-
                         <button id="submit" type="submit" class="btn btn-primary">Crear</button>
                     </form>
                 </div>
@@ -80,105 +79,6 @@
         </div>
     </div>
 </div>
-
-
-<!-- {{-- <script type="text/javascript">
-       let d = document
-        const $inputName = d.getElementById('name'),
-            $inputSurname = d.getElementById('surname'),
-            $inputEmail = d.getElementById('email'),
-            $inputDni = d.getElementById('dni'),
-            $inputPass = d.getElementById('password'),
-            $button = d.getElementById('submit'),
-            $errorName = d.getElementById('errorName'),
-            $errorSurname = d.getElementById('errorSurname'),
-            $errorDni = d.getElementById('errorDni'),
-            $errorEmail = d.getElementById('errorEmail'),
-            $errorPass = d.getElementById('errorPassword'),
-            form = d.getElementById('form'),
-            $container = d.querySelector('#container')
-        let v1 = false,
-            v2 = false,
-            v3 = false,
-            v4 = false,
-            v5 = false
-        form.addEventListener('click', e => {
-            //Validamos que el nombre sea letras y no esté vacio
-            if (!validator.isEmpty($inputName.value)) {
-                if (validator.isAlpha($inputName.value)) {
-                    v1 = true
-                    $errorName.classList.add('d-none')
-                } else {
-                    $errorName.textContent = 'El nombre contiene numeros'
-                    $errorName.classList.remove('d-none')
-                }
-            } else {
-                $errorName.textContent = 'El nombre está vacio'
-                $errorName.classList.remove('d-none')
-            }
-            //Validamos que el apellido sea letras y no esté vacio
-            if (!validator.isEmpty($inputSurname.value)) {
-                if (validator.isAlpha($inputSurname.value)) {
-                    v2 = true
-                    $errorSurname.classList.add('d-none')
-                } else {
-                    $errorSurname.textContent = 'El apellido contiene numeros'
-                    $errorSurname.classList.remove('d-none')
-                }
-            } else {
-                $errorSurname.textContent = 'El apellido está vacio'
-                $errorSurname.classList.remove('d-none')
-            }
-            //Validamos que el dni sea numeros, no esté vacio y que el valor esté entre el 1.000.000
-            // y los 99.999.999
-            if (!validator.isEmpty($inputDni.value)) {
-                if (validator.isNumeric($inputDni.value)) {
-                    if ($inputDni.value < 99999999 && $inputDni.value > 1000000) {
-                        v3 = true
-                        $errorDni.classList.add('d-none')
-                    } else {
-                        $errorDni.textContent = 'El dni no es valido'
-                        $errorDni.classList.remove('d-none')
-                    }
-                } else {
-                    $errorDni.textContent = 'El dni no es numerico'
-                    $errorDni.classList.remove('d-none')
-                }
-            } else {
-                $errorDni.textContent = 'El dni está vacio'
-                $errorDni.classList.remove('d-none')
-            }
-            //Validamos que el email no esté vacio y que cumpla con las caracteristicas
-            if (!validator.isEmpty($inputEmail.value)) {
-                if (validator.isEmail($inputEmail.value)) {
-                    v4 = true
-                    $errorEmail.classList.add('d-none')
-                } else {
-                    $errorEmail.textContent = 'El email no es valido'
-                    $errorEmail.classList.remove('d-none')
-                }
-            } else {
-                $errorEmail.textContent = 'El email está vacio'
-                $errorEmail.classList.remove('d-none')
-            }
-            //Validamos que la contraseña no esté vacia y que tenga un minimo de 6 caracteres
-            if (!validator.isEmpty($inputPass.value)) {
-                if ($inputPass.value.length < 10 && $inputPass.value.length > 5) {
-                    v5 = true
-                    $errorPass.classList.add('d-none')
-                } else {
-                    $errorPass.textContent = 'La contaseña es demasiado corta'
-                    $errorPass.classList.remove('d-none')
-                }
-            } else {
-                $errorPass.textContent = 'La contraseña está vacia'
-                $errorPass.classList.remove('d-none')
-            }
-            if (v1 && v2 && v3 && v4 && v5) {
-                $button.classList.remove('disabled')
-            }
-        })
-</script> --}} -->
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
