@@ -1,9 +1,7 @@
 <!--
-    [](Usa los permisos, mas facil que crear una vista)  Crear vista de reservas segun el usuario que reservo, sus propias reservas.
-    [-]Aceptar reserva, modificar el controlador, y cambiar el estado.(metodo de crear y metodo de aceptar)
-    [x]Vista 'crear' falta arreglar, pero esta arreglada y el modal implementado.
-    []Si el admin no puede crear reserva, entonces que el id de usuario y nombre que las crea, sea predefinido en el sistema, y evitar cambios.
-    []Hacer la comprobacion de campos.
+    -(Usa los permisos, mas facil que crear una vista)  Crear vista de reservas segun el usuario que reservo, sus propias reservas.
+    -Si el admin no puede crear reserva, entonces que el id de usuario y nombre que las crea, sea predefinido en el sistema, y evitar cambios.
+    -Hacer la comprobacion de campos.
 -->
 
 @extends('layouts.app')
@@ -65,8 +63,6 @@
                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewModal{{ $petition['id'] }}">Detalles
                             </button>
                             @include('petition.show', ['petition' => $petition])
-
-                            <!-- {{-- <a href="{{ route('petitions.changeStatus', "$petition->id") }}">a</a> --}} -->
                         </td>
                         <td style="vertical-align: middle; text-align: center;">
                             @if ($petition['status'] == 'unsolved')
@@ -113,22 +109,4 @@
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
-<!-- {{-- <script>
-            $('.changeState').click(function(e) {
-                var id = $(this).data('id');
-                var status = $(this).val();
-                console.log(id);
-                console.log(status);
-                // var url = "{{ route('petitions.changeStatus') }}";
-
-$.ajax({
-type: 'post',
-url: "url",
-data: 'data',
-success: function(response) {
-console.log(response);
-}
-});
-});
-</script> --}} -->
 @endsection
