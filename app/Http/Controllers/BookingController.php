@@ -15,6 +15,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\BookingRequest;
 use Hamcrest\Arrays\IsArray;
+use Illuminate\Support\Facades\Log;
 use Spatie\Period\Period;
 use Spatie\Period\PeriodCollection;
 use Spatie\Period\Precision;
@@ -195,7 +196,7 @@ class BookingController extends Controller
             $availability = $availability->add(Period::make($start_date, $finish_date, Precision::SECOND()));
         }
         //Se realizan queries para obtener los Period de los espacios ocupados por reservas de evento y materias
-        $date = Carbon::createFromFormat('Y-m-d', $request->date);
+        $date = Carbon::parse($request->date);
         $reservedEvents = Booking::where('classroom_id', $request->classroom_id)->where('booking_date', $date->format('Y-m-d'))->get(['start_time', 'finish_time']);
         $reservedAssignments = Booking::where('classroom_id', $request->classroom_id)->where('week_day', ucfirst($date->dayName))->get(['start_time', 'finish_time']);
         $occupiedTimesTemp = $reservedEvents->concat($reservedAssignments);

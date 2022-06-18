@@ -164,7 +164,7 @@ h3 {
 /* My Petitions view */
 
 #myBooking {
-    width: 50%;
+    /*width: 50%;*/
     margin: 55px auto;
     box-shadow: 6px 10px 23px -12px rgba(77, 77, 77, 0.75);
     -webkit-box-shadow: 6px 10px 23px -12px rgba(77, 77, 77, 0.75);
