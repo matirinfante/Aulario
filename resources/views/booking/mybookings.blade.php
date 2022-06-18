@@ -22,22 +22,23 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 @forelse ($bookings as $booking)
-                    <div class="card text-center bg-success bg-opacity-25 mb-4">
-                        @isset($booking->assignment)
-                            <div class="card-header">{{ $booking->assignment->assignment_name }}</div>
-                        @endisset
-                        @isset($booking->event)
-                            <div class="card-header">{{ $booking->event->event_name }}</div>
-                        @endisset
-                        <div class="card-body">
-                            <p>Fecha: {{ date('d/m/Y', strtotime($booking->booking_date)) }}</p>
-                            <p>Inicio: {{ date('h:i', strtotime($booking->start_time)) }} Hs &nbsp;&nbsp;&nbsp; Fin:
-                                {{ date('h:i', strtotime($booking->finish_time)) }} Hs</p>
-                            <p>Descripción: {{ $booking->description }}</p>
-                            <p>Aula: {{ $booking->classroom->classroom_name }}</p>
-
-                        </div>
+    <div class="" id="myBooking">
+        <div class="">
+                <div class="card text-center">
+                    @isset($booking->assignment)
+                        <h2 class="card-header">{{ $booking->assignment->assignment_name }}</h2>
+                    @endisset
+                    @isset($booking->event)
+                        <h2 class="card-header">{{ $booking->event->event_name }}</h2>
+                    @endisset
+                    <div class="card-body">
+                        <p>Fecha: {{ date('d/m/Y', strtotime($booking->booking_date)) }}</p>
+                        <p>Inicio: {{ date('h:i', strtotime($booking->start_time)) }} Hs &nbsp;&nbsp;&nbsp; Fin:
+                            {{ date('h:i', strtotime($booking->finish_time)) }} Hs</p>
+                        <p>Descripción: {{ $booking->description }}</p>
+                        <p class="classroom">Aula: {{ $booking->classroom->classroom_name }}</p>
                     </div>
+                </div>
                 @empty
                     <div class="row justify-content-center">
                         <div class="col-md-6">
@@ -55,9 +56,6 @@
                         </div>
                     </div>
                 @endforelse
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('scripts')
