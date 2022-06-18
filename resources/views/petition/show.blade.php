@@ -35,13 +35,10 @@
                 <hr>
                 <p class="card-text"><span class="text-secondary">Estado:</span>
                     @if ($petition['status'] == 'unsolved')
-                    <!-- <span class="badge bg-warning"> {{$petition['status']}} </span> -->
                     <span class="badge bg-warning"> Sin resolver </span>
                     @elseif ($petition['status'] == 'rejected')
-                    <!-- <span class="badge bg-danger"> {{$petition['status']}} </span> -->
                     <span class="badge bg-danger"> Rechazada </span>
                     @else
-                    <!-- <span class="badge bg-success"> {{$petition['status']}} </span> -->
                     <span class="badge bg-success"> Aceptada </span>
                     @endif
                     </span>
