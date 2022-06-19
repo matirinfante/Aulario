@@ -62,7 +62,7 @@
                             <select name="days" id="days" class="form-select select2-user" aria-label="days" style="width: 100%">
                                 <option value="Lunes">Lunes</option>
                                 <option value="Martes">Martes</option>
-                                <option value="Miercoles">Miercoles</option>
+                                <option value="Miércoles">Miércoles</option>
                                 <option value="Jueves">Jueves</option>
                                 <option value="Viernes">Viernes</option>
                                 <option value="Sábado">Sábado</option>
@@ -82,3 +82,4 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+<script src="{{ asset('js/petitions/checkDay.js') }}" defer></script>
