@@ -8,42 +8,42 @@
 // $classrooms=[];
 @endphp
 @section('content')
-    <link href="{{ asset('css/calendar.css') }}" rel="stylesheet">
+    @hasanyrole('user|teacher')
+        <link href="{{ asset('css/calendar.css') }}" rel="stylesheet">
 
-    <div class="container text-center">
-        <h3>Datos de la reserva</h3>
-        <form class="filter" method='POST' action="">
-            @csrf
-            
-            <div class="col-auto">
-                <span>Ingrese cantidad de participantes</span>
-                <input id="participants" class="form-control" type="number" min="1" placeholder="solo numeros">
-           
-            </div>
-            <div class="d-none col-auto" id="select-aula">
-                <span>Seleccione el aula</span>
-                <select class="form-select filtro" name="classroom_id" id="select">
-                    <option value="">Seleccione un aula</option>
-                    @forelse ($classrooms as $classroom)
-                        <option
-                            data-capacity="{{$classroom['capacity']}}"
-                            data-classroomName="{{$classroom['classroom_name']}}"
-                            data-building="{{$classroom['building']}}"
-                            value="{{$classroom['id']}}">
-                            Edificio: {{$classroom['building']}} Nombre: {{$classroom['classroom_name']}}
-                            Capacidad: {{$classroom['capacity']}}
-                        </option>
-                    @empty
-                        <option value="">No hay nada para robar :</option>
-                    @endforelse
-                </select>
-            </div>
-            
-        </form>
-        <div class="mt-5" id="aviso_reserva">
+        <div class="container text-center">
+            <h3>Datos de la reserva</h3>
+            <form class="filter" method='POST' action="">
+                @csrf
 
+                <div class="col-auto">
+                    <span>Ingrese cantidad de participantes</span>
+                    <input id="participants" class="form-control" type="number" min="1" placeholder="solo numeros">
+
+                </div>
+                <div class="d-none col-auto" id="select-aula">
+                    <span>Seleccione el aula</span>
+                    <select class="form-select filtro" name="classroom_id" id="select">
+                        <option value="">Seleccione un aula</option>
+                        @forelse ($classrooms as $classroom)
+                            <option data-capacity="{{ $classroom['capacity'] }}"
+                                data-classroomName="{{ $classroom['classroom_name'] }}"
+                                data-building="{{ $classroom['building'] }}" value="{{ $classroom['id'] }}">
+                                Edificio: {{ $classroom['building'] }} Nombre: {{ $classroom['classroom_name'] }}
+                                Capacidad: {{ $classroom['capacity'] }}
+                            </option>
+                        @empty
+                            <option value="">No hay nada para robar :</option>
+                        @endforelse
+                    </select>
+                </div>
+
+            </form>
+            <div class="mt-5" id="aviso_reserva">
+
+            </div>
         </div>
-    </div>
+    @endhasanyrole
 
     @can('create bookings')
         @hasanyrole('user|teacher')
@@ -112,24 +112,19 @@
         @endhasanyrole
         @hasrole('admin')
             <div class="container-fluid">
-                <div class="row align-content-center">
-                    <div class="col-12">
-                        <h1 class="text-center">Bienvenid@ Admin </h1>
-                    </div>
-                    <div class="col-12">
+                <h3 class="text-center m-4">Bienvenid@ Admin </h3>
+                <div class="row mt-4">
+                    <div class="d-flex justify-content-center">
                         {{-- //invocar vista adminCreate --}}
-                        <form method="POST" action="{{ route('bookings.createAdmin') }}">
+                        <form class="w-50" width="400px" method="POST" action="{{ route('bookings.createAdmin') }}">
                             @csrf
-                            <button type="submit" class="btn btn-primary">Realizar reserva</button>
+                            <button type="submit" class="btn btn-primary w-100">Realizar reserva</button>
                         </form>
                     </div>
                 </div>
             </div>
         @endhasrole
     @endcan
-
-
-
 
     <div id="bookings" class="d-none">
 
