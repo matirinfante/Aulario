@@ -8,36 +8,42 @@
 // $classrooms=[];
 @endphp
 @section('content')
-    @hasanyrole('user|teacher')
-        <link href="{{ asset('css/calendar.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/calendar.css') }}" rel="stylesheet">
 
-        <div class="container text-center">
-            <h3>Datos de la reserva</h3>
-            <form class="filter" method='POST' action="">
-                @csrf
-                <div class="col-auto">
-                    <span>Ingrese cantidad de participantes</span>
-                    <input required id="participants" class="form-control" type="number" placeholder="40">
-                </div>
-                <div class="col-auto">
-                    <span>Seleccione el aula</span>
-                    <select class="form-select filtro" name="classroom_id" id="select">
-                        <option value="">Cargamela...</option>
-                        @forelse ($classrooms as $classroom)
-                            <option data-capacity="{{ $classroom['capacity'] }}"
-                                data-classroomName="{{ $classroom['classroom_name'] }}"
-                                data-building="{{ $classroom['building'] }}" value="{{ $classroom['id'] }}">
-                                Edificio: {{ $classroom['building'] }} Nombre: {{ $classroom['classroom_name'] }}
-                                Capacidad: {{ $classroom['capacity'] }}
-                            </option>
-                        @empty
-                            <option value="">No hay nada para robar :</option>
-                        @endforelse
-                    </select>
-                </div>
-            </form>
+    <div class="container text-center">
+        <h3>Datos de la reserva</h3>
+        <form class="filter" method='POST' action="">
+            @csrf
+            
+            <div class="col-auto">
+                <span>Ingrese cantidad de participantes</span>
+                <input id="participants" class="form-control" type="number" min="1" placeholder="solo numeros">
+           
+            </div>
+            <div class="d-none col-auto" id="select-aula">
+                <span>Seleccione el aula</span>
+                <select class="form-select filtro" name="classroom_id" id="select">
+                    <option value="">Seleccione un aula</option>
+                    @forelse ($classrooms as $classroom)
+                        <option
+                            data-capacity="{{$classroom['capacity']}}"
+                            data-classroomName="{{$classroom['classroom_name']}}"
+                            data-building="{{$classroom['building']}}"
+                            value="{{$classroom['id']}}">
+                            Edificio: {{$classroom['building']}} Nombre: {{$classroom['classroom_name']}}
+                            Capacidad: {{$classroom['capacity']}}
+                        </option>
+                    @empty
+                        <option value="">No hay nada para robar :</option>
+                    @endforelse
+                </select>
+            </div>
+            
+        </form>
+        <div class="mt-5" id="aviso_reserva">
+
         </div>
-    @endhasanyrole
+    </div>
 
     @can('create bookings')
         @hasanyrole('user|teacher')
