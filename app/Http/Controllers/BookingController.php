@@ -288,12 +288,9 @@ class BookingController extends Controller
 
     public function getClassroomsByQuery(Request $request)
     {
-        $request->day = 'lunes';
-        $request->participants = 20;
         $filterClassroomsByDay = Schedule::where('day', $request->day)->get('classroom_id'); //Obtiene aulas que tienen horarios ese dia
         $filterClassrooms = DB::table('classrooms')->whereIn('id', $filterClassroomsByDay) //Busca las aulas
-        ->where('capacity', '>=', $request->participants)->get(); //filtra por cantidad de participantes
-        dd($filterClassrooms);
+        ->where('capacity', '>=', $request->participants)->orderBy('capacity', 'asc')->get(); //filtra por cantidad de participantes
 
         return $filterClassrooms;
     }
