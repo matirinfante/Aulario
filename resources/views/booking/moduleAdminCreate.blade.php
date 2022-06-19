@@ -2,14 +2,14 @@
 
     <div class="mb-3 col">
         <label for="cantParticipants" class="form-label">Cantidad de participantes</label>
-        <input class="form-control" name="participants" type="text" placeholder="120" required>
+        <input class="form-control participants" name="participants" type="text" placeholder="120" required>
     </div>
 
     {{-- Aula --}}
     <div class="mb-3 col">
         <label for="classroom_id" class="form-label">Seleccione el aula</label>
-        <select class="form-select" name="classroom_id">
-            <option value="">Aula...</option>
+        <select class="form-select classrooms" name="classroom_id">
+            <option value="" selected disabled>Aula...</option>
             {{-- @forelse ($classrooms as $classroom)
             <option data-capacity="{{ $classroom['capacity'] }}"
                 data-classroomName="{{ $classroom['classroom_name'] }}"
@@ -35,7 +35,7 @@
         </select>
         {{-- <small id="errorCreateBookingStartTime"></small> --}}
     </div>
-    
+
     {{-- horas disponibles (fin) --}}
     <div class="mb-3 col">
         <label for="finishTime" class="form-label">Hora de fin</label>
@@ -46,4 +46,3 @@
         {{-- <small id="errorCreateBookingStartTime"></small> --}}
     </div>
 </div>
-    
