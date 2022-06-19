@@ -3,9 +3,9 @@
 @section('styles')
 @endsection
 @php
-    //   $bookings=[];
-    // $bookings_assignments=[];
-    // $classrooms=[];
+//   $bookings=[];
+// $bookings_assignments=[];
+// $classrooms=[];
 @endphp
 @section('content')
     <link href="{{ asset('css/calendar.css') }}" rel="stylesheet">
@@ -47,75 +47,84 @@
 
     @can('create bookings')
         @hasanyrole('user|teacher')
-        <div class="modal fade createModal" id="createModal" position="relative" tabindex="-1"
-             aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Crear Reserva de evento</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal fade createModal" id="createModal" position="relative" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Crear Reserva de evento</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="createBookingForm" name="form_booking" method="POST"
+                                action="{{ route('bookings.store') }}">
+                                @csrf
+                                {{-- nombre evento --}}
+                                <div class="mb-3">
+                                    <label for="booking_name" class="form-label">Nombre del evento</label>
+                                    <input type="text" class="form-control" name="event_name" id="createName"
+                                        placeholder="Parcial ADyDS" required>
+                                    <small id="errorCreateBookingName"></small>
+                                </div>
+
+                                {{-- descripción --}}
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Descripción</label>
+                                    <input type="text" class="form-control" name="description" id="createDescription" required>
+                                    <small id="errorCreateBookingDescription"></small>
+                                </div>
+
+                                {{-- horas disponibles (inicio) --}}
+                                <div class="mb-3">
+                                    <label for="startTime" class="form-label">Hora de inicio</label>
+                                    <select name="start_time" class="form-select start_time">
+                                        <option disabled selected>Elija una opción
+                                        </option>
+                                    </select>
+                                    <small id="errorCreateBookingStartTime"></small>
+                                </div>
+
+                                {{-- horas disponibles (fin) --}}
+                                <div class="mb-3">
+                                    <label for="finishTime" class="form-label">Hora de fin</label>
+                                    <select disabled name="finish_time" class="form-select finish_time">
+                                        <option disabled selected>Elija una opción
+                                        </option>
+                                    </select>
+                                    <small id="errorCreateBookingStartTime"></small>
+                                </div>
+                                {{-- los siguientes parametros en value serán los que lleguen desde el calendario --}}
+                                <input type="hidden" class="classroomID" name="classroom_id" value="">
+                                <input type="hidden" class="participants" name="participants" value="">
+
+                                <div id="classroomdata">
+
+                                </div>
+
+                                <input type="hidden" class="bookingDate" name="booking_date" value="">
+
+                                <button id="createBooking" type="submit" class="btn btn-primary">Crear</button>
+                            </form>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <form id="createBookingForm" name="form_booking" method="POST"
-                              action="{{ route('bookings.store') }}">
+                </div>
+            </div>
+        @endhasanyrole
+        @hasrole('admin')
+            <div class="container-fluid">
+                <div class="row align-content-center">
+                    <div class="col-12">
+                        <h1 class="text-center">Bienvenid@ Admin </h1>
+                    </div>
+                    <div class="col-12">
+                        {{-- //invocar vista adminCreate --}}
+                        <form method="POST" action="{{ route('bookings.createAdmin') }}">
                             @csrf
-                            {{-- nombre evento --}}
-                            <div class="mb-3">
-                                <label for="booking_name" class="form-label">Nombre del evento</label>
-                                <input type="text" class="form-control" name="event_name" id="createName"
-                                       placeholder="Parcial ADyDS" required>
-                                <small id="errorCreateBookingName"></small>
-                            </div>
-
-                            {{-- descripción --}}
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Descripción</label>
-                                <input type="text" class="form-control" name="description" id="createDescription"
-                                       required>
-                                <small id="errorCreateBookingDescription"></small>
-                            </div>
-
-                            {{-- horas disponibles (inicio) --}}
-                            <div class="mb-3">
-                                <label for="startTime" class="form-label">Hora de inicio</label>
-                                <select name="start_time" class="form-select start_time">
-                                    <option disabled selected>Elija una opción
-                                    </option>
-                                </select>
-                                <small id="errorCreateBookingStartTime"></small>
-                            </div>
-
-                            {{-- horas disponibles (fin) --}}
-                            <div class="mb-3">
-                                <label for="finishTime" class="form-label">Hora de fin</label>
-                                <select disabled name="finish_time" class="form-select finish_time">
-                                    <option disabled selected>Elija una opción
-                                    </option>
-                                </select>
-                                <small id="errorCreateBookingStartTime"></small>
-                            </div>
-                            {{-- los siguientes parametros en value serán los que lleguen desde el calendario --}}
-                            <input type="hidden" class="classroomID" name="classroom_id" value="">
-                            <input type="hidden" class="participants" name="participants" value="">
-
-                            <div id="classroomdata">
-
-                            </div>
-
-                            <input type="hidden" class="bookingDate" name="booking_date" value="">
-
-                            <button id="createBooking" type="submit" class="btn btn-primary">Crear</button>
+                            <button type="submit" class="btn btn-primary">Realizar reserva</button>
                         </form>
                     </div>
                 </div>
             </div>
-        </div>
-
-
-        @endhasanyrole
-        @hasrole('admin')
-        //invocar vista adminCreate
         @endhasrole
     @endcan
 
@@ -135,12 +144,12 @@
 
 @endsection
 @section('scripts')
-
     <script type="text/javascript">
         window.CSRF_TOKEN = '{{ csrf_token() }}';
     </script>
-    <script src="{{ asset('js/fullcalendar.js') }}" defer></script>
-    <script src="{{ asset('js/calendar.js') }}" defer></script>
-    <script src="{{ asset('js/fullcalendar/es.js') }}" defer></script>
-
+    @hasanyrole('user|teacher')
+        <script src="{{ asset('js/fullcalendar.js') }}" defer></script>
+        <script src="{{ asset('js/calendar.js') }}" defer></script>
+        <script src="{{ asset('js/fullcalendar/es.js') }}" defer></script>
+    @endhasanyrole
 @endsection
