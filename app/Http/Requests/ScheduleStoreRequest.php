@@ -30,4 +30,13 @@ class ScheduleStoreRequest extends FormRequest
             'finish_time' => ['required'],
         ];
     }
+    public function attributes()
+    {
+        return[
+            'classroom_id'=>'aula',
+            'day' => 'dia', 
+            'start_time' => 'hora inicio', 
+            'finish_time' => 'hora fin',
+        ];
+    }
 }

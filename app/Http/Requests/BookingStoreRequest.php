@@ -26,12 +26,18 @@ class BookingStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //'id_user'=>['required'],
             'participants' => ['required', 'numeric'],
-            'description' => ['required', 'string'],
-            'booking_date' => ['required', new CheckTwoWeeks()],
             'start_time' => ['required', 'date_format:H:i', 'before:finish_time'],
-            'finish_time' => ['required']
+            'finish_time' => ['required'],
+            //Event
+            'event_name' => ['sometimes','required',  'regex:/^([a-zA-Z\s{0-9}ÁÉÍÓÚáéíóúÑñ]+)$/'],
+            'description' => ['sometimes','required', 'string'], 
+            'booking_date' => ['sometimes','required', new CheckTwoWeeks()],
+            //Asignment
+            'assignment_id'=>['sometimes','required'],
+            'day'=>['sometimes','requered'],            
+            'start_date' => ['sometimes','required','before:finish_date',new CheckTwoWeeks()],
+            'finish_date' => ['sometimes','required'],
         ];
     }
 
@@ -43,6 +49,18 @@ class BookingStoreRequest extends FormRequest
             'booking_date' => 'fecha',
             'start_time' => 'hora inicio',
             'finish_time' => 'hora fin',
+            'event_name'=>'nombre de evento',
+            'assignment_id'=>'materia',
+            'day'=>'dias',
+            'start_date'=>'fecha inicio',
+            'finish_date'=>'fecha fin'
+        ];
+    }
+    public function messages(){
+        return [
+            'event_name.regex: El nombre solo puede contener letras, números y espacios.',
+            'start_date.before'=>'La fecha de inicio debe ser anterior a la fecha de fin.',
+            'start_time.before'=>'La hora de inicio debe ser anterior a la hora de fin.',
         ];
     }
 

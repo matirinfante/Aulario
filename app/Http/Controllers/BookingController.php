@@ -268,6 +268,7 @@ class BookingController extends Controller
     public function createFromPetition(Request $request)
     {
         $petition = Petition::findOrFail($request->id);
+        $classrooms = Classroom::all();
         return view('booking.adminCreate', compact('petition'));
     }
 
@@ -276,8 +277,115 @@ class BookingController extends Controller
      */
     public function createAdmin(Request $request)
     {
-        //TODO: check request
-        $calendar_data = $request->all();
-        return view('booking.adminCreate', compact('calendar_data'));
+        $assignments = Assignment::all();
+        return view('booking.adminCreate', compact('assignments'));
     }
+
+    /**
+     * Función que se encarga de obtener las aulas según
+     * $request que contiene día de la semana y cantidad de participantes
+     */
+
+    public function getClassroomsByQuery(Request $request)
+    {
+        $request->day = 'lunes';
+        $request->participants = 20;
+        $filterClassroomsByDay = Schedule::where('day', $request->day)->get('classroom_id'); //Obtiene aulas que tienen horarios ese dia
+        $filterClassrooms = DB::table('classrooms')->whereIn('id', $filterClassroomsByDay) //Busca las aulas
+        ->where('capacity', '>=', $request->participants)->get(); //filtra por cantidad de participantes
+        dd($filterClassrooms);
+
+        return $filterClassrooms;
+    }
+
+    /**
+     * Función encargada de obtener los horarios disponibles para un salón, comparando con posibles eventos que posean reservas en el
+     * dia de la materia y otras materias
+     * $request contiene classroom_id, start_date, finish_date y day
+     */
+    public function getClassroomsGaps(Request $request)
+    {
+        // Para aulas con horarios disponibles se debe chequear que no choquen con reservas en fechas especificas para ese dia de la semana
+        // classroom_id + start_date / finish_date + day (chequear formato del day)
+
+        $request->classroom_id = 13;
+        $request->start_date = '2022-03-01';
+        $request->finish_date = '2022-06-30';
+        $request->day = 'lunes';
+        Log::info($request);
+
+
+        $totalTime = Schedule::where('classroom_id', $request->classroom_id)->where('day', $request->day)->get(['start_time', 'finish_time']);
+        $availability = new PeriodCollection();
+        $occupiedTimes = new PeriodCollection();
+        //Se crean los Period de disponibilidad del aula
+        foreach ($totalTime as $times) {
+            $start_date = Carbon::today()->setTimeFromTimeString($times->start_time)->format('Y-m-d H:i:s');
+            $finish_date = Carbon::today()->setTimeFromTimeString($times->finish_time)->format('Y-m-d H:i:s');
+
+            $availability = $availability->add(Period::make($start_date, $finish_date, Precision::SECOND()));
+        }
+
+        //Se realizan queries para obtener los Period de los espacios ocupados por reservas de evento y materias
+        //Helpers para obtener dia de la semana localizado al inglés desde el español
+        $daysESP = [
+            'domingo' => 0,
+            'lunes' => 1,
+            'martes' => 2,
+            'miércoles' => 3,
+            'jueves' => 4,
+            'viernes' => 5,
+            'sábado' => 6,
+        ];
+        //Obtiene todas las fechas que corresponden al dia de la semana indicado en un determinado rango de fechas
+        $dayNameInRange = $this->getAllNameDays($request->start_date, $request->finish_date, Carbon::getDays()[$daysESP[strtolower($request->day)]]);
+
+        $reservedEvents = Booking::where('classroom_id', $request->classroom_id)->whereIn('booking_date', $dayNameInRange)->get(['start_time', 'finish_time']);
+        $reservedAssignments = Booking::where('classroom_id', $request->classroom_id)->where('week_day', $request->day)->get(['start_time', 'finish_time']);
+        $occupiedTimesTemp = $reservedEvents->concat($reservedAssignments);
+
+        //Se crean los Period de los espacios ocupados
+        foreach ($occupiedTimesTemp as $time) {
+            $start_date = Carbon::today()->setTimeFromTimeString($time->start_time)->format('Y-m-d H:i:s');
+            $finish_date = Carbon::today()->setTimeFromTimeString($time->finish_time)->format('Y-m-d H:i:s');
+
+            $period = Period::make($start_date, $finish_date, Precision::SECOND());
+            $occupiedTimes = $occupiedTimes->add($period);
+        }
+
+        //Se obtienen los espacios disponibles comparando la disponibilidad y las reservas sobre las mismas
+        $totalGaps = $availability->subtract($occupiedTimes);
+
+        //Se crean bloques de 30 minutos con los datos obtenidos anteriormente y se agrupan
+        //según subconjunto de espacio disponible
+        $gaps = [];
+        $i = 0;
+        foreach ($totalGaps as $elem) {
+
+            $init = Carbon::today()->setTimeFromTimeString(($elem->start()->format('H:i:s')));
+            $end = Carbon::today()->setTimeFromTimeString(($elem->end()->format('H:i:s')));
+            $gaps[$i][] = $init->format('H:i');
+            do {
+                $gaps[$i][] = $init->addMinutes(30)->format('H:i');
+            } while ($init->lessThan($end));
+            $i++;
+        }
+
+        return $gaps;
+    }
+
+    public function getAllNameDays($fromDate, $toDate, $day)
+    {
+        $days = [];
+        $startDate = Carbon::parse($fromDate)->modify('this ' . $day);
+
+        $endDate = Carbon::parse($toDate);
+
+        for ($date = $startDate; $date->lte($endDate); $date->addWeek()) {
+            $days[] = $date->format('Y-m-d');
+        }
+
+        return $days;
+    }
+
 }
