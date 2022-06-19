@@ -28,6 +28,13 @@ class EventStoreRequest extends FormRequest
             'participants' => ['required','integer']
         ];
     }
+    public function attributes()
+    {
+        return[
+            'event_name'=>'nombre del evento',
+            'participants'=>'participantes',
+        ];
+    }
     public function messages(){
         return [
             'event_name.regex: El nombre solo puede contener letras, números y espacios.',

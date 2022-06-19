@@ -41,6 +41,9 @@ Route::middleware(['auth'])->group(function () {
     });
     //Period gen
     Route::post('/bookings/periods', [BookingController::class, 'getGaps'])->name('bookings.gaps');
+    Route::post('/bookings/assignmentperiods', [BookingController::class, 'getClassroomsGaps'])->name('bookings.assignmentgaps');
+    //Classroom query for booking creation
+    Route::post('/bookings/create/getrooms', [BookingController::class, 'getClassroomsByQuery'])->name('bookings.classrooms');
     //MyBookings
     Route::get('/myBookings', [BookingController::class, 'myBookings'])->name('bookings.mybookings');
     //AdminBookingCreation
