@@ -35,4 +35,18 @@ class PetitionStoreRequest extends FormRequest
             'days' => ['required', 'string']
         ];
     }
+    public function attributes()
+    {
+        return[
+            'user_id' => 'usuario',
+            'assignment_id' => 'materia',
+            'estimated_people' => 'cantidad participantes',
+            'classroom_type' => 'tipo',
+            'start_time' => 'hora inicio',
+            'finish_time' => 'hora fin',
+            'start_date' => 'fecha inicio',
+            'finish_date' => 'fecha fin',
+            'days' => 'dias'
+        ];
+    }
 }

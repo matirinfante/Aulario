@@ -29,6 +29,15 @@ class AssignmentRequest extends FormRequest
             'finish_date' => ['required'],
         ];
     }
+    public function attributes()
+    {
+        return [            
+            'assignment_name'=>'materia',
+            'day'=>'dias',
+            'start_date'=>'fecha inicio',
+            'finish_date'=>'fecha fin'
+        ];
+    }
     public function messages(){
         return [
             'assignment_name.regex'=>'El nombre solo puede contener letras y espacios.',
