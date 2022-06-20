@@ -9,6 +9,7 @@ use App\Http\Controllers\PetitionController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\UserController;
 use App\Models\Booking;
+use App\Models\Schedule;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,6 +51,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/bookings/create/petition', [BookingController::class, 'createFromPetition'])->name('bookings.petition');
     Route::post('/bookings/admin/create', [BookingController::class, 'createAdmin'])->name('bookings.createAdmin');
     Route::post('/bookings/filter', [BookingController::class, 'classroomBookings'])->name('bookings.filter');
+    Route::post('/bookings/gantt', [BookingController::class, 'getClassroom'])->name('bookings.gantt');
+
     Route::resources([
         'assignments' => AssignmentController::class,
         'bookings' => BookingController::class,
