@@ -24,7 +24,7 @@
                 <div class="d-none col-auto" id="select-aula">
                     <span>Seleccione el aula</span>
                     <select class="form-select filtro" name="classroom_id" id="select">
-                        <option value="">Seleccione un aula</option>
+                        <option value="null">Seleccione un aula</option>
                         @forelse ($classrooms as $classroom)
                             <option data-capacity="{{ $classroom['capacity'] }}"
                                 data-classroomName="{{ $classroom['classroom_name'] }}"
@@ -33,7 +33,7 @@
                                 Capacidad: {{ $classroom['capacity'] }}
                             </option>
                         @empty
-                            <option value="">No hay nada para robar :</option>
+                            <option value="">No hay coincidencias:</option>
                         @endforelse
                     </select>
                 </div>
