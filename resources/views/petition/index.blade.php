@@ -86,13 +86,8 @@
                         </td>
                     </tr>
                     @empty
-                    <td>No hay registros</td>
-                    <td>No hay registros</td>
-                    <td>No hay registros</td>
-                    <td>No hay registros</td>
-                    <td>No hay registros</td>
-                    <td>No hay registros</td>
-                    <td>No hay registros</td>
+                    <td class="text-center text-secondary" colspan="7">No hay registros</td>
+                    
                     @endforelse
                 </tbody>
             </table>
