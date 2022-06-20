@@ -198,8 +198,8 @@ class BookingController extends Controller
         //Se realizan queries para obtener los Period de los espacios ocupados por reservas de evento y materias
         $date = Carbon::parse($request->date);
         $reservedEvents = Booking::where('classroom_id', $request->classroom_id)->where('booking_date', $date->format('Y-m-d'))->get(['start_time', 'finish_time']);
-        $reservedAssignments = Booking::where('classroom_id', $request->classroom_id)->where('week_day', ucfirst($date->dayName))->get(['start_time', 'finish_time']);
-        $occupiedTimesTemp = $reservedEvents->concat($reservedAssignments);
+        //$reservedAssignments = Booking::where('classroom_id', $request->classroom_id)->where('week_day', ucfirst($date->dayName))->get(['start_time', 'finish_time']);
+        $occupiedTimesTemp = $reservedEvents;
 
         //Se crean los Period de los espacios ocupados
         foreach ($occupiedTimesTemp as $time) {
@@ -338,8 +338,8 @@ class BookingController extends Controller
         $dayNameInRange = $this->getAllNameDays($request->start_date, $request->finish_date, Carbon::getDays()[$daysESP[strtolower($request->day)]]);
 
         $reservedEvents = Booking::where('classroom_id', $request->classroom_id)->whereIn('booking_date', $dayNameInRange)->get(['start_time', 'finish_time']);
-        $reservedAssignments = Booking::where('classroom_id', $request->classroom_id)->where('week_day', $request->day)->get(['start_time', 'finish_time']);
-        $occupiedTimesTemp = $reservedEvents->concat($reservedAssignments);
+        //$reservedAssignments = Booking::where('classroom_id', $request->classroom_id)->where('week_day', $request->day)->get(['start_time', 'finish_time']);
+        $occupiedTimesTemp = $reservedEvents;
 
         //Se crean los Period de los espacios ocupados
         foreach ($occupiedTimesTemp as $time) {
@@ -371,11 +371,17 @@ class BookingController extends Controller
         return $gaps;
     }
 
+    /**
+     * Función que se encarga de generar todas las fechas que sean dia-nombre dentro de un rango de fechas.
+     * @param string $fromDate representa el inicio del rango. Formato 'Y-m-d'
+     * @param string $toDate representa el fin del rango. Formato 'Y-m-d'
+     * @param string $day representa el dia nombre a seleccionar. Debe estar en inglés
+     * @return array
+     */
     public function getAllNameDays($fromDate, $toDate, $day)
     {
         $days = [];
         $startDate = Carbon::parse($fromDate)->modify('this ' . $day);
-
         $endDate = Carbon::parse($toDate);
 
         for ($date = $startDate; $date->lte($endDate); $date->addWeek()) {
