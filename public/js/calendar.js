@@ -110,7 +110,7 @@ $(".filtro").on("change", function (e) {
                     }
                 },
             });
-            // calendar.eventAdd(event[])
+          
             calendar.render();
         },
     });
@@ -197,7 +197,6 @@ const getBookingsAssignments = () => {
 };
 const filter = (value) => {
     $select = document.getElementById("select");
-    console.log($select);
 
     for (let i = 0; i < $select.length; i++) {
         const option = $select[i];
@@ -212,8 +211,11 @@ const filter = (value) => {
 let $inputParticipants = document.getElementById("participants");
 
 $inputParticipants.addEventListener("keyup", (e) => {
-    participants = $inputParticipants.value;
+   //Si el valor del select se modifica despues de cargado el formulario, desaparece el calendar
+    $('#calendar').html("");
 
+    participants = $inputParticipants.value;
+   
     comp1 = !isNaN(participants); //Devuelve true si es numero
     comp2 = participants != "" && participants > 0; //
   
@@ -225,10 +227,13 @@ $inputParticipants.addEventListener("keyup", (e) => {
             $("#aviso_reserva").html(`<div class="alert alert-warning">Supero la cantidad de participantes cargue una peticion  </div>
             <a href="/petitions" class="btn btn-primary" role="button">Crear reserva</a>
             `)
+            
             $("#select-aula").addClass("d-none");
+            $('#calendar').addClass("d-none");
         } else {
             filter(participants);
             $("#select-aula").removeClass("d-none");
+            $('#calendar').removeClass("d-none");
             $("#aviso_reserva").html('')
         }
     } else {
@@ -236,36 +241,9 @@ $inputParticipants.addEventListener("keyup", (e) => {
         $("#select-aula").addClass("d-none");
         $("#aviso_reserva").html('')
     }
+   
 });
 
-$("#bookings").on("change", (e) => {
-    console.log("hola holaaa");
-});
+function ocultarCalendar($inputParticipants){
 
-// $('#select').on('change', function(e) {
-
-//     var calendarEl = document.getElementById('calendar');
-//     let eventos = getBookings();
-//     let materias = getBookingsAssignments();
-
-//     let rta = eventos.concat(materias);
-//     var calendar = new FullCalendar.Calendar(calendarEl, {
-//         initialView: 'dayGridMonth',
-//         locale: "es",
-//         headerToolbar: {
-//             left: 'prev, next, today',
-//             center: 'title',
-//             right: 'dayGridMonth, timeGridWeek, listWeek'
-//         },
-//         timeZone: 'local',
-//         events: rta,
-//         contentHeight: 600,
-//         // eventColor: '#378006',
-//         // dateClick: function(info) {
-//         //     alert('info:' + info.date)
-//         // }
-//     });
-//     // calendar.eventAdd(event[])
-//     calendar.render();
-
-// });
+}
