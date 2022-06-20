@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,9 +18,15 @@ class ScheduleFactory extends Factory
      */
     public function definition()
     {
-        $start = $this->faker->time('H:i:s', '20:00:00');
+        $classroom_id = $this->faker->numberBetween(1, 10);
+        $intervals = CarbonInterval::minutes(30)->toPeriod('08:00', '19:00');
+        $fixedTimes = [];
+        foreach ($intervals as $date) {
+            $fixedTimes[] = $date->format('H:i');
+        }
+        $start = $this->faker->randomElement($fixedTimes);
         return [
-            'classroom_id' => $this->faker->numberBetween(1, 10),
+            'classroom_id' => $classroom_id,
             'day' => $this->faker->randomElement(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']),
             'start_time' => $start,
             'finish_time' => Carbon::createFromTimeString($start)->addHours(rand(1, 3)),
