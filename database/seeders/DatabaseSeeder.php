@@ -9,8 +9,11 @@ use App\Models\Event;
 use App\Models\Petition;
 use App\Models\Schedule;
 use App\Models\User;
+use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -121,17 +124,62 @@ class DatabaseSeeder extends Seeder
             'email' => 'mail@admin.com',
             'password' => Hash::make('admin123'),
         ]);
+        $teacher = User::factory()->create([
+            'name' => 'Profesor',
+            'surname' => 'X',
+            'dni' => 50123455,
+            'email' => 'mail@teacher.com',
+            'password' => Hash::make('admin123'),
+        ]);
+        $user = User::factory()->create([
+            'name' => 'Usuario',
+            'surname' => 'X',
+            'dni' => 50123458,
+            'email' => 'mail@user.com',
+            'password' => Hash::make('admin123'),
+        ]);
 
         $admin->assignRole('admin');
+        $teacher->assignRole('teacher');
+        $user->assignRole('user');
 
 
         Classroom::factory(10)->create();
         Event::factory(10)->create();
-        Assignment::factory(10)->create();
+        Assignment::factory(20)->create();
         Petition::factory(10)->create();
         Schedule::factory(20)->create();
-        Booking::factory(10)->create();
 
+
+        $arrAssignments = Assignment::all();
+        foreach ($arrAssignments as $assignment) {
+            $intervals = CarbonInterval::minutes(30)->toPeriod('08:00', '19:00');
+            $fixedTimes = [];
+            foreach ($intervals as $date) {
+                $fixedTimes[] = $date->format('H:i');
+            }
+            $start = Arr::random($fixedTimes);
+            $finish = Carbon::parse($start)->addHours(rand(1, 3));
+            $classroom_id = Classroom::all()->random()->id;
+            $intervals = CarbonInterval::week()->toPeriod($assignment->start_date, $assignment->finish_date);
+            foreach ($intervals as $date) {
+                Booking::factory()->create([
+                    'classroom_id' => $classroom_id,
+                    'assignment_id' => $assignment->id,
+                    'event_id' => null,
+                    'week_day' => ucfirst($date->locale('es')->dayName),
+                    'booking_date' => $date->format('Y-m-d'),
+                    'start_time' => $start,
+                    'finish_time' => $finish
+                ]);
+            }
+
+        }
+
+        Booking::factory(10)->create([
+            'assignment_id' => null,
+            'event_id' => rand(1, 10),
+        ]);
         User::find(11)->assignments()->sync([2, 3]);
         User::find(1)->assignments()->sync(Classroom::find(2));
         User::find(2)->assignments()->sync(Classroom::find(4));
