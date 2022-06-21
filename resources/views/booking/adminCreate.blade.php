@@ -202,7 +202,6 @@
             // console.log(JSON.parse(localStorage.getItem('bookings')));
             $('#btnViewModal').on('click', function() {
                 var bookingsList = JSON.parse(localStorage.getItem('bookings'));
-                console.log(bookingsList)
                 bookingsList.forEach(booking => {
                     $('.modal-body').append(
                         `
@@ -216,7 +215,6 @@
             })
             $('#btnViewModalMassiveEvent').on('click', function() {
                 var bookingsList = JSON.parse(localStorage.getItem('bookings'));
-                console.log(bookingsList)
                 bookingsList.forEach(booking => {
                     $('.modal-body').append(
                         `
@@ -322,11 +320,6 @@
                 var aula = $(this).val();
                 var inicioArr = [];
 
-                console.log('F.Ini: ',fechaInicio);
-                console.log('F.Fin: ',fechaFin);
-                console.log('Dia: ',day);
-                console.log('Aula: ',aula);
-
                 $.ajax({
                     headers: {
                         "X-CSRF-TOKEN": '{{ csrf_token() }}',
@@ -341,7 +334,6 @@
                         day: day
                     },
                     success: function(data) {
-                        console.log('DATA: ',data);
 
                         if (data.length > 1) {
                             data.forEach(function(elem) {
@@ -557,10 +549,8 @@
 
         $('#createBooking').on('click', function(e){
 
-            $('#formAdminCreate').submit(function() {
-            // <input type="hidden" name="arrayLocal" id="arrayLocal" value="">
+            $('#formAdminCreate').submit(function() {            
             var arrayLocal = localStorage.getItem('bookings');
-                console.log(arrayLocal);
                 $('#arrayLocal').val(arrayLocal);
             });
         });
