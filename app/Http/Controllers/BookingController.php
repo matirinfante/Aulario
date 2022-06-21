@@ -155,7 +155,7 @@ class BookingController extends Controller
             }
         } catch (\Exception $e) {
             flash('Ha ocurrido un error al agregar una nueva reserva')->error();
-            return back()->with('error', 'error' . $e);
+            return back();
         }
     }
 
@@ -165,8 +165,7 @@ class BookingController extends Controller
      *
      * @param int $id
      */
-    public
-    function show(Booking $booking)
+    public function show(Booking $booking)
     {
         return view('booking.show', compact('booking'));
     }
@@ -176,8 +175,7 @@ class BookingController extends Controller
      *
      * @param int $id
      */
-    public
-    function edit(Booking $booking)
+    public function edit(Booking $booking)
     {
         $assignments = Assignment::all();
         $events = Event::all();
@@ -192,8 +190,7 @@ class BookingController extends Controller
      * @param int $id
      * TODO: no se edita
      */
-    public
-    function update(BookingRequest $request, $id)
+    public function update(BookingRequest $request, $id)
     {
 
         try {
@@ -214,8 +211,7 @@ class BookingController extends Controller
      *
      * @param int $id
      */
-    public
-    function destroy($id)
+    public function destroy($id)
     {
         $booking = Booking::findOrFail($id);
         $booking->delete();
@@ -231,8 +227,7 @@ class BookingController extends Controller
      * @param Request $request (los mismos conteniendo el id del aula y la fecha seleccionada)
      * @return array $gaps
      */
-    public
-    function getGaps(Request $request)
+    public function getGaps(Request $request)
     {
 
         $totalTime = Schedule::where('classroom_id', $request->classroom_id)->where('day', Carbon::parse($request->date)->dayName)->get(['start_time', 'finish_time']);
@@ -282,15 +277,13 @@ class BookingController extends Controller
         return $gaps;
     }
 
-    public
-    function myBookings()
+    public function myBookings()
     {
         $bookings = Booking::where('user_id', auth()->user()->id)->get();
         return view('booking.mybookings', compact('bookings'));
     }
 
-    public
-    function classroomBookings(Request $request)
+    public function classroomBookings(Request $request)
     {
         $id = $request->classroom_id;
         $bookings = [];
@@ -318,8 +311,7 @@ class BookingController extends Controller
     /**
      * Funcion para redireccionar a CreateAdmin desde Petition
      */
-    public
-    function createFromPetition(Request $request)
+    public function createFromPetition(Request $request)
     {
         $petition = Petition::findOrFail($request->id);
         $classrooms = Classroom::all();
@@ -329,8 +321,7 @@ class BookingController extends Controller
     /**
      * Funcion para redireccionar a CreateAdmin desde Calendar
      */
-    public
-    function createAdmin(Request $request)
+    public function createAdmin(Request $request)
     {
         $assignments = Assignment::all();
         return view('booking.adminCreate', compact('assignments'));
@@ -341,8 +332,7 @@ class BookingController extends Controller
      * $request que contiene día de la semana y cantidad de participantes
      */
 
-    public
-    function getClassroomsByQuery(Request $request)
+    public function getClassroomsByQuery(Request $request)
     {
         if ($request->booking_date) {
             $request->day = Carbon::parse($request->booking_date)->locale('es')->dayName;
@@ -360,17 +350,10 @@ class BookingController extends Controller
      * dia de la materia y otras materias
      * $request contiene classroom_id, start_date, finish_date y day
      */
-    public
-    function getClassroomsGaps(Request $request)
+    public function getClassroomsGaps(Request $request)
     {
         // Para aulas con horarios disponibles se debe chequear que no choquen con reservas en fechas especificas para ese dia de la semana
         // classroom_id + start_date / finish_date + day (chequear formato del day)
-
-        //$request->classroom_id = 13;
-        //$request->start_date = '2022-03-01';
-        // $request->finish_date = '2022-06-30';
-        //$request->day = 'lunes';
-        Log::info($request);
 
 
         $totalTime = Schedule::where('classroom_id', $request->classroom_id)->where('day', $request->day)->get(['start_time', 'finish_time']);
