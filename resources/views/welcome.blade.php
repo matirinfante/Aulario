@@ -1,6 +1,6 @@
     @extends('layouts.app')
     @section('styles')
-    <link rel="stylesheet" type="text/css" href="{{asset('css/style.min.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{asset('css/style.css')}}"/>
 @endsection
     @section('content')
         <div class="container-fluid">
@@ -12,7 +12,7 @@
                     <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_vo3itchj.json"  background="transparent"  speed="1"  style="width: 450px; height: 450px;"  loop  autoplay></lottie-player>
                 </div>
             </div> --}}
-            <div style="padding: 0 0 40px;">
+            <div style="padding: 0 0 40px; ">
                 <div id="schedule"></div>
             </div>
         </div>
