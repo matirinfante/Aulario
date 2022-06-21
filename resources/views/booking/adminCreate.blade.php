@@ -48,7 +48,7 @@
                         </div>
 
                         <div class="row">
-                            {{-- fecha inicio materia--}}
+                            {{-- fecha inicio materia --}}
                             <div class="mb-3 col">
                                 <label for="start_date" class="form-label">Fecha inicio</label>
                                 <input type="date" class="form-control start_date" name="start_date"
@@ -56,7 +56,7 @@
                                 {{-- <small id="errorCreateAssignmentStartDate"></small> --}}
                             </div>
 
-                            {{-- fecha fin materia--}}
+                            {{-- fecha fin materia --}}
                             <div class="mb-3 col">
                                 <label for="finish_date" class="form-label">Fecha fin</label>
                                 <input type="date" class="form-control finish_date" name="finish_date"
@@ -65,7 +65,7 @@
                             </div>
                         </div>
 
-                        {{-- profesores materia--}}
+                        {{-- profesores materia --}}
                         <div class="mb-3 col-md-5">
                             <label for="nameTeacher" class="form-label">Profesor/a asignado</label>
                             <select name="user_id[]" class="form-select select2-teacher" multiple="multiple"
@@ -106,7 +106,7 @@
                             <small id="errorCreateBookingName"></small>
                         </div>
 
-                        {{-- descripción del evento--}}
+                        {{-- descripción del evento --}}
                         <div class="mb-3">
                             <label for="description" class="form-label">Descripción</label>
                             <input type="text" class="form-control" name="description" id="createDescription">
@@ -151,7 +151,7 @@
                                     <path
                                         d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z" />
                                 </svg>
-                                Crear
+                                Cargar todas las reservas
                             </button>
                         </div>
                     </div>
@@ -166,14 +166,17 @@
     {{-- modal con información de reservas cargadas en formulario --}}
     <div class="modal fade text-center" id="viewModal" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Datos de reserva</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-
+                    {{-- ... --}}
+                </div>
+                <div class="modal-footer">
+                    {{-- ... --}}
                 </div>
             </div>
         </div>
@@ -192,12 +195,18 @@
                 $('.assignment').removeClass('d-none');
                 $('.massiveEvent').addClass('d-none');
                 $('#addBooking').removeClass('d-none');
+                $('#btnViewModal').addClass('d-none');
+                $('#btnViewModalMassiveEvent').addClass('d-none');
+                $('#createBooking').addClass('d-none');
                 var bookings = [];
                 window.localStorage.setItem('bookings', JSON.stringify(bookings));
             } else { // si es evento masivo
                 $('.assignment').addClass('d-none');
                 $('.massiveEvent').removeClass('d-none');
                 $('#addBookingMassiveEvent').removeClass('d-none');
+                $('#btnViewModal').addClass('d-none');
+                $('#btnViewModalMassiveEvent').addClass('d-none');
+                $('#createBooking').addClass('d-none');
                 var bookings = [];
                 window.localStorage.setItem('bookings', JSON.stringify(bookings));
             }
@@ -213,14 +222,22 @@
 
             // accion para modal (reserva de materia)
             $('#btnViewModal').on('click', function() {
+                $('.modal-body').empty();
                 var bookingsList = JSON.parse(localStorage.getItem('bookings'));
                 bookingsList.forEach(booking => {
                     $('.modal-body').append(
                         `
-                        <h3>Dia de clase: ${booking['day']}</h3>
-                        <p>Horario de comienzo: ${booking['start_time']}</p>
-                        <p>Horario de fin: ${booking['finish_time']}</p>
-                        </hr>
+                        <div class="card m-auto mt-3">
+                            <div class="card-body text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title">Dia de clase: ${booking['day']}</h5>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">Horario de comienzo: ${booking['start_time']}</li>
+                                            <li class="list-group-item">Horario de fin: ${booking['finish_time']}</li>
+                                        </ul>
+                                </div>
+                            </div>
+                        </div>
                         `
                     )
                 });
@@ -228,14 +245,30 @@
 
             // accion para modal (reserva evento masivo)
             $('#btnViewModalMassiveEvent').on('click', function() {
+                $('.modal-body').empty();
                 var bookingsList = JSON.parse(localStorage.getItem('bookings'));
                 bookingsList.forEach(booking => {
+                    var fecha = 'No disponible';
+                    if (booking['booking_date'] != '') {
+                        var arrayDate = booking['booking_date'].split('-');
+                        var anio = arrayDate[0];
+                        var mes = arrayDate[1];
+                        var dia = arrayDate[2];
+                        fecha = dia + '/' + mes + '/' + anio;
+                    }
                     $('.modal-body').append(
                         `
-                        <h3>Fecha de evento: ${booking['booking_date']}</h3>
-                        <p>Horario de comienzo: ${booking['start_time']}</p>
-                        <p>Horario de fin: ${booking['finish_time']}</p>
-                        </hr>
+                        <div class="card m-auto mt-3">
+                            <div class="card-body text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title">Fecha de evento: ${fecha}</h5>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">Horario de comienzo: ${booking['start_time']}</li>
+                                            <li class="list-group-item">Horario de fin: ${booking['finish_time']}</li>
+                                        </ul>
+                                </div>
+                            </div>
+                        </div>
                         `
                     )
                 });
@@ -246,7 +279,7 @@
                 $('.classroomsMassiveEvent').append(`<option disabled selected>Aula...</option>`)
                 $('.classroomsMassiveEvent').attr('disabled', true);
 
-                
+
                 var participants = $(this).val();
                 var bookingDate = $('.bookingDate').val();
 
