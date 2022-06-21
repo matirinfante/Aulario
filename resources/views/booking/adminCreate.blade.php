@@ -78,11 +78,12 @@
                             {{-- <small id="errorCreateNameTeacher"></small> --}}
                         </div>
 
-                        {{-- participantes --}}
+                        {{-- participantes de materia--}}
                         <div class="mb-3 col">
-                            <label for="cantParticipants" class="form-label">Cantidad de participantes</label>
-                            <input class="form-control participants" name="participants" type="text" placeholder="120"
-                                >
+                            <label for="cantParticipants" class="form-label">Cantidad de participantes</label><br>
+                            <label for="cantParticipants" class="bg-warning p-2 bg-opacity-25">Recuerde que la cantidad debe ser particionada según la cantidad total de reservas a registrar</label>
+                            <input class="form-control participants" name="participants" type="text" placeholder="60">
+                            {{-- <small id="errorCantParticipants"></small> --}}
                         </div>
 
                         <hr size="5">
@@ -114,11 +115,13 @@
                             {{-- <small id="errorCreateAssignmentStartDate"></small> --}}
                         </div>
 
-                        {{-- participantes --}}
+                        {{-- participantes de evento masivo--}}
                         <div class="mb-3 col">
                             <label for="cantParticipants" class="form-label">Cantidad de participantes</label>
+                            <label for="cantParticipants" class="bg-warning p-2 bg-opacity-25">Recuerde que la cantidad debe ser particionada según la cantidad total de reservas a registrar</label>
                             <input class="form-control participantsMassiveEvent" name="participants" type="text"
-                                placeholder="120" >
+                                placeholder="60" >
+                            {{-- <small id="errorCantParticipantsEvent"></small> --}}
                         </div>
 
                         <hr size="5">
@@ -319,6 +322,11 @@
                 var aula = $(this).val();
                 var inicioArr = [];
 
+                console.log('F.Ini: ',fechaInicio);
+                console.log('F.Fin: ',fechaFin);
+                console.log('Dia: ',day);
+                console.log('Aula: ',aula);
+
                 $.ajax({
                     headers: {
                         "X-CSRF-TOKEN": '{{ csrf_token() }}',
@@ -333,6 +341,7 @@
                         day: day
                     },
                     success: function(data) {
+                        console.log('DATA: ',data);
 
                         if (data.length > 1) {
                             data.forEach(function(elem) {
