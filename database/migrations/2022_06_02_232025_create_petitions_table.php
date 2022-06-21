@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained();
             $table->foreignId('assignment_id')->constrained();
             $table->integer('estimated_people');
-            $table->enum('classroom_type', ['Laboratorio', 'Aula común', 'Híbrido']);
+            $table->enum('classroom_type', ['Laboratorio', 'Aula común']);
             $table->time('start_time');
             $table->time('finish_time');
             $table->date('start_date');
