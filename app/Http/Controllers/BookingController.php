@@ -314,8 +314,8 @@ class BookingController extends Controller
     public function createFromPetition(Request $request)
     {
         $petition = Petition::findOrFail($request->id);
-        $classrooms = Classroom::all();
-        return view('booking.adminCreate', compact('petition'));
+        $assignments = Assignment::all();
+        return view('booking.adminCreate', compact('petition', 'assignments'));
     }
 
     /**
@@ -448,7 +448,7 @@ class BookingController extends Controller
             $classroom_bookings = $classroom->bookings->where('booking_date', $today)->where('status', '!==', 'cancelled');
             $response[] = $classroom_bookings;
         }
-        return compact('response' , 'classrooms');
+        return compact('response', 'classrooms');
 
     }
 
