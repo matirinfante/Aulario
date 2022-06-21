@@ -16,7 +16,7 @@
                 class="text-secondary fst-italic">materia</span>?</h3>
         <div class="row">
             <div class="d-flex justify-content-center">
-                <form class="createEventAssignment w-50" method='POST' action="" width="400px">
+                <form id="formAdminCreate" class="createEventAssignment w-50" method="POST" action="{{route("bookings.store")}}" width="400px">
                     @csrf
                     <div class="mb-3">
                         <span>Seleccione tipo de reserva</span>
@@ -34,7 +34,7 @@
                         <div class="mb-3">
                             <label for="assignment_id" class="form-label d-block">Materia</label>
                             <select name="assignment_id" class="form-select select2-assignment" aria-label="Materia"
-                                required style="width: 100%;">
+                                 style="width: 100%;">
                                 <option value="-1" disabled></option>
                                 @foreach ($assignments as $assignment)
                                     <option value="{{ $assignment->id }}">
@@ -50,7 +50,7 @@
                             <div class="mb-3 col">
                                 <label for="start_date" class="form-label">Fecha inicio</label>
                                 <input type="date" class="form-control start_date" name="start_date" id="createStartDate"
-                                    required>
+                                    >
                                 {{-- <small id="errorCreateAssignmentStartDate"></small> --}}
                             </div>
 
@@ -58,7 +58,7 @@
                             <div class="mb-3 col">
                                 <label for="finish_date" class="form-label">Fecha fin</label>
                                 <input type="date" class="form-control finish_date" name="finish_date"
-                                    id="createFinishDate" required>
+                                    id="createFinishDate">
                                 {{-- <small id="errorCreateAssignmentFinishDate"></small> --}}
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                         <div class="mb-3 col">
                             <label for="cantParticipants" class="form-label">Cantidad de participantes</label>
                             <input class="form-control participants" name="participants" type="text" placeholder="120"
-                                required>
+                                >
                         </div>
 
                         <hr size="5">
@@ -95,14 +95,14 @@
                         <div class="mb-3">
                             <label for="booking_name" class="form-label">Nombre del evento</label>
                             <input type="text" class="form-control" name="event_name" id="createName" placeholder="GDG"
-                                required>
+                                >
                             <small id="errorCreateBookingName"></small>
                         </div>
 
                         {{-- descripción --}}
                         <div class="mb-3">
                             <label for="description" class="form-label">Descripción</label>
-                            <input type="text" class="form-control" name="description" id="createDescription" required>
+                            <input type="text" class="form-control" name="description" id="createDescription" >
                             <small id="errorCreateBookingDescription"></small>
                         </div>
 
@@ -118,7 +118,7 @@
                         <div class="mb-3 col">
                             <label for="cantParticipants" class="form-label">Cantidad de participantes</label>
                             <input class="form-control participantsMassiveEvent" name="participants" type="text"
-                                placeholder="120" required>
+                                placeholder="120" >
                         </div>
 
                         <hr size="5">
@@ -127,10 +127,13 @@
                         @include('booking.moduleAdminCreateEvent')
 
                     </div>
+                    
+                    {{-- input hidden con arreglo de local storage --}}
+                    <input type="hidden" name="arrayLocal" id="arrayLocal" value="">
 
                     <div class="row">
                         <div class="text-center">
-                            <button id="createBooking" type="submit" class="btn btn-primary w-100 d-none" disabled>
+                            <button id="createBooking" type="submit" class="btn btn-primary w-100 d-none">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-cloud-arrow-up-fill" viewBox="0 0 16 16">
                                     <path
@@ -141,8 +144,6 @@
                         </div>
                     </div>
 
-                    {{-- input hidden con arreglo de local storage --}}
-                    <input type="hidden" name="arrayLocal" id="arrayLocal" value="">
                 </form>
             </div>
         </div>
@@ -543,6 +544,16 @@
             // habilitar boton para crear
             $('#createBooking').removeClass('d-none');
             $('#btnViewModalMassiveEvent').removeClass('d-none');
+        });
+
+        $('#createBooking').on('click', function(e){
+
+            $('#formAdminCreate').submit(function() {
+            // <input type="hidden" name="arrayLocal" id="arrayLocal" value="">
+            var arrayLocal = localStorage.getItem('bookings');
+                console.log(arrayLocal);
+                $('#arrayLocal').val(arrayLocal);
+            });
         });
     </script>
 @endsection
