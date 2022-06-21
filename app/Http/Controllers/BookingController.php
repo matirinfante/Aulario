@@ -465,7 +465,7 @@ class BookingController extends Controller
             $classroom_bookings = $classroom->bookings->where('booking_date', $today)->where('status', '!==', 'cancelled');
             $response[] = $classroom_bookings;
         }
-        return json_encode($response);
+        return compact('response' , 'classrooms');
 
     }
 
