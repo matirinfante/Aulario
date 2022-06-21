@@ -22,7 +22,7 @@ class PetitionFactory extends Factory
             'user_id' => User::all()->random()->id,
             'assignment_id' => Assignment::all()->random()->id,
             'estimated_people' => $this->faker->numberBetween(20, 50),
-            'classroom_type' => $this->faker->randomElement(['Laboratorio', 'Aula Común', 'Híbrido']),
+            'classroom_type' => $this->faker->randomElement(['Laboratorio', 'Aula Común']),
             'start_time' => $this->faker->time($format = 'H:i:s', $max = 'now'),
             'finish_time' => $this->faker->time($format = 'H:i:s', $max = 'now'), //Como controla que sea despues de start?
             'start_date' => $this->faker->date(),

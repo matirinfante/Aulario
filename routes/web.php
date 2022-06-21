@@ -48,7 +48,7 @@ Route::middleware(['auth'])->group(function () {
     //MyBookings
     Route::get('/myBookings', [BookingController::class, 'myBookings'])->name('bookings.mybookings');
     //AdminBookingCreation
-    Route::post('/bookings/create/petition', [BookingController::class, 'createFromPetition'])->name('bookings.petition');
+    Route::get('/bookings/create/petition', [BookingController::class, 'createFromPetition'])->name('bookings.petition');
     Route::get('/bookings/admin/create', [BookingController::class, 'createAdmin'])->name('bookings.createAdmin');
     Route::post('/bookings/filter', [BookingController::class, 'classroomBookings'])->name('bookings.filter');
     Route::post('/bookings/gantt', [BookingController::class, 'getClassroom'])->name('bookings.gantt');
