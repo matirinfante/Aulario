@@ -1,14 +1,4 @@
 <h5 class="pb-3">Datos de reserva</h5>
-<label for="days" class="form-label">Día</label>
-<select disabled name="days" class="form-select days" aria-label="days" style="width: 100%">
-    <option value="-1" disabled selected>Elige un día...</option>
-    <option value="Lunes">Lunes</option>
-    <option value="Martes">Martes</option>
-    <option value="Miércoles">Miércoles</option>
-    <option value="Jueves">Jueves</option>
-    <option value="Viernes">Viernes</option>
-    <option value="Sábado">Sábado</option>
-</select>
 <div class="row mt-4">
 
     {{-- Aula --}}
