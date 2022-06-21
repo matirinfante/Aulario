@@ -17,15 +17,18 @@ $.ajax({
         datos=JSON.parse(data);
         let datosGantt= "{";
         let flag=false; //Para que no me concatene la "," la primera vez
+        
         datos.find((object,index) =>{
-            if (flag){
-                datosGantt+=","
-            }
-            flag=true;
-            if(Array.isArray(object)==false){
+            if (object.length!=0){  //Para evitar objetos (aulas) vacios
+                if (flag){
+                    datosGantt+=","
+                }
+                flag=true;
                 datosGantt+=formato(object, index)
+                // if(Array.isArray(object)==false){
+                //     datosGantt+=formato(object, index)
+                // }
             }
-            
         })
         datosGantt+="}"
         objGantt=JSON.parse(datosGantt);
@@ -33,7 +36,12 @@ $.ajax({
             let rta = `"${index}": { 
                 "title":"aula de prueba",
                 "schedule": [`
+            let flag2=false; //Para que no me concatene la "," la primera vez    
             Object.values(elem).forEach(val => {
+                if (flag2){
+                    rta+=","
+                }
+                flag2=true;
                 rta+=`{    
                             "start": "${val.start_time}",
                             "end": "${val.finish_time}",
@@ -49,7 +57,6 @@ $.ajax({
             $("#logs").append('<table class="table">');
             var isDraggable = false;
             var isResizable = false;
-            console.log(datosGantt);
             var $sc = $("#schedule").timeSchedule({
             
                 startTime: "08:00:00", // schedule start time(HH:ii)
