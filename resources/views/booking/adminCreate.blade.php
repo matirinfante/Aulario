@@ -16,8 +16,10 @@
                 class="text-secondary fst-italic">materia</span>?</h3>
         <div class="row">
             <div class="d-flex justify-content-center">
-                <form id="formAdminCreate" class="createEventAssignment w-50" method="POST" action="{{route("bookings.store")}}" width="400px">
+                <form id="formAdminCreate" class="createEventAssignment w-50" method="POST"
+                    action="{{ route('bookings.store') }}" width="400px">
                     @csrf
+                    {{-- Dependiendo del tipo de reserva, se visualizarán inputs distintos dentro del formulario --}}
                     <div class="mb-3">
                         <span>Seleccione tipo de reserva</span>
                         <select class="form-select" name="optionType" id="optionType">
@@ -34,7 +36,7 @@
                         <div class="mb-3">
                             <label for="assignment_id" class="form-label d-block">Materia</label>
                             <select name="assignment_id" class="form-select select2-assignment" aria-label="Materia"
-                                 style="width: 100%;">
+                                style="width: 100%;">
                                 <option value="-1" disabled></option>
                                 @foreach ($assignments as $assignment)
                                     <option value="{{ $assignment->id }}">
@@ -46,15 +48,15 @@
                         </div>
 
                         <div class="row">
-                            {{-- fecha inicio --}}
+                            {{-- fecha inicio materia--}}
                             <div class="mb-3 col">
                                 <label for="start_date" class="form-label">Fecha inicio</label>
-                                <input type="date" class="form-control start_date" name="start_date" id="createStartDate"
-                                    >
+                                <input type="date" class="form-control start_date" name="start_date"
+                                    id="createStartDate">
                                 {{-- <small id="errorCreateAssignmentStartDate"></small> --}}
                             </div>
 
-                            {{-- fecha fin --}}
+                            {{-- fecha fin materia--}}
                             <div class="mb-3 col">
                                 <label for="finish_date" class="form-label">Fecha fin</label>
                                 <input type="date" class="form-control finish_date" name="finish_date"
@@ -63,7 +65,7 @@
                             </div>
                         </div>
 
-                        {{-- profesores --}}
+                        {{-- profesores materia--}}
                         <div class="mb-3 col-md-5">
                             <label for="nameTeacher" class="form-label">Profesor/a asignado</label>
                             <select name="user_id[]" class="form-select select2-teacher" multiple="multiple"
@@ -78,32 +80,36 @@
                             {{-- <small id="errorCreateNameTeacher"></small> --}}
                         </div>
 
-                        {{-- participantes de materia--}}
+                        {{-- participantes de materia --}}
                         <div class="mb-3 col">
                             <label for="cantParticipants" class="form-label">Cantidad de participantes</label><br>
-                            <label for="cantParticipants" class="bg-warning p-2 bg-opacity-25">Recuerde que la cantidad debe ser particionada según la cantidad total de reservas a registrar</label>
+                            <label for="cantParticipants" class="bg-warning p-2 bg-opacity-25">Recuerde que la cantidad debe
+                                ser particionada según la cantidad total de reservas a registrar</label>
                             <input class="form-control participants" name="participants" type="text" placeholder="60">
                             {{-- <small id="errorCantParticipants"></small> --}}
                         </div>
 
                         <hr size="5">
 
+                        {{-- se incluye el contenido del formulario para materia --}}
                         @include('booking.moduleAdminCreate')
                     </div>
 
+                    {{-- -------------------------------------------------------------------------------------------------------------------------- --}}
                     {{-- RESERVA DE EVENTOS MASIVOS --}}
+
+                    {{-- nombre del evento --}}
                     <div class="massiveEvent d-none">
                         <div class="mb-3">
                             <label for="booking_name" class="form-label">Nombre del evento</label>
-                            <input type="text" class="form-control" name="event_name" id="createName" placeholder="GDG"
-                                >
+                            <input type="text" class="form-control" name="event_name" id="createName" placeholder="GDG">
                             <small id="errorCreateBookingName"></small>
                         </div>
 
-                        {{-- descripción --}}
+                        {{-- descripción del evento--}}
                         <div class="mb-3">
                             <label for="description" class="form-label">Descripción</label>
-                            <input type="text" class="form-control" name="description" id="createDescription" >
+                            <input type="text" class="form-control" name="description" id="createDescription">
                             <small id="errorCreateBookingDescription"></small>
                         </div>
 
@@ -115,30 +121,33 @@
                             {{-- <small id="errorCreateAssignmentStartDate"></small> --}}
                         </div>
 
-                        {{-- participantes de evento masivo--}}
+                        {{-- participantes de evento masivo --}}
                         <div class="mb-3 col">
                             <label for="cantParticipants" class="form-label">Cantidad de participantes</label>
-                            <label for="cantParticipants" class="bg-warning p-2 bg-opacity-25">Recuerde que la cantidad debe ser particionada según la cantidad total de reservas a registrar</label>
-                            <input class="form-control participantsMassiveEvent" name="participants" type="text"
-                                placeholder="60" >
+                            <label for="cantParticipants" class="bg-warning p-2 bg-opacity-25">Recuerde que la cantidad debe
+                                ser particionada según la cantidad total de reservas a registrar</label>
+                            <input class="form-control participantsMassiveEvent" name="participants_event" type="text"
+                                placeholder="60">
                             {{-- <small id="errorCantParticipantsEvent"></small> --}}
                         </div>
 
                         <hr size="5">
 
-                        {{-- datos de reserva --}}
+                        {{-- se incluye el contenido del formulario para evento masivo --}}
                         @include('booking.moduleAdminCreateEvent')
 
                     </div>
-                    
+
                     {{-- input hidden con arreglo de local storage --}}
+                    {{-- mediante este arreglo se accede a los valores ingresados en formulario, en bookingController --}}
                     <input type="hidden" name="arrayLocal" id="arrayLocal" value="">
 
+                    {{-- boton submit del formulario --}}
                     <div class="row">
                         <div class="text-center">
                             <button id="createBooking" type="submit" class="btn btn-primary w-100 d-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-cloud-arrow-up-fill" viewBox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-cloud-arrow-up-fill" viewBox="0 0 16 16">
                                     <path
                                         d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z" />
                                 </svg>
@@ -177,14 +186,15 @@
     <script>
         // SCRIPT PARA MOSTRAR EL FORMULARIO DE MATERIA O EVENTO MASIVO
         $("#optionType").change(function() {
+            // se busca la opcion seleccionada y condiciona lo que se muestra/oculta según el tipo de reserva
             var opcion = $(this).find('option:selected').val();
-            if (opcion === "assignment") {
+            if (opcion === "assignment") { // si la opción es materia
                 $('.assignment').removeClass('d-none');
                 $('.massiveEvent').addClass('d-none');
                 $('#addBooking').removeClass('d-none');
                 var bookings = [];
                 window.localStorage.setItem('bookings', JSON.stringify(bookings));
-            } else {
+            } else { // si es evento masivo
                 $('.assignment').addClass('d-none');
                 $('.massiveEvent').removeClass('d-none');
                 $('#addBookingMassiveEvent').removeClass('d-none');
@@ -200,6 +210,8 @@
             // var bookings = [];
             // window.localStorage.setItem('bookings', JSON.stringify(bookings));
             // console.log(JSON.parse(localStorage.getItem('bookings')));
+
+            // accion para modal (reserva de materia)
             $('#btnViewModal').on('click', function() {
                 var bookingsList = JSON.parse(localStorage.getItem('bookings'));
                 bookingsList.forEach(booking => {
@@ -213,6 +225,8 @@
                     )
                 });
             })
+
+            // accion para modal (reserva evento masivo)
             $('#btnViewModalMassiveEvent').on('click', function() {
                 var bookingsList = JSON.parse(localStorage.getItem('bookings'));
                 bookingsList.forEach(booking => {
@@ -232,7 +246,7 @@
                 $('.classroomsMassiveEvent').append(`<option disabled selected>Aula...</option>`)
                 $('.classroomsMassiveEvent').attr('disabled', true);
 
-                // /bookings/create/getrooms
+                
                 var participants = $(this).val();
                 var bookingDate = $('.bookingDate').val();
 
@@ -310,6 +324,7 @@
                 });
             });
 
+            // ONCHANGE DE AULAS (MATERIA)
             $('.classrooms').on('change', function() {
                 $('.start_time').empty();
                 $('.finish_time').empty();
@@ -358,6 +373,7 @@
                 });
             });
 
+            // ONCHANGE DE AULAS (EVENTO MASIVO)
             $('.classroomsMassiveEvent').on('change', function() {
                 $('.start_timeMassiveEvent').empty();
                 $('.finish_timeMassiveEvent').empty();
@@ -402,6 +418,7 @@
                 });
             })
 
+            // ONCHANGE DE HORA INICIO (MATERIA)
             $('.start_time').on('change', function() {
                 $('.finish_time').empty();
                 $('.finish_time').removeAttr('disabled');
@@ -414,7 +431,6 @@
                 var fechaInicio = $('.start_date').val();
                 var fechaFin = $('.finish_date').val();
                 var day = $('.days').val();
-                // var aula = $('.classrooms').val();
 
                 $.ajax({
                     type: 'POST',
@@ -446,6 +462,7 @@
                 });
             });
 
+            // ONCHANGE HORA INICIO (EVENTO MASIVO)
             $('.start_timeMassiveEvent').on('change', function() {
                 $('.finish_timeMassiveEvent').empty();
                 $('.finish_timeMassiveEvent').removeAttr('disabled');
@@ -487,6 +504,7 @@
             })
         });
 
+        // accion del boton 'agregar reserva' para almacenar datos al localStorage (Materia)
         $('#addBooking').on('click', function(e) {
             var dia = $('.days').val();
             var aula = $('.classrooms').val();
@@ -518,6 +536,7 @@
             $('#btnViewModal').removeClass('d-none');
         });
 
+        // accion del boton 'agregar reserva' para almacenar datos al localStorage (Evento masivo)
         $('#addBookingMassiveEvent').on('click', function(e) {
             var aula = $('.classroomsMassiveEvent').val();
             var horaInicio = $('.start_timeMassiveEvent').val();
@@ -547,10 +566,10 @@
             $('#btnViewModalMassiveEvent').removeClass('d-none');
         });
 
-        $('#createBooking').on('click', function(e){
-
-            $('#formAdminCreate').submit(function() {            
-            var arrayLocal = localStorage.getItem('bookings');
+        // Submit del formulario
+        $('#createBooking').on('click', function(e) {
+            $('#formAdminCreate').submit(function() {
+                var arrayLocal = localStorage.getItem('bookings');
                 $('#arrayLocal').val(arrayLocal);
             });
         });
