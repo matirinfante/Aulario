@@ -288,12 +288,16 @@ class BookingController extends Controller
 
     public function getClassroomsByQuery(Request $request)
     {
+        if ($request->booking_date) {
+            $request->day = Carbon::parse($request->booking_date)->locale('es')->dayName;
+        }
         $filterClassroomsByDay = Schedule::where('day', $request->day)->get('classroom_id'); //Obtiene aulas que tienen horarios ese dia
         $filterClassrooms = DB::table('classrooms')->whereIn('id', $filterClassroomsByDay) //Busca las aulas
         ->where('capacity', '>=', $request->participants)->orderBy('capacity', 'asc')->get(); //filtra por cantidad de participantes
 
         return $filterClassrooms;
     }
+
 
     /**
      * Función encargada de obtener los horarios disponibles para un salón, comparando con posibles eventos que posean reservas en el
@@ -390,5 +394,20 @@ class BookingController extends Controller
 
         return $days;
     }
+
+    //obtenemos las reservas de aulas de informatica para el dia actual,seran mostradas en el diagrama de Gantt
+    public function getClassroom()
+    {
+        $today = Carbon::today()->format('Y-m-d');
+        $classrooms = Classroom::where('building', 'Informática')->get();
+        $response = [];
+        foreach ($classrooms as $classroom) {
+            $classroom_bookings = $classroom->bookings->where('booking_date', $today)->where('status', '!==', 'cancelled');
+            $response[] = $classroom_bookings;
+        }
+        return json_encode($response);
+
+    }
+
 
 }

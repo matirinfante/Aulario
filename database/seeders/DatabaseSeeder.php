@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
         //teacher = crea peticiones, crea eventos, ve sus eventos y los cancela, crea reservas de eventos
         //user = crea eventos, ve sus eventos y los cancela, crea reservas de eventos
         //bedel = respira
+        //No tocar
 
         //reset
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
@@ -143,7 +144,7 @@ class DatabaseSeeder extends Seeder
         $teacher->assignRole('teacher');
         $user->assignRole('user');
 
-
+        //A partir de acá se crean datos falsos de test
         Classroom::factory(10)->create();
         Event::factory(10)->create();
         Assignment::factory(20)->create();
@@ -183,6 +184,11 @@ class DatabaseSeeder extends Seeder
         User::find(11)->assignments()->sync([2, 3]);
         User::find(1)->assignments()->sync(Classroom::find(2));
         User::find(2)->assignments()->sync(Classroom::find(4));
+        //Fin datos falsos
+
+        //Comienzo datos reales
+
+        //Fin datos reales
 
     }
 }

@@ -22,6 +22,8 @@ class ScheduleController extends Controller
         return view('schedule.index', compact('schedules', 'classrooms'));
     }
 
+
+
     /**
      * Show the form for creating a new resource.
      *
