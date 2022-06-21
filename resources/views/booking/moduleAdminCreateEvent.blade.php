@@ -34,7 +34,7 @@
 
 <div class="row">
     <div class="text-center mb-4">
-        <button id="addBookingMassiveEvent" type="submit" class="btn btn-success w-100 d-none">
+        <button id="addBookingMassiveEvent" type="button" class="btn btn-success w-100 d-none">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-patch-plus-fill" viewBox="0 0 16 16">
                 <path
