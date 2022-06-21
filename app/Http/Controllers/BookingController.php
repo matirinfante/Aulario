@@ -62,7 +62,7 @@ class BookingController extends Controller
      * @param \Illuminate\Http\Request $request
      * TODO:Validar fecha hasta dos semanas por StoreRequest
      */
-    public function store(BookingStoreRequest $request)
+    public function store(Request $request)
     {
         try {
             if (auth()->user()->hasAnyRole('user', 'teacher')) {
@@ -86,24 +86,70 @@ class BookingController extends Controller
                 flash('Se ha registrado la reserva con exito')->success();
                 return redirect(route('bookings.mybookings'));
             } else if (auth()->user()->hasRole('admin')) {
-                if ($request->assignment_id) {
-                    //Se carga la reserva de la materia según el user_id asociado.
+                //Recibimos y manipulamos solo datos de materia
+                if ($request->optionType == 'assignment') {
+                    //Obtenemos user_id correspondiente a la materia para registrarlo
                     $assignment = Assignment::findOrFail($request->assignment_id);
-                    $user_id = $assignment->users()->first();
-                } else {
-                    //Ya ni me acuerdo que estaba pensando pero lo dejo porsiaca
-                    //$event = Event::findOrCreate('event_name', $request->event_name);
-                    $event = Event::findOrFail($request->event_id);
-                    $user_id = $event->user_id;
-                    //$event->user_id;
-                }
-                $reservas = count($request->classroom_id);
-                //Dependiendo de la cantidad de aulas seleccionadas es la cantidad de reservas a crear
-                for ($i = 0; $i < $reservas; $i++) {
+                    $user_id = $assignment->users()->first()->id;
+                    $bookingData = json_decode($request->arrayLocal);
 
+                    foreach ($bookingData as $booking) {
+                        $assignmentDays = $this->getAllNameDays($request->start_date, $request->finish_date, $booking->day);
+                        //Se obtienen las fechas entre el inicio y el fin de la materia que corresponden al dia indicado
+                        foreach ($assignmentDays as $assignmentDay) {
+                            Booking::create([
+                                'user_id' => $user_id,
+                                'classroom_id' => $booking->classroom_id,
+                                'assignment_id' => $request->assignment_id,
+                                'status' => 'pending',
+                                'description' => '',
+                                'week_day' => $booking->day,
+                                'booking_date' => $assignmentDay,
+                                'start_time' => Carbon::parse($booking->start_time)->format('H:i:s'),
+                                'finish_time' => Carbon::parse($booking->finish_time)->format('H:i:s'),
+                            ]);
+                        }
+                    }
+                    //Se actualizan los valores de inicio y de fin para la materia indicada
+                    $assignment->start_date = $request->start_date;
+                    $assignment->finish_date = $request->finish_date;
+                    $assignment->save();
+
+                    flash('Reservas de materia registradas con éxito')->success();
+                    return redirect(route('bookings.index'));
+                } else if ($request->optionType == 'massiveEvent') {
+                    //Recibimos y manipulamos solo datos de evento
+                    $detectDuplicates = collect(json_decode($request->arrayLocal))->duplicates();
+                    if ($detectDuplicates->isEmpty()) {
+                        $event = Event::create([
+                            'event_name' => $request->event_name,
+                            'user_id' => auth()->user()->id, //se creará a nombre del admin
+                            'participants' => $request->participants_event
+                        ]);
+                        $bookingData = json_decode($request->arrayLocal);
+
+                        foreach ($bookingData as $booking) {
+                            $booking = Booking::create([
+                                'user_id' => auth()->user()->id,
+                                'classroom_id' => $booking->classroom_id,
+                                'event_id' => $event->id,
+                                'description' => $request->description,
+                                'status' => 'pending',
+                                'booking_date' => $request->booking_date,
+                                'start_time' => Carbon::parse($booking->start_time)->format('H:i:s'),
+                                'finish_time' => Carbon::parse($booking->finish_time)->format('H:i:s')
+                            ]);
+                        }
+                        flash('Reservas de evento registradas con éxito')->success();
+                        return redirect(route('events.index'));
+                    } else {
+                        flash('Datos de reserva duplicados, imposible generar reserva')->error();
+                        return back();
+                    }
+                } else {
+                    flash('Ha ocurrido un error en la carga de reservas')->error();
+                    return back();
                 }
-                flash('Se ha registrado la reserva con exito')->success();
-                return redirect(route('bookings.index'));
             } else {
                 return abort(403);
             }
@@ -323,17 +369,9 @@ class BookingController extends Controller
 
         //Se realizan queries para obtener los Period de los espacios ocupados por reservas de evento y materias
         //Helpers para obtener dia de la semana localizado al inglés desde el español
-        $daysESP = [
-            'domingo' => 0,
-            'lunes' => 1,
-            'martes' => 2,
-            'miércoles' => 3,
-            'jueves' => 4,
-            'viernes' => 5,
-            'sábado' => 6,
-        ];
+
         //Obtiene todas las fechas que corresponden al dia de la semana indicado en un determinado rango de fechas
-        $dayNameInRange = $this->getAllNameDays($request->start_date, $request->finish_date, Carbon::getDays()[$daysESP[strtolower($request->day)]]);
+        $dayNameInRange = $this->getAllNameDays($request->start_date, $request->finish_date, $request->day);
 
         $reservedEvents = Booking::where('classroom_id', $request->classroom_id)->whereIn('booking_date', $dayNameInRange)->get(['start_time', 'finish_time']);
         //$reservedAssignments = Booking::where('classroom_id', $request->classroom_id)->where('week_day', $request->day)->get(['start_time', 'finish_time']);
@@ -376,10 +414,21 @@ class BookingController extends Controller
      * @param string $day representa el dia nombre a seleccionar. Debe estar en inglés
      * @return array
      */
-    public function getAllNameDays($fromDate, $toDate, $day)
+    public
+    function getAllNameDays($fromDate, $toDate, $day)
     {
+        $daysESP = [
+            'domingo' => 0,
+            'lunes' => 1,
+            'martes' => 2,
+            'miércoles' => 3,
+            'jueves' => 4,
+            'viernes' => 5,
+            'sábado' => 6,
+        ];
+        $dayFormatted = Carbon::getDays()[$daysESP[strtolower($day)]];
         $days = [];
-        $startDate = Carbon::parse($fromDate)->modify('this ' . $day);
+        $startDate = Carbon::parse($fromDate)->modify('this ' . $dayFormatted);
         $endDate = Carbon::parse($toDate);
 
         for ($date = $startDate; $date->lte($endDate); $date->addWeek()) {
@@ -389,7 +438,7 @@ class BookingController extends Controller
         return $days;
     }
 
-    //obtenemos las reservas de aulas de informatica para el dia actual,seran mostradas en el diagrama de Gantt
+//obtenemos las reservas de aulas de informatica para el dia actual,seran mostradas en el diagrama de Gantt
     public function getClassroom()
     {
         $today = Carbon::today()->format('Y-m-d');
@@ -403,5 +452,12 @@ class BookingController extends Controller
 
     }
 
+    /**
+     * Función dedicada a validar que no exista superposición en la data entrante
+     */
+    public function validateJsonData()
+    {
+
+    }
 
 }
