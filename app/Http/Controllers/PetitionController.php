@@ -146,5 +146,4 @@ class PetitionController extends Controller
         }
     }
 
-
 }
