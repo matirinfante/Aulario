@@ -309,12 +309,6 @@ class BookingController extends Controller
         // Para aulas con horarios disponibles se debe chequear que no choquen con reservas en fechas especificas para ese dia de la semana
         // classroom_id + start_date / finish_date + day (chequear formato del day)
 
-        $request->classroom_id = 13;
-        $request->start_date = '2022-03-01';
-        $request->finish_date = '2022-06-30';
-        $request->day = 'lunes';
-        Log::info($request);
-
 
         $totalTime = Schedule::where('classroom_id', $request->classroom_id)->where('day', $request->day)->get(['start_time', 'finish_time']);
         $availability = new PeriodCollection();
