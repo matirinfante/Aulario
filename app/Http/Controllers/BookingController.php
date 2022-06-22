@@ -339,7 +339,7 @@ class BookingController extends Controller
         }
         $filterClassroomsByDay = Schedule::where('day', $request->day)->get('classroom_id'); //Obtiene aulas que tienen horarios ese dia
         $filterClassrooms = DB::table('classrooms')->whereIn('id', $filterClassroomsByDay) //Busca las aulas
-        ->where('capacity', '>=', $request->participants)->orderBy('capacity', 'asc')->get(); //filtra por cantidad de participantes
+        ->where('capacity', '>=', $request->participants)->where('type', $request->classroom_type)->orderBy('capacity', 'asc')->get(); //filtra por cantidad de participantes
 
         return $filterClassrooms;
     }
