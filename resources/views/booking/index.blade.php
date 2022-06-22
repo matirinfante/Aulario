@@ -116,7 +116,7 @@
                 <div class="row mt-4">
                     <div class="d-flex justify-content-center">
                         {{-- //invocar vista adminCreate --}}
-                        <form class="w-50" width="400px" method="POST" action="{{ route('bookings.createAdmin') }}">
+                        <form class="w-50" width="400px" method="GET" action="{{ route('bookings.createAdmin') }}">
                             @csrf
                             <button type="submit" class="btn btn-primary w-100">Realizar reserva</button>
                         </form>
