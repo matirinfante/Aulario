@@ -62,7 +62,7 @@ class BookingController extends Controller
      * @param \Illuminate\Http\Request $request
      * TODO:Validar fecha hasta dos semanas por StoreRequest
      */
-    public function store(Request $request)
+    public function store(BookingStoreRequest $request)
     {
         try {
             if (auth()->user()->hasAnyRole('user', 'teacher')) {
