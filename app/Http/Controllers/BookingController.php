@@ -79,6 +79,7 @@ class BookingController extends Controller
                     'event_id' => $event->id,
                     'description' => $request->description,
                     'status' => 'pending',
+                    'week_day' => ucfirst(Carbon::parse($request->booking_date)->locale('es')->dayName),
                     'booking_date' => $request->booking_date,
                     'start_time' => $request->start_time,
                     'finish_time' => $request->finish_time
@@ -120,6 +121,7 @@ class BookingController extends Controller
                 } else if ($request->optionType == 'massiveEvent') {
                     //Recibimos y manipulamos solo datos de evento
                     $detectDuplicates = collect(json_decode($request->arrayLocal))->duplicates();
+
                     if ($detectDuplicates->isEmpty()) {
                         $event = Event::create([
                             'event_name' => $request->event_name,
@@ -135,6 +137,7 @@ class BookingController extends Controller
                                 'event_id' => $event->id,
                                 'description' => $request->description,
                                 'status' => 'pending',
+                                'week_day' => ucfirst(Carbon::parse($request->booking_date)->locale('es')->dayName),
                                 'booking_date' => $request->booking_date,
                                 'start_time' => Carbon::parse($booking->start_time)->format('H:i:s'),
                                 'finish_time' => Carbon::parse($booking->finish_time)->format('H:i:s')
@@ -144,18 +147,18 @@ class BookingController extends Controller
                         return redirect(route('events.index'));
                     } else {
                         flash('Datos de reserva duplicados, imposible generar reserva')->error();
-                        return back();
+                        return back()->with('error', 'Datos de reserva duplicados, imposible generar reserva');
                     }
                 } else {
                     flash('Ha ocurrido un error en la carga de reservas')->error();
-                    return back();
+                    return back()->with('error');
                 }
             } else {
                 return abort(403);
             }
         } catch (\Exception $e) {
             flash('Ha ocurrido un error al agregar una nueva reserva')->error();
-            return back();
+            return back()->with('error catch' . $e);
         }
     }
 
@@ -345,8 +348,14 @@ class BookingController extends Controller
             $request->day = Carbon::parse($request->booking_date)->locale('es')->dayName;
         }
         $filterClassroomsByDay = Schedule::where('day', $request->day)->get('classroom_id'); //Obtiene aulas que tienen horarios ese dia
-        $filterClassrooms = DB::table('classrooms')->whereIn('id', $filterClassroomsByDay) //Busca las aulas
-        ->where('capacity', '>=', $request->participants)->where('type', $request->classroom_type)->orderBy('capacity', 'asc')->get(); //filtra por cantidad de participantes
+
+        if ($request->type) {
+            $filterClassrooms = DB::table('classrooms')->whereIn('id', $filterClassroomsByDay) //Busca las aulas
+            ->where('capacity', '>=', $request->participants)->where('type', $request->classroom_type)->orderBy('capacity', 'asc')->get(); //filtra por cantidad de participantes
+        } else {
+            $filterClassrooms = DB::table('classrooms')->whereIn('id', $filterClassroomsByDay) //Busca las aulas
+            ->where('capacity', '>=', $request->participants)->orderBy('capacity', 'asc')->get(); //filtra por cantidad de participantes
+        }
 
         return $filterClassrooms;
     }
@@ -448,14 +457,14 @@ class BookingController extends Controller
 //obtenemos las reservas de aulas de informatica para el dia actual,seran mostradas en el diagrama de Gantt
     public function getClassroom()
     {
-        $today=Carbon::today()->format('Y-m-d');
-        $classrooms= Classroom::where('building', 'Informática')->get();
-        $response=[];
+        $today = Carbon::today()->format('Y-m-d');
+        $classrooms = Classroom::where('building', 'Informática')->get();
+        $response = [];
         $collection = collect(); //
-        foreach($classrooms as $classroom){
+        foreach ($classrooms as $classroom) {
             $collection->push($classroom); //
-            $classroom_bookings= $classroom->bookings->where('booking_date',$today)->where('status', '!==', 'cancelled' );
-            $response[]= $classroom_bookings;
+            $classroom_bookings = $classroom->bookings->where('booking_date', $today)->where('status', '!==', 'cancelled');
+            $response[] = $classroom_bookings;
         }
         $collection->push($response);
         return json_encode($collection);
@@ -465,9 +474,11 @@ class BookingController extends Controller
     /**
      * Función dedicada a validar que no exista superposición en la data entrante
      */
-    public function validateJsonData()
+    public function validateJsonData($data)
     {
+        foreach ($data as $partial) {
 
+        }
     }
 
 }
