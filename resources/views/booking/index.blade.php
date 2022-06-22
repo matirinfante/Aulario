@@ -43,6 +43,38 @@
 
             </div>
         </div>
+
+        {{-- modal para envio de mail en caso de superar max participantes (siendo usuario común) --}}
+        <div class="modal fade" id="mailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Solicitar Reserva a administración</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="" method="POST" action="">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Asunto</label>
+                                <input type="text" class="form-control" id="mailSubject" name="subject"
+                                    placeholder="Parcial PWA">
+                                <p class="alerta d-none" id="errorSubject">Error</p>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description">Descripción/Mensaje</label>
+                                <textarea class="form-control" id="description" rows="3"></textarea>
+                                <p class="alerta d-none" id="errorDescription">Error</p>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button id="submit_button" type="submit" class="btn btn-primary">Enviar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endhasanyrole
 
     @can('create bookings')
@@ -70,7 +102,8 @@
                                 {{-- descripción --}}
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Descripción</label>
-                                    <input type="text" class="form-control" name="description" id="createDescription" required>
+                                    <input type="text" class="form-control" name="description" id="createDescription"
+                                        required>
                                     <small id="errorCreateBookingDescription"></small>
                                 </div>
 
