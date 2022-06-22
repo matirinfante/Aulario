@@ -213,9 +213,16 @@ class BookingController extends Controller
      */
     public function destroy($id)
     {
-        $booking = Booking::findOrFail($id);
-        $booking->delete();
-        return redirect(route('bookings.index'));
+
+        try {
+            $booking = Booking::findOrFail($id);
+            $booking->delete();
+            flash('destroyTrue')->success();
+            return back();
+        } catch (\Exception $e) {
+            flash('destroyFalse');
+            return back();
+        }
     }
 
     /**

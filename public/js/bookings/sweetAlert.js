@@ -1,3 +1,22 @@
+// borrar reserva de myBookings con sweetAlert2
+$('.form-delete').submit(function (e) {
+    e.preventDefault();
+    Swal.fire({
+        title: '¿Está seguro de que desea eliminar la reserva?',
+        text: "Esta acción es irreversible!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#b02a37',
+        cancelButtonColor: '#8f8f8f',
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            this.submit();
+        }
+    })
+});
+
 
 // mensajes de error con sweetAlert
 $(document).ready(function () {
@@ -89,6 +108,42 @@ $(document).ready(function () {
                     color: '#000',
                     showConfirmButton: false,
                     html: 'Error al modificar reserva.',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                })
+                break;
+
+            // ELIMINACION DE RESERVA
+            case 'destroyTrue':
+                var timerInterval
+                Swal.fire({
+                    toast: true,
+                    position: 'bottom-end',
+                    background: '#a5dc86',
+                    color: '#000',
+                    showConfirmButton: false,
+                    html: 'Reserva eliminada con éxito.',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                })
+                break;
+
+            // ERROR ELIMINACION DE RESERVA
+            case 'destroyFalse':
+                var timerInterval
+                Swal.fire({
+                    toast: true,
+                    position: 'bottom-end',
+                    background: '#f27474',
+                    color: '#000',
+                    showConfirmButton: false,
+                    html: 'Error al eliminar reserva.',
                     timer: 2000,
                     timerProgressBar: true,
                     willClose: () => {
