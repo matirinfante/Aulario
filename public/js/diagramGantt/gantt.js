@@ -15,38 +15,45 @@ $.ajax({
 
     success: function (data) {
         datosAll=JSON.parse(data);  //datosAll tiene tanto las aulas, como las reservas al final
-        datosLg=(datosAll.length)-1;   
+        datosLg=(datosAll.length)-1;  
         datos=datosAll[datosLg];    //Datos de las reservas que se encuentran al final de datosAll
         let datosGantt= "{";    //Aca arranca el string que luego pasa como JSON al schedule
         let flag=false; //Para que no me concatene la "," la primera vez
         
         var classFound=[];  //Aulas encontradas en total
         var contIndex=0;    //Lo necesito para darle un index a las aulas vacias
-
-        datos.find((object,index) =>{
-            contIndex++;    //No se si esta bien aca, pero por ahora funciona. Check
-            if (object.length!=0){  //Para evitar objetos vacios. Donde las aulas no tenian reservas
-                if (flag){
-                    datosGantt+=","
-                }
-                flag=true;
-                var singleObj=object[Object.keys(object)[0]];
-                var classId=singleObj.classroom_id; //Almacena el id del aula visto desde la reserva
-                var nameFlag=false;
-                var i=0;
-                var className="";   //Para pasar como parametro en la funcion formato
-                //While recorre las aulas y cuando coincide el id con classId almacena el nombre
-                while (i < datosLg || nameFlag==false) {
-                    if((datosAll[i].id)==classId){
-                        nameFlag=true;
-                        className=datosAll[i].classroom_name;
-                        classFound.push(datosAll[i].id);
+        var contFlag=false; //Chequeo si existe aunque sea una reserva cargada dentro de todas las aulas
+        datos.forEach(element => {
+            if(!(element=="")){
+                contFlag=true;
+            }   
+        });
+        if(contFlag){
+            datos.find((object,index) =>{
+                contIndex++;    //No se si esta bien aca, pero por ahora funciona. Check
+                if (object.length!=0){  //Para evitar objetos vacios. Donde las aulas no tenian reservas
+                    if (flag){
+                        datosGantt+=","
                     }
-                    i ++;
+                    flag=true;
+                    var singleObj=object[Object.keys(object)[0]];
+                    var classId=singleObj.classroom_id; //Almacena el id del aula visto desde la reserva
+                    var nameFlag=false;
+                    var i=0;
+                    var className="";   //Para pasar como parametro en la funcion formato
+                    //While recorre las aulas y cuando coincide el id con classId almacena el nombre
+                    while (i < datosLg || nameFlag==false) {
+                        if((datosAll[i].id)==classId){
+                            nameFlag=true;
+                            className=datosAll[i].classroom_name;
+                            classFound.push(datosAll[i].id);
+                        }
+                        i ++;
+                    }
+                    datosGantt+=formato(object, index, className)
                 }
-                datosGantt+=formato(object, index, className)
-            }
-        })
+            })
+        }
         
 
         //
@@ -71,7 +78,10 @@ $.ajax({
         //Una vez que tengo los nombres almacenados, se los agrego al string de datosGantt, usando la funcion formato
         if (emptyClass.length>0){
             emptyClass.forEach(element => {
-                datosGantt+=","
+                if (contFlag){
+                    datosGantt+=","
+                }
+                contFlag=true;
                 datosGantt+=formato(null,contIndex,element)
                 contIndex++;
             });
@@ -84,6 +94,7 @@ $.ajax({
         //Cierro el string con los datos para el schedule y genero un JSON
         datosGantt+="}";
         objGantt=JSON.parse(datosGantt);
+        
 
         //Esta funcion recibe como parametro un objeto (elem), que a su vez tiene otros objetos (uno o mas), que son las reservas en una misma aula (por eso otro foreach adentro).
         // Dentro se arma un string con el contenido que necesita rows en el calendario
