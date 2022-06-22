@@ -25,43 +25,57 @@ class BookingStoreRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'participants' => ['required', 'numeric'],
-            'start_time' => ['required', 'date_format:H:i', 'before:finish_time'],
-            'finish_time' => ['required'],
-            //Event
-            'event_name' => ['sometimes','required',  'regex:/^([a-zA-Z\s{0-9}ÁÉÍÓÚáéíóúÑñ]+)$/'],
-            'description' => ['sometimes','required', 'string'], 
-            'booking_date' => ['sometimes','required', new CheckTwoWeeks()],
-            //Asignment
-            'assignment_id'=>['sometimes','required'],
-            'day'=>['sometimes','requered'],            
-            'start_date' => ['sometimes','required','before:finish_date',new CheckTwoWeeks()],
-            'finish_date' => ['sometimes','required'],
-        ];
+        if (auth()->user()->hasRole('admin')) {
+            if ($this->has('assignment_id')) {
+                return [
+                    'assignment_id' => ['exclude_with:event_name', 'required'],
+                    'participants' => ['exclude_with:event_name', 'required', 'numeric'],
+                    'start_date' => ['exclude_with:event_name', 'required', 'before:finish_date'],
+                    'finish_date' => ['exclude_with:event_name', 'required']
+                ];
+            } else if ($this->has('event_name')) {
+                return [
+                    'participants_event' => ['required_without_all:assignment_id,participants,strat_date,finish_date', 'required', 'numeric'],
+                    'event_name' => ['required_without_all:assignment_id,participants,strat_date,finish_date', 'required', 'regex:/^([a-zA-Z\s{0-9}ÁÉÍÓÚáéíóúÑñ]+)$/'],
+                    'description' => ['required_without_all:assignment_id,participants,strat_date,finish_date', 'required', 'string'],
+                    'booking_date' => ['required_without_all:assignment_id,participants,strat_date,finish_date', 'required']
+                ];
+            }
+        } else {
+            return [
+                'participants' => ['required_without_all:assignment_id,participants,strat_date,finish_date', 'required', 'numeric'],
+                'event_name' => ['required_without_all:assignment_id,participants,strat_date,finish_date', 'required', 'regex:/^([a-zA-Z\s{0-9}ÁÉÍÓÚáéíóúÑñ]+)$/'],
+                'description' => ['required_without_all:assignment_id,participants,strat_date,finish_date', 'required', 'string'],
+                'booking_date' => ['required_without_all:assignment_id,participants,strat_date,finish_date', 'required', new CheckTwoWeeks()]
+            ];
+        }
+        
+        
     }
 
     public function attributes()
     {
-        return [
-            'participants' => 'cantidad participantes',
-            'description' => 'descripción',
-            'booking_date' => 'fecha',
-            'start_time' => 'hora inicio',
-            'finish_time' => 'hora fin',
-            'event_name'=>'nombre de evento',
-            'assignment_id'=>'materia',
-            'day'=>'dias',
-            'start_date'=>'fecha inicio',
-            'finish_date'=>'fecha fin'
-        ];
+        if ($this->has('assignment_id')) {
+            return [
+                'assignment_id' => 'materia',
+                'start_date' => 'fecha inicio',
+                'finish_date' => 'fecha fin',
+                'participants' => 'cantidad participantes'
+            ];
+        } else {
+            return [
+                'participants_event' => 'cantidad participantes al evento',
+                'description' => 'descripción',
+                'booking_date' => 'fecha',
+                'start_time' => 'hora inicio'
+            ];
+        }
     }
-    public function messages(){
+    public function messages()
+    {
         return [
             'event_name.regex: El nombre solo puede contener letras, números y espacios.',
-            'start_date.before'=>'La fecha de inicio debe ser anterior a la fecha de fin.',
-            'start_time.before'=>'La hora de inicio debe ser anterior a la hora de fin.',
+            'start_date.before' => 'La fecha de inicio debe ser anterior a la fecha de fin.',
         ];
     }
-
 }
