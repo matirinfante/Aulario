@@ -15,7 +15,7 @@
                 class="text-secondary fst-italic">materia</span>?</h3>
         <div class="row">
             <div class="d-flex justify-content-center">
-                <form id="formAdminCreate" class="createEventAssignment w-50" method="GET"
+                <form id="formAdminCreate" class="createEventAssignment w-50" method="POST"
                     action="{{ route('bookings.store') }}" width="400px">
                     @csrf
                     {{-- Dependiendo del tipo de reserva, se visualizarán inputs distintos dentro del formulario --}}
