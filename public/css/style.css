@@ -2,6 +2,11 @@
     box-sizing: border-box
 }
 
+
+/* .jq-schedule .sc_data {
+    height: 1000px !important;
+} */
+
 .jq-schedule .sc_wrapper:after,
 .jq-schedule .sc_menu:after {
     content: "";
@@ -64,8 +69,8 @@
 
 .jq-schedule .sc_main_box,
 .jq-schedule .sc_data {
-    max-height: 500px;
-    overflow: hidden
+    /* max-height: 500px; */
+    /* overflow: hidden */
 }
 
 .jq-schedule .sc_main_box {

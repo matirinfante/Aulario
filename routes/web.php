@@ -27,7 +27,12 @@ Route::get('/', function () {
     return view('welcome');
 })->name('inicio');
 
+Route::get('/gantt', function(){
+    return view('gantt.gantt');
+})->name('gantt');
 Auth::routes();
+
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

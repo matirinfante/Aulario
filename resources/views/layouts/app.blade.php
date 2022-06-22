@@ -18,7 +18,9 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
+
     <div id="app">
+        @if(!request()->routeIs('gantt'))
         <nav class="navbar navbar-expand-md navbar-light shadow-sm text-center menu_sup">
             <div class="container-fluid">
                 @if (!request()->routeIs('inicio'))
@@ -209,11 +211,11 @@
             </div>
         </nav>
 
+        @endif
     {{-- Aqui se muestra el contenido --}}
     <main class="py-4">
         @yield('content')
     </main>
-
 </div>
 <script src="{{ asset(mix('js/app.js')) }}"></script>
 <script>
