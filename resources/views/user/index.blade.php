@@ -6,10 +6,10 @@
         @include('flash::message')
     </div>
 
-    @if($errors->any())
+    @if ($errors->any())
         <div class="d-none" id="errorsMsj" role="alert">
-            @foreach($errors->all() as $error)
-                {{ $error }}<br/>
+            @foreach ($errors->all() as $error)
+                {{ $error }}<br />
             @endforeach
         </div>
     @endif
@@ -19,43 +19,63 @@
     <div class="card" style="width: 1000px; margin: auto;">
         <div class="card-body">
             <table class="table table-striped table-hover" id="users">
-                <button type="" class="btn btn-success m-3 btn-sm" data-bs-toggle="modal" data-bs-target="#createModal" id="buttonCreate">Crear Usuario</button>
+                @can('create users')
+                    <button type="" class="btn btn-success m-3 btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#createModal" id="buttonCreate">Crear Usuario</button>
+                @endcan
                 <thead class="bg-secondary text-light">
-                <tr>
-                    <td>Nombre</td>
-                    <td>Email</td>
-                    <td>Accion</td>
-                    <td>Cambiar estado</td>
-                </tr>
+                    <tr>
+                        <td>Nombre</td>
+                        <td>Email</td>
+                        @canany(['show users', 'edit users'])
+                            <td>Accion</td>
+                        @endcanany
+                        @can('delete users')
+                            <td>Cambiar estado</td>
+                        @endcan
+                    </tr>
                 </thead>
                 <tbody>
-                @forelse ($users as $user)
-                    <tr>
-                        <td> {{$user['name']}} {{$user['surname']}}</td>
-                        <td>{{$user['email']}}</td>
-                        <td>
-                            {{-- Ver Usuario --}}
-                            <a class="btn btn-primary btn-sm" style="pointer-events: auto;" onclick="seeUser({{$user}})">Ver</a>
-                            {{-- Boton editar / activa el modal --}}
-                            @if ($user['deleted_at'] == null)
-                                <button type="button" id="buttonEdit{{$user['id']}}" class="btn btn-secondary btn-sm" data-bs-toggle="modal"data-bs-target="#updateModal{{ $user->id }}">Editar</button>
-                            @else
-                                <button type="button" id="buttonEdit{{$user['id']}}" class="btn btn-secondary btn-sm disabled" data-bs-toggle="modal"data-bs-target="#updateModal{{$user->id}}">Editar</button>
-                            @endif
-                            {{-- update modal --}}
-                            @include('user.edit' , ['user' => $user])
-                        </td>
-                        <td>
-                            <div class="form-check form-switch">
-                                <input data-id="{{ $user->id }}" data-token="{{ csrf_token() }}"
-                                    class="form-check-input activeSwitch" type="checkbox" role="switch"
-                                    {{ !$user->trashed() ? 'checked' : '' }}>
-                            </div>
-                        </td>
-                    </tr>
-                @empty
-                    <td colspan="4">No hay registros</td>
-                @endforelse
+                    @forelse ($users as $user)
+                        <tr>
+                            <td> {{ $user['name'] }} {{ $user['surname'] }}</td>
+                            <td>{{ $user['email'] }}</td>
+                            @canany(['show users', 'edit users'])
+                                <td>
+                                    @can('show users')
+                                        {{-- Ver Usuario --}}
+                                        <a class="btn btn-primary btn-sm" style="pointer-events: auto;"
+                                            onclick="seeUser({{ $user }})">Ver</a>
+                                    @endcan
+                                    @can('edit users')
+                                        {{-- Boton editar / activa el modal --}}
+                                        @if ($user['deleted_at'] == null)
+                                            <button type="button" id="buttonEdit{{ $user['id'] }}"
+                                                class="btn btn-secondary btn-sm"
+                                                data-bs-toggle="modal"data-bs-target="#updateModal{{ $user->id }}">Editar</button>
+                                        @else
+                                            <button type="button" id="buttonEdit{{ $user['id'] }}"
+                                                class="btn btn-secondary btn-sm disabled"
+                                                data-bs-toggle="modal"data-bs-target="#updateModal{{ $user->id }}">Editar</button>
+                                        @endif
+                                        {{-- update modal --}}
+                                        @include('user.edit', ['user' => $user])
+                                    @endcan
+                                </td>
+                            @endcanany
+                            @can('delete users')
+                                <td>
+                                    <div class="form-check form-switch">
+                                        <input data-id="{{ $user->id }}" data-token="{{ csrf_token() }}"
+                                            class="form-check-input activeSwitch" type="checkbox" role="switch"
+                                            {{ !$user->trashed() ? 'checked' : '' }}>
+                                    </div>
+                                </td>
+                            @endcan
+                        </tr>
+                    @empty
+                        <td colspan="4">No hay registros</td>
+                    @endforelse
                 </tbody>
             </table>
         </div>
@@ -63,13 +83,17 @@
 
 
 
-
-    <!-- Modal Crear-->
-   @include('user.create')
-    <!-- Modal Ver-->
-    <button type="" class="btn btn-success m-3 d-none" data-bs-toggle="modal" data-bs-target="#showModal" id="buttonShow">Ver usuario</button>
-    <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    </div>
+    @can('create users')
+        <!-- Modal Crear-->
+        @include('user.create')
+    @endcan
+    @can('show users')
+        <!-- Modal Ver-->
+        <button type="" class="btn btn-success m-3 d-none" data-bs-toggle="modal" data-bs-target="#showModal"
+            id="buttonShow">Ver usuario</button>
+        <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        </div>
+    @endcan
 
     <script>
         $(document).ready(function() {
@@ -86,8 +110,7 @@
 
     {{-- Ver usuario --}}
     <script>
-
-        function seeUser(user){
+        function seeUser(user) {
             document.getElementById('showModal').innerHTML = `<div></div>`
             html = `
                 <div class="modal-dialog">
@@ -126,5 +149,3 @@
 
 
 @endsection
-
-
