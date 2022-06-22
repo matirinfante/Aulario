@@ -19,17 +19,18 @@
                 @endforeach
             </div>
         @endif
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" id="myBookings">
             @forelse ($bookings as $booking)
-                <div class="col-3 col-xl-3 col-md-6 col-sm-12" id="myBooking">
+                <div class="col-3 col-xl-3 col-md-6 col-sm-12 myBooking">
                     <div class="">
-                        <div class="card text-center">
+                        <div class="text-center">
                             @isset($booking->assignment)
-                                <h2 class="card-header">{{ $booking->assignment->assignment_name }}</h2>
+                                <h2 class="">{{ $booking->assignment->assignment_name }}</h2>
                             @endisset
                             @isset($booking->event)
-                                <h2 class="card-header">{{ $booking->event->event_name }}</h2>
+                                <h2 class="">{{ $booking->event->event_name }}</h2>
                             @endisset
+                            <hr >
                             <div class="card-body">
                                 <p>Fecha: {{ date('d/m/Y', strtotime($booking->booking_date)) }}</p>
                                 <p>Inicio: {{ date('H:i', strtotime($booking->start_time)) }}Hs
