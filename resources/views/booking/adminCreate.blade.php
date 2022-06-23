@@ -13,6 +13,12 @@
     <div class="container-fluid">
         <h3 class="text-center m-4">¿Reserva de <span class="text-secondary fst-italic">evento masivo</span> o <span
                 class="text-secondary fst-italic">materia</span>?</h3>
+        @if ($message = Session::get('error'))
+            <div class="alert alert-danger alert-block">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <strong>{{ $message }}</strong>
+            </div>
+        @endif
         <div class="row">
             <div class="d-flex justify-content-center">
                 <form id="formAdminCreate" class="createEventAssignment w-50" method="POST"
@@ -280,6 +286,19 @@
         });
     </script>
     <script>
+        function deleteAssignmentItem(indexAssignment) {
+            var bookingsList = JSON.parse(localStorage.getItem('bookings'));
+            var nuevoArray = [];
+            for (let index = 0; index < bookingsList.length; index++) {
+                if (index != indexAssignment) {
+                    nuevoArray.push(bookingsList[index])
+                }
+            }
+            window.localStorage.setItem('bookings', JSON.stringify(nuevoArray));
+            $('#viewModal').modal('hide');
+        };
+    </script>
+    <script>
         $(document).ready(function() {
             // inicialización de arreglo vacio para datos del form en local storage
             // var bookings = [];
@@ -290,24 +309,50 @@
             $('#btnViewModal').on('click', function() {
                 $('.modal-body').empty();
                 var bookingsList = JSON.parse(localStorage.getItem('bookings'));
-                bookingsList.forEach(booking => {
+                // bookingsList.forEach(booking => {
+                //     $('.modal-body').append(
+                //         `
+            //         <div class="card m-auto mt-3">
+            //             <div class="card-body text-center">
+            //                 <div class="card-body">
+            //                     <h5 class="card-title">Dia de clase: ${booking['day']}</h5>
+            //                         <ul class="list-group list-group-flush">
+            //                             <li class="list-group-item">Horario de comienzo: ${booking['start_time']}</li>
+            //                             <li class="list-group-item">Horario de fin: ${booking['finish_time']}</li>
+            //                         </ul> 
+
+            //                 </div>
+            //             </div>
+            //         </div>
+            //         `
+                //     )
+                // });
+                for (let index = 0; index < bookingsList.length; index++) {
                     $('.modal-body').append(
                         `
                         <div class="card m-auto mt-3">
                             <div class="card-body text-center">
                                 <div class="card-body">
-                                    <h5 class="card-title">Dia de clase: ${booking['day']}</h5>
+                                    <h5 class="card-title">Dia de clase: ${bookingsList[index]['day']}</h5>
                                         <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">Horario de comienzo: ${booking['start_time']}</li>
-                                            <li class="list-group-item">Horario de fin: ${booking['finish_time']}</li>
-                                        </ul>
+                                            <li class="list-group-item">Horario de comienzo: ${bookingsList[index]['start_time']}</li>
+                                            <li class="list-group-item">Horario de fin: ${bookingsList[index]['finish_time']}</li>
+                                        </ul> 
+                                        <button type="button" class="btn btn-danger w-100" onclick="deleteAssignmentItem(${index});">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                            </svg>
+                                            Eliminar reserva
+                                        </button>    
                                 </div>
                             </div>
                         </div>
                         `
                     )
-                });
-            })
+                }
+            });
+
+
 
             // accion para modal (reserva evento masivo)
             $('#btnViewModalMassiveEvent').on('click', function() {
@@ -429,6 +474,8 @@
             $('.classrooms').on('change', function() {
                 $('.start_time').empty();
                 $('.finish_time').empty();
+                $('.start_time').append(`<option disabled selected>Elija una opción</option>`)
+                $('.finish_time').append(`<option disabled selected>Elija una opción</option>`)
                 $('.start_time').attr('disabled', false);
                 var fechaInicio = $('.start_date').val();
                 var fechaFin = $('.finish_date').val();
@@ -478,8 +525,9 @@
             $('.classroomsMassiveEvent').on('change', function() {
                 $('.start_timeMassiveEvent').empty();
                 $('.finish_timeMassiveEvent').empty();
-                $('.start_time').append(`<option disabled selected>Elija una opción</option>`)
-                $('.finish_time').append(`<option disabled selected>Elija una opción</option>`)
+                $('.participantsMassiveEvent').val('');
+                $('.start_timeMassiveEvent').append(`<option disabled selected>Elija una opción</option>`)
+                $('.finish_timeMassiveEvent').append(`<option disabled selected>Elija una opción</option>`)
                 $('.start_timeMassiveEvent').attr('disabled', false);
                 var aula = $(this).val();
                 var inicioArr = [];
@@ -630,9 +678,10 @@
             $('.classrooms').empty();
             $('.start_time').empty();
             $('.finish_time').empty();
-            $('.start_time').append(`<option disabled>Elija una opción</option>`);
-            $('.finish_time').append(`<option disabled>Elija una opción</option>`);
-            $('.classrooms').append(`<option disabled>Aula...</option>`);
+            $('.participants').val('');
+            $('.start_time').append(`<option disabled selected>Elija una opción</option>`);
+            $('.finish_time').append(`<option disabled selected>Elija una opción</option>`);
+            $('.classrooms').append(`<option disabled selected>Aula...</option>`);
 
             // habilitar boton para crear
             $('#createBooking').removeClass('d-none');
@@ -661,8 +710,9 @@
             $('.classroomsMassiveEvent').empty();
             $('.start_timeMassiveEvent').empty();
             $('.finish_timeMassiveEvent').empty();
-            $('.start_timeMassiveEvent').append(`<option disabled>Elija una opción</option>`);
-            $('.finish_timeMassiveEvent').append(`<option disabled>Elija una opción</option>`);
+            $('.start_timeMassiveEvent').append(`<option disabled selected>Elija una opción</option>`);
+            $('.finish_timeMassiveEvent').append(`<option disabled selected>Elija una opción</option>`);
+            $('.classroomsMassiveEvent').append(`<option disabled selected>Aula...</option>`)
 
             // habilitar boton para crear
             $('#createBooking').removeClass('d-none');
