@@ -80,6 +80,33 @@
     </div>
 </div>
 
+@section('scripts')
+<!-- Obtener la fecha actual para limitar la seleccion en el calendario -->
+<Script>
+    //Obtiene la fecha actual y luego le da formato 'YYYY-MM-DD'
+    //Estos metodos no agregan cero a numero menores a 10, como por ejemplo '5'(mayo), y no 05
+    const fullDate = new Date();
+    const year = fullDate.getFullYear();
+    let month = fullDate.getMonth();
+    let day = fullDate.getDate();
+
+    month += 1; //La fecha el metodo .getMonth la trae de 0 a 11, se debe sumar 1;
+
+    if (month < 10){month = '0'+month};
+    if (day < 10){day = '0'+day};
+
+    //Concatenamos la fecha en el formato correcto
+    const date = year +'-'+month+'-'+day;
+
+
+    document.getElementById("start_date").setAttribute('min', date);
+    document.getElementById("finish_date").setAttribute('min', date);
+</Script>
+
+
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
 <script src="{{ asset('js/petitions/checkDay.js') }}" defer></script>
+@endsection
