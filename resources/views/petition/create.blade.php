@@ -21,7 +21,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="assignment_id" class="form-label">Materia</label>
-                            <select name="assignment_id" class="form-select select2-user" aria-label="Materia" style="width: 100%">
+                            <select name="assignment_id" class="form-select select2-user" aria-label="Materia" style="width: 100%" required>
                                 <option value="-1" disabled></option>
                                 @foreach ($assignments as $assignment)
                                 <option value="{{ $assignment->id }}">
@@ -31,35 +31,35 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="estimated_people" class="form-label">Cantidad alumnos</label>
+                            <label for="estimated_people" class="form-label" required>Cantidad alumnos</label>
                             <input type="text" class="form-control" name="estimated_people" id="estimated_people">
                         </div>
                         <div class="mb-3">
                             <label for="classroom_type" class="form-label">Tipo Aula</label>
-                            <select name="classroom_type" id="classroom_type" class="form-select select2-user" aria-label="Materia" style="width: 100%">
+                            <select name="classroom_type" id="classroom_type" class="form-select select2-user" aria-label="Materia" style="width: 100%" required>
                                 <option value="Aula Común">Aula Común</option>
                                 <option value="Laboratorio">Laboratorio</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="start_date" class="form-label">Fecha Inicio</label>
-                            <input type="date" class="form-control" name="start_date" id="start_date">
+                            <input type="date" class="form-control" name="start_date" id="start_date" required>
                         </div>
                         <div class="mb-3">
                             <label for="finish_date" class="form-label">Fecha Fin</label>
-                            <input type="date" class="form-control" name="finish_date" id="finish_date">
+                            <input type="date" class="form-control" name="finish_date" id="finish_date" required>
                         </div>
                         <div class="mb-3">
                             <label for="start_time" class="form-label">Hora Inicio</label>
-                            <input type="time" class="form-control" name="start_time" id="start_time">
+                            <input type="time" class="form-control" name="start_time" id="start_time" required>
                         </div>
                         <div class="mb-3">
                             <label for="finish_time" class="form-label">Hora Fin</label>
-                            <input type="time" class="form-control" name="finish_time" id="finish_time">
+                            <input type="time" class="form-control" name="finish_time" id="finish_time" required>
                         </div>
                         <div class="mb-3">
                             <label for="days" class="form-label">Día</label>
-                            <select name="days" id="days" class="form-select select2-user" aria-label="days" style="width: 100%">
+                            <select name="days" id="days" class="form-select select2-user" aria-label="days" style="width: 100%" required>
                                 <option value="Lunes">Lunes</option>
                                 <option value="Martes">Martes</option>
                                 <option value="Miércoles">Miércoles</option>
@@ -92,11 +92,15 @@
 
     month += 1; //La fecha el metodo .getMonth la trae de 0 a 11, se debe sumar 1;
 
-    if (month < 10){month = '0'+month};
-    if (day < 10){day = '0'+day};
+    if (month < 10) {
+        month = '0' + month
+    };
+    if (day < 10) {
+        day = '0' + day
+    };
 
     //Concatenamos la fecha en el formato correcto
-    const date = year +'-'+month+'-'+day;
+    const date = year + '-' + month + '-' + day;
 
 
     document.getElementById("start_date").setAttribute('min', date);
