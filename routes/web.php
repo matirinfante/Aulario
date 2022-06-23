@@ -27,11 +27,14 @@ Route::get('/', function () {
     return view('welcome');
 })->name('inicio');
 
-Route::get('/gantt', function(){
+Route::get('/status', function () {
     return view('gantt.gantt');
 })->name('gantt');
-Auth::routes();
 
+//Posible riesgo de seguridad !! Investigar
+Route::post('/bookings/gantt', [BookingController::class, 'getClassroom'])->name('bookings.gantt');
+
+Auth::routes();
 
 
 Route::middleware(['auth'])->group(function () {
@@ -56,7 +59,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bookings/create/petition', [BookingController::class, 'createFromPetition'])->name('bookings.petition');
     Route::get('/bookings/admin/create', [BookingController::class, 'createAdmin'])->name('bookings.createAdmin');
     Route::post('/bookings/filter', [BookingController::class, 'classroomBookings'])->name('bookings.filter');
-    Route::post('/bookings/gantt', [BookingController::class, 'getClassroom'])->name('bookings.gantt');
     Route::resources([
         'assignments' => AssignmentController::class,
         'bookings' => BookingController::class,

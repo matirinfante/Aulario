@@ -92,32 +92,37 @@ class BookingController extends Controller
                     //Obtenemos user_id correspondiente a la materia para registrarlo
                     $assignment = Assignment::findOrFail($request->assignment_id);
                     $user_id = $assignment->users()->first()->id;
-                    $bookingData = json_decode($request->arrayLocal);
+                    $detectDuplicates = collect(json_decode($request->arrayLocal))->duplicates();
 
-                    foreach ($bookingData as $booking) {
-                        $assignmentDays = $this->getAllNameDays($request->start_date, $request->finish_date, $booking->day);
-                        //Se obtienen las fechas entre el inicio y el fin de la materia que corresponden al dia indicado
-                        foreach ($assignmentDays as $assignmentDay) {
-                            Booking::create([
-                                'user_id' => $user_id,
-                                'classroom_id' => $booking->classroom_id,
-                                'assignment_id' => $request->assignment_id,
-                                'status' => 'pending',
-                                'description' => '',
-                                'week_day' => $booking->day,
-                                'booking_date' => $assignmentDay,
-                                'start_time' => Carbon::parse($booking->start_time)->format('H:i:s'),
-                                'finish_time' => Carbon::parse($booking->finish_time)->format('H:i:s'),
-                            ]);
+                    if ($detectDuplicates->isEmpty()) {
+                        $bookingData = json_decode($request->arrayLocal);
+                        foreach ($bookingData as $booking) {
+                            $assignmentDays = $this->getAllNameDays($request->start_date, $request->finish_date, $booking->day);
+                            //Se obtienen las fechas entre el inicio y el fin de la materia que corresponden al dia indicado
+                            foreach ($assignmentDays as $assignmentDay) {
+                                Booking::create([
+                                    'user_id' => $user_id,
+                                    'classroom_id' => $booking->classroom_id,
+                                    'assignment_id' => $request->assignment_id,
+                                    'status' => 'pending',
+                                    'description' => '',
+                                    'week_day' => $booking->day,
+                                    'booking_date' => $assignmentDay,
+                                    'start_time' => Carbon::parse($booking->start_time)->format('H:i:s'),
+                                    'finish_time' => Carbon::parse($booking->finish_time)->format('H:i:s'),
+                                ]);
+                            }
                         }
-                    }
-                    //Se actualizan los valores de inicio y de fin para la materia indicada
-                    $assignment->start_date = $request->start_date;
-                    $assignment->finish_date = $request->finish_date;
-                    $assignment->save();
+                        //Se actualizan los valores de inicio y de fin para la materia indicada
+                        $assignment->start_date = $request->start_date;
+                        $assignment->finish_date = $request->finish_date;
+                        $assignment->save();
 
-                    flash('Reservas de materia registradas con éxito')->success();
-                    return redirect(route('bookings.index'));
+                        flash('Reservas de materia registradas con éxito')->success();
+                        return redirect(route('bookings.index'));
+                    } else {
+
+                    }
                 } else if ($request->optionType == 'massiveEvent') {
                     //Recibimos y manipulamos solo datos de evento
                     $detectDuplicates = collect(json_decode($request->arrayLocal))->duplicates();
@@ -455,21 +460,38 @@ class BookingController extends Controller
     }
 
 //obtenemos las reservas de aulas de informatica para el dia actual,seran mostradas en el diagrama de Gantt
-    public function getClassroom()
-    {
-        $today = Carbon::today()->format('Y-m-d');
-        $classrooms = Classroom::where('building', 'Informática')->get();
-        $response = [];
-        $collection = collect(); //
-        foreach ($classrooms as $classroom) {
-            $collection->push($classroom); //
-            $classroom_bookings = $classroom->bookings->where('booking_date', $today)->where('status', '!==', 'cancelled');
-            $response[] = $classroom_bookings;
-        }
-        $collection->push($response);
-        return json_encode($collection);
-
+public function getClassroom()
+{
+    $today = Carbon::today()->format('Y-m-d');
+    $classrooms = Classroom::where('building', 'Informática')->get();
+    $response = [];
+   
+    $collection = collect(); //
+    foreach ($classrooms as $classroom) {
+        $arregloJS=[];
+        // $collection->push($classroom); //
+        $classroom_bookings = $classroom->bookings->where('booking_date', $today)->where('status', '!==', 'cancelled');
+       
+       
+        foreach ($classroom_bookings as $obj) {
+           
+            $objAssignment = $obj->assignment;
+            if ($objAssignment != null) {
+                $name = $objAssignment->assignment_name;
+                $tipo="materia";
+            } else {
+                $objEvent = $obj->event;
+                $name = $objEvent->event_name;
+                $tipo="evento";
+            }
+           $arregloJS[]=['name'=>$name,'start_time'=>$obj->start_time,'finish_time'=>$obj->finish_time, 'tipo'=>$tipo];
+        };
+        // $response[] = $classroom_bookings;
+        $response[]=['classroom_name'=>$classroom->classroom_name, 'bookings'=>$arregloJS];
     }
+    $collection->push($response);
+    return json_encode($collection);
+}
 
     /**
      * Función dedicada a validar que no exista superposición en la data entrante
