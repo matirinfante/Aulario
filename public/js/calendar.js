@@ -90,7 +90,7 @@ $(".filtro").on("change", function (e) {
                                 } else {
                                     if (data.length === 0) {
                                         $(".start_time").append(
-                                            `<option value="" data-position-startset="" data-position-hourset="" disabled selected>NO HAY DATOS</option>`
+                                            `<option value="" data-position-startset="" data-position-hourset="" disabled selected>No existen horarios disponibles</option>`
                                         );
                                     } else {
                                         data[0].pop();

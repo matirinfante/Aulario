@@ -1,0 +1,3 @@
+$(documento).ready(
+    
+)
