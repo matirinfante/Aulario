@@ -460,21 +460,38 @@ class BookingController extends Controller
     }
 
 //obtenemos las reservas de aulas de informatica para el dia actual,seran mostradas en el diagrama de Gantt
-    public function getClassroom()
-    {
-        $today = Carbon::today()->format('Y-m-d');
-        $classrooms = Classroom::where('building', 'Informática')->get();
-        $response = [];
-        $collection = collect(); //
-        foreach ($classrooms as $classroom) {
-            $collection->push($classroom); //
-            $classroom_bookings = $classroom->bookings->where('booking_date', $today)->where('status', '!==', 'cancelled');
-            $response[] = $classroom_bookings;
-        }
-        $collection->push($response);
-        return json_encode($collection);
-
+public function getClassroom()
+{
+    $today = Carbon::today()->format('Y-m-d');
+    $classrooms = Classroom::where('building', 'Informática')->get();
+    $response = [];
+   
+    $collection = collect(); //
+    foreach ($classrooms as $classroom) {
+        $arregloJS=[];
+        // $collection->push($classroom); //
+        $classroom_bookings = $classroom->bookings->where('booking_date', $today)->where('status', '!==', 'cancelled');
+       
+       
+        foreach ($classroom_bookings as $obj) {
+           
+            $objAssignment = $obj->assignment;
+            if ($objAssignment != null) {
+                $name = $objAssignment->assignment_name;
+                $tipo="materia";
+            } else {
+                $objEvent = $obj->event;
+                $name = $objEvent->event_name;
+                $tipo="evento";
+            }
+           $arregloJS[]=['name'=>$name,'start_time'=>$obj->start_time,'finish_time'=>$obj->finish_time, 'tipo'=>$tipo];
+        };
+        // $response[] = $classroom_bookings;
+        $response[]=['classroom_name'=>$classroom->classroom_name, 'bookings'=>$arregloJS];
     }
+    $collection->push($response);
+    return json_encode($collection);
+}
 
     /**
      * Función dedicada a validar que no exista superposición en la data entrante
