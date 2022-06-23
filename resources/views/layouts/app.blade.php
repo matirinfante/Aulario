@@ -160,7 +160,7 @@
                                         <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z" />
                                         <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z" />
                                     </svg>
-                                    Logbook
+                                    Libro de entrada
                                 </a>
                             </li>
                             @endcan
@@ -215,7 +215,12 @@
     {{-- Aqui se muestra el contenido --}}
     <main class="py-4">
         @yield('content')
+
     </main>
+    {{-- go to top button --}}
+    <div id="pageUp" onclick="scrollUp();"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#406fa9" class="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
+        <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z"/>
+      </svg></div>
 </div>
 <script src="{{ asset(mix('js/app.js')) }}"></script>
 <script>
@@ -230,6 +235,8 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+{{-- go to top button --}}
+<script src="{{ asset('js/toTop.js') }}" defer></script>
 @yield('scripts')
 </body>
 

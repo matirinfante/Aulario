@@ -10,7 +10,6 @@
 @section('content')
     @hasanyrole('user|teacher')
         <link href="{{ asset('css/calendar.css') }}" rel="stylesheet">
-
         <div class="container text-center">
             <h3>Datos de la reserva</h3>
             <form class="filter" method='POST' action="">
@@ -18,13 +17,13 @@
 
                 <div class="col-auto">
                     <span>Ingrese cantidad de participantes</span>
-                    <input id="participants" class="form-control" type="number" min="1" placeholder="solo numeros">
+                    <input id="participants" class="form-control" type="number" min="1" placeholder="Sólo números">
 
                 </div>
-                <div class="d-none col-auto" id="select-aula">
+                <div class="d-none col-auto mt-3" id="select-aula">
                     <span>Seleccione el aula</span>
                     <select class="form-select filtro" name="classroom_id" id="select">
-                        <option value="null">Seleccione un aula</option>
+                        <option value="null" selected disabled>Elija una opción</option>
                         @forelse ($classrooms as $classroom)
                             <option data-capacity="{{ $classroom['capacity'] }}"
                                 data-classroomName="{{ $classroom['classroom_name'] }}"
@@ -45,40 +44,43 @@
         </div>
 
         {{-- modal para envio de mail en caso de superar max participantes (siendo usuario común) --}}
-        <div class="modal fade" id="mailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Solicitar Reserva a administración</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="" method="POST" action="">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="subject" class="form-label">Asunto</label>
-                                <input type="text" class="form-control" id="mailSubject" name="subject"
-                                    placeholder="Parcial PWA">
-                                <p class="alerta d-none" id="errorSubject">Error</p>
-                            </div>
-                            <div class="mb-3">
-                                <label for="description">Descripción/Mensaje</label>
-                                <textarea class="form-control" id="description" rows="3"></textarea>
-                                <p class="alerta d-none" id="errorDescription">Error</p>
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button id="submit_button" type="submit" class="btn btn-primary">Enviar</button>
-                        </form>
+        @can('create bookings')
+            <div class="modal fade" id="mailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Solicitar Reserva a administración</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="" method="POST" action="">
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="subject" class="form-label">Asunto</label>
+                                    <input type="text" class="form-control" id="mailSubject" name="subject"
+                                        placeholder="Parcial PWA">
+                                    <p class="alerta d-none" id="errorSubject">Error</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="description">Descripción/Mensaje</label>
+                                    <textarea class="form-control" id="description" rows="3"></textarea>
+                                    <p class="alerta d-none" id="errorDescription">Error</p>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button id="submit_button" type="submit" class="btn btn-primary">Enviar</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endcan
     @endhasanyrole
 
     @can('create bookings')
         @hasanyrole('user|teacher')
+            {{-- modal para crear reserva, al hacer clic en fecha del calendar --}}
             <div class="modal fade createModal" id="createModal" position="relative" tabindex="-1"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -146,15 +148,17 @@
         @hasrole('admin')
             <div class="container-fluid">
                 <h3 class="text-center m-4">Bienvenid@ Admin </h3>
-                <div class="row mt-4">
-                    <div class="d-flex justify-content-center">
-                        {{-- //invocar vista adminCreate --}}
-                        <form class="w-50" width="400px" method="GET" action="{{ route('bookings.createAdmin') }}">
-                            @csrf
-                            <button type="submit" class="btn btn-primary w-100">Realizar reserva</button>
-                        </form>
+                @can('create bookings')
+                    <div class="row mt-4">
+                        <div class="d-flex justify-content-center">
+                            {{-- //invocar vista adminCreate --}}
+                            <form class="w-50" width="400px" method="GET" action="{{ route('bookings.createAdmin') }}">
+                                @csrf
+                                <button type="submit" class="btn btn-primary w-100">Realizar reserva</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                @endcan
             </div>
         @endhasrole
     @endcan
