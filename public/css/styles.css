@@ -2,6 +2,17 @@
     font-family: 'Open Sans', sans-serif;
 }
 
+/* go to top button */
+#pageUp{
+    position: fixed;
+    right: 15px;
+    bottom: 300px;
+    cursor: pointer;
+    transition: all 300ms ease;
+    transform: scale(0);
+    display: inline;
+}
+
 
 /* Variables */
 
