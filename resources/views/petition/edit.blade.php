@@ -14,6 +14,14 @@
                     {{ $petition->assignment->assignment_name }}
                 </p>
                 <hr>
+                <p class="card-text"><span class="text-secondary">Fecha Inicio:</span>
+                    {{ $petition->start_date }}
+                </p>
+                <hr>
+                <p class="card-text"><span class="text-secondary">Fecha Fin:</span>
+                    {{ $petition->finish_date }}
+                </p>
+                <hr>
                 <p class="card-text"><span class="text-secondary">Días:</span>
                     {{ $petition->days }}
                 </p>
@@ -42,7 +50,9 @@
 
                     <h5>Razón del rechazo</h5>
 
-                    <textarea name="reason" id="reason" cols="36" rows="5"></textarea>
+                    <textarea name="reason" id="reason" cols="36" rows="5" required></textarea>
+
+                    <div id='warning_reason'></div>
 
                     <div class="container">
                         <div class="row">
