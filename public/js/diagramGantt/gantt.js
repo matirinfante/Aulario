@@ -32,24 +32,14 @@ $.ajax({
                     if(colbookings.length>0){
                         for (let j = 0; j < colbookings.length; j++) {
                             const bookings = colbookings[j];
-                            
+                            rta+=`{    
+                                "start": "${bookings.start_time}",
+                                "end": "${bookings.finish_time}",
+                                "text": "${bookings.name}",`;
                             if(bookings.tipo=="materia"){
-                                
-                                rta+=`{    
-                                    "start": "${bookings.start_time}",
-                                    "end": "${bookings.finish_time}",
-                                    "text": "${bookings.name}",
-                                    "data": {"class":"materia"}
-                                   }
-                                    `
+                                rta+=`"data": {"class":"materia"} }`
                             }else{
-                                rta+=`{    
-                                    "start": "${bookings.start_time}",
-                                    "end": "${bookings.finish_time}",
-                                    "text": "${bookings.name}",
-                                    "data": {"class":"example2"}
-                                   }
-                                    `
+                                rta+=`"data": {"class":"evento"} }`
                             }
                             
                                 if(j+1 < colbookings.length ){
@@ -79,7 +69,7 @@ $.ajax({
             
                 startTime: "08:00:00", // schedule start time(HH:ii)
                 endTime: "23:00:00",   // schedule end time(HH:ii)
-                widthTime: 60 * 20,  // cell timestamp example 10 minutes
+                widthTime: 60 * 6,  // cell timestamp example 10 minutes
                 timeLineY: 50,       // height(px)
                 verticalScrollbar: 20,   // scrollbar (px)
                 timeLineBorder: 2,   // border(top and bottom)
@@ -87,7 +77,12 @@ $.ajax({
                 draggable: isDraggable,
                 resizable: isResizable,
                 resizableLeft: true,
-                rows: objGantt
+                rows: objGantt,
+                onAppendSchedule: function(node, data){
+                    if(data.data.class){
+                        node.addClass(data.data.class);
+                    }
+                }
             });
             // $sc.timeSchedule('Rows', objGantt); //Pasa los datos del objeto al calendario
             
