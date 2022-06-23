@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\Logbook;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class LogbookController extends Controller
 {
@@ -15,8 +16,9 @@ class LogbookController extends Controller
      */
     public function index()
     {
-        $today_logbook = Logbook::where('date', Carbon::today()->format('d-m-Y'));
-        if (empty($today_logbook)) {
+        $today_logbook = Logbook::where('date', Carbon::today()->format('Y-m-d'))->get();
+
+        if ($today_logbook->isEmpty()) {
             $today_logbook = $this->generarLogbook();
         }
         return view('logbook.index', compact('today_logbook'));
@@ -25,23 +27,22 @@ class LogbookController extends Controller
     /**
      * Función que se encarga de generar el logbook del dia solo si este no se ha creado con anterioridad.
      * Busca dentro de lo
-     * @return array
+     ** @return array
      */
-
     public function generarLogbook()
     {
+
         try {
-            $today_bookings = Booking::where('date', Carbon::today()->format('Y-m-d'));
-            $today_bookings->add(Booking::where('week_day', Carbon::today()->dayName));
+            $today_bookings = Booking::where('booking_date', Carbon::today()->format('Y-m-d'))->get();
             foreach ($today_bookings as $booking) {
                 Logbook::create([
-                    'booking_id' => $booking->booking_id,
+                    'booking_id' => $booking->id,
                     'date' => Carbon::today()->format('Y-m-d')]);
             }
-            $today_logbook = Logbook::where('date', Carbon::today()->format('Y-m-d'));
+            $today_logbook = Logbook::where('date', Carbon::today()->format('Y-m-d'))->get();
             return $today_logbook;
         } catch (\Exception $e) {
-            return $today_bookings = [];
+            return $today_logbook = [];
         }
     }
 
@@ -103,5 +104,21 @@ class LogbookController extends Controller
     public function destroy(Logbook $logbook)
     {
         //
+    }
+
+    /**
+     * Función utilizada para firmar la llegada a una reserva
+     */
+    public function firmarLlegada(Request $request)
+    {
+
+    }
+
+    /**
+     * Función utilizada para firmar una salida de una reserva previamente firmada
+     */
+    public function firmarSalida(Request $request)
+    {
+
     }
 }
