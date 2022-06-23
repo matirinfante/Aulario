@@ -1,14 +1,28 @@
 <!--
-    -(Usa los permisos, mas facil que crear una vista)  Crear vista de reservas segun el usuario que reservo, sus propias reservas.
-    -Si el admin no puede crear reserva, entonces que el id de usuario y nombre que las crea, sea predefinido en el sistema, y evitar cambios.
     -Hacer la comprobacion de campos.
-    -Flash alert para aceptados, rechazados, o creados
-    -Arreglar bugs de la vista como th y el datatable
-    -Permisos de los profesores
+    -Flash alert para aceptados, rechazados, o creados.
+    -Arreglar bugs de la vista como th y el datatable.
+    -Permisos de los profesores y admins
 -->
 
 @extends('layouts.app')
 @section('content')
+
+{{-- Mensaje del controlador al realizar acción --}}
+<div id="flashMessage" class="text-center d-none">
+    @include('flash::message')
+</div>
+
+{{-- Mensaje de error --}}
+@if ($errors->any())
+<div class="alert alert-danger d-none" id="errorsMsj" role="alert">
+
+    @foreach ($errors->all() as $error)
+    {{ $error }}<br />
+    @endforeach
+</div>
+@endif
+
 <div class="container-fluid">
     @hasanyrole('teacher')
     <h3 class="text-center m-4">Mis Peticiones</h3>
@@ -119,4 +133,17 @@
 @endsection
 
 @section('scripts')
+
+{{-- Sweet alert --}}
+<script src="{{ asset('js/petitions/sweetAlert.js') }}" defer></script>
+
+
+<script type="text/javascript">
+    window.CSRF_TOKEN = '{{ csrf_token() }}';
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+
+{{-- Comprobacion de formulario --}}
+<script src="{{ asset('js/petitions/petitions_forms.js') }}" defer></script>
 @endsection
