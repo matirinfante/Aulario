@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\Logbook;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class LogbookController extends Controller
@@ -33,7 +34,11 @@ class LogbookController extends Controller
     {
 
         try {
-            $today_bookings = Booking::where('booking_date', Carbon::today()->format('Y-m-d'))->get();
+            //$today_bookings = Booking::where('booking_date', Carbon::today()->format('Y-m-d'))->get();
+            $today_bookings = DB::table('bookings')
+                ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
+                ->where('booking_date', '=', Carbon::today()->format('Y-m-d'))
+                ->where('classrooms.building', '=', 'Informática')->get();
             foreach ($today_bookings as $booking) {
                 Logbook::create([
                     'booking_id' => $booking->id,
@@ -111,6 +116,7 @@ class LogbookController extends Controller
      */
     public function firmarLlegada(Request $request)
     {
+
 
     }
 

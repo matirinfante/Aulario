@@ -79,6 +79,7 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'edit logbook']);
 
         Permission::create(['name' => 'show schedule']);
+        Permission::create(['name' => 'create schedule']);
         Permission::create(['name' => 'edit schedule']);
         Permission::create(['name' => 'delete schedule']);
 
