@@ -18,6 +18,14 @@
                     {{ $petition->days }}
                 </p>
                 <hr>
+                <p class="card-text"><span class="text-secondary">Fecha Inicio:</span>
+                    {{ $petition->start_date }}
+                </p>
+                <hr>
+                <p class="card-text"><span class="text-secondary">Fecha Fin:</span>
+                    {{ $petition->finish_date }}
+                </p>
+                <hr>
                 <p class="card-text"><span class="text-secondary">Hora de Inicio:</span>
                     {{ $petition->start_time }}
                 </p>
@@ -46,4 +54,4 @@
             </div>
         </div>
     </div>
-</div>   
+</div>
