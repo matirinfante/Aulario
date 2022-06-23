@@ -44,11 +44,11 @@
                             <label for="assignment_id" class="form-label d-block">Materia</label>
                             @isset($petition)
                                 <select name="assignment_id" class="form-select select2-assignment" aria-label="Materia"
-                                style="width: 100%;" disabled>
-                            @else
-                                <select name="assignment_id" class="form-select select2-assignment" aria-label="Materia"
-                                    style="width: 100%;">
-                            @endisset
+                                    style="width: 100%;" disabled>
+                                @else
+                                    <select name="assignment_id" class="form-select select2-assignment" aria-label="Materia"
+                                        style="width: 100%;">
+                                    @endisset
                                     <option value="-1" disabled></option>
                                     @foreach ($assignments as $assignment)
                                         @isset($petition)
@@ -478,6 +478,8 @@
             $('.classroomsMassiveEvent').on('change', function() {
                 $('.start_timeMassiveEvent').empty();
                 $('.finish_timeMassiveEvent').empty();
+                $('.start_time').append(`<option disabled selected>Elija una opción</option>`)
+                $('.finish_time').append(`<option disabled selected>Elija una opción</option>`)
                 $('.start_timeMassiveEvent').attr('disabled', false);
                 var aula = $(this).val();
                 var inicioArr = [];
