@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\Logbook;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -38,6 +39,7 @@ class LogbookController extends Controller
             $today_bookings = DB::table('bookings')
                 ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
                 ->where('booking_date', '=', Carbon::today()->format('Y-m-d'))
+                ->where('status', '=', 'pending')
                 ->where('classrooms.building', '=', 'Informática')->get();
             foreach ($today_bookings as $booking) {
                 Logbook::create([
@@ -112,18 +114,53 @@ class LogbookController extends Controller
     }
 
     /**
+     * Función utilizada para corroborar firma y retornar información para confirmar la llegada a una reserva
+     */
+    public function checkSign(Request $request)
+    {
+        $check_user = User::where('uuid', $request->data)->first();
+
+        if ($check_user) {
+            $response = ['status' => 'success', 'info' => $check_user->name . ' ' . $check_user->surname];
+            return $response;
+        } else {
+            $response = ['status' => 'error', 'info' => 'No se ha encontrado firma vinculada a ningún usuario'];
+            return $response;
+        }
+    }
+
+    /**
      * Función utilizada para firmar la llegada a una reserva
      */
-    public function firmarLlegada(Request $request)
+    public function signCheckIn(Request $request)
     {
+        $user = User::where('uuid', $request->data)->first();
+        try {
+            if ($user) {
+                $logbookEntry = Logbook::where('id', $request->id)->get();
+                $bookingEntry = Booking::where('id', $logbookEntry->booking_id)->get();
 
+                $bookingEntry->status = 'in_progress';
 
+                $logbookEntry->user_id = $user->id;
+                $logbookEntry->check_in = Carbon::now()->format('H:i:s');
+
+                $bookingEntry->save();
+                $logbookEntry->save();
+
+                return redirect(route('logbooks.index'))->with('success', 'Entrada correctamente firmada');
+            } else {
+                return redirect(route('logbooks.index'))->with('error', 'Ha ocurrido un error al firmar la entrada');
+            }
+        } catch (\Exception $e) {
+            return redirect(route('logbooks.index'))->with('error', 'Ha ocurrido un error al firmar la entrada');
+        }
     }
 
     /**
      * Función utilizada para firmar una salida de una reserva previamente firmada
      */
-    public function firmarSalida(Request $request)
+    public function signCheckOut(Request $request)
     {
 
     }
