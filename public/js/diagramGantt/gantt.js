@@ -93,9 +93,9 @@ $.ajax({
 });
 //Funcion que se ejectua en el window 
 //Cada un intervalo de tiempo escrito en milisegundos la pagina se refresca
-window.setInterval(e=>{
-    location.reload();
-},300000)
+// window.setInterval(e=>{
+//     location.reload();
+// },300000)
 
 // console.log(document.querySelector(".materia"));
 
