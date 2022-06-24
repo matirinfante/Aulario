@@ -115,7 +115,9 @@ $(document).ready(function() {
     const horaActualC = new Date().getHours() + ":00"; // Hora actual con minutos en 00
     const tabHoraActual = $(".sc_header_scroll :contains('" + horaActualC + "')")[0]; // Selecciona un div dentro de sc_header_scroll con el texto de la hora actual
 
-    $(tabHoraActual).addClass("hora-actual");
+    if (new Date().getHours() > 7) { // Mayor que 7 evita las horas del 0 al 7
+        $(tabHoraActual).addClass("hora-actual");
+      }
   }
 
   setTimeout(moverScroll, 0) // Si scrollElement no carga, aumentar el tiempo
