@@ -30,6 +30,7 @@
                                 data-building="{{ $classroom['building'] }}" value="{{ $classroom['id'] }}">
                                 Edificio: {{ $classroom['building'] }} Nombre: {{ $classroom['classroom_name'] }}
                                 Capacidad: {{ $classroom['capacity'] }}
+                                {{-- agregar el tipo del aula --}}
                             </option>
                         @empty
                             <option value="">No hay coincidencias:</option>

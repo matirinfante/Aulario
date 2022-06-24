@@ -1,5 +1,5 @@
-<div class="modal fade text-center" id="viewModal{{ $class->id }}" tabindex="-1"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade text-center" id="viewModal{{ $class->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -27,6 +27,25 @@
                         Deshabilitada
                     @endif
                 </p>
+                <hr>
+                @php
+                     $nameImg = $class->classroom_name;
+                    // if (File::exists(public_path('mapa_aulas/'.$nameImg.'.png'))) {
+                    //     echo ('<img id="image_classroom" width="350px" height="500px" src="{{ asset("assets/mapa_aulas/" '. $nameImg .' ".png") }}"alt="Aula_i1">');
+                    // } else {
+                    //     echo ('<p>No hay imagen disponible.</p>');
+                    // }
+                    
+                    if (strpos($nameImg, 'FAIFi') !== false) {
+                        echo ('<img id="image_classroom" width="350px" height="500px" src="../../../assets/mapa_aulas/'. $nameImg .'.png" alt="Aula_i1">');
+                    } else {
+                        echo ('<p>No hay imagen disponible.</p>');
+                    }
+            
+                @endphp
+
+                {{-- <img id="image_classroom" width="350px" height="500px" src="{{ asset('assets/mapa_aulas/' . $nameImg . '.png') }}"alt="Aula_i1"> --}}
+
             </div>
         </div>
     </div>
