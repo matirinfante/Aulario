@@ -102,25 +102,22 @@ window.setInterval(e=>{
 
 $(document).ready(function() {
   function moverScroll(){ 
-
     const horaActual = new Date().getHours(); // Hora actual sin minutos
-    console.log(horaActual);
-    // const horaActual = 13; // DEBUG
     const primerHoraGantt = 8; // Primer cuadrado de hora de Gantt
-    const horasAntesActual = 1; // Cantidad de horas para ver antes de la actual
+    const horasAntesActual = 2; // Cantidad de horas para ver antes de la actual
 
     const scrollElement = document.querySelector(".sc_main_box"); // Div scrolleable
-    // console.log(scrollElement); // DEBUG
     
-    // const outputDiv = document.querySelector(".output"); // DEBUG
-
     scrollElement.scrollLeft += ((horaActual - primerHoraGantt) * 250) - (horasAntesActual * 250);
-
-
-    // scrollElement.addEventListener("scroll", () => { // DEBUG
-    //     outputDiv.innerHTML = `Pixeles movidos: ${Math.ceil(scrollElement.scrollLeft)}` // DEBUG
-    // }); // DEBUG
   }
 
-  setTimeout(moverScroll, 0) // Si el scrollElement no carga, aumentar el tiempo
+  function colorHoraActual() {
+    const horaActualC = new Date().getHours() + ":00"; // Hora actual con minutos en 00
+    const tabHoraActual = $(".sc_header_scroll :contains('" + horaActualC + "')")[0]; // Selecciona un div dentro de sc_header_scroll con el texto de la hora actual
+
+    $(tabHoraActual).addClass("hora-actual");
+  }
+
+  setTimeout(moverScroll, 0) // Si scrollElement no carga, aumentar el tiempo
+  setTimeout(colorHoraActual, 0) // Si tabHoraActual no carga, aumentar el tiempo
 });

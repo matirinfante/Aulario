@@ -2,6 +2,12 @@
     box-sizing: border-box
 }
 
+
+.jq-schedule .sc_data {
+    text-align: center;
+    font-size: 1rem;
+}
+
 .jq-schedule .sc_wrapper:after,
 .jq-schedule .sc_menu:after {
     content: "";
@@ -47,6 +53,10 @@
     top: 0
 }
 
+.jq-schedule .sc_menu .sc_header_scroll{
+  font-weight: 700;
+}
+
 .jq-schedule .sc_menu .sc_header_cell,
 .jq-schedule .sc_header .sc_time,
 .jq-schedule .sc_main_scroll .sc_time {
@@ -75,7 +85,8 @@
 }
 
 .jq-schedule .sc_main {
-    position: relative
+    position: relative;
+    background-color: #fff;
 }
 
 .jq-schedule .timeline {
@@ -183,4 +194,61 @@
 
 .jq-schedule .ui-draggable-disabled {
     opacity: .8
+}
+
+
+/* SCROLLBAR TOTEM */
+#schedule ::-webkit-scrollbar {
+  width: 1px;
+  height: 10px;
+}
+
+#schedule ::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+#schedule ::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+#schedule ::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* HORA ACTUAL */
+#schedule .hora-actual{
+  background-color: #f0ad32;
+}
+
+/* RELOJ */
+.clockdate-wrapper {
+  background-color: #333;
+  padding:15px;
+  max-width:350px;
+  width:100%;
+  text-align:center;
+  border-radius:5px;
+  margin:0 auto;
+  margin-bottom: 20px;
+}
+#clock{
+  background-color:#333;
+  font-family: sans-serif;
+  font-size:40px;
+  text-shadow:0px 0px 1px #fff;
+  color:#fff;
+}
+#clock span {
+  color:#888;
+  text-shadow:0px 0px 1px #333;
+  font-size:15px;
+  position:relative;
+  top:-27px;
+  left:-10px;
+}
+#date {
+  letter-spacing:10px;
+  font-size:16px;
+  font-family:arial,sans-serif;
+  color:#fff;
 }
