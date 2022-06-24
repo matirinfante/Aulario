@@ -22,7 +22,7 @@
             @endif
             <div class="row justify-content-center" id="myBookings">
                 @forelse ($bookings as $booking)
-                    <div class="col-3 col-xl-3 col-md-6 col-sm-12 myBooking">
+                    <div class="col-xl-3 col-md-6 col-sm-12 myBooking">
                         <div class="">
                             <div class="text-center">
                                 @isset($booking->assignment)
