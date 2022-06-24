@@ -98,3 +98,29 @@ window.setInterval(e=>{
 },300000)
 
 // console.log(document.querySelector(".materia"));
+
+
+$(document).ready(function() {
+  function moverScroll(){ 
+
+    const horaActual = new Date().getHours(); // Hora actual sin minutos
+    console.log(horaActual);
+    // const horaActual = 13; // DEBUG
+    const primerHoraGantt = 8; // Primer cuadrado de hora de Gantt
+    const horasAntesActual = 1; // Cantidad de horas para ver antes de la actual
+
+    const scrollElement = document.querySelector(".sc_main_box"); // Div scrolleable
+    // console.log(scrollElement); // DEBUG
+    
+    // const outputDiv = document.querySelector(".output"); // DEBUG
+
+    scrollElement.scrollLeft += ((horaActual - primerHoraGantt) * 250) - (horasAntesActual * 250);
+
+
+    // scrollElement.addEventListener("scroll", () => { // DEBUG
+    //     outputDiv.innerHTML = `Pixeles movidos: ${Math.ceil(scrollElement.scrollLeft)}` // DEBUG
+    // }); // DEBUG
+  }
+
+  setTimeout(moverScroll, 0) // Si el scrollElement no carga, aumentar el tiempo
+});
