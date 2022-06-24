@@ -98,3 +98,26 @@ window.setInterval(e=>{
 },300000)
 
 // console.log(document.querySelector(".materia"));
+
+
+$(document).ready(function() {
+  function moverScroll(){ 
+    const horaActual = new Date().getHours(); // Hora actual sin minutos
+    const primerHoraGantt = 8; // Primer cuadrado de hora de Gantt
+    const horasAntesActual = 2; // Cantidad de horas para ver antes de la actual
+
+    const scrollElement = document.querySelector(".sc_main_box"); // Div scrolleable
+    
+    scrollElement.scrollLeft += ((horaActual - primerHoraGantt) * 250) - (horasAntesActual * 250);
+  }
+
+  function colorHoraActual() {
+    const horaActualC = new Date().getHours() + ":00"; // Hora actual con minutos en 00
+    const tabHoraActual = $(".sc_header_scroll :contains('" + horaActualC + "')")[0]; // Selecciona un div dentro de sc_header_scroll con el texto de la hora actual
+
+    $(tabHoraActual).addClass("hora-actual");
+  }
+
+  setTimeout(moverScroll, 0) // Si scrollElement no carga, aumentar el tiempo
+  setTimeout(colorHoraActual, 0) // Si tabHoraActual no carga, aumentar el tiempo
+});
