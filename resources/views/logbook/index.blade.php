@@ -21,9 +21,10 @@
                     <tr>
                         <td>Nombre</td>
                         <td>Fecha</td>
-                        <td>Nombre de usuario</td>
-                        <td>Hora de ingreso</td>
-                        <td>Hora de salida</td>
+                        <td>Aula</td>
+                        <td>Usuario</td>
+                        <td>Hora ingreso</td>
+                        <td>Hora salida</td>
                         <td>Observación</td>
                     </tr>
                 </thead>
@@ -41,38 +42,41 @@
                             {{-- fecha de la reserva --}}
                             <td>{{ date('d/m/Y', strtotime($logbook->date)) }}</td>
 
+                            {{-- aula --}}
+                            <td>{{ $logbook->booking->classroom->classroom_name }}</td>
+
                             {{-- nombre completo de usuario --}}
                             @isset($logbook->user->name, $logbook->user->surname)
                                 <td>{{ $logbook->user->name }}, {{ $logbook->user->surname }}</td>
                             @else
-                                <td>No disponible</td>
+                                <td>No disp</td>
                             @endisset
 
                             {{-- hora de ingreso --}}
                             @isset($logbook->check_in)
-                                <td>{{ date('h:i', strtotime($logbook->check_in)) }}</td>
+                                <td>{{ date('H:i', strtotime($logbook->check_in)) }}</td>
                             @else
-                                <td>No disponible</td>
+                                <td>No disp</td>
                             @endisset
 
                             {{-- hora de salida --}}
                             @isset($logbook->check_out)
-                                <td>{{ date('h:i', strtotime($logbook->check_out)) }}</td>
+                                <td>{{ date('H:i', strtotime($logbook->check_out)) }}</td>
                             @else
-                                <td>No disponible</td>
+                                <td>No disp</td>
                             @endisset
 
 
                             {{-- Observación --}}
-                            @isset($logbook->check_out)
+                            @isset($logbook->commentary)
                                 <td>{{ $logbook->commentary }}</td>
                             @else
-                                <td>No disponible</td>
+                                <td></td>
                             @endisset
 
                         </tr>
                     @empty
-                        <td colspan="5" class="text-center text-secondary">No hay registros</td>
+                        <td colspan="7" class="text-center text-secondary">No hay registros</td>
                     @endforelse
                 </tbody>
             </table>
