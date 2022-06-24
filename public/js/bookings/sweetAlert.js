@@ -44,7 +44,8 @@ $(document).ready(function () {
     if (flash.find('.alert.alert-success').length > 0) {
         var contentFlash = $("#flashMessage:first").text().trim();
         switch (contentFlash) {
-            // CREACION DE RESERVA
+
+            // CREACION DE RESERVA (USER/TEACHER) -> redirecciona a myBookings
             case 'Se ha registrado la reserva con exito':
                 var timerInterval
                 Swal.fire({
@@ -54,7 +55,7 @@ $(document).ready(function () {
                     color: '#000',
                     showConfirmButton: false,
                     html: 'Reserva creada con éxito.',
-                    timer: 2000,
+                    timer: 4000,
                     timerProgressBar: true,
                     willClose: () => {
                         clearInterval(timerInterval)
@@ -72,7 +73,7 @@ $(document).ready(function () {
                     color: '#000',
                     showConfirmButton: false,
                     html: 'Error al crear reserva.',
-                    timer: 2000,
+                    timer: 4000,
                     timerProgressBar: true,
                     willClose: () => {
                         clearInterval(timerInterval)
@@ -81,42 +82,42 @@ $(document).ready(function () {
                 break;
 
             // MODIFICACION DE RESERVA
-            case 'Reserva modificada con éxito':
-                var timerInterval
-                Swal.fire({
-                    toast: true,
-                    position: 'bottom-end',
-                    background: '#a5dc86',
-                    color: '#000',
-                    showConfirmButton: false,
-                    html: 'Reserva modificada con éxito.',
-                    timer: 2000,
-                    timerProgressBar: true,
-                    willClose: () => {
-                        clearInterval(timerInterval)
-                    }
-                })
-                break;
+            // case 'Reserva modificada con éxito':
+            //     var timerInterval
+            //     Swal.fire({
+            //         toast: true,
+            //         position: 'bottom-end',
+            //         background: '#a5dc86',
+            //         color: '#000',
+            //         showConfirmButton: false,
+            //         html: 'Reserva modificada con éxito.',
+            //         timer: 4000,
+            //         timerProgressBar: true,
+            //         willClose: () => {
+            //             clearInterval(timerInterval)
+            //         }
+            //     })
+            //     break;
 
             // ERROR MODIFICACION DE MATERIA
-            case 'Ha ocurrido un error al actualizar la reserva':
-                var timerInterval
-                Swal.fire({
-                    toast: true,
-                    position: 'bottom-end',
-                    background: '#f27474',
-                    color: '#000',
-                    showConfirmButton: false,
-                    html: 'Error al modificar reserva.',
-                    timer: 2000,
-                    timerProgressBar: true,
-                    willClose: () => {
-                        clearInterval(timerInterval)
-                    }
-                })
-                break;
+            // case 'Ha ocurrido un error al actualizar la reserva':
+            //     var timerInterval
+            //     Swal.fire({
+            //         toast: true,
+            //         position: 'bottom-end',
+            //         background: '#f27474',
+            //         color: '#000',
+            //         showConfirmButton: false,
+            //         html: 'Error al modificar reserva.',
+            //         timer: 4000,
+            //         timerProgressBar: true,
+            //         willClose: () => {
+            //             clearInterval(timerInterval)
+            //         }
+            //     })
+            //     break;
 
-            // ELIMINACION DE RESERVA
+            // ELIMINACION DE RESERVA (USER/TEACHER) -> myBookings
             case 'destroyTrue':
                 var timerInterval
                 Swal.fire({
@@ -126,7 +127,7 @@ $(document).ready(function () {
                     color: '#000',
                     showConfirmButton: false,
                     html: 'Reserva eliminada con éxito.',
-                    timer: 2000,
+                    timer: 4000,
                     timerProgressBar: true,
                     willClose: () => {
                         clearInterval(timerInterval)
@@ -134,7 +135,7 @@ $(document).ready(function () {
                 })
                 break;
 
-            // ERROR ELIMINACION DE RESERVA
+            // ERROR ELIMINACION DE RESERVA (USER/TEACHER) -> myBookings
             case 'destroyFalse':
                 var timerInterval
                 Swal.fire({
@@ -144,7 +145,47 @@ $(document).ready(function () {
                     color: '#000',
                     showConfirmButton: false,
                     html: 'Error al eliminar reserva.',
-                    timer: 2000,
+                    timer: 4000,
+                    timerProgressBar: true,
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                })
+                break;
+
+
+            // -------------- RESERVA DE EVENTOS MASIVOS ----------------------------------------------------------
+            // CREACION DE RESERVA EVENTO MASIVO (ADMIN)
+            case 'Reservas de evento registradas con éxito':
+                var timerInterval
+                Swal.fire({
+                    toast: true,
+                    position: 'bottom-end',
+                    background: '#a5dc86',
+                    color: '#000',
+                    showConfirmButton: false,
+                    html: 'Reserva evento-masivo creada con éxito.',
+                    timer: 4000,
+                    timerProgressBar: true,
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                })
+                break;
+
+
+            // ------------------------------------------------------------------------
+            // CREACION DE RESERVA MATERIA(ADMIN)
+            case 'Reservas de materia registradas con éxito':
+                var timerInterval
+                Swal.fire({
+                    toast: true,
+                    position: 'bottom-end',
+                    background: '#a5dc86',
+                    color: '#000',
+                    showConfirmButton: false,
+                    html: 'Reserva de materia creada con éxito.',
+                    timer: 4000,
                     timerProgressBar: true,
                     willClose: () => {
                         clearInterval(timerInterval)

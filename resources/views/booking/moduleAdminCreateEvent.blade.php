@@ -1,9 +1,10 @@
-<h5 class="pb-3">Datos de reserva</h5>
+<h5 class="pb-3 mt-3 text-center">Datos de reserva</h5>
 <div class="row mt-4">
 
     {{-- Aula --}}
     <div class="mb-3 col">
-        <label for="classroom_id" class="form-label">Seleccione el aula</label>
+        <label for="classroom_id" class="form-label">Seleccione el aula <span class="text-secondary">(Paso
+                5)</span></label>
         <select disabled class="form-select classroomsMassiveEvent" name="classroom_id">
             <option value="" selected disabled>Aula...</option>
         </select>
@@ -12,20 +13,20 @@
 
 <div class="row mt-4">
     {{-- horas disponibles (inicio) --}}
-    <div class="mb-3 col">
-        <label for="startTime" class="form-label">Hora de inicio</label>
+    <div class="mb-3 col-md-6 col-sm-12">
+        <label for="startTime" class="form-label">Hora de inicio <span class="text-secondary">(Paso 6)</span></label>
         <select disabled name="start_time" class="form-select start_timeMassiveEvent">
-            <option disabled selected>Elija una opción
+            <option disabled selected>Elige una opción
             </option>
         </select>
         {{-- <small id="errorCreateBookingStartTime"></small> --}}
     </div>
 
     {{-- horas disponibles (fin) --}}
-    <div class="mb-3 col">
-        <label for="finishTime" class="form-label">Hora de fin</label>
+    <div class="mb-3 col-md-6 col-sm-12">
+        <label for="finishTime" class="form-label">Hora de fin <span class="text-secondary">(Paso 7)</span></label>
         <select disabled name="finish_time" class="form-select finish_timeMassiveEvent">
-            <option disabled selected>Elija una opción
+            <option disabled selected>Elige una opción
             </option>
         </select>
         {{-- <small id="errorCreateBookingStartTime"></small> --}}
@@ -34,7 +35,7 @@
 
 <div class="row">
     <div class="text-center mb-4">
-        <button id="addBookingMassiveEvent" type="button" class="btn btn-success w-100 d-none">
+        <button id="addBookingMassiveEvent" type="button" disabled class="btn btn-success w-100 d-none">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-patch-plus-fill" viewBox="0 0 16 16">
                 <path

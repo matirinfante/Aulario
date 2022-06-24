@@ -91,6 +91,8 @@
     <script src="{{ asset('js/events/validationEventCreate.js') }}" defer></script>
     {{-- Script para las sweet alerts de eventos --}}
     <script src="{{ asset('js/events/sweetAlert.js') }}" defer></script>
+    {{-- Script para las sweet alerts de reservas --}}
+    <script src="{{ asset('js/bookings/sweetAlert.js') }}" defer></script>
     {{-- Deshabilitar evento --}}
     <script src="{{ asset('js/events/disableEvent.js') }}" defer></script>
 @endsection

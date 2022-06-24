@@ -1,7 +1,7 @@
-<h5 class="pb-3">Datos de reserva</h5>
-<label for="days" class="form-label">Día</label>
+<h5 class="pb-3 mt-3 text-center">Datos de reserva</h5>
+<label for="days" class="form-label">Día <span class="text-secondary">(Paso 6)</span></label>
 <select disabled name="days" class="form-select days" aria-label="days" style="width: 100%">
-    <option value="-1" disabled selected>Elige un día...</option>
+    <option value="-1" disabled selected>Elige un día</option>
     <option value="Lunes">Lunes</option>
     <option value="Martes">Martes</option>
     <option value="Miércoles">Miércoles</option>
@@ -13,7 +13,7 @@
 
     {{-- Aula --}}
     <div class="mb-3 col">
-        <label for="classroom_id" class="form-label">Seleccione el aula</label>
+        <label for="classroom_id" class="form-label">Seleccione el aula <span class="text-secondary">(Paso 7)</span></label>
         <select disabled class="form-select classrooms" name="classroom_id">
             <option value="" selected disabled>Aula...</option>
         </select>
@@ -22,20 +22,20 @@
 
 <div class="row mt-4">
     {{-- horas disponibles (inicio) --}}
-    <div class="mb-3 col">
-        <label for="startTime" class="form-label">Hora de inicio</label>
+    <div class="mb-3 col-md-6 col-sm-12">
+        <label for="startTime" class="form-label">Hora de inicio <span class="text-secondary">(Paso 8)</span></label>
         <select disabled name="start_time" class="form-select start_time">
-            <option disabled selected>Elija una opción
+            <option disabled selected>Elige una opción
             </option>
         </select>
         {{-- <small id="errorCreateBookingStartTime"></small> --}}
     </div>
 
     {{-- horas disponibles (fin) --}}
-    <div class="mb-3 col">
-        <label for="finishTime" class="form-label">Hora de fin</label>
+    <div class="mb-3 col-md-6 col-sm-12">
+        <label for="finishTime" class="form-label">Hora de fin <span class="text-secondary">(Paso 9)</span></label>
         <select disabled name="finish_time" class="form-select finish_time">
-            <option disabled selected>Elija una opción
+            <option disabled selected>Elige una opción
             </option>
         </select>
         {{-- <small id="errorCreateBookingStartTime"></small> --}}
@@ -47,7 +47,7 @@
             <button id="addBooking" type="button" class="btn btn-success w-100">
         @else
         @endisset --}}
-        <button id="addBooking" type="button" class="btn btn-success w-100 d-none">
+        <button id="addBooking" type="button" disabled class="btn btn-success w-100 d-none">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-patch-plus-fill" viewBox="0 0 16 16">
                 <path
