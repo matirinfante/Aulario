@@ -19,7 +19,8 @@ class Booking extends Model
         'week_day',
         'booking_date',
         'start_time',
-        'finish_time'];
+        'finish_time',
+        'booking_uuid'];
 
     //ORM una reserva tiene un usuario
     public function user()

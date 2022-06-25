@@ -48,14 +48,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bookings/test', function () {
         return view('booking.test');
     });
-    //Period gen
+    //Check de logbook
+    Route::post('/logbook/check', [LogbookController::class, 'checkSign'])->name('logbook.check');
+//Period gen
     Route::post('/bookings/periods', [BookingController::class, 'getGaps'])->name('bookings.gaps');
     Route::post('/bookings/assignmentperiods', [BookingController::class, 'getClassroomsGaps'])->name('bookings.assignmentgaps');
-    //Classroom query for booking creation
+//Classroom query for booking creation
     Route::post('/bookings/create/getrooms', [BookingController::class, 'getClassroomsByQuery'])->name('bookings.classrooms');
-    //MyBookings
+//MyBookings
     Route::get('/myBookings', [BookingController::class, 'myBookings'])->name('bookings.mybookings');
-    //AdminBookingCreation
+//AdminBookingCreation
     Route::get('/bookings/create/petition', [BookingController::class, 'createFromPetition'])->name('bookings.petition');
     Route::get('/bookings/admin/create', [BookingController::class, 'createAdmin'])->name('bookings.createAdmin');
     Route::post('/bookings/filter', [BookingController::class, 'classroomBookings'])->name('bookings.filter');
