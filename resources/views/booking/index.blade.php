@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('styles')
+<link href="{{ asset('css/calendar.css') }}" rel="stylesheet">
 @endsection
 @php
 //   $bookings=[];
@@ -9,7 +10,7 @@
 @endphp
 @section('content')
     @hasanyrole('user|teacher')
-        <link href="{{ asset('css/calendar.css') }}" rel="stylesheet">
+        
         <div class="container text-center">
             <h3>Datos de la reserva</h3>
             <form class="filter" method='POST' action="">
@@ -148,16 +149,51 @@
         @endhasanyrole
         @hasrole('admin')
             <div class="container-fluid">
-                <h3 class="text-center m-4">Bienvenid@ Admin </h3>
+                <div class="card" style="padding:25px; width: 500px; margin: auto">
+                <h3 class="text-center m-2">Sector de calendarios y reservas </h3>
                 @can('create bookings')
-                    <div class="row mt-4">
-                        <div class="d-flex justify-content-center">
+                    <div class="row">
+                        <div class="d-flex justify-content-center mt-2 mb-2">
                             {{-- //invocar vista adminCreate --}}
-                            <form class="w-50" width="400px" method="GET" action="{{ route('bookings.createAdmin') }}">
+                            <form class="w-10" width="20px" method="GET" action="{{ route('bookings.createAdmin') }}">
                                 @csrf
                                 <button type="submit" class="btn btn-primary w-100">Realizar reserva</button>
                             </form>
+
+                            
                         </div>
+                        <h5 class="text-center "> Seleccione un aula:</h5>
+                        <div style="width: 250px; margin:auto" class="d-flex">
+                            
+                        <select class="form-select filtro" name="classroom_id" id="select">
+                            <option value="null" selected disabled>Elija una opción</option>
+                            @forelse ($classrooms as $classroom)
+                                <option data-capacity="{{ $classroom['capacity'] }}"
+                                    data-classroomName="{{ $classroom['classroom_name'] }}"
+                                    data-building="{{ $classroom['building'] }}" value="{{ $classroom['id'] }}">
+                                    Edificio: {{ $classroom['building'] }} Nombre: {{ $classroom['classroom_name'] }}
+                                    Capacidad: {{ $classroom['capacity'] }}
+                                    {{-- agregar el tipo del aula --}}
+                                </option>
+                            @empty
+                                <option value="">No hay coincidencias:</option>
+                            @endforelse
+                        </select>
+                       
+                        <button type="button"
+                            class="btn btn-sm btn-light" data-toggle="tooltip" data-placement="top"
+                            title="Seleccione el aula para cargar su calendario."><svg
+                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="#d99949" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
+                            </svg>
+                        </button>
+                        </div>
+                        </div>
+                    </div>
+                    <h4  style="margin:auto; text-align:center" id="classroom_name" class="d-none mt-3"> </h4>
+                    <div id="calendar" class="p-5">
                     </div>
                 @endcan
             </div>
@@ -177,12 +213,44 @@
 
 @endsection
 @section('scripts')
+
     <script type="text/javascript">
         window.CSRF_TOKEN = '{{ csrf_token() }}';
     </script>
-    @hasanyrole('user|teacher')
+    @hasanyrole('user|teacher|admin')
         <script src="{{ asset('js/fullcalendar.js') }}" defer></script>
         <script src="{{ asset('js/calendar.js') }}" defer></script>
         <script src="{{ asset('js/fullcalendar/es.js') }}" defer></script>
     @endhasanyrole
+
+    <script>
+    
+        let storage = window.localStorage
+        let booking = storage.getItem('bookings')
+         let select= document.getElementById('select');
+         let bookings=JSON.parse(booking);
+         console.log(bookings)
+         let j= bookings.length-1;
+        //  console.log(select)
+         setTimeout(() => {
+            if(bookings.length > 0){
+            for (let i = 0; i < select.length; i++) {
+               const element = select[i];
+            //    console.log(element);
+               console.log(bookings[0].classroom_id);
+                if(element.value == bookings[j].classroom_id){
+                    
+                    var event = new Event('change');
+                    select.dispatchEvent(event);
+                   element.setAttribute("selected", "");
+                   
+                   storage.clear();
+                }
+                
+            }
+         }
+         }, 1000);
+        
+        console.log(booking)
+            </script>
 @endsection
