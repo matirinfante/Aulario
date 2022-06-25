@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Assignment;
 use App\Models\Booking;
 use App\Models\Logbook;
 use App\Models\User;
@@ -9,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use PhpParser\Node\Expr\Assign;
 
 class LogbookController extends Controller
 {
@@ -40,13 +42,18 @@ class LogbookController extends Controller
                 ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
                 ->where('booking_date', '=', Carbon::today()->format('Y-m-d'))
                 ->where('status', '=', 'pending')
-                ->where('classrooms.building', '=', 'Informática')->get();
+                ->where('classrooms.building', '=', 'Informática')->get(['bookings.id', 'bookings.booking_date']);
+
             foreach ($today_bookings as $booking) {
+                Log::info($booking->id);
+                Log::info(Carbon::today()->format('Y-m-d'));
+
                 Logbook::create([
                     'booking_id' => $booking->id,
                     'date' => Carbon::today()->format('Y-m-d')]);
             }
             $today_logbook = Logbook::where('date', Carbon::today()->format('Y-m-d'))->get();
+            Log::info($today_logbook);
             return $today_logbook;
         } catch (\Exception $e) {
             return $today_logbook = [];
@@ -77,9 +84,11 @@ class LogbookController extends Controller
      *
      * @param \App\Models\Logbook $logbook
      */
-    public function show(Logbook $logbook)
+    public function show(Logbook $logbook, Request $request)
     {
-        //
+        $user = User::where('user_uuid', $request->uuid)->first();
+
+        return view('logbook.show', compact('logbook', 'user'));
     }
 
     /**
@@ -118,15 +127,24 @@ class LogbookController extends Controller
      */
     public function checkSign(Request $request)
     {
-        $check_user = User::where('uuid', $request->data)->first();
-
-        if ($check_user) {
-            $response = ['status' => 'success', 'info' => $check_user->name . ' ' . $check_user->surname];
-            return $response;
-        } else {
-            $response = ['status' => 'error', 'info' => 'No se ha encontrado firma vinculada a ningún usuario'];
-            return $response;
+        $response = json_decode($request->decodedData, true);
+        $checkBooking = Booking::where('booking_uuid', $response['b-uuid'])->first();
+        //Chequeamos que exista una reserva para ese identificador
+        if ($checkBooking) {
+            //Chequeamos que esa reserva corresponda a una entrada del libro de entrada válida para esa fecha (doble chequeo)
+            $logbookCheck = Logbook::where('booking_id', $checkBooking->id)->where('date', Carbon::today()->format('Y-m-d'))->first();
+            if ($logbookCheck) {
+                //Verificamos que el usuario dentro de la búsqueda pertenezca al conjunto de usuarios de la materia o evento
+                $checkUser = User::where('user_uuid', $response['u-uuid'])->first();
+                $assignment = Assignment::where('id', $checkBooking->assignment_id)->first();
+                $inAssignment = $assignment->users->where('id', $checkUser->id)->first();
+                if ($inAssignment) {
+                    //El chequeo es exitoso, se retorna el logbook_id.
+                    return ['status' => 'success', 'url' => url('logbooks') . '/' . $logbookCheck->id . '?uuid=' . $checkUser->user_uuid];
+                }
+            }
         }
+        return ['status' => 'error', 'message' => 'No se ha podido verificar la validez de uno o más datos'];
     }
 
     /**

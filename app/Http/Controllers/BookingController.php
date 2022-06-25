@@ -16,9 +16,12 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\BookingRequest;
 use Hamcrest\Arrays\IsArray;
 use Illuminate\Support\Facades\Log;
+use Ramsey\Uuid\Uuid;
 use Spatie\Period\Period;
 use Spatie\Period\PeriodCollection;
 use Spatie\Period\Precision;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
 
 class BookingController extends Controller
 {
@@ -82,7 +85,8 @@ class BookingController extends Controller
                     'week_day' => ucfirst(Carbon::parse($request->booking_date)->locale('es')->dayName),
                     'booking_date' => $request->booking_date,
                     'start_time' => $request->start_time,
-                    'finish_time' => $request->finish_time
+                    'finish_time' => $request->finish_time,
+                    'booking_uuid' => Uuid::uuid4()
                 ]);
                 flash('Se ha registrado la reserva con exito')->success();
                 return redirect(route('bookings.mybookings'));
@@ -110,6 +114,7 @@ class BookingController extends Controller
                                     'booking_date' => $assignmentDay,
                                     'start_time' => Carbon::parse($booking->start_time)->format('H:i:s'),
                                     'finish_time' => Carbon::parse($booking->finish_time)->format('H:i:s'),
+                                    'booking_uuid' => Uuid::uuid4()
                                 ]);
                             }
                         }
@@ -145,7 +150,8 @@ class BookingController extends Controller
                                 'week_day' => ucfirst(Carbon::parse($request->booking_date)->locale('es')->dayName),
                                 'booking_date' => $request->booking_date,
                                 'start_time' => Carbon::parse($booking->start_time)->format('H:i:s'),
-                                'finish_time' => Carbon::parse($booking->finish_time)->format('H:i:s')
+                                'finish_time' => Carbon::parse($booking->finish_time)->format('H:i:s'),
+                                'booking_uuid' => Uuid::uuid4()
                             ]);
                         }
                         flash('Reservas de evento registradas con éxito')->success();
@@ -294,7 +300,11 @@ class BookingController extends Controller
 
     public function myBookings()
     {
-        $bookings = Booking::where('user_id', auth()->user()->id)->get();
+        $bookings = Booking::where('user_id', auth()->user()->id)
+            ->whereBetween('booking_date', [Carbon::today()->format('Y-m-d'), Carbon::today()->addWeeks(2)->format('Y-m-d')])
+            ->orderBy('booking_date', 'asc')
+            ->orderBy('start_time', 'asc')
+            ->get();
         return view('booking.mybookings', compact('bookings'));
     }
 
@@ -460,38 +470,38 @@ class BookingController extends Controller
     }
 
 //obtenemos las reservas de aulas de informatica para el dia actual,seran mostradas en el diagrama de Gantt
-public function getClassroom()
-{
-    $today = Carbon::today()->format('Y-m-d');
-    $classrooms = Classroom::where('building', 'Informática')->get();
-    $response = [];
-   
-    $collection = collect(); //
-    foreach ($classrooms as $classroom) {
-        $arregloJS=[];
-        // $collection->push($classroom); //
-        $classroom_bookings = $classroom->bookings->where('booking_date', $today)->where('status', '!==', 'cancelled');
-       
-       
-        foreach ($classroom_bookings as $obj) {
-           
-            $objAssignment = $obj->assignment;
-            if ($objAssignment != null) {
-                $name = $objAssignment->assignment_name;
-                $tipo="materia";
-            } else {
-                $objEvent = $obj->event;
-                $name = $objEvent->event_name;
-                $tipo="evento";
-            }
-           $arregloJS[]=['name'=>$name,'start_time'=>$obj->start_time,'finish_time'=>$obj->finish_time, 'tipo'=>$tipo];
-        };
-        // $response[] = $classroom_bookings;
-        $response[]=['classroom_name'=>$classroom->classroom_name, 'bookings'=>$arregloJS];
+    public function getClassroom()
+    {
+        $today = Carbon::today()->format('Y-m-d');
+        $classrooms = Classroom::where('building', 'Informática')->get();
+        $response = [];
+
+        $collection = collect(); //
+        foreach ($classrooms as $classroom) {
+            $arregloJS = [];
+            // $collection->push($classroom); //
+            $classroom_bookings = $classroom->bookings->where('booking_date', $today)->where('status', '!==', 'cancelled');
+
+
+            foreach ($classroom_bookings as $obj) {
+
+                $objAssignment = $obj->assignment;
+                if ($objAssignment != null) {
+                    $name = $objAssignment->assignment_name;
+                    $tipo = "materia";
+                } else {
+                    $objEvent = $obj->event;
+                    $name = $objEvent->event_name;
+                    $tipo = "evento";
+                }
+                $arregloJS[] = ['name' => $name, 'start_time' => $obj->start_time, 'finish_time' => $obj->finish_time, 'tipo' => $tipo];
+            };
+            // $response[] = $classroom_bookings;
+            $response[] = ['classroom_name' => $classroom->classroom_name, 'bookings' => $arregloJS];
+        }
+        $collection->push($response);
+        return json_encode($collection);
     }
-    $collection->push($response);
-    return json_encode($collection);
-}
 
     /**
      * Función dedicada a validar que no exista superposición en la data entrante

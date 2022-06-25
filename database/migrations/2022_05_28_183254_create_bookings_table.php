@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->date('booking_date'); //Fecha (reserva temporal)
             $table->time('start_time'); //Hora de inicio
             $table->time('finish_time'); //Hora de finalización
+            $table->uuid('booking_uuid');
             $table->timestamps();
         });
     }

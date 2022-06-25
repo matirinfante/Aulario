@@ -14,6 +14,7 @@ use Carbon\CarbonInterval;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
+use Ramsey\Uuid\Uuid;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
@@ -113,113 +114,113 @@ class DatabaseSeeder extends Seeder
         $dataClassrooms = [
             [
                 'classroom_name' => 'FAIF i1',
-                'location' => '../../../assets/mapa_aulas/faif/FAIF_i1.png',
+                'location' => '/assets/mapa_aulas/faif/FAIF_i1.png',
                 'capacity' => '80',
                 'type' => 'Aula común',
                 'building' => 'Informática',
             ], [
                 'classroom_name' => 'FAIF i7',
-                'location' => '../../../assets/mapa_aulas/faif/FAIF_i7.png',
+                'location' => '/assets/mapa_aulas/faif/FAIF_i7.png',
                 'capacity' => '80',
                 'type' => 'Aula común',
                 'building' => 'Informática',
             ], [
                 'classroom_name' => 'FAIF i4',
-                'location' => '../../../assets/mapa_aulas/faif/FAIF_i4.png',
+                'location' => '/assets/mapa_aulas/faif/FAIF_i4.png',
                 'capacity' => '50',
                 'type' => 'Aula común',
                 'building' => 'Informática',
             ], [
                 'classroom_name' => 'FAIF i5',
-                'location' => '../../../assets/mapa_aulas/faif/FAIF_i5.png',
+                'location' => '/assets/mapa_aulas/faif/FAIF_i5.png',
                 'capacity' => '50',
                 'type' => 'Aula común',
                 'building' => 'Informática',
             ], [
                 'classroom_name' => 'FAIF i6',
-                'location' => '../../../assets/mapa_aulas/faif/FAIF_i6.png',
+                'location' => '/assets/mapa_aulas/faif/FAIF_i6.png',
                 'capacity' => '50',
                 'type' => 'Laboratorio',
                 'building' => 'Informática',
             ], [
                 'classroom_name' => 'FAIF i10',
-                'location' => '../../../assets/mapa_aulas/faif/FAIF_i10.png',
+                'location' => '/assets/mapa_aulas/faif/FAIF_i10.png',
                 'capacity' => '50',
                 'type' => 'Aula común',
                 'building' => 'Informática',
             ], [
                 'classroom_name' => 'FAIF i11',
-                'location' => '../../../assets/mapa_aulas/faif/FAIF_i11.png',
+                'location' => '/assets/mapa_aulas/faif/FAIF_i11.png',
                 'capacity' => '50',
                 'type' => 'Aula común',
                 'building' => 'Informática',
             ], [
                 'classroom_name' => 'FAIF i12',
-                'location' => '../../../assets/mapa_aulas/faif/FAIF_i12.png',
+                'location' => '/assets/mapa_aulas/faif/FAIF_i12.png',
                 'capacity' => '50',
                 'type' => 'Laboratorio',
                 'building' => 'Informática',
             ], [
                 'classroom_name' => 'FAIF i8',
-                'location' => '../../../assets/mapa_aulas/faif/FAIF_i8.png',
+                'location' => '/assets/mapa_aulas/faif/FAIF_i8.png',
                 'capacity' => '25',
                 'type' => 'Laboratorio',
                 'building' => 'Informática',
             ], [
                 'classroom_name' => 'FAIF i2',
-                'location' => '../../../assets/mapa_aulas/faif/FAIF_i2.png',
+                'location' => '/assets/mapa_aulas/faif/FAIF_i2.png',
                 'capacity' => '25',
                 'type' => 'Laboratorio',
                 'building' => 'Informática',
             ], [
                 'classroom_name' => 'FAIF i3',
-                'location' => '../../../assets/mapa_aulas/faif/FAIF_i3.png',
+                'location' => '/assets/mapa_aulas/faif/FAIF_i3.png',
                 'capacity' => '25',
                 'type' => 'Laboratorio',
                 'building' => 'Informática',
             ], [
                 'classroom_name' => 'FAIF i9',
-                'location' => '../../../assets/mapa_aulas/faif/FAIF_i9.png',
+                'location' => '/assets/mapa_aulas/faif/FAIF_i9.png',
                 'capacity' => '25',
                 'type' => 'Laboratorio',
                 'building' => 'Informática',
             ], [
                 'classroom_name' => 'AULA 101',
-                'location' => '../../../assets/mapa_aulas/comunes/COMUNES_101.png',
+                'location' => '/assets/mapa_aulas/comunes/COMUNES_101.png',
                 'capacity' => '80',
                 'type' => 'Aula común',
                 'building' => 'Aulas comunes',
             ],
             [
                 'classroom_name' => 'AULA 102',
-                'location' => '../../../assets/mapa_aulas/comunes/COMUNES_102.png',
+                'location' => '/assets/mapa_aulas/comunes/COMUNES_102.png',
                 'capacity' => '80',
                 'type' => 'Aula común',
                 'building' => 'Aulas comunes',
             ], [
                 'classroom_name' => 'AULA 105',
-                'location' => '../../../assets/mapa_aulas/comunes/COMUNES_105.png',
+                'location' => '/assets/mapa_aulas/comunes/COMUNES_105.png',
                 'capacity' => '150',
                 'type' => 'Aula común',
                 'building' => 'Aulas comunes',
             ],
             [
                 'classroom_name' => 'AULA 106',
-                'location' => '../../../assets/mapa_aulas/comunes/COMUNES_106.png',
+                'location' => '/assets/mapa_aulas/comunes/COMUNES_106.png',
                 'capacity' => '300',
                 'type' => 'Aula Común',
                 'building' => 'Aulas comunes',
             ],
             [
                 'classroom_name' => 'AULA 107',
-                'location' => '../../../assets/mapa_aulas/comunes/COMUNES_107.png',
+                'location' => '/assets/mapa_aulas/comunes/COMUNES_107.png',
                 'capacity' => '300',
                 'type' => 'Aula común',
                 'building' => 'Aulas comunes',
             ],
             [
                 'classroom_name' => 'AULA 13',
-                'location' => '../../../assets/mapa_aulas/facias/FACIAS_13.png',
+                'location' => '/assets/mapa_aulas/facias/FACIAS_13.png',
                 'capacity' => '300',
                 'type' => 'Aula común',
                 'building' => 'Humanidades',
@@ -233,7 +234,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'classroom_name' => 'AULA 24',
-                'location' => '../../../assets/mapa_aulas/facias/FACIAS_24.png',
+                'location' => '/assets/mapa_aulas/facias/FACIAS_24.png',
                 'capacity' => '100',
                 'type' => 'Aula común',
                 'building' => 'Humanidades',
@@ -254,56 +255,56 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'classroom_name' => 'AULA 6',
-                'location' => '../../../assets/mapa_aulas/faea/FAEA_6.png',
+                'location' => '/assets/mapa_aulas/faea/FAEA_6.png',
                 'capacity' => '120',
                 'type' => 'Aula común',
                 'building' => 'Economía',
             ],
             [
                 'classroom_name' => 'AULA 45',
-                'location' => '../../../assets/mapa_aulas/faea/FAEA_45.png',
+                'location' => '/assets/mapa_aulas/faea/FAEA_45.png',
                 'capacity' => '48',
                 'type' => 'Aula común',
                 'building' => 'Economía',
             ],
             [
                 'classroom_name' => 'AULA 44',
-                'location' => '../../../assets/mapa_aulas/faea/FAEA_44.png',
+                'location' => '/assets/mapa_aulas/faea/FAEA_44.png',
                 'capacity' => '48',
                 'type' => 'Aula común',
                 'building' => 'Economía',
             ],
             [
                 'classroom_name' => 'AULA 41',
-                'location' => '../../../assets/mapa_aulas/faea/FAEA_41.png',
+                'location' => '/assets/mapa_aulas/faea/FAEA_41.png',
                 'capacity' => '48',
                 'type' => 'Aula común',
                 'building' => 'Economía',
             ],
             [
                 'classroom_name' => 'AULA 53',
-                'location' => '../../../assets/mapa_aulas/faea/FAEA_53.png',
+                'location' => '/assets/mapa_aulas/faea/FAEA_53.png',
                 'capacity' => '48',
                 'type' => 'Aula común',
                 'building' => 'Economía',
             ],
             [
                 'classroom_name' => 'LABORATORIO 1',
-                'location' => '../../../assets/mapa_aulas/faea/FAEA_L1.png',
+                'location' => '/assets/mapa_aulas/faea/FAEA_L1.png',
                 'capacity' => '25',
                 'type' => 'Laboratorio',
                 'building' => 'Economía',
             ],
             [
                 'classroom_name' => 'LABORATORIO 2',
-                'location' => '../../../assets/mapa_aulas/faea/FAEA_L2.png',
+                'location' => '/assets/mapa_aulas/faea/FAEA_L2.png',
                 'capacity' => '25',
                 'type' => 'Laboratorio',
                 'building' => 'Economía',
             ],
             [
                 'classroom_name' => 'LABORATORIO 3',
-                'location' => '../../../assets/mapa_aulas/faea/FAEA_L3.png',
+                'location' => '/assets/mapa_aulas/faea/FAEA_L3.png',
                 'capacity' => '25',
                 'type' => 'Laboratorio',
                 'building' => 'Economía',
@@ -321,7 +322,7 @@ class DatabaseSeeder extends Seeder
             Classroom::create($objClassroom);
         };
 
-        $dataUser = [
+        /*$dataUser = [
             [
                 'name' => 'Claudia',
                 'surname' => 'Allan',
@@ -791,7 +792,7 @@ class DatabaseSeeder extends Seeder
         foreach ($dataUser as $value) {
             $objUser = User::create($value);
             $objUser->assignRole('teacher');
-        };
+        };*/
 
         $dataMaterias = [
             [
@@ -1880,6 +1881,7 @@ class DatabaseSeeder extends Seeder
             'dni' => 50123456,
             'email' => 'mail@admin.com',
             'password' => Hash::make('admin123'),
+            'user_uuid' => Uuid::uuid4()
         ]);
         $teacher = User::factory()->create([
             'name' => 'Profesor',
@@ -1887,6 +1889,8 @@ class DatabaseSeeder extends Seeder
             'dni' => 50123455,
             'email' => 'mail@teacher.com',
             'password' => Hash::make('admin123'),
+            'user_uuid' => Uuid::uuid4()
+
         ]);
         $user = User::factory()->create([
             'name' => 'Usuario',
@@ -1894,6 +1898,8 @@ class DatabaseSeeder extends Seeder
             'dni' => 50123458,
             'email' => 'mail@user.com',
             'password' => Hash::make('admin123'),
+            'user_uuid' => Uuid::uuid4()
+
         ]);
 
         $admin->assignRole('admin');
@@ -1927,6 +1933,7 @@ class DatabaseSeeder extends Seeder
                     'booking_date' => $date->format('Y-m-d'),
                     'start_time' => $start,
                     'finish_time' => $finish,
+                    'booking_uuid' => Uuid::uuid4()
                 ]);
             }
         }
@@ -1935,13 +1942,15 @@ class DatabaseSeeder extends Seeder
             'assignment_id' => null,
             'event_id' => rand(1, 10),
         ]);
-        User::find(11)->assignments()->sync([2, 3]);
+        /*User::find(11)->assignments()->sync([2, 3]);
         User::find(1)->assignments()->sync(Classroom::find(2));
-        User::find(2)->assignments()->sync(Classroom::find(4));
+        User::find(2)->assignments()->sync(Classroom::find(4));*/
         // Fin datos falsos
 
     }
-};
+}
+
+;
 
 $dataMaterias = [
     [

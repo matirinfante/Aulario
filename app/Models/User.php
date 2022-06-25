@@ -27,6 +27,7 @@ class User extends Authenticatable
         'dni',
         'email',
         'password',
+        'user_uuid'
     ];
 
     /**
