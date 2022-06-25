@@ -26,8 +26,14 @@
                     {{ $class->building }}</p>
                 <hr>
                 <p class="card-title"><span class="text-secondary">Locación:</span></p>
-               
-                @php
+
+                @if (($class->location) != "")
+                    <img id="image_classroom" width="380px" src="{{ asset($class->location) }}"alt="{{ $class->classroom_name }}"> 
+                @else
+                    <p>No hay imagen disponible.</p>                 
+                @endif
+
+                {{-- @php
                      $nameImg = $class->classroom_name;
                     // if (File::exists(public_path('mapa_aulas/'.$nameImg.'.png'))) {
                     //     echo ('<img id="image_classroom" width="350px" height="500px" src="{{ asset("assets/mapa_aulas/" '. $nameImg .' ".png") }}"alt="Aula_i1">');
@@ -43,7 +49,7 @@
                         echo ('<p>No hay imagen disponible.</p>');
                     }
             
-                @endphp
+                @endphp --}}
 
                 {{-- <img id="image_classroom" width="350px" height="500px" src="{{ asset('assets/mapa_aulas/' . $nameImg . '.png') }}"alt="Aula_i1"> --}}
 
