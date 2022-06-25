@@ -14,6 +14,7 @@ use Carbon\CarbonInterval;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
+use Ramsey\Uuid\Uuid;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
@@ -321,7 +322,7 @@ class DatabaseSeeder extends Seeder
             Classroom::create($objClassroom);
         };
 
-        $dataUser = [
+        /*$dataUser = [
             [
                 'name' => 'Claudia',
                 'surname' => 'Allan',
@@ -791,7 +792,7 @@ class DatabaseSeeder extends Seeder
         foreach ($dataUser as $value) {
             $objUser = User::create($value);
             $objUser->assignRole('teacher');
-        };
+        };*/
 
         $dataMaterias = [
             [
@@ -1880,6 +1881,7 @@ class DatabaseSeeder extends Seeder
             'dni' => 50123456,
             'email' => 'mail@admin.com',
             'password' => Hash::make('admin123'),
+            'user_uuid' => Uuid::uuid4()
         ]);
         $teacher = User::factory()->create([
             'name' => 'Profesor',
@@ -1887,6 +1889,8 @@ class DatabaseSeeder extends Seeder
             'dni' => 50123455,
             'email' => 'mail@teacher.com',
             'password' => Hash::make('admin123'),
+            'user_uuid' => Uuid::uuid4()
+
         ]);
         $user = User::factory()->create([
             'name' => 'Usuario',
@@ -1894,6 +1898,8 @@ class DatabaseSeeder extends Seeder
             'dni' => 50123458,
             'email' => 'mail@user.com',
             'password' => Hash::make('admin123'),
+            'user_uuid' => Uuid::uuid4()
+
         ]);
 
         $admin->assignRole('admin');
@@ -1927,6 +1933,7 @@ class DatabaseSeeder extends Seeder
                     'booking_date' => $date->format('Y-m-d'),
                     'start_time' => $start,
                     'finish_time' => $finish,
+                    'booking_uuid' => Uuid::uuid4()
                 ]);
             }
         }
@@ -1935,13 +1942,15 @@ class DatabaseSeeder extends Seeder
             'assignment_id' => null,
             'event_id' => rand(1, 10),
         ]);
-        User::find(11)->assignments()->sync([2, 3]);
+        /*User::find(11)->assignments()->sync([2, 3]);
         User::find(1)->assignments()->sync(Classroom::find(2));
-        User::find(2)->assignments()->sync(Classroom::find(4));
+        User::find(2)->assignments()->sync(Classroom::find(4));*/
         // Fin datos falsos
 
     }
-};
+}
+
+;
 
 $dataMaterias = [
     [

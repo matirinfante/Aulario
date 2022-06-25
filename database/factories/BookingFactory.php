@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Booking>
@@ -57,6 +58,7 @@ class BookingFactory extends Factory
             'booking_date' => $booking_date,
             'start_time' => $start,
             'finish_time' => Carbon::parse($start)->addHours(rand(1, 3)),
+            'booking_uuid' => Uuid::uuid4(),
         ];
     }
 }
