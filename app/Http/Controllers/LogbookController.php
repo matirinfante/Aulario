@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Assignment;
 use App\Models\Booking;
 use App\Models\Logbook;
 use App\Models\User;
@@ -9,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use PhpParser\Node\Expr\Assign;
 
 class LogbookController extends Controller
 {
@@ -118,15 +120,22 @@ class LogbookController extends Controller
      */
     public function checkSign(Request $request)
     {
-        $check_user = User::where('uuid', $request->data)->first();
-
-        if ($check_user) {
-            $response = ['status' => 'success', 'info' => $check_user->name . ' ' . $check_user->surname];
-            return $response;
-        } else {
-            $response = ['status' => 'error', 'info' => 'No se ha encontrado firma vinculada a ningún usuario'];
-            return $response;
+        $checkBooking = Booking::where('booking_uuid', $request->b_uuid)->first();
+        //Chequeamos que exista una reserva para ese identificador
+        if ($checkBooking) {
+            //Chequeamos que esa reserva corresponda a una entrada del libro de entrada válida para esa fecha (doble chequeo)
+            $logbookCheck = Logbook::where('booking_id', $checkBooking->id)->where('date', Carbon::today()->format('Y-m-d'))->get();
+            if ($logbookCheck) {
+                //Verificamos que el usuario dentro de la búsqueda pertenezca al conjunto de usuarios de la materia o evento
+                $checkUser = User::where('user_uuid', $request->u_uuid)->first();
+                $inAssignment = Assignment::where('assignment_id', $checkBooking->booking_id)->where('user_id', $checkUser->id)->first();
+                if ($inAssignment) {
+                    //El chequeo es exitoso, se retorna el logbook_id.
+                    return ['status' => 'success', 'url' => route('logbooks.show', ['id' => $logbookCheck->id, 'uuid' => $checkUser->uuid])];
+                }
+            }
         }
+        return ['status' => 'error', 'message' => 'No se ha podido verificar la validez de uno o más datos'];
     }
 
     /**
