@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Assignment;
 use App\Models\Booking;
+use App\Models\Event;
 use App\Models\Logbook;
 use App\Models\User;
 use Carbon\Carbon;
@@ -136,11 +137,19 @@ class LogbookController extends Controller
             if ($logbookCheck) {
                 //Verificamos que el usuario dentro de la búsqueda pertenezca al conjunto de usuarios de la materia o evento
                 $checkUser = User::where('user_uuid', $response['u-uuid'])->first();
-                $assignment = Assignment::where('id', $checkBooking->assignment_id)->first();
-                $inAssignment = $assignment->users->where('id', $checkUser->id)->first();
-                if ($inAssignment) {
-                    //El chequeo es exitoso, se retorna el logbook_id.
-                    return ['status' => 'success', 'url' => url('logbooks') . '/' . $logbookCheck->id . '?uuid=' . $checkUser->user_uuid];
+                if (isset($checkBooking->assignment_id)) {
+                    $assignment = Assignment::where('id', $checkBooking->assignment_id)->first();
+                    $inAssignment = $assignment->users->where('id', $checkUser->id)->first();
+                    if ($inAssignment) {
+                        //El chequeo es exitoso, se retorna el logbook_id.
+                        return ['status' => 'success', 'url' => url('logbooks') . '/' . $logbookCheck->id . '?uuid=' . $checkUser->user_uuid];
+                    }
+                } else if (isset($checkBooking->event_id)) {
+                    $event = Event::where('id', $checkBooking->event_id)->first();
+                    $inEvent = $event->user->id === $checkUser->id;
+                    if ($inEvent) {
+                        return ['status' => 'success', 'url' => url('logbooks') . '/' . $logbookCheck->id . '?uuid=' . $checkUser->user_uuid];
+                    }
                 }
             }
         }
@@ -152,10 +161,10 @@ class LogbookController extends Controller
      */
     public function signCheckIn(Request $request)
     {
-        $user = User::where('uuid', $request->data)->first();
+        $user = User::where('uuid', $request->uuid)->first();
         try {
             if ($user) {
-                $logbookEntry = Logbook::where('id', $request->id)->get();
+                $logbookEntry = Logbook::where('id', $request->logbook_id)->get();
                 $bookingEntry = Booking::where('id', $logbookEntry->booking_id)->get();
 
                 $bookingEntry->status = 'in_progress';
