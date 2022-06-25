@@ -7,8 +7,10 @@ use App\Models\Assignment;
 use App\Models\Booking;
 use App\Models\Classroom;
 use App\Models\Event;
+use App\Models\Logbook;
 use App\Models\Petition;
 use App\Models\Schedule;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -88,6 +90,12 @@ class BookingController extends Controller
                     'finish_time' => $request->finish_time,
                     'booking_uuid' => Uuid::uuid4()
                 ]);
+
+                Logbook::create([
+                    'booking_id' => $booking->id,
+                    'date' => $request->booking_date
+                ]);
+
                 flash('Se ha registrado la reserva con exito')->success();
                 return redirect(route('bookings.mybookings'));
             } else if (auth()->user()->hasRole('admin')) {
@@ -104,7 +112,7 @@ class BookingController extends Controller
                             $assignmentDays = $this->getAllNameDays($request->start_date, $request->finish_date, $booking->day);
                             //Se obtienen las fechas entre el inicio y el fin de la materia que corresponden al dia indicado
                             foreach ($assignmentDays as $assignmentDay) {
-                                Booking::create([
+                                $booking = Booking::create([
                                     'user_id' => $user_id,
                                     'classroom_id' => $booking->classroom_id,
                                     'assignment_id' => $request->assignment_id,
@@ -116,11 +124,21 @@ class BookingController extends Controller
                                     'finish_time' => Carbon::parse($booking->finish_time)->format('H:i:s'),
                                     'booking_uuid' => Uuid::uuid4()
                                 ]);
+                                Logbook::create([
+                                    'booking_id' => $booking->id,
+                                    'date' => $assignmentDay
+                                ]);
                             }
                         }
                         //Se actualizan los valores de inicio y de fin para la materia indicada
                         $assignment->start_date = $request->start_date;
                         $assignment->finish_date = $request->finish_date;
+                        if ($request->petition_id) {
+                            $petition = Petition::findOrFail($request->petition_id);
+                            $petition->status = 'solved';
+                            $petition->save();
+                        }
+
                         $assignment->save();
 
                         flash('Reservas de materia registradas con éxito')->success();
@@ -152,6 +170,10 @@ class BookingController extends Controller
                                 'start_time' => Carbon::parse($booking->start_time)->format('H:i:s'),
                                 'finish_time' => Carbon::parse($booking->finish_time)->format('H:i:s'),
                                 'booking_uuid' => Uuid::uuid4()
+                            ]);
+                            Logbook::create([
+                                'booking_id' => $booking->id,
+                                'date' => $request->booking_date
                             ]);
                         }
                         flash('Reservas de evento registradas con éxito')->success();
@@ -348,8 +370,9 @@ class BookingController extends Controller
      */
     public function createAdmin(Request $request)
     {
-        $assignments = Assignment::all();
-        return view('booking.adminCreate', compact('assignments'));
+        $assignments = Assignment::has('users')->get();
+        $users = User::all();
+        return view('booking.adminCreate', compact('assignments', 'users'));
     }
 
     /**
@@ -364,7 +387,7 @@ class BookingController extends Controller
         }
         $filterClassroomsByDay = Schedule::where('day', $request->day)->get('classroom_id'); //Obtiene aulas que tienen horarios ese dia
 
-        if ($request->type) {
+        if ($request->classroom_type) {
             $filterClassrooms = DB::table('classrooms')->whereIn('id', $filterClassroomsByDay) //Busca las aulas
             ->where('capacity', '>=', $request->participants)->where('type', $request->classroom_type)->orderBy('capacity', 'asc')->get(); //filtra por cantidad de participantes
         } else {
