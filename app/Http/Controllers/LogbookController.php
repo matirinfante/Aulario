@@ -187,8 +187,12 @@ class LogbookController extends Controller
     /**
      * Función utilizada para firmar una salida de una reserva previamente firmada
      */
-    public function signCheckOut(Request $request)
+    public function signCheckOut(Logbook $logbook)
     {
-
+        try {
+            dd($logbook);
+        } catch (\Exception $e) {
+            return back();
+        }
     }
 }
