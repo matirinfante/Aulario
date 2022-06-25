@@ -8,6 +8,7 @@ use App\Models\Assignment;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
+use Ramsey\Uuid\Uuid;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 
@@ -49,7 +50,8 @@ class UserController extends Controller
                 'surname' => $request->surname,
                 'dni' => $request->dni,
                 'email' => $request->email,
-                'password' => Hash::make($request->password)
+                'password' => Hash::make($request->password),
+                'user_uuid' => Uuid::uuid4()
             ]);
             if ($request->role == 'teacher') {
                 $user->assignRole('teacher');

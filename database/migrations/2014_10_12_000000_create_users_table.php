@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->integer('dni')->unique(); //DNI
             $table->string('email')->unique(); //Email
             $table->string('password'); //Contraseña
+            $table->uuid('user_uuid');
             $table->softDeletes();
             $table->timestamps();
         });
