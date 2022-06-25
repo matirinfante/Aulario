@@ -50,6 +50,10 @@ Route::middleware(['auth'])->group(function () {
     });
     //Check de logbook
     Route::post('/logbooks/check', [LogbookController::class, 'checkSign'])->name('logbook.check');
+    //Registrar check in
+    Route::post('/logbooks/checkIn', [LogbookController::class, 'signCheckIn'])->name('logbook.checkin');
+    //Registrar check out
+    Route::post('/logbooks/checkOut', [LogbookController::class, 'signCheckOut'])->name('logbook.checkout');
 //Period gen
     Route::post('/bookings/periods', [BookingController::class, 'getGaps'])->name('bookings.gaps');
     Route::post('/bookings/assignmentperiods', [BookingController::class, 'getClassroomsGaps'])->name('bookings.assignmentgaps');

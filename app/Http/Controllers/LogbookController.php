@@ -129,24 +129,16 @@ class LogbookController extends Controller
     {
         $response = json_decode($request->decodedData, true);
         $checkBooking = Booking::where('booking_uuid', $response['b-uuid'])->first();
-        Log::info($checkBooking);
         //Chequeamos que exista una reserva para ese identificador
         if ($checkBooking) {
-            Log::info('entré checkB');
             //Chequeamos que esa reserva corresponda a una entrada del libro de entrada válida para esa fecha (doble chequeo)
             $logbookCheck = Logbook::where('booking_id', $checkBooking->id)->where('date', Carbon::today()->format('Y-m-d'))->first();
-            Log::info($logbookCheck);
             if ($logbookCheck) {
-                Log::info('entre logbookC');
                 //Verificamos que el usuario dentro de la búsqueda pertenezca al conjunto de usuarios de la materia o evento
                 $checkUser = User::where('user_uuid', $response['u-uuid'])->first();
                 $assignment = Assignment::where('id', $checkBooking->assignment_id)->first();
                 $inAssignment = $assignment->users->where('id', $checkUser->id)->first();
-                Log::info($checkUser);
-                Log::info($inAssignment);
-
                 if ($inAssignment) {
-                    Log::info('entre fin');
                     //El chequeo es exitoso, se retorna el logbook_id.
                     return ['status' => 'success', 'url' => url('logbooks') . '/' . $logbookCheck->id . '?uuid=' . $checkUser->user_uuid];
                 }
