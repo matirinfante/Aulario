@@ -155,7 +155,7 @@ class BookingController extends Controller
                             ]);
                         }
                         flash('Reservas de evento registradas con éxito')->success();
-                        return redirect(route('events.index'));
+                        return redirect(route('bookings.index'));
                     } else {
                         flash('Datos de reserva duplicados, imposible generar reserva')->error();
                         return back()->with('error', 'Datos de reserva duplicados, imposible generar reserva');

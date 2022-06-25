@@ -1,6 +1,11 @@
 $(".filtro").on("change", function (e) {
     $(".start_time").empty();
     let classroom_id = $(this).find("option:selected").val();
+    let mensaje= "Aula Seleccionada: "
+    let name= $("#select").find("option:selected").data().classroomname;
+   let h3=document.getElementById("classroom_name")
+    h3.textContent=mensaje+name;
+    h3.classList.remove("d-none");
     $.ajax({
         headers: {
             "X-CSRF-TOKEN": window.CSRF_TOKEN,
@@ -127,6 +132,7 @@ $(".start_time").on("change", function () {
     var timeSet = $(this).find("option:selected").data("position-startset");
     var hourSet = $(this).find("option:selected").data("position-hourset");
     var endTime = [];
+    
     $.ajax({
         headers: {
             "X-CSRF-TOKEN": window.CSRF_TOKEN,
