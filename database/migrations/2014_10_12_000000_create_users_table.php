@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->string('email')->unique(); //Email
             $table->string('password'); //Contraseña
             $table->uuid('user_uuid');
+            $table->string('personal_token');
             $table->softDeletes();
             $table->timestamps();
         });
