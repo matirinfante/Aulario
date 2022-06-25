@@ -192,6 +192,7 @@
                         </div>
                         </div>
                     </div>
+                    <h4  style="margin:auto; text-align:center" id="classroom_name" class="d-none mt-3"> </h4>
                     <div id="calendar" class="p-5">
                     </div>
                 @endcan
@@ -212,25 +213,7 @@
 
 @endsection
 @section('scripts')
-<script>
-    
-let storage = window.localStorage
-let booking = storage.getItem('bookings')
- let select= document.getElementById('select');
- let bookings=JSON.parse(booking);
- console.log(select)
- if(bookings.length > 0){
-    for (let i = 0; i < select.length; i++) {
-       const element = select[i];
-       console.log(element);
-       console.log(bookings[0].classroom_id);
-    //    if(element.value == )
-        
-    }
- }
 
-console.log(booking)
-    </script>
     <script type="text/javascript">
         window.CSRF_TOKEN = '{{ csrf_token() }}';
     </script>
@@ -239,4 +222,35 @@ console.log(booking)
         <script src="{{ asset('js/calendar.js') }}" defer></script>
         <script src="{{ asset('js/fullcalendar/es.js') }}" defer></script>
     @endhasanyrole
+
+    <script>
+    
+        let storage = window.localStorage
+        let booking = storage.getItem('bookings')
+         let select= document.getElementById('select');
+         let bookings=JSON.parse(booking);
+         console.log(bookings)
+         let j= bookings.length-1;
+        //  console.log(select)
+         setTimeout(() => {
+            if(bookings.length > 0){
+            for (let i = 0; i < select.length; i++) {
+               const element = select[i];
+            //    console.log(element);
+               console.log(bookings[0].classroom_id);
+                if(element.value == bookings[j].classroom_id){
+                    
+                    var event = new Event('change');
+                    select.dispatchEvent(event);
+                   element.setAttribute("selected", "");
+                   
+                   storage.clear();
+                }
+                
+            }
+         }
+         }, 1000);
+        
+        console.log(booking)
+            </script>
 @endsection
