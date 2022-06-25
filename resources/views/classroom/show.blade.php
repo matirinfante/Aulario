@@ -10,12 +10,6 @@
                 <h5 class="card-title"><span class="text-secondary">Nombre:<br><br></span>
                     {{ $class->classroom_name }}</h5>
                 <hr>
-                <p class="card-title"><span class="text-secondary">Locación:</span>
-                    {{ $class->location }}</p>
-                <hr>
-                <p class="card-title"><span class="text-secondary">Edificio:</span>
-                    {{ $class->building }}</p>
-                <hr>
                 <p class="card-title"><span class="text-secondary">Tipo de aula:</span>
                     {{ $class->type }}</p>
                 <hr>
@@ -28,6 +22,11 @@
                     @endif
                 </p>
                 <hr>
+                <p class="card-title"><span class="text-secondary">Edificio:</span>
+                    {{ $class->building }}</p>
+                <hr>
+                <p class="card-title"><span class="text-secondary">Locación:</span></p>
+               
                 @php
                      $nameImg = $class->classroom_name;
                     // if (File::exists(public_path('mapa_aulas/'.$nameImg.'.png'))) {
@@ -35,9 +34,11 @@
                     // } else {
                     //     echo ('<p>No hay imagen disponible.</p>');
                     // }
+
+                    $locacion = $class->location;
                     
-                    if (strpos($nameImg, 'FAIFi') !== false) {
-                        echo ('<img id="image_classroom" width="350px" height="500px" src="../../../assets/mapa_aulas/'. $nameImg .'.png" alt="Aula_i1">');
+                    if (strpos($locacion, '../../../assets/mapa_aulas') !== false) {
+                        echo ('<img id="image_classroom" width="380px"  src="'. $locacion .'" alt="'.$nameImg.'">');
                     } else {
                         echo ('<p>No hay imagen disponible.</p>');
                     }
