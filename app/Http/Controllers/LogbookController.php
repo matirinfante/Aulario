@@ -42,13 +42,18 @@ class LogbookController extends Controller
                 ->join('classrooms', 'bookings.classroom_id', '=', 'classrooms.id')
                 ->where('booking_date', '=', Carbon::today()->format('Y-m-d'))
                 ->where('status', '=', 'pending')
-                ->where('classrooms.building', '=', 'Informática')->get();
+                ->where('classrooms.building', '=', 'Informática')->get(['bookings.id', 'bookings.booking_date']);
+
             foreach ($today_bookings as $booking) {
+                Log::info($booking->id);
+                Log::info(Carbon::today()->format('Y-m-d'));
+
                 Logbook::create([
                     'booking_id' => $booking->id,
                     'date' => Carbon::today()->format('Y-m-d')]);
             }
             $today_logbook = Logbook::where('date', Carbon::today()->format('Y-m-d'))->get();
+            Log::info($today_logbook);
             return $today_logbook;
         } catch (\Exception $e) {
             return $today_logbook = [];
@@ -79,9 +84,11 @@ class LogbookController extends Controller
      *
      * @param \App\Models\Logbook $logbook
      */
-    public function show(Logbook $logbook)
+    public function show(Logbook $logbook, Request $request)
     {
-        //
+        $user = User::where('user_uuid', $request->uuid)->first();
+
+        return view('logbook.show', compact('logbook', 'user'));
     }
 
     /**
@@ -120,18 +127,28 @@ class LogbookController extends Controller
      */
     public function checkSign(Request $request)
     {
-        $checkBooking = Booking::where('booking_uuid', $request->b_uuid)->first();
+        $response = json_decode($request->decodedData, true);
+        $checkBooking = Booking::where('booking_uuid', $response['b-uuid'])->first();
+        Log::info($checkBooking);
         //Chequeamos que exista una reserva para ese identificador
         if ($checkBooking) {
+            Log::info('entré checkB');
             //Chequeamos que esa reserva corresponda a una entrada del libro de entrada válida para esa fecha (doble chequeo)
-            $logbookCheck = Logbook::where('booking_id', $checkBooking->id)->where('date', Carbon::today()->format('Y-m-d'))->get();
+            $logbookCheck = Logbook::where('booking_id', $checkBooking->id)->where('date', Carbon::today()->format('Y-m-d'))->first();
+            Log::info($logbookCheck);
             if ($logbookCheck) {
+                Log::info('entre logbookC');
                 //Verificamos que el usuario dentro de la búsqueda pertenezca al conjunto de usuarios de la materia o evento
-                $checkUser = User::where('user_uuid', $request->u_uuid)->first();
-                $inAssignment = Assignment::where('assignment_id', $checkBooking->booking_id)->where('user_id', $checkUser->id)->first();
+                $checkUser = User::where('user_uuid', $response['u-uuid'])->first();
+                $assignment = Assignment::where('id', $checkBooking->assignment_id)->first();
+                $inAssignment = $assignment->users->where('id', $checkUser->id)->first();
+                Log::info($checkUser);
+                Log::info($inAssignment);
+
                 if ($inAssignment) {
+                    Log::info('entre fin');
                     //El chequeo es exitoso, se retorna el logbook_id.
-                    return ['status' => 'success', 'url' => route('logbooks.show', ['id' => $logbookCheck->id, 'uuid' => $checkUser->uuid])];
+                    return ['status' => 'success', 'url' => url('logbooks') . '/' . $logbookCheck->id . '?uuid=' . $checkUser->user_uuid];
                 }
             }
         }

@@ -49,7 +49,7 @@ Route::middleware(['auth'])->group(function () {
         return view('booking.test');
     });
     //Check de logbook
-    Route::post('/logbook/check', [LogbookController::class, 'checkSign'])->name('logbook.check');
+    Route::post('/logbooks/check', [LogbookController::class, 'checkSign'])->name('logbook.check');
 //Period gen
     Route::post('/bookings/periods', [BookingController::class, 'getGaps'])->name('bookings.gaps');
     Route::post('/bookings/assignmentperiods', [BookingController::class, 'getClassroomsGaps'])->name('bookings.assignmentgaps');

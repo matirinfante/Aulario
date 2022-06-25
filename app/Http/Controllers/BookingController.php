@@ -114,6 +114,7 @@ class BookingController extends Controller
                                     'booking_date' => $assignmentDay,
                                     'start_time' => Carbon::parse($booking->start_time)->format('H:i:s'),
                                     'finish_time' => Carbon::parse($booking->finish_time)->format('H:i:s'),
+                                    'booking_uuid' => Uuid::uuid4()
                                 ]);
                             }
                         }
@@ -149,7 +150,8 @@ class BookingController extends Controller
                                 'week_day' => ucfirst(Carbon::parse($request->booking_date)->locale('es')->dayName),
                                 'booking_date' => $request->booking_date,
                                 'start_time' => Carbon::parse($booking->start_time)->format('H:i:s'),
-                                'finish_time' => Carbon::parse($booking->finish_time)->format('H:i:s')
+                                'finish_time' => Carbon::parse($booking->finish_time)->format('H:i:s'),
+                                'booking_uuid' => Uuid::uuid4()
                             ]);
                         }
                         flash('Reservas de evento registradas con éxito')->success();
