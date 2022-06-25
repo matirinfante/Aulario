@@ -17,13 +17,13 @@
                             value="{{ $class->classroom_name }}">
                         <p class="alerta d-none" id="errorClassroomNameEdit">Error</p>
                     </div>
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label for="location" class="form-label">Locación en
                             facultad</label>
                         <input type="text" class="form-control" name="location" id="location_edit"
                             value="{{ $class->location }}">
                         <p class="alerta d-none" id="errorLocationEdit">Error</p>
-                    </div>
+                    </div> --}}
                     <div class="mb-3">
                         <label for="building" class="form-label">Edificio</label>
                         <select name="building" class="form-select select2-building" style="width: 100%;">
