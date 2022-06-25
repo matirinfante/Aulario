@@ -24,14 +24,14 @@ class AssignmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'assignment_name' => ['required','regex:/^([a-zA-Z\sÁÉÍÓÚáéíóúÑñ]+)$/'], 
+            'assignment_name' => ['required','regex:/^([a-zA-Z\sÁÉÍÓÚáéíóúÑñ.]+)$/'],
             'start_date' => ['required','before:finish_date'],
             'finish_date' => ['required'],
         ];
     }
     public function attributes()
     {
-        return [            
+        return [
             'assignment_name'=>'materia',
             'day'=>'dias',
             'start_date'=>'fecha inicio',
