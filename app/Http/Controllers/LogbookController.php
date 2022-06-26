@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Assignment;
 use App\Models\Booking;
+use App\Models\Classroom;
 use App\Models\Event;
 use App\Models\Logbook;
 use App\Models\User;
@@ -21,11 +22,10 @@ class LogbookController extends Controller
      */
     public function index()
     {
-        $today_logbook = Logbook::where('date', Carbon::today()->format('Y-m-d'))->get();
+        $classrooms = Classroom::where('building', 'Informática')->get(['id']);
+        $bookings = Booking::whereIn('classroom_id', $classrooms)->get(['id']);
+        $today_logbook = Logbook::where('date', Carbon::today()->format('Y-m-d'))->whereIn('booking_id', $bookings)->get();
 
-        if ($today_logbook->isEmpty()) {
-            $today_logbook = $this->generarLogbook();
-        }
         return view('logbook.index', compact('today_logbook'));
     }
 
@@ -65,7 +65,8 @@ class LogbookController extends Controller
      * Show the form for creating a new resource.
      *
      */
-    public function create()
+    public
+    function create()
     {
         //
     }
