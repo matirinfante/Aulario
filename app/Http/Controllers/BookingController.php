@@ -151,12 +151,13 @@ class BookingController extends Controller
                     $detectDuplicates = collect(json_decode($request->arrayLocal))->duplicates();
 
                     if ($detectDuplicates->isEmpty()) {
+                        $bookingData = json_decode($request->arrayLocal);
+
                         $event = Event::create([
                             'event_name' => $request->event_name,
                             'user_id' => auth()->user()->id, //se creará a nombre del admin
-                            'participants' => $request->participants_event
+                            'participants' => ($request->participants_event * count($bookingData))
                         ]);
-                        $bookingData = json_decode($request->arrayLocal);
 
                         foreach ($bookingData as $booking) {
                             $booking = Booking::create([
@@ -534,6 +535,11 @@ class BookingController extends Controller
         foreach ($data as $partial) {
 
         }
+    }
+
+    public function massiveEventRequest(Request $request)
+    {
+
     }
 
 }
