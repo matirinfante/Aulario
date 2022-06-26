@@ -6,6 +6,8 @@ use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\Assignment;
 use App\Models\User;
+use Carbon\Carbon;
+use Hashids\Hashids;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
 use Ramsey\Uuid\Uuid;
@@ -45,13 +47,16 @@ class UserController extends Controller
     public function store(UserStoreRequest $request)
     {
         try {
+            $newHashid = new Hashids('aulario', 6, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789');
+            $key = $request->dni + Carbon::now()->milliseconds + env('RND_KEY');
             $user = User::create([
                 'name' => $request->name,
                 'surname' => $request->surname,
                 'dni' => $request->dni,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'user_uuid' => Uuid::uuid4()
+                'user_uuid' => Uuid::uuid4(),
+                'personal_token' => Hash::make($newHashid->encode($key))
             ]);
             if ($request->role == 'teacher') {
                 $user->assignRole('teacher');

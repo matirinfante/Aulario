@@ -110,7 +110,13 @@ class LogbookController extends Controller
      */
     public function update(Request $request, Logbook $logbook)
     {
-        //TODO:Acá va la lógica de chequeo QR
+        try {
+            $logbook->commentary = $request->commentary;
+            $logbook->save();
+            return redirect(route('logbooks.index'))->with('success', 'Se ha cargado el comentario exitosamente');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Ha ocurrido un error al cargar el comentario');
+        }
     }
 
     /**
@@ -128,27 +134,50 @@ class LogbookController extends Controller
      */
     public function checkSign(Request $request)
     {
-        $response = json_decode($request->decodedData, true);
-        $checkBooking = Booking::where('booking_uuid', $response['b-uuid'])->first();
-        //Chequeamos que exista una reserva para ese identificador
-        if ($checkBooking) {
-            //Chequeamos que esa reserva corresponda a una entrada del libro de entrada válida para esa fecha (doble chequeo)
-            $logbookCheck = Logbook::where('booking_id', $checkBooking->id)->where('date', Carbon::today()->format('Y-m-d'))->first();
-            if ($logbookCheck) {
-                //Verificamos que el usuario dentro de la búsqueda pertenezca al conjunto de usuarios de la materia o evento
-                $checkUser = User::where('user_uuid', $response['u-uuid'])->first();
-                if (isset($checkBooking->assignment_id)) {
-                    $assignment = Assignment::where('id', $checkBooking->assignment_id)->first();
-                    $inAssignment = $assignment->users->where('id', $checkUser->id)->first();
-                    if ($inAssignment) {
-                        //El chequeo es exitoso, se retorna el logbook_id.
-                        return ['status' => 'success', 'url' => url('logbooks') . '/' . $logbookCheck->id . '?uuid=' . $checkUser->user_uuid];
+        if ($request->decodedData) {
+            $response = json_decode($request->decodedData, true);
+            $checkBooking = Booking::where('booking_uuid', $response['b-uuid'])->first();
+            //Chequeamos que exista una reserva para ese identificador
+            if ($checkBooking) {
+                //Chequeamos que esa reserva corresponda a una entrada del libro de entrada válida para esa fecha (doble chequeo)
+                $logbookCheck = Logbook::where('booking_id', $checkBooking->id)->where('date', Carbon::today()->format('Y-m-d'))->first();
+                if ($logbookCheck) {
+                    //Verificamos que el usuario dentro de la búsqueda pertenezca al conjunto de usuarios de la materia o evento
+                    $checkUser = User::where('user_uuid', $response['u-uuid'])->first();
+                    if (isset($checkBooking->assignment_id)) {
+                        $assignment = Assignment::where('id', $checkBooking->assignment_id)->first();
+                        $inAssignment = $assignment->users->where('id', $checkUser->id)->first();
+                        if ($inAssignment) {
+                            //El chequeo es exitoso, se retorna el logbook_id.
+                            return ['status' => 'success', 'url' => url('logbooks') . '/' . $logbookCheck->id . '?uuid=' . $checkUser->user_uuid];
+                        }
+                    } else if (isset($checkBooking->event_id)) {
+                        $event = Event::where('id', $checkBooking->event_id)->first();
+                        //Regla conflictiva ¯\_(ツ)_/¯
+                        $inEvent = $event->user->id === $checkUser->id;
+                        if ($inEvent) {
+                            return ['status' => 'success', 'url' => url('logbooks') . '/' . $logbookCheck->id . '?uuid=' . $checkUser->user_uuid];
+                        }
                     }
-                } else if (isset($checkBooking->event_id)) {
-                    $event = Event::where('id', $checkBooking->event_id)->first();
-                    $inEvent = $event->user->id === $checkUser->id;
+                }
+            }
+        } else if ($request->token) {
+            $logbook = Logbook::findOrFail($request->logbook_id);
+            $checkUser = User::where('personal_token', $request->token)->first();
+            $booking = $logbook->booking;
+
+            //El codigo no corresponde a ningun usuario
+            if ($checkUser) {
+                //Se verifica que sea un profesor de la materia
+                if ($booking->assignment) {
+                    $assignment = $booking->assignment;
+                    if ($assignment->users->where('id', $checkUser->id)->first()) {
+                        return redirect(url('logbooks') . '/' . $request->logbook_id . '?uuid=' . $checkUser->user_uuid);
+                    }
+                } else if ($booking->event) {
+                    $inEvent = $booking->event->user->id === $checkUser->id;
                     if ($inEvent) {
-                        return ['status' => 'success', 'url' => url('logbooks') . '/' . $logbookCheck->id . '?uuid=' . $checkUser->user_uuid];
+                        return redirect(url('logbooks') . '/' . $request->logbook_id . '?uuid=' . $checkUser->user_uuid);
                     }
                 }
             }
@@ -161,16 +190,16 @@ class LogbookController extends Controller
      */
     public function signCheckIn(Request $request)
     {
-        $user = User::where('uuid', $request->uuid)->first();
+        $user = User::where('user_uuid', $request->uuid)->first();
         try {
             if ($user) {
-                $logbookEntry = Logbook::where('id', $request->logbook_id)->get();
-                $bookingEntry = Booking::where('id', $logbookEntry->booking_id)->get();
+                $logbookEntry = Logbook::where('id', $request->logbook_id)->first();
+                $bookingEntry = Booking::where('id', $logbookEntry->booking_id)->first();
 
                 $bookingEntry->status = 'in_progress';
 
                 $logbookEntry->user_id = $user->id;
-                $logbookEntry->check_in = Carbon::now()->format('H:i:s');
+                $logbookEntry->check_in = Carbon::now()->setTimezone('America/Argentina/Buenos_Aires')->format('H:i:s');
 
                 $bookingEntry->save();
                 $logbookEntry->save();
@@ -189,6 +218,19 @@ class LogbookController extends Controller
      */
     public function signCheckOut(Request $request)
     {
+        try {
+            $logbook = Logbook::findOrFail($request->logbook_id);
+            $logbook->check_out = Carbon::now()->setTimezone('America/Argentina/Buenos_Aires')->format('H:i:s');
+            $booking = $logbook->booking;
+            $booking->status = 'finished';
 
+            $logbook->save();
+            $booking->save();
+            flash('Se ha registrado la salida exitosamente')->success();
+            return redirect(route('logbooks.index'))->with('success', 'Se ha registrado la salida exitosamente');
+        } catch (\Exception $e) {
+            flash('Ha ocurrido un error al registrar la salida')->error();
+            return back()->with('error', 'Ha ocurrido un error al registrar la salida');
+        }
     }
 }

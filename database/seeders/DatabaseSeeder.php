@@ -6,11 +6,13 @@ use App\Models\Assignment;
 use App\Models\Booking;
 use App\Models\Classroom;
 use App\Models\Event;
+use App\Models\Logbook;
 use App\Models\Petition;
 use App\Models\Schedule;
 use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
+use Hashids\Hashids;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
@@ -1874,6 +1876,8 @@ class DatabaseSeeder extends Seeder
         foreach ($users as $user) {
             $user->assignRole('teacher');
         }
+        $newHashid = new Hashids('aulario', 6, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789');
+
 
         $admin = User::factory()->create([
             'name' => 'Admin',
@@ -1881,7 +1885,8 @@ class DatabaseSeeder extends Seeder
             'dni' => 50123456,
             'email' => 'mail@admin.com',
             'password' => Hash::make('admin123'),
-            'user_uuid' => Uuid::uuid4()
+            'user_uuid' => Uuid::uuid4(),
+            'personal_token' => $newHashid->encode(50123456 + Carbon::now()->milliseconds + env('RND_KEY'))
         ]);
         $teacher = User::factory()->create([
             'name' => 'Profesor',
@@ -1889,7 +1894,8 @@ class DatabaseSeeder extends Seeder
             'dni' => 50123455,
             'email' => 'mail@teacher.com',
             'password' => Hash::make('admin123'),
-            'user_uuid' => Uuid::uuid4()
+            'user_uuid' => Uuid::uuid4(),
+            'personal_token' => $newHashid->encode(50123455 + Carbon::now()->milliseconds + env('RND_KEY'))
 
         ]);
         $user = User::factory()->create([
@@ -1898,8 +1904,8 @@ class DatabaseSeeder extends Seeder
             'dni' => 50123458,
             'email' => 'mail@user.com',
             'password' => Hash::make('admin123'),
-            'user_uuid' => Uuid::uuid4()
-
+            'user_uuid' => Uuid::uuid4(),
+            'personal_token' => $newHashid->encode(50123458 + Carbon::now()->milliseconds + env('RND_KEY'))
         ]);
 
         $admin->assignRole('admin');
@@ -1925,7 +1931,7 @@ class DatabaseSeeder extends Seeder
             $classroom_id = Classroom::all()->random()->id;
             $intervals = CarbonInterval::week()->toPeriod($assignment->start_date, $assignment->finish_date);
             foreach ($intervals as $date) {
-                Booking::factory()->create([
+                $booking = Booking::factory()->create([
                     'classroom_id' => $classroom_id,
                     'assignment_id' => $assignment->id,
                     'event_id' => null,
@@ -1935,6 +1941,9 @@ class DatabaseSeeder extends Seeder
                     'finish_time' => $finish,
                     'booking_uuid' => Uuid::uuid4()
                 ]);
+                Logbook::create([
+                    'booking_id' => $booking->id,
+                    'date' => $date->format('Y-m-d')]);
             }
         }
 
