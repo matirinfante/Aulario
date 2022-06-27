@@ -15,7 +15,10 @@ return new class extends Migration {
         Schema::create('assignments', function (Blueprint $table) {
             $table->id(); //assignment_id
             $table->string('assignment_name'); //Nombre de la materia
-            $table->foreignId('user_id')->constrained(); //Profesor vinculado
+            $table->boolean('active');
+            $table->date('start_date');
+            $table->date('finish_date');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

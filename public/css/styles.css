@@ -1,0 +1,206 @@
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* go to top button */
+#pageUp{
+    position: fixed;
+    right: 15px;
+    bottom: 300px;
+    cursor: pointer;
+    transition: all 300ms ease;
+    transform: scale(0);
+    display: inline;
+}
+
+
+/* Variables */
+
+:root {
+    --textColor: #171717;
+    --backgroundColor: #F5F5F5;
+    --greenLight: #B5FF9D;
+    --redLight: #FFA39D;
+}
+
+body {
+    background-color: var(--backgroundColor);
+}
+
+main.py-4 {
+    font-weight: 300;
+    width: 100%;
+    overflow: auto;
+    background-color: var(--backgroundColor);
+}
+
+h3 {
+    color: var(--textColor);
+    font-weight: 700;
+}
+
+
+/* ------------------------------------------------------------- */
+
+
+/* Imagen aulario index */
+
+.data-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.data {
+    width: 50%;
+}
+
+#img {
+    width: 60%;
+    margin-left: 35%;
+}
+
+
+/* General styles for form views (the 'form_style' class is used) */
+
+.form_style {
+    width: 40%;
+    margin: auto;
+    background: #ededed;
+    padding: 25px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 12px 13px 36px -8px rgba(48, 48, 48, 0.5);
+    -webkit-box-shadow: 12px 13px 36px -8px rgba(48, 48, 48, 0.5);
+    -moz-box-shadow: 12px 13px 36px -8px rgba(48, 48, 48, 0.5);
+}
+
+.form_style label {
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+
+/* ABM form styles */
+
+.form-delete button {
+    font-weight: 300;
+}
+
+
+/* ------------------------------------------------------------- */
+
+
+/* Formulario filtro reserva*/
+
+.filter {
+    width: 40%;
+    padding: 15px;
+    margin: auto;
+}
+
+
+/* Font style in top menu */
+
+.menu_sup {
+    background-color: #eeeeee;
+    font-size: 1.09em;
+    padding: 15px;
+    box-shadow: -2px 13px 36px -8px rgba(48, 48, 48, 0.66);
+    -webkit-box-shadow: -2px 13px 36px -8px rgba(48, 48, 48, 0.66);
+    -moz-box-shadow: -2px 13px 36px -8px rgba(48, 48, 48, 0.66);
+}
+
+
+/* top menu logo margin */
+
+.menu_sup a.navbar-brand {
+    margin-left: 1%;
+    margin-right: 50px;
+}
+
+
+/* link colors in top menu */
+
+.menu_sup.navbar-light .navbar-nav .nav-link {
+    color: var(--textColor);
+    font-weight: 500;
+}
+
+.menu_sup.navbar-light .navbar-nav .nav-link:hover {
+    color: #6a6a6a;
+}
+
+.menu_sup.navbar-light .navbar-nav .nav-link:focus {
+    color: var(--textColor);
+}
+
+
+/* hamburger icon */
+
+.menu_sup.navbar-light .navbar-toggler {
+    color: var(--textColor);
+    border: none;
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0px 1px;
+}
+
+
+/* top menu dropdown background and colors*/
+
+.menu_sup ul.dropdown-menu.show {
+    background-color: var(--backgroundColor);
+}
+
+.menu_sup .dropdown-menu.dropdown-menu-end.show {
+    background-color: var(--backgroundColor);
+}
+
+.alerta {
+    color: #842029;
+    background: #f8d7da;
+    border: 1px solid #f5c2c7;
+    padding: 3px;
+    margin: 3px;
+}
+
+.schedule_time_table {
+    text-align: center;
+    font-weight: 700;
+}
+
+
+/* My Petitions view */
+
+#myBookings {
+    margin: 60px;
+}
+
+.myBooking {
+    margin: 20px;
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 14px;
+    box-shadow: 5px 12px 24px -8px rgba(0, 0, 47, 0.18);
+}
+
+.myBooking h2 {
+    font-weight: 700;
+    padding: 15px;
+    color: #0a0060;
+}
+
+.myBooking .classroom {
+    font-size: 20px;
+}
+
+.myBooking p {
+    font-weight: 500;
+}
+
+hr {
+    width: 85%;
+    margin: auto;
+}

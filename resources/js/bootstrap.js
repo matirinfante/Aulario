@@ -1,8 +1,15 @@
 window._ = require('lodash');
 
 try {
+    require('jquery');
     require('bootstrap');
-} catch (e) {}
+    require('datatables.net');
+    require('datatables.net-bs5');
+    require('datatables.net-buttons');
+    require('datatables.net-buttons-bs5');
+} catch (e) {
+    console.log(e);
+}
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

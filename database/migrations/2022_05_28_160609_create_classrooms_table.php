@@ -17,7 +17,9 @@ return new class extends Migration {
             $table->string('classroom_name'); //Nombre del aula
             $table->string('location'); //Ubicación
             $table->integer('capacity'); //Capacidad
-            $table->string('type'); //Tipo de aula
+            $table->enum('type', ['Laboratorio', 'Aula común']); //Tipo de aula
+            $table->enum('building', ['Informática', 'Economía', 'Humanidades', 'Aulas comunes', 'Biblioteca']);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -1,5 +1,15 @@
 <?php
 
+use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\LogbookController;
+use App\Http\Controllers\PetitionController;
+use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\UserController;
+use App\Models\Booking;
+use App\Models\Schedule;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,10 +25,60 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('inicio');
+
+Route::get('/status', function () {
+    return view('gantt.gantt');
+})->name('gantt');
+
+//Posible riesgo de seguridad !! Investigar
+Route::post('/bookings/gantt', [BookingController::class, 'getClassroom'])->name('bookings.gantt');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//Reject petition route
+    Route::patch('/petitions/reject/{petition}', [PetitionController::class, 'rejectPetition'])->name('petitions.reject');
+//Mass toggle semester route
+    Route::post('/assignments/semester', [AssignmentController::class, 'toggleSemester'])->name('assignments.toggle');
+//RUTA TEST
+    Route::get('/bookings/test', function () {
+        return view('booking.test');
+    });
+    //Check de logbook
+    Route::post('/logbooks/check', [LogbookController::class, 'checkSign'])->name('logbook.check');
+    //Registrar check in
+    Route::post('/logbooks/checkIn', [LogbookController::class, 'signCheckIn'])->name('logbook.checkin');
+    //Registrar check out
+    Route::post('/logbooks/checkOut', [LogbookController::class, 'signCheckOut'])->name('logbook.checkout');
+//Period gen
+    Route::post('/bookings/periods', [BookingController::class, 'getGaps'])->name('bookings.gaps');
+    Route::post('/bookings/assignmentperiods', [BookingController::class, 'getClassroomsGaps'])->name('bookings.assignmentgaps');
+//Classroom query for booking creation
+    Route::post('/bookings/create/getrooms', [BookingController::class, 'getClassroomsByQuery'])->name('bookings.classrooms');
+//MyBookings
+    Route::get('/myBookings', [BookingController::class, 'myBookings'])->name('bookings.mybookings');
+//AdminBookingCreation
+    Route::get('/bookings/create/petition', [BookingController::class, 'createFromPetition'])->name('bookings.petition');
+    Route::get('/bookings/admin/create', [BookingController::class, 'createAdmin'])->name('bookings.createAdmin');
+    Route::post('/bookings/filter', [BookingController::class, 'classroomBookings'])->name('bookings.filter');
+    Route::resources([
+        'assignments' => AssignmentController::class,
+        'bookings' => BookingController::class,
+        'classrooms' => ClassroomController::class,
+        'events' => EventController::class,
+        'users' => UserController::class,
+        'petitions' => PetitionController::class,
+        'schedules' => ScheduleController::class,
+        'logbooks' => LogbookController::class,
+    ]);
+
+    Route::put('/users/{user}', [UserController::class, 'activateUser'])->name('users.activate');
+    Route::put('/assignments/{assignment}', [AssignmentController::class, 'activateAssignment'])->name('assignments.activate');
+    Route::put('/classrooms/{classroom}', [ClassroomController::class, 'activateClassroom'])->name('classrooms.activate');
+    Route::put('/events/{event}', [EventController::class, 'activateEvent'])->name('events.activate');
+});
 
