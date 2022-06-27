@@ -1,25 +1,32 @@
 <div class="modal fade" id="createModal{{ $user->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Trae variable usuario basado en la sesion -->
     @php
     $assignments = $user->assignments()->get();
     @endphp
+
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <!-- Cabezera del modal -->
                 <h3 class="modal-title" id="exampleModalLabel">Crear Petición</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <!-- Modal Body -->
             <div class="modal-body">
                 <div id="container">
                     <form id="create_petition" name="create_petition" method="POST" action="{{route('petitions.store')}}">
+                        <!-- Token y metodo -->
                         @csrf @method('POST')
                         <div class="mb-3">
                             <label for="name" class="form-label">Nombre</label>
                             <input type="text" class="form-control" name="name" id="name" value="{{$user->name}} {{$user->surname}}" disabled>
                         </div>
                         <div class="mb-3">
-                            <input type="hidden" class="form-control" name="user_id" id="user_id" value="{{$user->id}}">
+                        <!-- Usuario ID -->
+                        <input type="hidden" class="form-control" name="user_id" id="user_id" value="{{$user->id}}">
                         </div>
                         <div class="mb-3">
+                            <!-- Select Materias -->
                             <label for="assignment_id" class="form-label">Materia</label>
                             <select name="assignment_id" class="form-select select2-user" aria-label="Materia" style="width: 100%" required>
                                 <option value="-1" disabled></option>
@@ -35,6 +42,7 @@
                             <input type="text" class="form-control" name="estimated_people" id="estimated_people">
                         </div>
                         <div class="mb-3">
+                            <!-- Select Aulas -->
                             <label for="classroom_type" class="form-label">Tipo Aula</label>
                             <select name="classroom_type" id="classroom_type" class="form-select select2-user" aria-label="Materia" style="width: 100%" required>
                                 <option value="Aula Común">Aula Común</option>
@@ -58,6 +66,7 @@
                             <input type="time" class="form-control" name="finish_time" id="finish_time" required>
                         </div>
                         <div class="mb-3">
+                            <!-- Select Dias -->
                             <label for="days" class="form-label">Día</label>
                             <select name="days" id="days" class="form-select select2-user" aria-label="days" style="width: 100%" required>
                                 <option value="Lunes">Lunes</option>
@@ -69,6 +78,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
+                            <!-- El mensaje obligatorio de justificacion para un rechazo -->
                             <label for="message" class="form-label">Mensaje</label>
                             <input type="text" class="form-control" name="message" id="message">
                         </div>
@@ -103,6 +113,7 @@
     const date = year + '-' + month + '-' + day;
 
 
+    //Elementos a los que quiero limitarle la seleccion
     document.getElementById("start_date").setAttribute('min', date);
     document.getElementById("finish_date").setAttribute('min', date);
 </Script>

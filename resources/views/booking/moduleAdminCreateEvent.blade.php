@@ -4,7 +4,7 @@
     {{-- Aula --}}
     <div class="mb-3 col">
         <label for="classroom_id" class="form-label">Seleccione el aula <span class="text-secondary">(Paso
-                5)</span></label>
+                7)</span></label>
         <select disabled class="form-select classroomsMassiveEvent" name="classroom_id">
             <option value="" selected disabled>Aula...</option>
         </select>
@@ -14,7 +14,7 @@
 <div class="row mt-4">
     {{-- horas disponibles (inicio) --}}
     <div class="mb-3 col-md-6 col-sm-12">
-        <label for="startTime" class="form-label">Hora de inicio <span class="text-secondary">(Paso 6)</span></label>
+        <label for="startTime" class="form-label">Hora de inicio <span class="text-secondary">(Paso 8)</span></label>
         <select disabled name="start_time" class="form-select start_timeMassiveEvent">
             <option disabled selected>Elige una opción
             </option>
@@ -24,7 +24,7 @@
 
     {{-- horas disponibles (fin) --}}
     <div class="mb-3 col-md-6 col-sm-12">
-        <label for="finishTime" class="form-label">Hora de fin <span class="text-secondary">(Paso 7)</span></label>
+        <label for="finishTime" class="form-label">Hora de fin <span class="text-secondary">(Paso 9)</span></label>
         <select disabled name="finish_time" class="form-select finish_timeMassiveEvent">
             <option disabled selected>Elige una opción
             </option>

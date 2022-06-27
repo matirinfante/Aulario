@@ -2,7 +2,6 @@
     -Hacer la comprobacion de campos.
     -Flash alert para aceptados, rechazados, o creados.
     -Arreglar bugs de la vista como th y el datatable.
-    -Permisos de los profesores y admins
 -->
 
 @extends('layouts.app')

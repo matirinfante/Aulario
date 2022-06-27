@@ -243,7 +243,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'classroom_name' => 'AULA 25',
-                'location' => '',
+                'location' => '/assets/mapa_aulas/facias/FACIAS_25.png',
                 'capacity' => '200',
                 'type' => 'Aula común',
                 'building' => 'Humanidades',
