@@ -149,5 +149,5 @@ $(document).ready(function() {
 
   setTimeout(moverScroll, 0) // Si scrollElement no carga, aumentar el tiempo
   setTimeout(colorHoraActual, 0) // Si tabHoraActual no carga, aumentar el tiempo
-  setTimeout(popper, 0) // Si tabHoraActual no carga, aumentar el tiempo
+  setTimeout(popper, 0)
 });
