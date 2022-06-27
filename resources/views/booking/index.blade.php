@@ -43,6 +43,7 @@
             <div class="mt-5" id="aviso_reserva">
 
             </div>
+            <h4  style="margin:auto; text-align:center" id="classroom_name" class="d-none mt-3"> </h4>
         </div>
 
         {{-- modal para envio de mail en caso de superar max participantes (siendo usuario común) --}}
