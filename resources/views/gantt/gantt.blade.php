@@ -17,6 +17,7 @@
           </div>
           {{-- Diagrama de Gantt --}}
         <div>
+            <input hidden type="date" id="inputDate"> 
             <div id="schedule"></div>
         </div>
     </div>
