@@ -1,4 +1,3 @@
-
 <div class="modal fade updateModal" id="updateModal{{ $user->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -33,6 +32,12 @@
                         <p  class="email_error_edit alerta d-none"> </p>
                     </div>
                     <div class="mb-3">
+                        <label for="text" class="form-label">Token</label>
+                        <input  type="text" class="form-control token_edit" name="token"  value="{{$user['personal_token']}}" required>
+                        <p  class="email_error_edit alerta d-none"> </p>
+                    </div>
+                    @can('admin')
+                    <div class="mb-3">
                         <label for="select" class="form-label">Seleccione Rol</label>
                         <select class="form-select" name="role" required>
                             @if ($user->roles->first()->name == 'teacher')
@@ -50,10 +55,10 @@
                             @endif
                         </select>
                     </div>
+                    @endcan
                         <button  type="submit" class="button_edit btn btn-primary">Actualizar</button>
                     </form>
                 </div>
             </div>
         </div>
 </div>
-
