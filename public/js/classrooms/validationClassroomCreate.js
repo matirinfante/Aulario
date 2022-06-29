@@ -8,7 +8,7 @@ const $inputName = d.getElementById('classroom_name_create'),
     $errorCapacity = d.getElementById('errorCapacityCreate'),
     form = d.getElementById('form_classroom_create')
 let v1 = false,
-    v2 = false,
+    v2 = true,//false
     v3 = false
 
 form.addEventListener('click', e => {
@@ -21,13 +21,13 @@ form.addEventListener('click', e => {
         $errorName.classList.remove('d-none')
     }
     //Validamos que la locacion sea letras y no esté vacia
-    if (!validator.isEmpty($inputLocation.value)) {
-        v2 = true
-        $errorLocation.classList.add('d-none')
-    } else {
-        $errorLocation.textContent = 'La locación está vacia'
-        $errorLocation.classList.remove('d-none')
-    }
+    // if (!validator.isEmpty($inputLocation.value)) {
+    //     v2 = true
+    //     $errorLocation.classList.add('d-none')
+    // } else {
+    //     $errorLocation.textContent = 'La locación está vacia'
+    //     $errorLocation.classList.remove('d-none')
+    // }
     //Validamos que la capacidad sea numeros, no esté vacia y que el valor esté entre el 1 y los 200
     if (!validator.isEmpty($inputCapacity.value)) {
         if (validator.isNumeric($inputCapacity.value)) {
