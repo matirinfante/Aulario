@@ -8,6 +8,8 @@ use App\Models\Assignment;
 use App\Models\Classroom;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ClassroomController extends Controller
 {
@@ -39,13 +41,31 @@ class ClassroomController extends Controller
     public function store(ClassroomStoreRequest $request)
     {
         try {
+            #Para subir la imagen
+            if ($request->location != null && $request->location != '') 
+            {
+                $image = $request->file("location");#El archivo se amacena en la variable
+
+                $imgName = Str::slug($request->building. "_" .$request->classroom_name) . "." . $image->guessExtension();#Creamos el nuevo nombre de la imagen
+
+                $request->file('location')->storeAs('/public/', $imgName);#Ruta en la que se almacenara la img, y el nuevo nombre
+                
+                $location = "/assets/mapa_aulas/storage/" .$imgName;#Locacion seria la ruta a la se accederia a la imagen
+                #Se uso un link simbolico para llevar storage a public assets
+            } 
+            else
+            {
+                $location = "";#Esto es para el if a la hora de mostrar la imagen del aula, si no tiene contenido
+            }
+
             $classroom = Classroom::create([
                 'classroom_name' => $request->classroom_name,
-                'location' => $request->location,
+                'location' => $location,
                 'capacity' => $request->capacity,
                 'type' => $request->type,
                 'building' => $request->building,
             ]);
+
             $classroom->save();
 
             if ($request->building == 'Informática') {

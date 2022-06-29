@@ -16,8 +16,8 @@
             </div>
           </div>
           {{-- Diagrama de Gantt --}}
-        <div style="">
-            <div id="schedule" style=""></div>
+        <div>
+            <div id="schedule"></div>
         </div>
     </div>
  
