@@ -49,6 +49,12 @@
                         @if (Auth::user())
                             <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
                                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                    @hasanyrole('admin')
+                                    <div class="dropdown">
+                                        <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                           Gestion Institucional
+                                        </a>
+                                          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     @can('show users')
                                         <li class="nav-item">
                                             <a class="nav-link" href="{{ route('users.index') }}" role="button">
@@ -87,6 +93,26 @@
                                             </a>
                                         </li>
                                     @endcan
+                                    @can('show schedule')
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('schedules.index') }}" role="button">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                    viewBox="0 0 516 516" width="16" height="16">
+                                                    <path
+                                                        d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z" />
+                                                </svg>
+                                                Disponibilidad horaria Aulas
+                                            </a>
+                                        </li>
+                                    @endcan
+                                   </ul>
+                                    </div>
+                                    @endhasanyrole
+                                    <div class="dropdown">
+                                        <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                           Gestion de Reservas
+                                        </a>
+                                          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     @can('show bookings')
                                         <li class="nav-item">
                                             <a class="nav-link" href="{{ route('bookings.index') }}" role="button">
@@ -101,6 +127,21 @@
                                             </a>
                                         </li>
                                     @endcan
+                                    @can('show bookings')
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('bookings.admingantt') }}" role="button">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+                                                <path
+                                                    d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+                                            </svg>
+                                           Cronograma Reservas
+                                        </a>
+                                    </li>
+                                @endcan      
+
                                     @can('see own bookings')
                                         @hasanyrole('user|teacher')
                                             <li class="nav-item">
@@ -171,19 +212,11 @@
                                                 @endhasanyrole
                                             </a>
                                         </li>
-                                    @endcan
-                                    @can('show schedule')
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('schedules.index') }}" role="button">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                                    viewBox="0 0 516 516" width="16" height="16">
-                                                    <path
-                                                        d="M232 120C232 106.7 242.7 96 256 96C269.3 96 280 106.7 280 120V243.2L365.3 300C376.3 307.4 379.3 322.3 371.1 333.3C364.6 344.3 349.7 347.3 338.7 339.1L242.7 275.1C236 271.5 232 264 232 255.1L232 120zM256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0zM48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48C141.1 48 48 141.1 48 256z" />
-                                                </svg>
-                                                Horarios
-                                            </a>
-                                        </li>
-                                    @endcan
+                                        @endcan
+                                          </ul>
+                                    </div>
+                                  
+                                    
                                     @can('show logbook')
                                         <li class="nav-item">
                                             <a class="nav-link" aria-current="page"
