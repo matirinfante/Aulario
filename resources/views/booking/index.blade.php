@@ -230,21 +230,17 @@
         let booking = storage.getItem('bookings')
          let select= document.getElementById('select');
          let bookings=JSON.parse(booking);
-         console.log(bookings)
+        //  console.log(bookings)
          let j= bookings.length-1;
-        //  console.log(select)
          setTimeout(() => {
             if(bookings.length > 0){
             for (let i = 0; i < select.length; i++) {
                const element = select[i];
-            //    console.log(element);
                console.log(bookings[0].classroom_id);
                 if(element.value == bookings[j].classroom_id){
-                    
-                    var event = new Event('change');
-                    select.dispatchEvent(event);
                    element.setAttribute("selected", "");
-                   
+                    var event = new Event('change'); 
+                   select.dispatchEvent(event);
                    storage.clear();
                 }
                 
@@ -252,6 +248,6 @@
          }
          }, 1000);
         
-        console.log(booking)
+        // console.log(booking)
             </script>
 @endsection
