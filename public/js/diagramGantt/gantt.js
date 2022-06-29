@@ -16,14 +16,12 @@ $.ajax({
     success: function (data) {
         //obtenemos en data un arreglo que contiene classroom y un arreglo de bookings desde el controlador
         datosAll=JSON.parse(data);
-          console.log(datosAll)
        let rta =`{`
        //Recorremos la primer posicion del arreglo obteniendo cada objeto para el valor necesario 
         datosAll.forEach(classroom => {
             for (let i = 0; i< classroom.length; i++) {
                 const objClassroom = classroom[i];
                 colbookings=objClassroom.bookings
-                // console.log(objClassroom);
                     rta += `"${i}": { 
                              "title":"${objClassroom.classroom_name}",
                              "schedule": [`
@@ -60,7 +58,6 @@ $.ajax({
         rta+=`}`
         //Se realiza el parse para generar el objeto que admite el schedule
         objGantt=JSON.parse(rta);
-        console.log(objGantt)
         $(function () {
             $("#logs").append('<table class="table">');
             var isDraggable = false;
@@ -97,7 +94,6 @@ $.ajax({
 //     location.reload();
 // },300000)
 
-// console.log(document.querySelector(".materia"));
 
 
 $(document).ready(function() {
@@ -120,6 +116,38 @@ $(document).ready(function() {
       }
   }
 
+  function popper (){
+    cuadradosE = document.querySelectorAll(".materia");
+    cuadradosM = document.querySelectorAll(".evento");
+
+    activarPopper(cuadradosE);
+    activarPopper(cuadradosM);
+  }
+
+  function activarPopper(cuadrados) {
+    cuadrados.forEach(cuadrado => {
+
+      textoCuadrado = cuadrado.getElementsByTagName('span')[2]; 
+  
+      cantLetras = textoCuadrado.textContent.length;
+
+      ejeX = (((cuadrado.clientWidth/2) * -1) + (cantLetras*4+5)); // HACER TABLA CON MEDIDAS SEGUN EL ANCHO DEL TEXTO
+
+      Popper.createPopper(cuadrado, textoCuadrado, {
+        placement: 'top',
+          modifiers: [
+            {
+              name: 'offset',
+              options: {
+                offset: [ejeX, -45],
+              },
+            },
+          ],
+      });
+    });
+  }
+
   setTimeout(moverScroll, 0) // Si scrollElement no carga, aumentar el tiempo
   setTimeout(colorHoraActual, 0) // Si tabHoraActual no carga, aumentar el tiempo
+  setTimeout(popper, 0)
 });
