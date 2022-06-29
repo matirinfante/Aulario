@@ -42,7 +42,16 @@ class ClassroomController extends Controller
     {
         try {
             #Para subir la imagen
-            if ($request->location != null && $request->location != '') 
+            #Comprobar el tipo de archivo por medio de la extension.
+            $img_png = $request->file("location")->guessExtension() == 'png'; #True or False
+            $img_jpg = $request->file("location")->guessExtension() == 'jpg'; #True or False
+            $img_jpeg = $request->file("location")->guessExtension() == 'jpeg'; #True or False
+            $req_valid = $request->location != null && $request->location != ""; #True or False
+
+
+
+
+            if ($req_valid && ($img_png||($img_jpg || $img_jpeg))) 
             {
                 $image = $request->file("location");#El archivo se amacena en la variable
 

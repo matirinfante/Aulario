@@ -41,9 +41,9 @@
                         <select name="type" class="form-select select2-type" style="width: 100%;">
                             @foreach ($types as $type)
                             @if ($type == 'Aula Común')
-                            <option value="{{ $type }}" selected>{{ $type }}</option>
-                            @else
                             <option value="{{ $type }}">{{ $type }}</option>
+                            @else
+                            <option value="{{ $type }}" selected>{{ $type }}</option>
                             @endif
                             @endforeach
                         </select>
