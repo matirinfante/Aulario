@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Mail\EventBookingCreatedMail;
-use App\Mail\MassiveEventRequestMail;
 use App\Mail\petitionsMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -13,20 +12,20 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-class SendMassiveEventRequestJob implements ShouldQueue
+class SendEventBookingCreatedJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $content;
+    protected $booking;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($content)
+    public function __construct($booking)
     {
-        $this->content = $content;
+        $this->booking = $booking;
     }
 
     /**
@@ -36,6 +35,7 @@ class SendMassiveEventRequestJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to(env('MAIL_ADMIN'))->send(new MassiveEventRequestMail($this->content));
+        Mail::to($this->booking->user->mail)->send(new EventBookingCreatedMail($this->booking));
+
     }
 }

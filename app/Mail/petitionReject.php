@@ -29,6 +29,6 @@ class petitionReject extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.rejected');
+        return $this->markdown('mail.rejected')->subject('Petición rechazada');
     }
 }
