@@ -34,14 +34,24 @@ Route::get('/status', function () {
 //Posible riesgo de seguridad !! Investigar
 Route::post('/bookings/gantt', [BookingController::class, 'getClassroom'])->name('bookings.gantt');
 
-Route::get('/bookings/admingantt', function () {
-    return view('booking.adminGantt');
-})->name('bookings.admingantt');
+
 
 Auth::routes();
 
 
 Route::middleware(['auth'])->group(function () {
+
+    Route::get('/bookings/admingantt', function () {
+        return view('booking.adminGantt');
+    })->name('bookings.admingantt');
+
+    Route::get('/users/profile', function(){
+        return view('user.profile');
+    })->name('profile');
+
+    Route::post('/users/changePassword' , [UserController::class , 'changePassword'])->name('users.changePassword');
+
+
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //Reject petition route
