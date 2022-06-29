@@ -182,6 +182,7 @@ class LogbookController extends Controller
                     }
                 }
             }
+            return back()->with('error', 'No se ha podido verificar la validez de uno o más datos');
         }
         return ['status' => 'error', 'message' => 'No se ha podido verificar la validez de uno o más datos'];
     }
