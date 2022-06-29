@@ -86,7 +86,7 @@
 
 .jq-schedule .sc_main {
     position: relative;
-    background-color: #fff;
+    background-color: #fff; /* Fondo gantt */
 }
 
 .jq-schedule .timeline {
@@ -103,7 +103,8 @@
     color: #fff;
     background: green;
     cursor: pointer;
-    z-index: 10
+    z-index: 10;
+    overflow: hidden;
 }
 
 #schedule .materia{
@@ -111,7 +112,7 @@
 }
 
 #schedule .evento{
-    background-color: rgb(252, 173, 56);
+    background-color: #3788d8;
 }
 
 .jq-schedule .sc_bar .head {
@@ -128,7 +129,7 @@
     margin-top: 6px;
     font-weight: bold;
     padding: 0 14px;
-    height: 1.2em;
+    /* height: 1.2em; */
     overflow: hidden
 }
 
