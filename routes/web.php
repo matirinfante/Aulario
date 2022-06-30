@@ -31,6 +31,10 @@ Route::get('/status', function () {
     return view('gantt.gantt');
 })->name('gantt');
 
+Route::get('/about-us', function () {
+    return view('about');
+})->name('about-us');
+
 //Posible riesgo de seguridad !! Investigar
 Route::post('/bookings/gantt', [BookingController::class, 'getClassroom'])->name('bookings.gantt');
 
