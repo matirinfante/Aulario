@@ -2,8 +2,10 @@
     font-family: 'Open Sans', sans-serif;
 }
 
+
 /* go to top button */
-#pageUp{
+
+#pageUp {
     position: fixed;
     right: 15px;
     bottom: 300px;
@@ -142,7 +144,8 @@ h3 {
     color: var(--textColor);
 }
 
-.menu_sup .dropdown-item:hover, .dropdown-item:focus {
+.menu_sup .dropdown-item:hover,
+.dropdown-item:focus {
     background-color: var(--backgroundColor);
     color: #000 !important;
 }
