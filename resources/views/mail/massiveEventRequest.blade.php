@@ -3,6 +3,7 @@
     <br>
     @component('mail::panel')
         {{--Info relevante a la petición--}}
+        {{$content}}
     @endcomponent
 
 @endcomponent

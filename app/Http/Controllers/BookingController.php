@@ -497,12 +497,12 @@ class BookingController extends Controller
     public function getClassroom(Request $request)
     {
         Log::info('entre');
-        if(!$request->booking_date){
+        if (!$request->booking_date) {
             $today = Carbon::today()->format('Y-m-d');
-        }else{
+        } else {
             $today = Carbon::parse($request->booking_date)->format('Y-m-d');
         }
-      
+
         $classrooms = Classroom::where('building', 'Informática')->get();
         $response = [];
 
@@ -543,9 +543,9 @@ class BookingController extends Controller
         }
     }
 
-    public function massiveEventRequest(Request $request)
+    public function sendPetitionFromMessage(Request $request)
     {
-
+        dd($request);
     }
 
 }
