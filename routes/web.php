@@ -70,6 +70,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logbooks/checkOut', [LogbookController::class, 'signCheckOut'])->name('logbook.checkout');
     //Logbook historic
     Route::post('/logbooks/getlogbook',[LogbookController::class, 'getHistoryLogbook'])->name('logbook.getbydate');
+    Route::get('/logbooks/history',function(){return view('logbook.history');})->name('logbooks.history');
 //Period gen
     Route::post('/bookings/periods', [BookingController::class, 'getGaps'])->name('bookings.gaps');
     Route::post('/bookings/assignmentperiods', [BookingController::class, 'getClassroomsGaps'])->name('bookings.assignmentgaps');
