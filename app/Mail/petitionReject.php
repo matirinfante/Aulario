@@ -10,6 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class petitionReject extends Mailable
 {
     use Queueable, SerializesModels;
+
     public $reason;
 
     /**
@@ -19,7 +20,7 @@ class petitionReject extends Mailable
      */
     public function __construct($reason)
     {
-      $this->reason = $reason;
+        $this->reason = $reason;
     }
 
     /**
@@ -29,6 +30,7 @@ class petitionReject extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.rejected')->subject('Petición rechazada');
+        $this->subject('Petición rechazada');
+        return $this->markdown('mail.rejected');
     }
 }
