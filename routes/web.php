@@ -35,6 +35,7 @@ Route::get('/status', function () {
 Route::post('/bookings/gantt', [BookingController::class, 'getClassroom'])->name('bookings.gantt');
 
 
+
 Auth::routes();
 
 
@@ -44,7 +45,7 @@ Route::middleware(['auth'])->group(function () {
         return view('booking.adminGantt');
     })->name('bookings.admingantt');
 
-    Route::get('/users/profile', function () {
+    Route::get('/users/profile', function(){
         return view('user.profile');
     })->name('profile');
 
@@ -66,8 +67,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logbooks/checkIn', [LogbookController::class, 'signCheckIn'])->name('logbook.checkin');
 //Registrar check out
     Route::post('/logbooks/checkOut', [LogbookController::class, 'signCheckOut'])->name('logbook.checkout');
-//Logbook historic
-    Route::post('/logbooks/getlogbook', [LogbookController::class, 'getHistoryLogbook'])->name('logbook.getbydate');
+    //Logbook historic
+    Route::post('/logbooks/getlogbook',[LogbookController::class, 'getHistoryLogbook'])->name('logbook.getbydate');
+    Route::get('/logbooks/history',function(){return view('logbook.history');})->name('logbooks.history');
 //Period gen
     Route::post('/bookings/periods', [BookingController::class, 'getGaps'])->name('bookings.gaps');
     Route::post('/bookings/assignmentperiods', [BookingController::class, 'getClassroomsGaps'])->name('bookings.assignmentgaps');
