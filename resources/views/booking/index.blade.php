@@ -60,6 +60,7 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="subject" class="form-label">Asunto</label>
+                                <input type="hidden" name="user_mail" value="{{auth()->user()->email}}">
                                 <input type="text" class="form-control" id="mailSubject" name="subject"
                                        placeholder="Parcial ...">
                                 <p class="alerta d-none" id="errorSubject">Error</p>
