@@ -36,7 +36,7 @@ Route::post('/bookings/gantt', [BookingController::class, 'getClassroom'])->name
 
 
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 
 Route::middleware(['auth'])->group(function () {
