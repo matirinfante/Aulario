@@ -18,7 +18,8 @@
 
 :root {
     --textColor: #171717;
-    --backgroundColor: #F5F5F5;
+    --backgroundColor: #D0CFCF;
+    --topMenuBg: #eeeeee;
     --greenLight: #B5FF9D;
     --redLight: #FFA39D;
 }
@@ -103,7 +104,7 @@ h3 {
 /* Font style in top menu */
 
 .menu_sup {
-    background-color: #eeeeee;
+    background-color: var(--topMenuBg);
     font-size: 1.09em;
     padding: 15px;
     box-shadow: -2px 13px 36px -8px rgba(48, 48, 48, 0.66);
@@ -123,16 +124,27 @@ h3 {
 /* link colors in top menu */
 
 .menu_sup.navbar-light .navbar-nav .nav-link {
+    background-color: var(--topMenuBg);
     color: var(--textColor);
     font-weight: 500;
 }
 
-.menu_sup.navbar-light .navbar-nav .nav-link:hover {
-    color: #6a6a6a;
+.menu_sup ul.dropdown-menu.show .nav-link {
+    font-weight: 400 !important;
+}
+
+.menu_sup ul.dropdown-menu.show .nav-link:hover {
+    color: #000;
+    background-color: var(--backgroundColor);
 }
 
 .menu_sup.navbar-light .navbar-nav .nav-link:focus {
     color: var(--textColor);
+}
+
+.menu_sup .dropdown-item:hover, .dropdown-item:focus {
+    background-color: var(--backgroundColor);
+    color: #000 !important;
 }
 
 
@@ -151,11 +163,11 @@ h3 {
 /* top menu dropdown background and colors*/
 
 .menu_sup ul.dropdown-menu.show {
-    background-color: var(--backgroundColor);
+    background-color: var(--topMenuBg);
 }
 
 .menu_sup .dropdown-menu.dropdown-menu-end.show {
-    background-color: var(--backgroundColor);
+    background-color: var(--topMenuBg);
 }
 
 .alerta {
