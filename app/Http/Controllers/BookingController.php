@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BookingStoreRequest;
+use App\Jobs\SendEventBookingCreatedJob;
 use App\Jobs\SendMassiveEventRequestJob;
 use App\Jobs\SendPetitionRejectJob;
 use App\Mail\MassiveEventRequestMail;
@@ -98,7 +99,7 @@ class BookingController extends Controller
                     'booking_id' => $booking->id,
                     'date' => $request->booking_date
                 ]);
-
+                $this->dispatch(new SendEventBookingCreatedJob($booking));
                 flash('Se ha registrado la reserva con exito')->success();
                 return redirect(route('bookings.mybookings'));
             } else if (auth()->user()->hasRole('admin')) {
