@@ -21,9 +21,9 @@ $(document).ready(function () {
     var flash = $('#flashMessage');
     if (flash.find('.alert.alert-success').length > 0) {
         var contentFlash = $("#flashMessage:first").text().trim();
+        console.log('otro')
         switch (contentFlash) {
-            //CREACION DE PETICION
-            case 'Petición creada con exito.':
+            case 'Petición creada con éxito.':
                 var timerInterval
                 Swal.fire({
                     toast: true,
@@ -31,14 +31,14 @@ $(document).ready(function () {
                     background: '#a5dc86',
                     color: '#000',
                     showConfirmButton: false,
-                    html: 'Petición creada con exito.',
+                    html: 'Petición creada con éxito.',
                     timer: 4000,
                     timerProgressBar: true,
                     willClose: () => {
                         clearInterval(timerInterval)
                     }
                 })
-            break;
+                break;
             //ERROR AL CREAR PETICION
             case 'Error al crear la petición.':
                 var timerInterval
@@ -55,7 +55,7 @@ $(document).ready(function () {
                         clearInterval(timerInterval)
                     }
                 })
-            break;
+                break;
             //RECHAZAR PETICION
             case 'Se rechazo la petición.':
                 var timerInterval
@@ -90,7 +90,7 @@ $(document).ready(function () {
                         clearInterval(timerInterval)
                     }
                 })
-            break;
+                break;
             //ACEPTAR PETICION
             case 'Se aceptó la petición.':
                 var timerInterval
@@ -107,7 +107,7 @@ $(document).ready(function () {
                         clearInterval(timerInterval)
                     }
                 })
-            break;
+                break;
             //ERROR AL ACEPTAR PETICION
             case 'Error al aceptar la petición.':
                 var timerInterval
@@ -124,7 +124,8 @@ $(document).ready(function () {
                         clearInterval(timerInterval)
                     }
                 })
-            break;
+                break;
         }
+        console.log(contentFlash)
     }
 });
