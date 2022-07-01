@@ -101,7 +101,7 @@
         </div>
     </div>
 </div>
-
+{{--
 @section('scripts')
     <!-- Obtener la fecha actual para limitar la seleccion en el calendario -->
     <Script>
@@ -134,3 +134,4 @@
 
     <script src="{{ asset('js/petitions/checkDay.js') }}" defer></script>
 @endsection
+--}}

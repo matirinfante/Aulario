@@ -68,7 +68,7 @@ class PetitionController extends Controller
                 'status' => 'unsolved'
             ]);
             $this->dispatch(new SendPetitionNotificationJob($petition));
-            flash('Petición creada con exito.')->success();
+            flash('Petición creada con éxito.')->success();
             return redirect(route('petitions.index'));
         } catch (\Exception $e) {
             flash('Error al crear la petición.')->error();
