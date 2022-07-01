@@ -4,7 +4,6 @@
 
 
 /* go to top button */
-
 #pageUp {
     position: fixed;
     right: 15px;
@@ -22,8 +21,8 @@
     --textColor: #171717;
     --backgroundColor: #D0CFCF;
     --topMenuBg: #eeeeee;
-    --greenLight: #B5FF9D;
-    --redLight: #FFA39D;
+    --pedcoBlue: #036;
+    --pedcoMercury: #e5e5e5;
 }
 
 body {
@@ -61,6 +60,17 @@ h3 {
 #img {
     width: 60%;
     margin-left: 35%;
+}
+
+.logoSup {
+    /* borde blanco */
+
+    max-width: 100%;
+    height: auto;
+    --stroke-pos: 1px;
+    --stroke-neg: -1px;
+    --stroke-color: rgb(255 255 255 / 35%);
+    filter: drop-shadow(var(--stroke-pos) 0 0 var(--stroke-color)) drop-shadow(var(--stroke-neg) 0 var(--stroke-color)) drop-shadow(0 var(--stroke-pos) 0 var(--stroke-color)) drop-shadow(0 var(--stroke-neg) 0 var(--stroke-color)) drop-shadow(var(--stroke-pos) var(--stroke-pos) 0 var(--stroke-color)) drop-shadow(var(--stroke-pos) var(--stroke-neg) 0 var(--stroke-color)) drop-shadow(var(--stroke-neg) var(--stroke-pos) 0 var(--stroke-color)) drop-shadow(var(--stroke-neg) var(--stroke-neg) 0 var(--stroke-color));
 }
 
 
@@ -106,7 +116,7 @@ h3 {
 /* Font style in top menu */
 
 .menu_sup {
-    background-color: var(--topMenuBg);
+    background-color: var(--pedcoBlue);
     font-size: 1.09em;
     padding: 15px;
     box-shadow: -2px 13px 36px -8px rgba(48, 48, 48, 0.66);
@@ -125,9 +135,9 @@ h3 {
 
 /* link colors in top menu */
 
-.menu_sup.navbar-light .navbar-nav .nav-link {
-    background-color: var(--topMenuBg);
-    color: var(--textColor);
+.menu_sup.navbar-dark .navbar-nav .nav-link {
+    background-color: var(--pedcoBlue);
+    color: #fff;
     font-weight: 500;
 }
 
@@ -136,12 +146,16 @@ h3 {
 }
 
 .menu_sup ul.dropdown-menu.show .nav-link:hover {
-    color: #000;
+    color: #e1e1e1 !important;
     background-color: var(--backgroundColor);
 }
 
-.menu_sup.navbar-light .navbar-nav .nav-link:focus {
-    color: var(--textColor);
+.menu_sup.navbar-dark .navbar-nav .nav-link:focus {
+    color: #fff;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus {
+    color: rgb(255 255 255 / 75%) !important;
 }
 
 .menu_sup .dropdown-item:hover,
@@ -150,11 +164,24 @@ h3 {
     color: #000 !important;
 }
 
+a#dropdownMenuButton1 {
+    background-color: var(--pedcoBlue);
+}
+
+.sonLink {
+    background-color: var(--pedcoMercury) !important;
+    color: var(--pedcoBlue) !important;
+}
+
+.sonLink:hover {
+    background-color: var(--pedcoBlue) !important;
+    color: var(--pedcoMercury) !important;
+}
 
 /* hamburger icon */
 
-.menu_sup.navbar-light .navbar-toggler {
-    color: var(--textColor);
+.menu_sup.navbar-dark .navbar-toggler {
+    color: #fff !important;
     border: none;
 }
 
@@ -166,7 +193,10 @@ h3 {
 /* top menu dropdown background and colors*/
 
 .menu_sup ul.dropdown-menu.show {
-    background-color: var(--topMenuBg);
+    background-color: var(--pedcoMercury);
+    border: 1px solid #fff;
+    border-radius: 0;
+    padding: 0;
 }
 
 .menu_sup .dropdown-menu.dropdown-menu-end.show {
