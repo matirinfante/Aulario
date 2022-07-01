@@ -3,10 +3,8 @@
 //  {
     $("#warning_reason").html(`<div class="alert alert-warning">Es necesario explicar la razón del rechazo.</div>`);
 
-    let test = getElementById('warning_reason');
-    test.innerHTML('keso')
 
-     function reject_comp() 
+     function reject_comp()
      {
         let reason = document.getElementById('reason');
         //Mientras se levante una tecla y en el campo no haya nada escrito este muestra la alerta
@@ -20,7 +18,7 @@
             {
                 $("#warning_reason").html('<div class="alert alert-warning">Es necesario explicar la razón del rechazo.</div>');
             }
-            
+
         });
     }
 //  });

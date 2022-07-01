@@ -364,7 +364,6 @@
             $('#assignments').DataTable();
             $('#events').DataTable();
             $('#classroom').DataTable();
-            $('#petitions').DataTable(); Comentado para evitar que me tire errores en consola, no funciona
         });
     </script>
 

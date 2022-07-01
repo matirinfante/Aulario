@@ -1,8 +1,6 @@
-<div class="modal fade" id="createModal{{ $user->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="createModal{{ $user->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <!-- Trae variable usuario basado en la sesion -->
-    @php
-    $assignments = $user->assignments()->get();
-    @endphp
 
     <div class="modal-dialog">
         <div class="modal-content">
@@ -14,12 +12,14 @@
             <!-- Modal Body -->
             <div class="modal-body">
                 <div id="container">
-                    <form id="create_petition" name="create_petition" method="POST" action="{{route('petitions.store')}}">
+                    <form id="create_petition" name="create_petition" method="POST"
+                          action="{{route('petitions.store')}}">
                         <!-- Token y metodo -->
                         @csrf @method('POST')
                         <div class="mb-3">
                             <label for="name" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" name="name" id="name" value="{{$user->name}} {{$user->surname}}" disabled>
+                            <input type="text" class="form-control" name="name" id="name"
+                                   value="{{$user->name}} {{$user->surname}}" disabled>
                             <p class="alerta d-none" id="errorNameCreate">Error</p>
                         </div>
                         <div class="mb-3">
@@ -29,12 +29,13 @@
                         <div class="mb-3">
                             <!-- Select Materias -->
                             <label for="assignment_id" class="form-label">Materia</label>
-                            <select name="assignment_id" class="form-select select2-user" aria-label="Materia" style="width: 100%" required>
+                            <select name="assignment_id" class="form-select select2-user" aria-label="Materia"
+                                    style="width: 100%" required>
                                 <option value="-1" disabled></option>
-                                @foreach ($assignments as $assignment)
-                                <option value="{{ $assignment->id }}">
-                                    {{ $assignment->assignment_name }}
-                                </option>
+                                @foreach (auth()->user()->assignments as $assignment)
+                                    <option value="{{ $assignment->id }}">
+                                        {{ $assignment->assignment_name }}
+                                    </option>
                                 @endforeach
                             </select>
                             <p class="alerta d-none" id="errorAssignmentIDCreate">Error</p>
@@ -46,7 +47,8 @@
                         <div class="mb-3">
                             <!-- Select Aulas -->
                             <label for="classroom_type" class="form-label">Tipo Aula</label>
-                            <select name="classroom_type" id="classroom_type" class="form-select select2-user" aria-label="Materia" style="width: 100%" required>
+                            <select name="classroom_type" id="classroom_type" class="form-select select2-user"
+                                    aria-label="Materia" style="width: 100%" required>
                                 <option value="Aula Común" selected>Aula Común</option>
                                 <option value="Laboratorio">Laboratorio</option>
                             </select>
@@ -75,7 +77,8 @@
                         <div class="mb-3">
                             <!-- Select Dias -->
                             <label for="days" class="form-label">Día</label>
-                            <select name="days" id="days" class="form-select select2-user" aria-label="days" style="width: 100%" required>
+                            <select name="days" id="days" class="form-select select2-user" aria-label="days"
+                                    style="width: 100%" required>
                                 <option value="Lunes">Lunes</option>
                                 <option value="Martes">Martes</option>
                                 <option value="Miércoles">Miércoles</option>
@@ -100,32 +103,34 @@
 </div>
 
 @section('scripts')
-<!-- Obtener la fecha actual para limitar la seleccion en el calendario -->
-<Script>
-    //Obtiene la fecha actual y luego le da formato 'YYYY-MM-DD'
-    //Estos metodos no agregan cero a numero menores a 10, como por ejemplo '5'(mayo), y no 05
-    const fullDate = new Date();
-    const year = fullDate.getFullYear();
-    let month = fullDate.getMonth();
-    let day = fullDate.getDate();
+    <!-- Obtener la fecha actual para limitar la seleccion en el calendario -->
+    <Script>
+        //Obtiene la fecha actual y luego le da formato 'YYYY-MM-DD'
+        //Estos metodos no agregan cero a numero menores a 10, como por ejemplo '5'(mayo), y no 05
+        const fullDate = new Date();
+        const year = fullDate.getFullYear();
+        let month = fullDate.getMonth();
+        let day = fullDate.getDate();
 
-    month += 1; //La fecha el metodo .getMonth la trae de 0 a 11, se debe sumar 1;
+        month += 1; //La fecha el metodo .getMonth la trae de 0 a 11, se debe sumar 1;
 
-    if (month < 10) {
-        month = '0' + month
-    };
-    if (day < 10) {
-        day = '0' + day
-    };
+        if (month < 10) {
+            month = '0' + month
+        }
+        ;
+        if (day < 10) {
+            day = '0' + day
+        }
+        ;
 
-    //Concatenamos la fecha en el formato correcto
-    const date = year + '-' + month + '-' + day;
+        //Concatenamos la fecha en el formato correcto
+        const date = year + '-' + month + '-' + day;
 
 
-    //Elementos a los que quiero limitarle la seleccion
-    document.getElementById("start_date").setAttribute('min', date);
-    document.getElementById("finish_date").setAttribute('min', date);
-</Script>
+        //Elementos a los que quiero limitarle la seleccion
+        document.getElementById("start_date").setAttribute('min', date);
+        document.getElementById("finish_date").setAttribute('min', date);
+    </Script>
 
-<script src="{{ asset('js/petitions/checkDay.js') }}" defer></script>
+    <script src="{{ asset('js/petitions/checkDay.js') }}" defer></script>
 @endsection
