@@ -6,38 +6,47 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p class="card-text"><span class="text-secondary">Nombre profesor:</span>
+                <p class="card-text">
+                    <span class="text-secondary">Nombre profesor:</span>
                     {{ $petition->user->name }} {{ $petition->user->surname }}
                 </p>
                 <hr>
-                <p class="card-text"><span class="text-secondary">Materia:</span>
+                <p class="card-text">
+                    <span class="text-secondary">Materia:</span>
                     {{ $petition->assignment->assignment_name }}
                 </p>
                 <hr>
-                <p class="card-text"><span class="text-secondary">Fecha Inicio:</span>
+                <p class="card-text">
+                    <span class="text-secondary">Fecha Inicio:</span>
                     {{ $petition->start_date }}
                 </p>
                 <hr>
-                <p class="card-text"><span class="text-secondary">Fecha Fin:</span>
+                <p class="card-text">
+                    <span class="text-secondary">Fecha Fin:</span>
                     {{ $petition->finish_date }}
                 </p>
                 <hr>
-                <p class="card-text"><span class="text-secondary">Días:</span>
+                <p class="card-text">
+                    <span class="text-secondary">Días:</span>
                     {{ $petition->days }}
                 </p>
                 <hr>
-                <p class="card-text"><span class="text-secondary">Hora de Inicio:</span>
+                <p class="card-text">
+                    <span class="text-secondary">Hora de Inicio:</span>
                     {{ $petition->start_time }}
                 </p>
-                <p class="card-text"><span class="text-secondary">Hora de Fin:</span>
+                <p class="card-text">
+                    <span class="text-secondary">Hora de Fin:</span>
                     {{ $petition->finish_time }}
                 </p>
                 <hr>
-                <p class="card-text"><span class="text-secondary">Tipo de Aula:</span>
+                <p class="card-text">
+                    <span class="text-secondary">Tipo de Aula:</span>
                     {{ $petition->classroom_type }}
                 </p>
                 <hr>
-                <p class="card-text"><span class="text-secondary">Mensaje:</span>
+                <p class="card-text">
+                    <span class="text-secondary">Mensaje:</span>
                     {{ $petition->message }}
                 </p>
                 <hr>
@@ -52,6 +61,7 @@
 
                     <textarea name="reason" id="reason" cols="36" rows="5" required></textarea>
 
+                    <!-- Div para comprobacion de campos -->
                     <div id='warning_reason'></div>
 
                     <div class="container">
