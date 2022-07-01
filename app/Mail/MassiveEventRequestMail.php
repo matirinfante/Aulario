@@ -20,7 +20,7 @@ class MassiveEventRequestMail extends Mailable
      */
     public function __construct($content)
     {
-        $this->content = json_decode($content);
+        $this->content = $content;
     }
 
     /**
@@ -31,6 +31,6 @@ class MassiveEventRequestMail extends Mailable
     public function build()
     {
         $this->subject('Nueva peticion de evento');
-        return $this->markdown('mail.massiveEventRequest');
+        return $this->markdown('mail.massiveEventRequest')->replyTo($this->content['mail'], $this->content['user']['name']);
     }
 }
