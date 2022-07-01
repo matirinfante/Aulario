@@ -123,6 +123,22 @@ $(document).ready(function() {
                     }
                 })
                 break;
+            case 'Se ha cambiado su contraseña correctamente!':
+                var timerInterval
+                Swal.fire({
+                    toast: true,
+                    position: 'bottom-end',
+                    background: '#a5dc86',
+                    color: '#000',
+                    showConfirmButton: false,
+                    html: 'Se ha cambiado su contraseña correctamente!',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                })
+                break;
         }
     }
 });

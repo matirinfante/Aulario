@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BookingStoreRequest;
+use App\Jobs\SendEventBookingCreatedJob;
+use App\Jobs\SendMassiveEventRequestJob;
+use App\Jobs\SendPetitionRejectJob;
+use App\Mail\MassiveEventRequestMail;
 use App\Models\Assignment;
 use App\Models\Booking;
 use App\Models\Classroom;
@@ -95,7 +99,7 @@ class BookingController extends Controller
                     'booking_id' => $booking->id,
                     'date' => $request->booking_date
                 ]);
-
+                $this->dispatch(new SendEventBookingCreatedJob($booking));
                 flash('Se ha registrado la reserva con exito')->success();
                 return redirect(route('bookings.mybookings'));
             } else if (auth()->user()->hasRole('admin')) {
@@ -494,9 +498,15 @@ class BookingController extends Controller
     }
 
 //obtenemos las reservas de aulas de informatica para el dia actual,seran mostradas en el diagrama de Gantt
-    public function getClassroom()
+    public function getClassroom(Request $request)
     {
-        $today = Carbon::today()->format('Y-m-d');
+        Log::info('entre');
+        if (!$request->booking_date) {
+            $today = Carbon::today()->format('Y-m-d');
+        } else {
+            $today = Carbon::parse($request->booking_date)->format('Y-m-d');
+        }
+
         $classrooms = Classroom::where('building', 'Informática')->get();
         $response = [];
 
@@ -537,9 +547,16 @@ class BookingController extends Controller
         }
     }
 
-    public function massiveEventRequest(Request $request)
+    public function sendPetitionFromMessage(Request $request)
     {
-
+        try {
+            $user = User::where('email', $request->user_mail)->first();
+            $response = collect(['user' => $user, 'mail' => $request->user_mail, 'subject' => $request->subject, 'description' => $request->description]);
+            $this->dispatch(new SendMassiveEventRequestJob($response));
+            return back()->with('success', 'Petición enviada exitosamente. El administrador le responderá a la brevedad al mail registrado en su cuenta');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Ha ocurrido un error al procesar la petición');
+        }
     }
 
 }

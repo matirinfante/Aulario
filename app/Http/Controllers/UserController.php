@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
 use Ramsey\Uuid\Uuid;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Http\Request;
+use App\Http\Requests\ChangePasswordRequest;
 
 
 class UserController extends Controller
@@ -93,6 +95,26 @@ class UserController extends Controller
         return view('user.edit', compact('user'));
     }
 
+     /**
+     * Cambiamos la contraseña del usuario
+     *
+     * @param text $password
+     */
+    public function changePassword(ChangePasswordRequest $request){
+
+        if(!Hash::check($request->old_password, auth()->user()->password)){
+            flash('Ha ocurrido un error')->error();
+            return redirect(route('profile'));
+        }
+
+        User::whereId(auth()->user()->id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+        flash('Se ha cambiado su contraseña correctamente!')->success();
+        return redirect(route('profile'));
+    }
+
+
     /**
      * Update the specified resource in storage.
      *
@@ -152,6 +174,8 @@ class UserController extends Controller
             return back();
         }
     }
+
+
 
 
     /**

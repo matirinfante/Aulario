@@ -8,6 +8,8 @@ use App\Models\Assignment;
 use App\Models\Classroom;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ClassroomController extends Controller
 {
@@ -39,13 +41,40 @@ class ClassroomController extends Controller
     public function store(ClassroomStoreRequest $request)
     {
         try {
+            #Para subir la imagen
+            #Comprobar el tipo de archivo por medio de la extension.
+            $img_png = $request->file("location")->guessExtension() == 'png'; #True or False
+            $img_jpg = $request->file("location")->guessExtension() == 'jpg'; #True or False
+            $img_jpeg = $request->file("location")->guessExtension() == 'jpeg'; #True or False
+            $req_valid = $request->location != null && $request->location != ""; #True or False
+
+
+
+
+            if ($req_valid && ($img_png||($img_jpg || $img_jpeg))) 
+            {
+                $image = $request->file("location");#El archivo se amacena en la variable
+
+                $imgName = Str::slug($request->building. "_" .$request->classroom_name) . "." . $image->guessExtension();#Creamos el nuevo nombre de la imagen
+
+                $request->file('location')->storeAs('/public/', $imgName);#Ruta en la que se almacenara la img, y el nuevo nombre
+                
+                $location = "/assets/mapa_aulas/storage/" .$imgName;#Locacion seria la ruta a la se accederia a la imagen
+                #Se uso un link simbolico para llevar storage a public assets
+            } 
+            else
+            {
+                $location = "";#Esto es para el if a la hora de mostrar la imagen del aula, si no tiene contenido
+            }
+
             $classroom = Classroom::create([
                 'classroom_name' => $request->classroom_name,
-                'location' => $request->location,
+                'location' => $location,
                 'capacity' => $request->capacity,
                 'type' => $request->type,
                 'building' => $request->building,
             ]);
+
             $classroom->save();
 
             if ($request->building == 'Informática') {

@@ -34,26 +34,42 @@ Route::get('/status', function () {
 //Posible riesgo de seguridad !! Investigar
 Route::post('/bookings/gantt', [BookingController::class, 'getClassroom'])->name('bookings.gantt');
 
-Auth::routes();
+
+
+Auth::routes(['register' => false]);
 
 
 Route::middleware(['auth'])->group(function () {
+
+    Route::get('/bookings/admingantt', function () {
+        return view('booking.adminGantt');
+    })->name('bookings.admingantt');
+
+    Route::get('/users/profile', function(){
+        return view('user.profile');
+    })->name('profile');
+
+    Route::post('/users/changePassword', [UserController::class, 'changePassword'])->name('users.changePassword');
+
+
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //Reject petition route
     Route::patch('/petitions/reject/{petition}', [PetitionController::class, 'rejectPetition'])->name('petitions.reject');
 //Mass toggle semester route
     Route::post('/assignments/semester', [AssignmentController::class, 'toggleSemester'])->name('assignments.toggle');
-//RUTA TEST
-    Route::get('/bookings/test', function () {
-        return view('booking.test');
-    });
-    //Check de logbook
+//RUTA Petición desde Bookings para evento masivo
+    Route::post('/bookings/sendPetition', [BookingController::class, 'sendPetitionFromMessage'])->name('bookings.sendPetition');
+
+//Check de logbook
     Route::post('/logbooks/check', [LogbookController::class, 'checkSign'])->name('logbook.check');
-    //Registrar check in
+//Registrar check in
     Route::post('/logbooks/checkIn', [LogbookController::class, 'signCheckIn'])->name('logbook.checkin');
-    //Registrar check out
+//Registrar check out
     Route::post('/logbooks/checkOut', [LogbookController::class, 'signCheckOut'])->name('logbook.checkout');
+    //Logbook historic
+    Route::post('/logbooks/getlogbook',[LogbookController::class, 'getHistoryLogbook'])->name('logbook.getbydate');
+    Route::get('/logbooks/history',function(){return view('logbook.history');})->name('logbooks.history');
 //Period gen
     Route::post('/bookings/periods', [BookingController::class, 'getGaps'])->name('bookings.gaps');
     Route::post('/bookings/assignmentperiods', [BookingController::class, 'getClassroomsGaps'])->name('bookings.assignmentgaps');
@@ -65,6 +81,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bookings/create/petition', [BookingController::class, 'createFromPetition'])->name('bookings.petition');
     Route::get('/bookings/admin/create', [BookingController::class, 'createAdmin'])->name('bookings.createAdmin');
     Route::post('/bookings/filter', [BookingController::class, 'classroomBookings'])->name('bookings.filter');
+
     Route::resources([
         'assignments' => AssignmentController::class,
         'bookings' => BookingController::class,

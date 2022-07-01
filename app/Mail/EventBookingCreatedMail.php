@@ -11,14 +11,16 @@ class EventBookingCreatedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $booking;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($booking)
     {
-        //
+        $this->booking = $booking;
     }
 
     /**
@@ -28,6 +30,7 @@ class EventBookingCreatedMail extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        $this->subject('Su reserva ha sido registrada con éxito');
+        return $this->markdown('mail.EventBookingCreated');
     }
 }

@@ -40,11 +40,11 @@ class BookingFactory extends Factory
         $classroom_id = Classroom::all()->random()->id;
         $check_availability = Schedule::where('classroom_id', $classroom_id)->where('day', ucfirst($week_day))->first();
         if (!$check_availability) {
-            Schedule::create(['classroom_id' => $classroom_id, 'day' => ucfirst($week_day), 'start_time' => '08:00', 'finish_time' => '20:00']);
+            // Schedule::create(['classroom_id' => $classroom_id, 'day' => ucfirst($week_day), 'start_time' => '08:00', 'finish_time' => '20:00']);
         } else {
             $availability = Schedule::findOrFail($check_availability->id);
-            $availability->start_time = '08:00';
-            $availability->finish_time = '20:00';
+            // $availability->start_time = '08:00';
+            // $availability->finish_time = '20:00';
             $availability->save();
         }
         return [

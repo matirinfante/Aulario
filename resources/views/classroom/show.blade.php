@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h5 class="card-title"><span class="text-secondary">Nombre:<br><br></span>
+                <h5 class="card-title"><span class="text-secondary">Nombre:<br></span>
                     {{ $class->classroom_name }}</h5>
                 <hr>
                 <p class="card-title"><span class="text-secondary">Tipo de aula:</span>
@@ -28,12 +28,12 @@
                 <p class="card-title"><span class="text-secondary">Locación:</span></p>
 
                 @if (($class->location) != "")
-                    <img id="image_classroom" width="380px" src="{{ asset($class->location) }}"alt="{{ $class->classroom_name }}"> 
+                    <img id="image_classroom" class="img-fluid" src="{{ asset($class->location) }}"alt="{{ $class->classroom_name }}"> 
                 @else
                     <p>No hay imagen disponible.</p>                 
                 @endif
 
-                {{-- @php
+                <!-- {{-- @php
                      $nameImg = $class->classroom_name;
                     // if (File::exists(public_path('mapa_aulas/'.$nameImg.'.png'))) {
                     //     echo ('<img id="image_classroom" width="350px" height="500px" src="{{ asset("assets/mapa_aulas/" '. $nameImg .' ".png") }}"alt="Aula_i1">');
@@ -51,7 +51,7 @@
             
                 @endphp --}}
 
-                {{-- <img id="image_classroom" width="350px" height="500px" src="{{ asset('assets/mapa_aulas/' . $nameImg . '.png') }}"alt="Aula_i1"> --}}
+                {{-- <img id="image_classroom" width="350px" height="500px" src="{{ asset('assets/mapa_aulas/' . $nameImg . '.png') }}"alt="Aula_i1"> --}} -->
 
             </div>
         </div>

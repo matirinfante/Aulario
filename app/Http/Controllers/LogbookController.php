@@ -182,6 +182,7 @@ class LogbookController extends Controller
                     }
                 }
             }
+            return back()->with('error', 'No se ha podido verificar la validez de uno o más datos');
         }
         return ['status' => 'error', 'message' => 'No se ha podido verificar la validez de uno o más datos'];
     }
@@ -233,5 +234,35 @@ class LogbookController extends Controller
             flash('Ha ocurrido un error al registrar la salida')->error();
             return back()->with('error', 'Ha ocurrido un error al registrar la salida');
         }
+    }
+
+    /**
+     * Función que se encarga de retornar los registros del libro de llegada que corresponden a una fecha previamente seleccionada.
+     * Se espera su manejo mediante AJAX
+     *
+     * @param Request $request con la key date con la fecha correspondiente a la seleccionada
+     * @return array $logbook con los datos correspondientes a la fecha seleccionada
+     */
+    public function getHistoryLogbook(Request $request)
+    {
+        $classrooms = Classroom::where('building', 'Informática')->get(['id']);
+        $bookings = Booking::whereIn('classroom_id', $classrooms)->get(['id']);
+        $logbook = Logbook::where('date', Carbon::parse($request->date)->format('Y-m-d'))->whereIn('booking_id', $bookings)->get();
+
+        $response = collect();
+        foreach ($logbook as $entry) {
+            $data = [
+                'name' => $entry->booking->assignment ? $entry->booking->assignment->assignment_name : $entry->booking->event->event_name,
+                'classroom_name' => $entry->booking->classroom->classroom_name,
+                'user_name' => $entry->user?$entry->user->name.' '.$entry->user->surname: 'No disp',
+                'date' => $entry->date,
+                'check_in' => $entry->check_in,
+                'check_out' => $entry->check_out,
+                'commentary' => $entry->commentary];
+                $response[] = $data;
+            }
+    
+            return $response;
+
     }
 }

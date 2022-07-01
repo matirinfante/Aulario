@@ -11,14 +11,16 @@ class MassiveEventRequestMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $content;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($content)
     {
-        //
+        $this->content = $content;
     }
 
     /**
@@ -28,6 +30,7 @@ class MassiveEventRequestMail extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        $this->subject('Nueva peticion de evento');
+        return $this->markdown('mail.massiveEventRequest')->replyTo($this->content['mail'], $this->content['user']['name']);
     }
 }

@@ -4,7 +4,38 @@
     <style>
         /* estilo para boton de descarga (pdf) */
         button.btn.btn-secondary.buttons-pdf.buttons-html5 {
-            background-color: #c7be57;
+            margin-left: 16px;
+            max-width: 70px;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.7875rem;
+            border-radius: 0.2rem;
+            background-color: #fff;
+            color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        button.btn.btn-secondary.buttons-pdf.buttons-html5:hover {
+            background-color: #6c757d;
+            color: #fff;
+            border-color: #fff;
+        }
+
+        /* estilo para boton de descarga (csv) */
+        button.btn.btn-secondary.buttons-csv.buttons-html5 {
+            margin-left: 10px;
+            max-width: 70px;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.7875rem;
+            border-radius: 0.2rem;
+            background-color: #fff;
+            color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        button.btn.btn-secondary.buttons-csv.buttons-html5:hover {
+            background-color: #6c757d;
+            color: #fff;
+            border-color: #fff;
         }
 
         /* estilos para botones firma, editar, token*/
