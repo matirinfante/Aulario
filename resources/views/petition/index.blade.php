@@ -28,10 +28,9 @@
                 <div class="col-12 pb-3">
                     @can('create petitions')
                     <!-- Traemos el usuario al cual le vamos a sacar la inf. Es un obj. -->
-                    {{ $user = auth()->user() }}
-                    <button type='button' class='btn btn-primary' data-bs-toggle="modal" data-bs-target="#createModal{{ $user->id }}">Crear nueva petición
+                    <button type='button' class='btn btn-primary' data-bs-toggle="modal" data-bs-target="#createModal{{ auth()->user()->id }}">Crear nueva petición
                     </button>
-                    @include('petition.create', ['user' => $user])
+                    @include('petition.create', ['user' => auth()->user()])
                     @endcan
                 </div>
             </div>
@@ -47,7 +46,7 @@
                             <td>Tipo Aula</td>
                             <td>Estado</td>
                             @can('show petitions')
-                                <td>Acción</td>
+                                <td></td>
                             @endcan
                             @canany(['reject petitions', 'accept petitions'])
                                 <td></td>
