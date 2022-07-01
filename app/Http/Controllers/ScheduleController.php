@@ -23,7 +23,6 @@ class ScheduleController extends Controller
     }
 
 
-
     /**
      * Show the form for creating a new resource.
      *
@@ -40,7 +39,7 @@ class ScheduleController extends Controller
      */
     public function store(ScheduleStoreRequest $request)
     {
-        
+
         $verificationSchedule = $this->scheduleVerification($request);
         if ($verificationSchedule) {
             try {
@@ -103,7 +102,9 @@ class ScheduleController extends Controller
         }
     }
 
-    //funcion para validar si se puede agregar un horario de disponibilidad para un aula
+    /**
+     * Función para validar si se puede agregar un horario de disponibilidad para un aula
+     */
     public function scheduleVerification($request)
     {
         //traemos en la condicion una coleccion de horarios que se correspondan con el dia que tiene el request

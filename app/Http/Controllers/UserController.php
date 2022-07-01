@@ -58,7 +58,7 @@ class UserController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'user_uuid' => Uuid::uuid4(),
-                'personal_token' => Hash::make($newHashid->encode($key))
+                'personal_token' => $newHashid->encode($key)
             ]);
             if ($request->role == 'teacher') {
                 $user->assignRole('teacher');
@@ -67,7 +67,6 @@ class UserController extends Controller
             } else {
                 $user->assignRole('user');
             }
-            //dd(QrCode::generate($user->dni, url('/qrstorage/qr' . $user->surname . '.svg')));
             flash('Se ha registrado correctamente el nuevo usuario')->success();
             return redirect(route('users.index'));
         } catch (\Exception $e) {
@@ -124,7 +123,6 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, $id)
     {
         //no se modifica la contraseña del usuario
-        //TODO: validar request con UserRequest
 
         try {
             $user = User::withTrashed()->findOrFail($id);
@@ -174,9 +172,6 @@ class UserController extends Controller
             return back();
         }
     }
-
-
-
 
     /**
      * Reactiva al usuario

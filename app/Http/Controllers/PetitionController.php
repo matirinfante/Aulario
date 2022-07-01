@@ -132,7 +132,6 @@ class PetitionController extends Controller
      * Se encarga de cambiar el estado de la petición
      * @param Petition $petition
      */
-
     public function rejectPetition(Request $request, Petition $petition)
     {
         try {
