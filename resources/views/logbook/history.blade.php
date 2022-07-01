@@ -1,48 +1,48 @@
 @extends('layouts.app')
 
 @section('styles')
-<style>
-    /* estilo para boton de descarga (pdf) */
-    button.btn.btn-secondary.buttons-pdf.buttons-html5 {
-        margin-left: 16px;
-        max-width: 70px;
-        padding: 0.25rem 0.5rem;
-        font-size: 0.7875rem;
-        border-radius: 0.2rem;
-        background-color: #fff;
-        color: #6c757d;
-        border-color: #6c757d;
-    }
+    <style>
+        /* estilo para boton de descarga (pdf) */
+        button.btn.btn-secondary.buttons-pdf.buttons-html5 {
+            margin-left: 16px;
+            max-width: 70px;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.7875rem;
+            border-radius: 0.2rem;
+            background-color: #fff;
+            color: #6c757d;
+            border-color: #6c757d;
+        }
 
-    button.btn.btn-secondary.buttons-pdf.buttons-html5:hover {
-        background-color: #6c757d;
-        color: #fff;
-        border-color: #fff;
-    }
+        button.btn.btn-secondary.buttons-pdf.buttons-html5:hover {
+            background-color: #6c757d;
+            color: #fff;
+            border-color: #fff;
+        }
 
-    /* estilo para boton de descarga (csv) */
-    button.btn.btn-secondary.buttons-csv.buttons-html5 {
-        margin-left: 10px;
-        max-width: 70px;
-        padding: 0.25rem 0.5rem;
-        font-size: 0.7875rem;
-        border-radius: 0.2rem;
-        background-color: #fff;
-        color: #6c757d;
-        border-color: #6c757d;
-    }
+        /* estilo para boton de descarga (csv) */
+        button.btn.btn-secondary.buttons-csv.buttons-html5 {
+            margin-left: 10px;
+            max-width: 70px;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.7875rem;
+            border-radius: 0.2rem;
+            background-color: #fff;
+            color: #6c757d;
+            border-color: #6c757d;
+        }
 
-    button.btn.btn-secondary.buttons-csv.buttons-html5:hover {
-        background-color: #6c757d;
-        color: #fff;
-        border-color: #fff;
-    }
+        button.btn.btn-secondary.buttons-csv.buttons-html5:hover {
+            background-color: #6c757d;
+            color: #fff;
+            border-color: #fff;
+        }
 
-    /* estilos para botones firma, editar, token*/
-    .btn-outline-secondary {
-        border: none;
-    }
-</style>
+        /* estilos para botones firma, editar, token*/
+        .btn-outline-secondary {
+            border: none;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -57,7 +57,8 @@
 
     <div class="card mt-3 m-auto d-none" style="width: 1000px;">
         <div class="card-body text-center" id="tablaHistorial">
-
+            
+                
         </div>
     </div>
 @endsection
@@ -65,6 +66,7 @@
 @section('scripts')
     <script>
         $('#date').on('change', function() {
+            
             $('#tablaHistorial').empty();
             var fecha = $(this).val();
             $.ajax({
@@ -76,8 +78,6 @@
                     date: fecha
                 },
                 success: function(array) {
-                    console.log(array);
-                    console.log(array[0]);
                     $('.card').removeClass('d-none');
                     var tabla = `<table class="table table-striped table-hover" id="logbooksHistory">
                         <thead class="bg-secondary text-light">
@@ -89,9 +89,10 @@
                                 <th>Hora ingreso</th>
                                 <th>Hora salida</th>
                                 <th>Observación</th>
-                            </tr>
+                                </tr>
                         </thead>
                     <tbody>`;
+
                     if (array.length > 0) {
                         // si existen datos, recorrerlos y armar los td de la tabla
                         array.forEach(logbook => {
@@ -104,26 +105,37 @@
                             tabla += `<tr>`;
 
                             tabla += `<td style="word-wrap: break-word; word-break: break-all; white-space: normal;">
-                                    ${logbook['booking_id']}</td>`; // nombre
+                                ${logbook['name']}</td>`; // nombre
 
                             tabla += `<td>${fecha}</td>`; // fecha
-                            tabla += `<td></td>`; // aula
-                            tabla += `<td></td>`; // usuario(nombre)
-                            if(logbook['check_in'] != null){
-                                tabla += `<td></td>`; // hora ingreso
+
+                            if(logbook['classroom_name'] != null){
+                                tabla += `<td>${logbook['classroom_name']}</td>`; // aula
                             }else{
+                                tabla += `<td class="text-secondary">No disp</td>`;
+                            }
+
+                            if(logbook['user_name'] != null){
+                                tabla += `<td>${logbook['user_name']}</td>`; // usuario(nombre)
+                            }else{
+                                tabla += `<td class="text-secondary">No disp</td>`;
+                            }
+
+                            if (logbook['check_in'] != null) {
+                                tabla += `<td></td>`; // hora ingreso
+                            } else {
                                 tabla += `<td>No disp</td>`;
                             }
 
-                            if(logbook['check_out'] != null){
+                            if (logbook['check_out'] != null) {
                                 tabla += `<td></td>`; // hora salida
-                            }else{
+                            } else {
                                 tabla += `<td>No disp</td>`;
                             }
-                            
-                            if(logbook['commentary'] != null){
+
+                            if (logbook['commentary'] != null) {
                                 tabla += `<td></td>`; // observaciones
-                            }else{
+                            } else {
                                 tabla += `<td>No disp</td>`;
                             }
                             tabla += `</tr>`;
@@ -133,7 +145,7 @@
                         tabla +=
                             `<td colspan="7" class="text-center text-secondary">No hay registros</td>`;
                     }
-                    tabla += `</tbody></table>`
+                    tabla += `</tbody></table>`;
                     $('#tablaHistorial').append(tabla);
                     historialLogbook();
                 }
