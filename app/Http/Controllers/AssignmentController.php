@@ -78,7 +78,6 @@ class AssignmentController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *TODO:sincronizar profes con materia sync()
      */
     public function update(AssignmentRequest $request, Assignment $assignment)
     {
@@ -112,7 +111,9 @@ class AssignmentController extends Controller
         }
     }
 
-// Reactiva la materia
+    /**
+     * Función que se encarga de alternar el estado 'active' de una materia, representando el cuatrimestre.
+     */
     public function activateAssignment($id)
     {
         $assignment = Assignment::withTrashed()->where('id', $id)->restore();

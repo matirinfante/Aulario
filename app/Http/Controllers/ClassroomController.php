@@ -51,17 +51,17 @@ class ClassroomController extends Controller
 
 
 
-            if ($req_valid && ($img_png||($img_jpg || $img_jpeg))) 
+            if ($req_valid && ($img_png||($img_jpg || $img_jpeg)))
             {
                 $image = $request->file("location");#El archivo se amacena en la variable
 
                 $imgName = Str::slug($request->building. "_" .$request->classroom_name) . "." . $image->guessExtension();#Creamos el nuevo nombre de la imagen
 
                 $request->file('location')->storeAs('/public/', $imgName);#Ruta en la que se almacenara la img, y el nuevo nombre
-                
+
                 $location = "/assets/mapa_aulas/storage/" .$imgName;#Locacion seria la ruta a la se accederia a la imagen
                 #Se uso un link simbolico para llevar storage a public assets
-            } 
+            }
             else
             {
                 $location = "";#Esto es para el if a la hora de mostrar la imagen del aula, si no tiene contenido
@@ -154,7 +154,6 @@ class ClassroomController extends Controller
      * Se encarga de revivir el aula
      *
      */
-
     public function activateClassroom($id)
     {
         $classroom = Classroom::withTrashed()->where('id', $id)->restore();

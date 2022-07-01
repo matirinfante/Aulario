@@ -35,7 +35,6 @@ class BookingController extends Controller
 
     /**
      * Display a listing of the resource.
-     *TODO: filtrar por materia activa
      */
     public function index()
     {
@@ -75,6 +74,8 @@ class BookingController extends Controller
     {
         try {
             if (auth()->user()->hasAnyRole('user', 'teacher')) {
+
+                //TODO: la comprobación se hace acá :)
 
                 $event = Event::create([
                     'event_name' => $request->event_name,
@@ -325,6 +326,10 @@ class BookingController extends Controller
         return $gaps;
     }
 
+    /**
+     * Función encargada de devolver solo las reservas del usuario.
+     * La misma tiene un límite de hasta dos semanas y se ordena por fecha y hora de inicio
+     */
     public function myBookings()
     {
         $bookings = Booking::where('user_id', auth()->user()->id)
@@ -335,6 +340,9 @@ class BookingController extends Controller
         return view('booking.mybookings', compact('bookings'));
     }
 
+    /**
+     * TODO: explicar
+     */
     public function classroomBookings(Request $request)
     {
         $id = $request->classroom_id;
@@ -547,6 +555,9 @@ class BookingController extends Controller
         }
     }
 
+    /**
+     * Función que se encarga de tomar la información a enviar en un mail al administrador
+     */
     public function sendPetitionFromMessage(Request $request)
     {
         try {
