@@ -21,18 +21,18 @@
 
     <div id="app">
         @if (!request()->routeIs('gantt'))
-            <nav class="navbar navbar-expand-md navbar-light shadow-sm text-center menu_sup">
+            <nav class="navbar navbar-expand-md navbar-dark shadow-sm text-center menu_sup">
                 <div class="container-fluid">
                     @if (!request()->routeIs('inicio'))
                         {{-- si el usuario esta logueado, su index sera 'home'. De lo contrario será la raíz --}}
                         @if (Auth::user())
                             <a class="navbar-brand" href="{{ route('home') }}">
-                                <img src="{{ asset('assets/img/aulario.png') }}" class="img-fluid" alt="Aulario"
+                                <img src="{{ asset('assets/img/aulario.png') }}" class="img-fluid logoSup" alt="Aulario"
                                     width="60px">
                             </a>
                         @else
                             <a class="navbar-brand" href="{{ route('inicio') }}">
-                                <img src="{{ asset('assets/img/aulario.png') }}" class="img-fluid" alt="Aulario"
+                                <img src="{{ asset('assets/img/aulario.png') }}" class="img-fluid logoSup" alt="Aulario"
                                     width="60px">
                             </a>
                         @endif
@@ -55,10 +55,10 @@
                                                 data-bs-toggle="dropdown" aria-expanded="false">
                                                 Gestión Institucional
                                             </a>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton1">
                                                 @can('show users')
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="{{ route('users.index') }}" role="button">
+                                                        <a class="nav-link sonLink" href="{{ route('users.index') }}" role="button">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                 height="16" fill="currentColor" class="bi bi-people"
                                                                 viewBox="0 0 16 16">
@@ -71,7 +71,7 @@
                                                 @endcan
                                                 @can('show assignments')
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="{{ route('assignments.index') }}"
+                                                        <a class="nav-link sonLink" href="{{ route('assignments.index') }}"
                                                             role="button">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                 height="16" fill="currentColor" class="bi bi-book"
@@ -85,7 +85,7 @@
                                                 @endcan
                                                 @can('show classrooms')
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="{{ route('classrooms.index') }}"
+                                                        <a class="nav-link sonLink" href="{{ route('classrooms.index') }}"
                                                             role="button">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                 height="16" fill="currentColor" class="bi bi-mortarboard"
@@ -101,7 +101,7 @@
                                                 @endcan
                                                 @can('show schedule')
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="{{ route('schedules.index') }}"
+                                                        <a class="nav-link sonLink" href="{{ route('schedules.index') }}"
                                                             role="button">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                                                 viewBox="0 0 516 516" width="16" height="16">
@@ -113,7 +113,7 @@
                                                     </li>
                                                 @endcan
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="{{ route('logbooks.history') }}"
+                                                    <a class="nav-link sonLink" href="{{ route('logbooks.history') }}"
                                                         role="button">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hourglass-split" viewBox="0 0 16 16">
                                                             <path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1h-11zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2h-7zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48V8.35zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z"/>
@@ -129,10 +129,10 @@
                                             data-bs-toggle="dropdown" aria-expanded="false">
                                             Gestión de Reservas
                                         </a>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton1">
                                             @can('show bookings')
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="{{ route('bookings.index') }}"
+                                                    <a class="nav-link sonLink" href="{{ route('bookings.index') }}"
                                                         role="button">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                             height="16" fill="currentColor"
@@ -148,7 +148,7 @@
                                             @endcan
                                             @can('show bookings')
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="{{ route('bookings.admingantt') }}"
+                                                    <a class="nav-link sonLink" href="{{ route('bookings.admingantt') }}"
                                                         role="button">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                             height="16" fill="currentColor"
@@ -203,7 +203,7 @@
                                             @endcan
                                             @can('show events')
                                                 <li class="nav-item">
-                                                    <a class="nav-link" aria-current="page"
+                                                    <a class="nav-link sonLink" aria-current="page"
                                                         href="{{ route('events.index') }}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                             height="16" fill="currentColor"
@@ -225,7 +225,7 @@
                                             @endcan
                                             @can('show petitions')
                                                 <li class="nav-item dropdown">
-                                                    <a class="nav-link" href="{{ route('petitions.index') }}"
+                                                    <a class="nav-link sonLink" href="{{ route('petitions.index') }}"
                                                         role="button">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                             height="16" fill="currentColor" class="bi bi-pen"
