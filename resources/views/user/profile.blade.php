@@ -83,7 +83,7 @@
                             </div>
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-10">
-                                    <button id="btnSubmit" type="submit" class="btn btn-primary">Aceptar</button>
+                                    <button id="btnSubmit" type="submit" class="btn btn-primary disabled">Aceptar</button>
                                 </div>
                             </div>
                         </form>
