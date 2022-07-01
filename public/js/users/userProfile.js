@@ -31,15 +31,15 @@ $btnSubmit.addEventListener('click', e => {
     let v4 = false
     e.preventDefault()
 
-    if (newPass.length > 0) {
+    if (newPass) {
         v2 = true
-            // $errorNewPass.classList.add("d-none")
+     $errorNewPass.classList.add("d-none")
     } else {
         $errorNewPass.classList.remove("d-none")
         $errorNewPass.textContent = 'Ingrese un valor'
     }
 
-    if (oldPass.length > 0) {
+    if (oldPass) {
         v1 = true
         $errorOldPass.classList.add("d-none")
     } else {
@@ -48,27 +48,29 @@ $btnSubmit.addEventListener('click', e => {
     }
 
 
-    if (newPassConfirmation.length > 0) {
+    if (newPassConfirmation) {
         v3 = true
-            // $errorNewPassConfirmation.classList.add("d-none")
+          $errorNewPassConfirmation.classList.add("d-none")
     } else {
         $errorNewPassConfirmation.textContent = 'Ingrese un valor'
         $errorNewPassConfirmation.classList.remove("d-none")
     }
-
-    if (newPass === newPassConfirmation) {
-        v4 = true
-        $errorNewPass.classList.add('d-none')
-        $errorNewPassConfirmation.classList.add('d-none')
-    } else {
-        $errorNewPass.textContent = 'La contraseña nueva no son iguales'
-        $errorNewPass.classList.remove('d-none')
-        $errorNewPassConfirmation.textContent = 'La contraseña nueva no son iguales'
-        $errorNewPassConfirmation.classList.remove('d-none')
-    }
-
+    
+        if (newPass === newPassConfirmation) {
+            v4 = true
+            // $errorNewPass.classList.add('d-none')
+            // $errorNewPassConfirmation.classList.add('d-none')
+        }else{
+            $errorNewPass.textContent = 'La contraseña nueva no son iguales'
+            $errorNewPass.classList.remove('d-none')
+            $errorNewPassConfirmation.textContent = 'La contraseña nueva no son iguales'
+            $errorNewPassConfirmation.classList.remove('d-none')
+           
+        } 
+            
+    
     if (v1 && v2 && v3 && v4) {
         $form.submit()
     }
-
+  
 })

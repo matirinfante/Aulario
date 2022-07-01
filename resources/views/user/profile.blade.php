@@ -16,18 +16,18 @@
     <div class="container">
         <div class="row justify-content-center">
             <h5>Perfil personal</h5>
-            <div class="col-md-4 pt-4 ">Información de datos personales</div>
+            <div class="col-md-4 pt-4 fw-bolder">Información de datos personales</div>
             <div class="col-md-8 ">
                 <div class="card col-md-10">
                     <div class="card-body">
                         <div class="row mb-3">
-                            <label for="name" class="col-md-3 col-form-label ">Nombre</label>
+                            <label for="name" class="col-md-3 col-form-label fw-bolder">Nombre</label>
                             <div class="col-md-6">
                                 <input id="name" disabled type="text" class="form-control" name="name" value="{{auth()->user()->name}} {{auth()->user()->surname}}" >
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="personal_token" class="col-md-3 col-form-label ">Token personal</label>
+                            <label for="personal_token" class="col-md-3 col-form-label fw-bolder">Token personal</label>
                             <div class="col-md-6 position-relative">
                                 <input id="personal_token" disabled type="password" class="form-control" name="personal_token" value="{{auth()->user()->personal_token}}" >
                                 <div class="position-absolute top-0 end-0 me-4 mt-1"  onclick="showPassword('personal_token')">
@@ -41,14 +41,14 @@
             </div>
         </div>
         <div class="row justify-content-center mt-4">
-            <div class="col-md-4 pt-4 ">Actualización de contraseña</div>
+            <div class="col-md-4 pt-4 fw-bolder">Actualización de contraseña</div>
             <div class="col-md-8 ">
                 <div class="card col-md-10">
                     <div class="card-body">
                         <form id="formChangePassword" method="POST" action="{{route('users.changePassword')}}">
                             @csrf
                             <div class="row mb-3">
-                                <label for="old_password" class="col-md-3 col-form-label ">Contraseña actual</label>
+                                <label for="old_password" class="col-md-3 col-form-label fw-bolder">Contraseña actual</label>
                                 <div class="col-md-6 position-relative">
                                     <input id="old_password" type="password" class="form-control" name="old_password">
                                     <div class="position-absolute top-0 end-0 me-4 mt-1"  onclick="showPassword('old_password')">
@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="new_password" class="col-md-3 col-form-label ">Nueva contraseña</label>
+                                <label for="new_password" class="col-md-3 col-form-label fw-bolder ">Nueva contraseña</label>
                                 <div class="col-md-6 position-relative">
                                     <input id="new_password" type="password" class="form-control" name="new_password">
                                     <div class="position-absolute top-0 end-0 me-4 mt-1"  onclick="showPassword('new_password')">
@@ -70,7 +70,7 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="new_password_confirmation" class="col-md-3 col-form-label ">Confirmar contraseña</label>
+                                <label for="new_password_confirmation" class="col-md-3 col-form-label fw-bolder">Confirmar contraseña</label>
                                 <div class="col-md-6 position-relative">
                                     <input id="new_password_confirmation" type="password" class="form-control" name="new_password_confirmation">
                                     <div class="position-absolute top-0 end-0 me-4 mt-1"  onclick="showPassword('new_password_confirmation')">
