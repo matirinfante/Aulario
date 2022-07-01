@@ -13,6 +13,7 @@ use App\Http\Requests\UserRequest;
 use Ramsey\Uuid\Uuid;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Http\Request;
+use App\Http\Requests\ChangePasswordRequest;
 
 
 class UserController extends Controller
@@ -99,11 +100,7 @@ class UserController extends Controller
      *
      * @param text $password
      */
-    public function changePassword(Request $request){
-        $request->validate([
-            'old_password' => 'required|current_password',
-            'new_password' => 'required|confirmed',
-        ]);
+    public function changePassword(ChangePasswordRequest $request){
 
         if(!Hash::check($request->old_password, auth()->user()->password)){
             flash('Ha ocurrido un error')->error();
