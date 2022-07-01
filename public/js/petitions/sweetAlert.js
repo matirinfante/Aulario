@@ -22,8 +22,8 @@ $(document).ready(function () {
     if (flash.find('.alert.alert-success').length > 0) {
         var contentFlash = $("#flashMessage:first").text().trim();
         switch (contentFlash) {
-            // CREACION DE PETICION
-            case 'Se ha creado una nueva petición':
+            //CREACION DE PETICION
+            case 'Petición creada con exito.':
                 var timerInterval
                 Swal.fire({
                     toast: true,
@@ -31,16 +31,33 @@ $(document).ready(function () {
                     background: '#a5dc86',
                     color: '#000',
                     showConfirmButton: false,
-                    html: 'Aula creada con éxito.',
-                    timer: 2000,
+                    html: 'Petición creada con exito.',
+                    timer: 4000,
                     timerProgressBar: true,
                     willClose: () => {
                         clearInterval(timerInterval)
                     }
                 })
-                break;
-            // SE RECHAZA LA PETICION
-            case 'Se ha rechazado la petición':
+            break;
+            //ERROR AL CREAR PETICION
+            case 'Error al crear la petición.':
+                var timerInterval
+                Swal.fire({
+                    toast: true,
+                    position: 'bottom-end',
+                    background: '#f27474',
+                    color: '#000',
+                    showConfirmButton: false,
+                    html: 'Error al crear la petición.',
+                    timer: 4000,
+                    timerProgressBar: true,
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                })
+            break;
+            //RECHAZAR PETICION
+            case 'Se rechazo la petición.':
                 var timerInterval
                 Swal.fire({
                     toast: true,
@@ -48,16 +65,17 @@ $(document).ready(function () {
                     background: '#a5dc86',
                     color: '#000',
                     showConfirmButton: false,
-                    html: 'Aula modificada con éxito.',
-                    timer: 2000,
+                    html: 'Se rechazo la petición.',
+                    timer: 4000,
                     timerProgressBar: true,
                     willClose: () => {
                         clearInterval(timerInterval)
                     }
                 })
                 break;
-            // ERROR AL CREAR PETICION
-            case 'Ha ocurrido un error al crear una petición':
+
+            //ERROR AL RECHAZAR PETICION
+            case 'Error al rechazar petición.':
                 var timerInterval
                 Swal.fire({
                     toast: true,
@@ -65,16 +83,33 @@ $(document).ready(function () {
                     background: '#f27474',
                     color: '#000',
                     showConfirmButton: false,
-                    html: 'Error al crear el aula.',
-                    timer: 2000,
+                    html: 'Error al rechazar petición.',
+                    timer: 4000,
                     timerProgressBar: true,
                     willClose: () => {
                         clearInterval(timerInterval)
                     }
                 })
-                break;
-            // ERROR MODIFICACION PETICION
-            case 'Ha ocurrido un error al actualizar una petición':
+            break;
+            //ACEPTAR PETICION
+            case 'Se aceptó la petición.':
+                var timerInterval
+                Swal.fire({
+                    toast: true,
+                    position: 'bottom-end',
+                    background: '#a5dc86',
+                    color: '#000',
+                    showConfirmButton: false,
+                    html: 'Se aceptó la petición.',
+                    timer: 4000,
+                    timerProgressBar: true,
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                })
+            break;
+            //ERROR AL ACEPTAR PETICION
+            case 'Error al aceptar la petición.':
                 var timerInterval
                 Swal.fire({
                     toast: true,
@@ -82,31 +117,14 @@ $(document).ready(function () {
                     background: '#f27474',
                     color: '#000',
                     showConfirmButton: false,
-                    html: 'Error al modificar el aula.',
-                    timer: 2000,
+                    html: 'Error al aceptar la petición.',
+                    timer: 4000,
                     timerProgressBar: true,
                     willClose: () => {
                         clearInterval(timerInterval)
                     }
                 })
-                break;
-            // ERROR DESHABILITACION DE AULA
-            // case 'Ha ocurrido un error al deshabilitar el aula':
-            //     var timerInterval
-            //     Swal.fire({
-            //         toast: true,
-            //         position: 'bottom-end',
-            //         background: '#f27474',
-            //         color: '#000',
-            //         showConfirmButton: false,
-            //         html: 'Error al cambiar estado del aula.',
-            //         timer: 2000,
-            //         timerProgressBar: true,
-            //         willClose: () => {
-            //             clearInterval(timerInterval)
-            //         }
-            //     })
-            //     break;
+            break;
         }
     }
 });

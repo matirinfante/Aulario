@@ -3,6 +3,9 @@
 //  {
     $("#warning_reason").html(`<div class="alert alert-warning">Es necesario explicar la razón del rechazo.</div>`);
 
+    let test = getElementById('warning_reason');
+    test.innerHTML('keso')
+
      function reject_comp() 
      {
         let reason = document.getElementById('reason');
@@ -20,5 +23,4 @@
             
         });
     }
-
 //  });
