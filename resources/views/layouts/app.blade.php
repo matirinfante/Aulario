@@ -124,6 +124,7 @@
                                             </ul>
                                         </div>
                                     @endhasanyrole
+
                                     @hasanyrole('admin|user|teacher')
                                     <div class="dropdown">
                                         <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton1"
@@ -169,7 +170,7 @@
                                             @can('see own bookings')
                                                 @hasanyrole('user|teacher')
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="{{ route('bookings.index') }}"
+                                                        <a class="nav-link sonLink" href="{{ route('bookings.index') }}"
                                                             role="button">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                 height="16" fill="currentColor"
@@ -186,7 +187,7 @@
 
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="{{ route('bookings.mybookings') }}"
+                                                        <a class="nav-link sonLink" href="{{ route('bookings.mybookings') }}"
                                                             role="button">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                 height="16" fill="currentColor"
@@ -244,6 +245,7 @@
                                             @endcan
                                         </ul>
                                     </div>
+
                                     @endhasanyrole
 
                                     @can('show logbook')
