@@ -20,10 +20,11 @@
                         <div class="mb-3">
                             <label for="name" class="form-label">Nombre</label>
                             <input type="text" class="form-control" name="name" id="name" value="{{$user->name}} {{$user->surname}}" disabled>
+                            <p class="alerta d-none" id="errorNameCreate">Error</p>
                         </div>
                         <div class="mb-3">
-                        <!-- Usuario ID -->
-                        <input type="hidden" class="form-control" name="user_id" id="user_id" value="{{$user->id}}">
+                            <!-- Usuario ID -->
+                            <input type="hidden" class="form-control" name="user_id" id="user_id" value="{{$user->id}}">
                         </div>
                         <div class="mb-3">
                             <!-- Select Materias -->
@@ -36,6 +37,7 @@
                                 </option>
                                 @endforeach
                             </select>
+                            <p class="alerta d-none" id="errorAssignmentIDCreate">Error</p>
                         </div>
                         <div class="mb-3">
                             <label for="estimated_people" class="form-label" required>Cantidad alumnos</label>
@@ -45,25 +47,30 @@
                             <!-- Select Aulas -->
                             <label for="classroom_type" class="form-label">Tipo Aula</label>
                             <select name="classroom_type" id="classroom_type" class="form-select select2-user" aria-label="Materia" style="width: 100%" required>
-                                <option value="Aula Común">Aula Común</option>
+                                <option value="Aula Común" selected>Aula Común</option>
                                 <option value="Laboratorio">Laboratorio</option>
                             </select>
+                            <p class="alerta d-none" id="errorClassroomTypeCreate">Error</p>
                         </div>
                         <div class="mb-3">
                             <label for="start_date" class="form-label">Fecha Inicio</label>
                             <input type="date" class="form-control" name="start_date" id="start_date" required>
+                            <p class="alerta d-none" id="errorStartDateCreate">Error</p>
                         </div>
                         <div class="mb-3">
                             <label for="finish_date" class="form-label">Fecha Fin</label>
                             <input type="date" class="form-control" name="finish_date" id="finish_date" required>
+                            <p class="alerta d-none" id="errorFinishDateCreate">Error</p>
                         </div>
                         <div class="mb-3">
                             <label for="start_time" class="form-label">Hora Inicio</label>
                             <input type="time" class="form-control" name="start_time" id="start_time" required>
+                            <p class="alerta d-none" id="errorStartTimeCreate">Error</p>
                         </div>
                         <div class="mb-3">
                             <label for="finish_time" class="form-label">Hora Fin</label>
                             <input type="time" class="form-control" name="finish_time" id="finish_time" required>
+                            <p class="alerta d-none" id="errorFinishTimeCreate">Error</p>
                         </div>
                         <div class="mb-3">
                             <!-- Select Dias -->
@@ -76,11 +83,13 @@
                                 <option value="Viernes">Viernes</option>
                                 <option value="Sábado">Sábado</option>
                             </select>
+                            <p class="alerta d-none" id="errorDaysCreate">Error</p>
                         </div>
                         <div class="mb-3">
                             <!-- El mensaje obligatorio de justificacion para un rechazo -->
                             <label for="message" class="form-label">Mensaje</label>
                             <input type="text" class="form-control" name="message" id="message">
+                            <p class="alerta d-none" id="errorMessageCreate">Error</p>
                         </div>
                         <button id="submit" type="submit" class="btn btn-primary">Crear</button>
                     </form>
@@ -118,10 +127,5 @@
     document.getElementById("finish_date").setAttribute('min', date);
 </Script>
 
-
-
-
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/validator@latest/validator.min.js"></script>
 <script src="{{ asset('js/petitions/checkDay.js') }}" defer></script>
 @endsection
