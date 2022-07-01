@@ -124,6 +124,7 @@
                                             </ul>
                                         </div>
                                     @endhasanyrole
+                                    @hasanyrole('admin|user|teacher')
                                     <div class="dropdown">
                                         <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton1"
                                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -243,7 +244,7 @@
                                             @endcan
                                         </ul>
                                     </div>
-
+                                    @endhasanyrole
 
                                     @can('show logbook')
                                         <li class="nav-item">
