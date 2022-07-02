@@ -16,7 +16,7 @@
 
         {{-- {{ __('You are logged in!') }} --}}
         @role('teacher')
-            {{ 'hola' }}
+            
         @endrole
 
 
@@ -160,12 +160,107 @@
 
             </div>
         @endrole
-
-
-
-
         @role('bedel')
             {{ 'hola' }}
+        @endrole
+        @role('user|teacher')
+        <div class="row text-center d-flex justify-content-center align-items-center" id="cardindex">
+                <div class="col-auto mt-5">
+                    <div class="card" style="width: 18rem;">
+                        <div class="container-img">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            class="bi bi-calendar2-check w-50 pt-4" viewBox="0 0 16 16">
+                            <path
+                                d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
+                            <path
+                                d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2z" />
+                            <path
+                                d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V4z" />
+                        </svg>
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Reservar</h5>
+                            <p class="card-text">Haga una reserva para un evento atravez de Aulario.</p>
+
+                            <a target="_blank" href="{{ route('bookings.index') }}" class="btn text-light"
+                                style="background-color:  #036">Entrar</a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-auto mt-5">
+                    <div class="card" style="width: 18rem;">
+                        <div class="container-img">
+                            <svg xmlns="http://www.w3.org/2000/svg" 
+                             fill="currentColor"
+                            class="bi bi-check2-circle w-50 pt-4" viewBox="0 0 16 16">
+                            <path
+                                d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+                            <path
+                                d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+                        </svg>
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Mis Reservas</h5>
+                            <p class="card-text">Consulte las reservas que ha hecho en aulario.</p>
+
+                            <a target="_blank" href="{{ route('bookings.mybookings') }}" class="btn text-light"
+                                style="background-color:  #036">Entrar</a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-auto mt-5">
+                    <div class="card" style="width: 18rem;">
+                        <div class="container-img">
+                            {{-- <img src="{{ asset('assets/img/status.svg') }}" class="card-img-top" alt="..."
+                                style="max-height: 100%"> --}}
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor"
+                                class="bi bi-calendar2-event w-50 pt-4" viewBox="0 0 16 16">
+                                <path
+                                    d="M11 7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z" />
+                                <path
+                                    d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2z" />
+                                <path
+                                    d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V4z" />
+                            </svg>
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Mis Eventos</h5>
+                            <p class="card-text">Consulte a cerca de todos los eventos que usted ha hecho.</p>
+
+                            <a target="_blank" href="{{ route('events.index') }}" class="btn text-light"
+                                style="background-color:  #036">Entrar</a>
+                        </div>
+
+                    </div>
+                </div>
+                @role('teacher')
+        <div class="col-auto mt-5">
+            <div class="card" style="width: 18rem;">
+                <div class="container-img">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" 
+                    class="bi bi-pen w-50 pt-4"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
+                </svg>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title">Mis Peticiones</h5>
+                    <p class="card-text">Consulte a cerca de todas sus peticiones de materias.</p>
+
+                    <a target="_blank" href="{{ route('petitions.index') }}" class="btn text-light"
+                        style="background-color:  #036">Entrar</a>
+                </div>
+            </div>
+            </div>
+       
+        @endrole
+        </div>
+        
         @endrole
         {{-- </div>
                 </div>
