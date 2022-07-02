@@ -109,10 +109,16 @@
 
 #schedule .materia{
     background-color: #3eb698;
+  border-right: 4px solid #a0fc89;
+  border-left: 4px solid #a0fc89;
+  border-radius: 5px;
 }
 
 #schedule .evento{
     background-color: #3788d8;
+    border-right: 4px solid #80b2fc;
+    border-left: 4px solid #80b2fc;
+    border-radius: 5px;
 }
 
 .jq-schedule .sc_bar .head {
