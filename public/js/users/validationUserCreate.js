@@ -18,7 +18,6 @@ let v1 = false,
     v4 = false,
     v5 = false
 
-
 const isString = (value) => {
     let rta = false
     if (isNaN(value)) {
@@ -26,14 +25,11 @@ const isString = (value) => {
     }
     return rta
 }
-
-
 form.addEventListener('click', e => {
     //Validamos que el nombre sea letras y no esté vacio
 
     if (!validator.isEmpty($inputName.value)) {
         if (isString($inputName.value)) {
-            console.log('goasldasd')
             v1 = true
             $errorName.classList.add('d-none')
         } else {
@@ -47,11 +43,9 @@ form.addEventListener('click', e => {
     //Validamos que el apellido sea letras y no esté vacio
     if (!validator.isEmpty($inputSurname.value)) {
         if (isString($inputSurname.value)) {
-            console.log('entre y servi')
             v2 = true
             $errorSurname.classList.add('d-none')
         } else {
-            console.log('entre ')
             $errorSurname.textContent = 'El apellido contiene numeros'
             $errorSurname.classList.remove('d-none')
         }
@@ -75,7 +69,6 @@ form.addEventListener('click', e => {
             $errorDni.classList.remove('d-none')
         }
     } else {
-        console.log('el dni esta vacio')
         $errorDni.textContent = 'El dni está vacio'
         $errorDni.classList.remove('d-none')
     }
@@ -102,7 +95,6 @@ form.addEventListener('click', e => {
             $errorPass.classList.remove('d-none')
         }
     } else {
-        console.log('goasldasd contraseña')
         $errorPass.textContent = 'La contraseña está vacia'
         $errorPass.classList.remove('d-none')
     }
