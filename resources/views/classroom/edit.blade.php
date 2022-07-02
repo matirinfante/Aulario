@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="form_classroom_edit" name="form_classroom" method="POST" action="{{ route('classrooms.update', $class->id) }}">
+                <form id="form_classroom_edit" name="form_classroom" method="POST" action="{{ route('classrooms.update', $class->id) }}" enctype="multipart/form-data">
                     @csrf @method('PATCH')
                     <div class="mb-3">
                         <label for="classroom_name" class="form-label">Nombre del
@@ -14,13 +14,6 @@
                         <input type="text" class="form-control" name="classroom_name" id="classroom_name_edit" value="{{ $class->classroom_name }}">
                         <p class="alerta d-none" id="errorClassroomNameEdit">Error</p>
                     </div>
-                    <!-- {{-- <div class="mb-3">
-                        <label for="location" class="form-label">Locación en
-                            facultad</label>
-                        <input type="text" class="form-control" name="location" id="location_edit"
-                            value="{{ $class->location }}">
-                    <p class="alerta d-none" id="errorLocationEdit">Error</p>
-            </div> --}} -->
                     <div class="mb-3">
                         <label for="building" class="form-label">Edificio</label>
                         <select name="building" class="form-select select2-building" style="width: 100%;">
@@ -59,7 +52,7 @@
                         <label for="location" class="form-label">Editar o agregar imagen de mapa</label>
                         <br>
                         <input type="file" name="location" id="location" class="form-control">
-                        <p class="alerta d-none" id="errorLocationCreate">Error</p>
+                        <p class="alerta d-none" id="errorLocationEdit">Error</p>
                     </div>
                     <br>
                     <button id="submit_edit" type="submit" class="btn btn-primary">Actualizar

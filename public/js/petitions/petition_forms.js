@@ -1,6 +1,6 @@
 //Formulario de comprobacion de campos de Editar(Rechazar) y Crear Peticiones
-//  $(documento).ready(function()
-//  {
+ $(documento).ready(function()
+ {
     $("#warning_reason").html(`<div class="alert alert-warning">Es necesario explicar la razón del rechazo.</div>`);
 
 
@@ -21,4 +21,4 @@
 
         });
     }
-//  });
+ });
