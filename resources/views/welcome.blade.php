@@ -4,13 +4,13 @@
 @endsection
 @section('content')
     <div class="container-fluid" style="padding-left: 0%; padding-right:0%">
-        <div class="data-container container-fluid text-center">
+        <div class="data-container container-fluid text-center" style="height: 116px;">
             <div class="data mt-3">
-                <img id="img" src="{{asset('assets/img/aulario.png')}}" alt="Aulario">
+                <img src="{{asset('assets/img/aulario.png')}}" alt="Aulario" style="max-height: 80%;">
             </div>
         </div>
-        <div class="container-fluid d-flex justify-content-evenly mt-5 mb-5 " id="cardindex">
-            <div class="card col-md-4 col-sm-12" style="width: 18rem;">
+        <div class="row container-fluid d-flex justify-content-evenly mt-5 mb-5 " id="cardindex">
+            <div class="card col-md-4 col-sm-12 mt-3" style="width: 18rem;">
                 <div class="container-img">
                     <img src="{{asset('assets/img/pedco.png')}}" class="card-img-top mt-4" alt="...">
                 </div>
@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <div class="card col-md-4 col-sm-12" style="width: 18rem;">
+            <div class="card col-md-4 col-sm-12 mt-3" style="width: 18rem;">
                 <div class="container-img">
                     <img src="{{asset('assets/img/logo-faif.png')}}" class="card-img-top mt-2" alt="...">
                 </div>
@@ -38,7 +38,7 @@
                 </div>
             </div>
 
-            <div class="card col-md-4 col-sm-12" style="width: 18rem;">
+            <div class="card col-md-4 col-sm-12 mt-3" style="width: 18rem;">
                 <div class="container-img ">
                     <img src="{{asset('assets/img/siubanner.png')}}" class="card-img-top mt-3" alt="...">
                 </div>
@@ -51,7 +51,7 @@
                 </div>
             </div>
             
-            <div class="card col-md-4 col-sm-12" style="width: 18rem;">
+            <div class="card col-md-4 col-sm-12 mt-3" style="width: 18rem;">
                 <div class="container-img">
                     <img src="{{asset('assets/img/status.svg')}}" class="card-img-top" alt="..." style="max-height: 100%">
                 </div>
