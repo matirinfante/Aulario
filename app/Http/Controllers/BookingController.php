@@ -547,11 +547,24 @@ class BookingController extends Controller
     /**
      * Función dedicada a validar que no exista superposición en la data entrante
      */
-    public function validateJsonData($data)
+    public function checkOverlapping($data)
     {
-        foreach ($data as $partial) {
+        //Tenemos booking_date, classroom_id, start_time y finish_time
+        //Hay que obtener las posibles interferencias para el mismo booking date y classroom
+        $posibleOverlap = Booking::where('booking_date', $data->booking_date)->where('classroom_id', $data->classroom_id)->get(['booking_date', 'start_time', 'finish_time']);
+        $periodOverlap = new PeriodCollection();
 
+        foreach ($posibleOverlap as $booking) {
+            $start_time = Carbon::createFromTimeString($booking->start_time)->format('Y-m-d H:i:s');
+            $finish_time = Carbon::createFromTimeString($booking->finish_time)->format('Y-m-d H:i:s');
+
+            $periodOverlap->add(Period::make($start_time, $finish_time, PRECISION::SECOND()));
         }
+        $toCheckPeriod = new PeriodCollection(Period::make($data->start_time, $data->finish_data, PRECISION::SECOND()));
+
+        $response = $toCheckPeriod->overlapAll($periodOverlap);
+
+        return $response;
     }
 
     /**
