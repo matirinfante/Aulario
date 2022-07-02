@@ -79,7 +79,7 @@
                             <label for="days" class="form-label">Día</label>
                             <select name="days" id="days" class="form-select select2-user" aria-label="days"
                                     style="width: 100%" required>
-                                <option value="Lunes">Lunes</option>
+                                <option value="Lunes" selected>Lunes</option>
                                 <option value="Martes">Martes</option>
                                 <option value="Miércoles">Miércoles</option>
                                 <option value="Jueves">Jueves</option>
@@ -100,38 +100,4 @@
             </div>
         </div>
     </div>
-</div>
-{{--
-@section('scripts')
-    <!-- Obtener la fecha actual para limitar la seleccion en el calendario -->
-    <Script>
-        //Obtiene la fecha actual y luego le da formato 'YYYY-MM-DD'
-        //Estos metodos no agregan cero a numero menores a 10, como por ejemplo '5'(mayo), y no 05
-        const fullDate = new Date();
-        const year = fullDate.getFullYear();
-        let month = fullDate.getMonth();
-        let day = fullDate.getDate();
-
-        month += 1; //La fecha el metodo .getMonth la trae de 0 a 11, se debe sumar 1;
-
-        if (month < 10) {
-            month = '0' + month
-        }
-        ;
-        if (day < 10) {
-            day = '0' + day
-        }
-        ;
-
-        //Concatenamos la fecha en el formato correcto
-        const date = year + '-' + month + '-' + day;
-
-
-        //Elementos a los que quiero limitarle la seleccion
-        document.getElementById("start_date").setAttribute('min', date);
-        document.getElementById("finish_date").setAttribute('min', date);
-    </Script>
-
-    <script src="{{ asset('js/petitions/checkDay.js') }}" defer></script>
-@endsection
---}}
+</div> 

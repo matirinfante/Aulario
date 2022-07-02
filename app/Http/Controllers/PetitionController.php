@@ -68,7 +68,7 @@ class PetitionController extends Controller
                 'status' => 'unsolved'
             ]);
             $this->dispatch(new SendPetitionNotificationJob($petition));
-            flash('Petición creada con éxito.')->success();
+            flash('Petición creada.')->success();
             return redirect(route('petitions.index'));
         } catch (\Exception $e) {
             flash('Error al crear la petición.')->error();
@@ -139,7 +139,7 @@ class PetitionController extends Controller
             $petition->save();
 
             $this->dispatch(new SendPetitionRejectJob($petition, $request->input('reason')));
-            flash('Se rechazo la petición.')->success();
+            flash('Se rechazó la petición.')->success();
             return redirect(route('petitions.index'));
         } catch (\Exception $e) {
             flash('Error al rechazar petición.')->error();
