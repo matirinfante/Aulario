@@ -5,7 +5,7 @@
 @section('content')
     <div class="container-fluid" style="padding-left: 0%; padding-right:0%">
         <div class="data-container container-fluid text-center">
-            <div class="data">
+            <div class="data mt-3">
                 <img id="img" src="{{asset('assets/img/aulario.png')}}" alt="Aulario">
             </div>
         </div>
@@ -50,7 +50,19 @@
                        style="background-color:  #036">Entrar</a>
                 </div>
             </div>
+            
+            <div class="card col-md-4 col-sm-12" style="width: 18rem;">
+                <div class="container-img">
+                    <img src="{{asset('assets/img/status.svg')}}" class="card-img-top" alt="..." style="max-height: 100%">
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title">Reservas FAIF</h5>
+                    <p class="card-text">Enterate de las materias y eventos que se dictan hoy en la facultad de Informatica</p>
 
+                    <a target="_blank" href="{{route('gantt')}}" class="btn text-light"
+                       style="background-color:  #036">Entrar</a>
+                </div>
+            </div>
 
         </div>
 
