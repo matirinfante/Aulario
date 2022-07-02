@@ -1,6 +1,5 @@
 .flip-card-container {
-    width: 300px;
-    height: 400px;
+    height: 450px;
     perspective: 1000px;
 }
 
@@ -88,7 +87,6 @@
 .card-pablo,
 .card-cristhian,
 .card-guido,
-.card-lucasMartin,
 .card-lucasVillarruel,
 .card-lucia,
 .card-matiasInfante,
@@ -156,20 +154,7 @@
 
 .card-guido::before {
     content: "";
-    background-image: url('../assets/img/about/cristhian_cantero.jpeg');
-    background-size: cover;
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    opacity: 0.75;
-    filter: blur(2px);
-}
-
-.card-lucasMartin::before {
-    content: "";
-    background-image: url('../assets/img/about/cristhian_cantero.jpeg');
+    background-image: url('../assets/img/about/guido_difiore.jpg');
     background-size: cover;
     position: absolute;
     top: 0px;
@@ -182,7 +167,7 @@
 
 .card-lucasVillarruel::before {
     content: "";
-    background-image: url('../assets/img/about/cristhian_cantero.jpeg');
+    background-image: url('../assets/img/about/lucas_villarruel.jpeg');
     background-size: cover;
     position: absolute;
     top: 0px;
@@ -208,7 +193,7 @@
 
 .card-matiasPeralta::before {
     content: "";
-    background-image: url('../assets/img/about/cristhian_cantero.jpeg');
+    background-image: url('../assets/img/about/matias_peralta.jpeg');
     background-size: cover;
     position: absolute;
     top: 0px;
@@ -221,7 +206,7 @@
 
 .card-rocio::before {
     content: "";
-    background-image: url('../assets/img/about/cristhian_cantero.jpeg');
+    background-image: url('../assets/img/about/rocio_graff.jpeg');
     background-size: cover;
     position: absolute;
     top: 0px;
@@ -234,7 +219,7 @@
 
 .card-lucia::before {
     content: "";
-    background-image: url('../assets/img/about/cristhian_cantero.jpeg');
+    background-image: url('../assets/img/about/lucia_landaeta.jpeg');
     background-size: cover;
     position: absolute;
     top: 0px;
