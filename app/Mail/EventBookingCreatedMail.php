@@ -30,6 +30,7 @@ class EventBookingCreatedMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.EventBookingCreated')->subject('Su reserva ha sido registrada con éxito');
+        $this->subject('Su reserva ha sido registrada con éxito');
+        return $this->markdown('mail.EventBookingCreated');
     }
 }

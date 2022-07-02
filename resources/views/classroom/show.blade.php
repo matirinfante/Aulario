@@ -28,30 +28,11 @@
                 <p class="card-title"><span class="text-secondary">Locación:</span></p>
 
                 @if (($class->location) != "")
-                    <img id="image_classroom" class="img-fluid" src="{{ asset($class->location) }}"alt="{{ $class->classroom_name }}"> 
+                    <img id="image_classroom" class="img-fluid" src="{{ asset($class->location) }}"alt="{{ $class->classroom_name }}">
                 @else
-                    <p>No hay imagen disponible.</p>                 
+                    <p>No hay imagen disponible.</p>
                 @endif
 
-                <!-- {{-- @php
-                     $nameImg = $class->classroom_name;
-                    // if (File::exists(public_path('mapa_aulas/'.$nameImg.'.png'))) {
-                    //     echo ('<img id="image_classroom" width="350px" height="500px" src="{{ asset("assets/mapa_aulas/" '. $nameImg .' ".png") }}"alt="Aula_i1">');
-                    // } else {
-                    //     echo ('<p>No hay imagen disponible.</p>');
-                    // }
-
-                    $locacion = $class->location;
-                    
-                    if (strpos($locacion, '../../../assets/mapa_aulas') !== false) {
-                        echo ('<img id="image_classroom" width="380px"  src="'. $locacion .'" alt="'.$nameImg.'">');
-                    } else {
-                        echo ('<p>No hay imagen disponible.</p>');
-                    }
-            
-                @endphp --}}
-
-                {{-- <img id="image_classroom" width="350px" height="500px" src="{{ asset('assets/mapa_aulas/' . $nameImg . '.png') }}"alt="Aula_i1"> --}} -->
 
             </div>
         </div>

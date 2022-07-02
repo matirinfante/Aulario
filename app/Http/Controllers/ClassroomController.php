@@ -10,6 +10,8 @@ use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+
 
 class ClassroomController extends Controller
 {
@@ -41,30 +43,11 @@ class ClassroomController extends Controller
     public function store(ClassroomStoreRequest $request)
     {
         try {
-            #Para subir la imagen
-            #Comprobar el tipo de archivo por medio de la extension.
-            $img_png = $request->file("location")->guessExtension() == 'png'; #True or False
-            $img_jpg = $request->file("location")->guessExtension() == 'jpg'; #True or False
-            $img_jpeg = $request->file("location")->guessExtension() == 'jpeg'; #True or False
-            $req_valid = $request->location != null && $request->location != ""; #True or False
-
-
-
-
-            if ($req_valid && ($img_png||($img_jpg || $img_jpeg))) 
+            if($request->location)
             {
-                $image = $request->file("location");#El archivo se amacena en la variable
-
-                $imgName = Str::slug($request->building. "_" .$request->classroom_name) . "." . $image->guessExtension();#Creamos el nuevo nombre de la imagen
-
-                $request->file('location')->storeAs('/public/', $imgName);#Ruta en la que se almacenara la img, y el nuevo nombre
-                
-                $location = "/assets/mapa_aulas/storage/" .$imgName;#Locacion seria la ruta a la se accederia a la imagen
-                #Se uso un link simbolico para llevar storage a public assets
-            } 
-            else
-            {
-                $location = "";#Esto es para el if a la hora de mostrar la imagen del aula, si no tiene contenido
+                $location = $this->imageUpload ($request);
+            }else{
+                $location='';
             }
 
             $classroom = Classroom::create([
@@ -123,7 +106,19 @@ class ClassroomController extends Controller
     public function update(ClassroomUpdateRequest $request, Classroom $classroom)
     {
         try {
-            $classroom->update($request->all());
+            if($request->location)
+            {
+                $location = $this->imageUpload ($request);
+            }else{
+                $location='';
+            }
+            $classroom->update([
+                'classroom_name' => $request->classroom_name,
+                'location' => $location,
+                'capacity' => $request->capacity,
+                'type' => $request->type,
+                'building' => $request->building,
+            ]);
             flash('Se ha actualizado el aula con éxito')->success();
             return redirect(route('classrooms.index'));
         } catch (\Exception $e) {
@@ -154,11 +149,42 @@ class ClassroomController extends Controller
      * Se encarga de revivir el aula
      *
      */
-
     public function activateClassroom($id)
     {
         $classroom = Classroom::withTrashed()->where('id', $id)->restore();
         flash('Aula habilitada correctamente')->success();
         return back();
+    }
+
+    public function imageUpload ($request)
+    {
+        #Para subir la imagen
+        #Comprobar el tipo de archivo por medio de la extension.
+        $img_png = $request->file("location")->guessExtension() == 'png'; #True or False
+        $img_jpg = $request->file("location")->guessExtension() == 'jpg'; #True or False
+        $img_jpeg = $request->file("location")->guessExtension() == 'jpeg'; #True or False
+        $req_valid = $request->location != null && $request->location != ""; #True or False
+    
+        if ($req_valid && ($img_png||($img_jpg || $img_jpeg)))
+        {
+            $image = $request->file("location");#El archivo se amacena en la variable
+
+            $imgName = Str::slug($request->building. "_" .$request->classroom_name) . "." .$image->guessExtension();#Creamos el nuevo nombre de la imagen
+
+            $name = Str::slug($request->building. "_" .$request->classroom_name);
+            
+            //Elimina todas las imagenes que puedan contener el mismo nombre pero distinta extensión para evitar acumulación de imagenes que no se utilicen
+            Storage::delete(["/public/".$name.".jpg","/public/".$name.".jpeg","/public/".$name.".png"]);
+
+            $request->file('location')->storeAs('/public/', $imgName);#Ruta en la que sealmacenara la img, y el nuevo nombre
+
+            $location = "/assets/mapa_aulas/storage/" .$imgName;#Locacion seria la ruta a la seaccederia a la imagen
+            #Se uso un link simbolico para llevar storage a public assets
+        }
+        else
+        {
+            $location = "";#Esto es para el if a la hora de mostrar la imagen del aula, si notiene contenido
+        }
+        return $location;
     }
 }

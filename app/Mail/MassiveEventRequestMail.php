@@ -30,6 +30,7 @@ class MassiveEventRequestMail extends Mailable
      */
     public function build()
     {
-        return $this->replyTo($this->content->mail)->markdown('mail.massiveEventRequest')->subject('Nueva petición de evento pendiente');
+        $this->subject('Nueva peticion de evento');
+        return $this->markdown('mail.massiveEventRequest')->replyTo($this->content['mail'], $this->content['user']['name']);
     }
 }

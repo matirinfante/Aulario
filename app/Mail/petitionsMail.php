@@ -31,6 +31,7 @@ class petitionsMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.newPetition')->subject('Nueva petición de materia pendiente');
+        $this->subject('Nueva petición de materia pendiente');
+        return $this->markdown('mail.newPetition');
     }
 }

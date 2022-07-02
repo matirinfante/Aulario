@@ -21,18 +21,18 @@
 
     <div id="app">
         @if (!request()->routeIs('gantt'))
-            <nav class="navbar navbar-expand-md navbar-light shadow-sm text-center menu_sup">
+            <nav class="navbar navbar-expand-md navbar-dark shadow-sm text-center menu_sup">
                 <div class="container-fluid">
                     @if (!request()->routeIs('inicio'))
                         {{-- si el usuario esta logueado, su index sera 'home'. De lo contrario será la raíz --}}
                         @if (Auth::user())
                             <a class="navbar-brand" href="{{ route('home') }}">
-                                <img src="{{ asset('assets/img/aulario.png') }}" class="img-fluid" alt="Aulario"
+                                <img src="{{ asset('assets/img/aulario.png') }}" class="img-fluid logoSup" alt="Aulario"
                                     width="60px">
                             </a>
                         @else
                             <a class="navbar-brand" href="{{ route('inicio') }}">
-                                <img src="{{ asset('assets/img/aulario.png') }}" class="img-fluid" alt="Aulario"
+                                <img src="{{ asset('assets/img/aulario.png') }}" class="img-fluid logoSup" alt="Aulario"
                                     width="60px">
                             </a>
                         @endif
@@ -69,12 +69,12 @@
                                         <div class="dropdown">
                                             <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton1"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                                Gestion Institucional
+                                                Gestión Institucional
                                             </a>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton1">
                                                 @can('show users')
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="{{ route('users.index') }}" role="button">
+                                                        <a class="nav-link sonLink" href="{{ route('users.index') }}" role="button">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                 height="16" fill="currentColor" class="bi bi-people"
                                                                 viewBox="0 0 16 16">
@@ -87,7 +87,7 @@
                                                 @endcan
                                                 @can('show assignments')
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="{{ route('assignments.index') }}"
+                                                        <a class="nav-link sonLink" href="{{ route('assignments.index') }}"
                                                             role="button">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                 height="16" fill="currentColor" class="bi bi-book"
@@ -101,7 +101,7 @@
                                                 @endcan
                                                 @can('show classrooms')
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="{{ route('classrooms.index') }}"
+                                                        <a class="nav-link sonLink" href="{{ route('classrooms.index') }}"
                                                             role="button">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                 height="16" fill="currentColor" class="bi bi-mortarboard"
@@ -117,7 +117,7 @@
                                                 @endcan
                                                 @can('show schedule')
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="{{ route('schedules.index') }}"
+                                                        <a class="nav-link sonLink" href="{{ route('schedules.index') }}"
                                                             role="button">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                                                 viewBox="0 0 516 516" width="16" height="16">
@@ -128,18 +128,29 @@
                                                         </a>
                                                     </li>
                                                 @endcan
+                                                <li class="nav-item">
+                                                    <a class="nav-link sonLink" href="{{ route('logbooks.history') }}"
+                                                        role="button">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hourglass-split" viewBox="0 0 16 16">
+                                                            <path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1h-11zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2h-7zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48V8.35zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z"/>
+                                                          </svg>
+                                                        Historial del libro de entrada
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </div>
                                     @endhasanyrole
+
+                                    @hasanyrole('admin|user|teacher')
                                     <div class="dropdown">
                                         <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton1"
                                             data-bs-toggle="dropdown" aria-expanded="false">
-                                            Gestion de Reservas
+                                            Gestión de Reservas
                                         </a>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton1">
                                             @can('show bookings')
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="{{ route('bookings.index') }}"
+                                                    <a class="nav-link sonLink" href="{{ route('bookings.index') }}"
                                                         role="button">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                             height="16" fill="currentColor"
@@ -155,15 +166,17 @@
                                             @endcan
                                             @can('show bookings')
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="{{ route('bookings.admingantt') }}"
+                                                    <a class="nav-link sonLink" href="{{ route('bookings.admingantt') }}"
                                                         role="button">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                             height="16" fill="currentColor"
-                                                            class="bi bi-check2-circle" viewBox="0 0 16 16">
+                                                            class="bi bi-clock-history" viewBox="0 0 16 16">
                                                             <path
-                                                                d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+                                                                d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z" />
                                                             <path
-                                                                d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+                                                                d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z" />
+                                                            <path
+                                                                d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z" />
                                                         </svg>
                                                         Cronograma Reservas
                                                     </a>
@@ -173,7 +186,7 @@
                                             @can('see own bookings')
                                                 @hasanyrole('user|teacher')
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="{{ route('bookings.index') }}"
+                                                        <a class="nav-link sonLink" href="{{ route('bookings.index') }}"
                                                             role="button">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                 height="16" fill="currentColor"
@@ -190,7 +203,7 @@
 
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="{{ route('bookings.mybookings') }}"
+                                                        <a class="nav-link sonLink" href="{{ route('bookings.mybookings') }}"
                                                             role="button">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                 height="16" fill="currentColor"
@@ -208,7 +221,7 @@
                                             @endcan
                                             @can('show events')
                                                 <li class="nav-item">
-                                                    <a class="nav-link" aria-current="page"
+                                                    <a class="nav-link sonLink" aria-current="page"
                                                         href="{{ route('events.index') }}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                             height="16" fill="currentColor"
@@ -230,7 +243,7 @@
                                             @endcan
                                             @can('show petitions')
                                                 <li class="nav-item dropdown">
-                                                    <a class="nav-link" href="{{ route('petitions.index') }}"
+                                                    <a class="nav-link sonLink" href="{{ route('petitions.index') }}"
                                                         role="button">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                             height="16" fill="currentColor" class="bi bi-pen"
@@ -249,6 +262,7 @@
                                         </ul>
                                     </div>
 
+                                    @endhasanyrole
 
                                     @can('show logbook')
                                         <li class="nav-item">
@@ -278,13 +292,8 @@
                             @guest
                                 @if (Route::has('login'))
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                    </li>
-                                @endif
-
-                                @if (Route::has('register'))
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                        <a class="nav-link" href="{{ route('login') }}"><svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 18px;" ><path d="M416 32h-64c-17.67 0-32 14.33-32 32s14.33 32 32 32h64c17.67 0 32 14.33 32 32v256c0 17.67-14.33 32-32 32h-64c-17.67 0-32 14.33-32 32s14.33 32 32 32h64c53.02 0 96-42.98 96-96V128C512 74.98 469 32 416 32zM342.6 233.4l-128-128c-12.51-12.51-32.76-12.49-45.25 0c-12.5 12.5-12.5 32.75 0 45.25L242.8 224H32C14.31 224 0 238.3 0 256s14.31 32 32 32h210.8l-73.38 73.38c-12.5 12.5-12.5 32.75 0 45.25s32.75 12.5 45.25 0l128-128C355.1 266.1 355.1 245.9 342.6 233.4z"/></svg> {{ __('Login') }} </a>
+                                       
                                     </li>
                                 @endif
                             @else
@@ -303,12 +312,27 @@
                                     </a>
 
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href=" {{ route('profile') }} ">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z" />
+                                                <path
+                                                    d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z" />
+                                            </svg>
+                                            Gestionar cuenta
+                                        </a>
                                         <a class="dropdown-item" href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                                                              document.getElementById('logout-form').submit();">
-                                            {{ __('Logout') }}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd"
+                                                    d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z" />
+                                                <path fill-rule="evenodd"
+                                                    d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z" />
+                                            </svg> {{ __('Logout') }}
                                         </a>
-
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                             class="d-none">
                                             @csrf
@@ -323,10 +347,20 @@
 
         @endif
         {{-- Aqui se muestra el contenido --}}
-        <main class="py-4">
+        <main class="py-3 min-vh-100">
             @yield('content')
 
         </main>
+        <footer class="bg-dark text-center text-white text-lg-start mt-auto">
+            <!-- Copyright -->
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                © {{ now()->year }} | Aulario
+                <br>
+                <a class="text-white" href="#">Sobre nosotros</a>
+            </div>
+            <!-- Copyright -->
+        </footer>
+
         {{-- go to top button --}}
         <div id="pageUp" onclick="scrollUp();"><svg xmlns="http://www.w3.org/2000/svg" width="30"
                 height="30" fill="#406fa9" class="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
@@ -347,8 +381,6 @@
             $('#assignments').DataTable();
             $('#events').DataTable();
             $('#classroom').DataTable();
-            $('#petitions').DataTable();
-            $('#petitions_tab').DataTable();
         });
     </script>
 
