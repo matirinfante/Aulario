@@ -177,7 +177,7 @@ class LogbookController extends Controller
                         return redirect(url('logbooks') . '/' . $request->logbook_id . '?uuid=' . $checkUser->user_uuid);
                     }
                 } else if ($booking->event) {
-                    $inEvent = $booking->event->user->id === $checkUser->id;
+                    $inEvent = $booking->event->users->id === $checkUser->id;
                     if ($inEvent) {
                         return redirect(url('logbooks') . '/' . $request->logbook_id . '?uuid=' . $checkUser->user_uuid);
                     }

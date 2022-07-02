@@ -508,7 +508,6 @@ class BookingController extends Controller
 //obtenemos las reservas de aulas de informatica para el dia actual,seran mostradas en el diagrama de Gantt
     public function getClassroom(Request $request)
     {
-        Log::info('entre');
         if (!$request->booking_date) {
             $today = Carbon::today()->format('Y-m-d');
         } else {
