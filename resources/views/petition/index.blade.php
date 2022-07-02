@@ -41,16 +41,16 @@
                     <table class="table table-striped table-hover" id="petitions">
                         <thead class="bg-secondary text-light">
                         <tr>
-                            <td>Usuario</td>
-                            <td>Materia</td>
-                            <td>Personas Estimadas</td>
-                            <td>Tipo Aula</td>
-                            <td>Estado</td>
+                            <th>Usuario</th>
+                            <th>Materia</th>
+                            <th>Personas Estimadas</th>
+                            <th>Tipo Aula</th>
+                            <th>Estado</th>
                             @can('show petitions')
-                                <td></td>
+                                <th>Acciones</th>
                             @endcan
                             @canany(['reject petitions', 'accept petitions'])
-                                <td></td>
+                                <th></th>
                             @endcanany
                         </tr>
                         </thead>
@@ -140,5 +140,4 @@
     <script src="{{ asset('js/petitions/sweetAlert.js') }}" defer></script>
     {{-- Comprobacion de formulario --}}
     <script src="{{ asset('js/petitions/petition_forms.js') }}" defer></script>
-
 @endsection
