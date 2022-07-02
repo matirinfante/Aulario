@@ -26,7 +26,6 @@ class ClassroomStoreRequest extends FormRequest
     {
         return [
             'classroom_name' => ['required','unique:classrooms','regex:/^([a-zA-Z-\s{0-9}]+)$/'],
-            'location' => ['required'], //Que formato entra ??
             'capacity' => ['required','integer'],
             'type' => ['required'],
             'building' => ['required'],

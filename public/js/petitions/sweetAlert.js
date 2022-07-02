@@ -23,7 +23,7 @@ $(document).ready(function () {
         var contentFlash = $("#flashMessage:first").text().trim();
         console.log('otro')
         switch (contentFlash) {
-            case 'Petición creada con éxito.':
+            case 'Petición creada.':
                 var timerInterval
                 Swal.fire({
                     toast: true,
@@ -31,7 +31,7 @@ $(document).ready(function () {
                     background: '#a5dc86',
                     color: '#000',
                     showConfirmButton: false,
-                    html: 'Petición creada con éxito.',
+                    html: 'Petición creada.',
                     timer: 4000,
                     timerProgressBar: true,
                     willClose: () => {
@@ -57,7 +57,7 @@ $(document).ready(function () {
                 })
                 break;
             //RECHAZAR PETICION
-            case 'Se rechazo la petición.':
+            case 'Se rechazó la petición.':
                 var timerInterval
                 Swal.fire({
                     toast: true,
@@ -65,7 +65,7 @@ $(document).ready(function () {
                     background: '#a5dc86',
                     color: '#000',
                     showConfirmButton: false,
-                    html: 'Se rechazo la petición.',
+                    html: 'Se rechazó la petición.',
                     timer: 4000,
                     timerProgressBar: true,
                     willClose: () => {
