@@ -1,8 +1,14 @@
-@extends('errors::layout')
+@extends('errors::illustrated-layout')
 
 @section('title', __('Not Found'))
 @section('code', '404')
 @section('image')
-<img src="{{asset('assets/img/404.svg')}}" style="height: 100vh;">
+    <div style="background-image: url({{ asset('assets/img/404.png') }}); background-size: cover;"
+        class="absolute pin bg-no-repeat md:bg-left lg:bg-center">
+    </div>
 @endsection
-@section('message', __('Not Found'))
+@section('message', __($exception->getMessage() ?: 'Página no encontrada.'))
+
+
+@section('quote', 'Debe haber algunos Saiyajin allá afuera, solo tenemos que ir a buscarlos')
+
