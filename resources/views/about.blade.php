@@ -6,9 +6,9 @@
 
 @section('content')
     <div class="container-fluid">
-        <h1 class="text-center">Desarrolladores de Aulario</h1>
-        <h4 class="text-center">Los desarrolladores de aulario somos un grupo de alumnos de la Tecnicatura Universitaria en
-            Desarrollo Web que desarrollamos este sistema como proyecto final de la materia 'Programacion Web Avanzada'.</h4>
+        <h1 class="text-center mt-4 mb-2">Desarrolladores de <span class="text-secondary">Aulario</span></h1>
+        <h4 class="text-center mb-2">Los desarrolladores de <span class="fst-italic">Aulario</span> somos un grupo de alumnos de la Tecnicatura Universitaria en
+            Desarrollo Web, encargados en la implementación del actual sistema, como proyecto final de la materia 'Programacion Web Avanzada'.</h4>
         <div class="row d-flex justify-content-center">
             <div class="col-xl-3 col-md-6 col-sm-12 mt-3" style="width: 24rem">
                 <div class="flip-card-container">
