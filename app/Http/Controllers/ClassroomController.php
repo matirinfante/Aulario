@@ -64,6 +64,7 @@ class ClassroomController extends Controller
                 $days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
                 foreach ($days as $day) {
                     Schedule::create([
+                        'classroom_id' => $classroom->id,
                         'day' => $day,
                         'start_time' => '08:00:00',
                         'finish_time' => '20:00:00'
