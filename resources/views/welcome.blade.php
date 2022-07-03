@@ -4,13 +4,13 @@
 @endsection
 @section('content')
     <div class="container-fluid" style="padding-left: 0%; padding-right:0%">
-        <div class="data-container container-fluid text-center">
-            <div class="data">
-                <img id="img" src="{{asset('assets/img/aulario.png')}}" alt="Aulario">
+        <div class="data-container container-fluid text-center" style="height: 116px;">
+            <div class="data mt-3">
+                <img src="{{asset('assets/img/aulario.png')}}" alt="Aulario" style="max-height: 80%;">
             </div>
         </div>
-        <div class="container-fluid d-flex justify-content-evenly mt-5 mb-5 " id="cardindex">
-            <div class="card col-md-4 col-sm-12" style="width: 18rem;">
+        <div class="row container-fluid d-flex justify-content-evenly mt-5 mb-5 " id="cardindex">
+            <div class="card col-md-4 col-sm-12 mt-3" style="width: 18rem;">
                 <div class="container-img">
                     <img src="{{asset('assets/img/pedco.png')}}" class="card-img-top mt-4" alt="...">
                 </div>
@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <div class="card col-md-4 col-sm-12" style="width: 18rem;">
+            <div class="card col-md-4 col-sm-12 mt-3" style="width: 18rem;">
                 <div class="container-img">
                     <img src="{{asset('assets/img/logo-faif.png')}}" class="card-img-top mt-2" alt="...">
                 </div>
@@ -38,7 +38,7 @@
                 </div>
             </div>
 
-            <div class="card col-md-4 col-sm-12" style="width: 18rem;">
+            <div class="card col-md-4 col-sm-12 mt-3" style="width: 18rem;">
                 <div class="container-img ">
                     <img src="{{asset('assets/img/siubanner.png')}}" class="card-img-top mt-3" alt="...">
                 </div>
@@ -50,7 +50,19 @@
                        style="background-color:  #036">Entrar</a>
                 </div>
             </div>
+            
+            <div class="card col-md-4 col-sm-12 mt-3" style="width: 18rem;">
+                <div class="container-img">
+                    <img src="{{asset('assets/img/status.svg')}}" class="card-img-top" alt="..." style="max-height: 100%">
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title">Reservas FAIF</h5>
+                    <p class="card-text">Enterate de las materias y eventos que se dictan hoy en la facultad de Informatica</p>
 
+                    <a target="_blank" href="{{route('gantt')}}" class="btn text-light"
+                       style="background-color:  #036">Entrar</a>
+                </div>
+            </div>
 
         </div>
 

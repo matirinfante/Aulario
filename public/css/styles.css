@@ -66,6 +66,7 @@ height: 200px;
 border-bottom: solid 1px ;
 object-fit: contain;
 }
+
 #cardindex .card img{
     padding: 25px;
     /* margin: 15px; */
@@ -80,9 +81,11 @@ object-fit: contain;
     }
 .data {
     width: 25%;
+    height: 100px;
 }
 
 #img {
+    
     width: 50%;
     margin-left: 2%;
 }

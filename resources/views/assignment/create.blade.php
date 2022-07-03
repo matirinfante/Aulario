@@ -39,9 +39,11 @@
                                 aria-label="Profesor/a" style="width: 100%;">
                                 <option value="-1" disabled></option>
                                 @foreach ($users as $teacher)
+                                @if ($teacher->hasRole('teacher'))
                                     <option value="{{ $teacher->id }}">{{ $teacher->name }},
                                         {{ $teacher->surname }}
                                     </option>
+                                @endif                                    
                                 @endforeach
                             </select>
                             <small id="errorCreateNameTeacher"></small>
