@@ -26,7 +26,6 @@ class ClassroomUpdateRequest extends FormRequest
     {
         return [
             'classroom_name' => ['required',Rule::unique('classrooms')->ignore($this->classroom_name,'classroom_name'),'regex:/^([a-zA-Z-\s{0-9}]+)$/'],
-            'location' => ['required'],
             'capacity' => ['required','integer'],
             'type' => ['required'],
             'building' => ['required'],

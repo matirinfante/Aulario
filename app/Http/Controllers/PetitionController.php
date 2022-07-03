@@ -68,10 +68,10 @@ class PetitionController extends Controller
                 'status' => 'unsolved'
             ]);
             $this->dispatch(new SendPetitionNotificationJob($petition));
-            flash('Se ha cargado una nueva petición con éxito')->success();
+            flash('Petición creada.')->success();
             return redirect(route('petitions.index'));
         } catch (\Exception $e) {
-            flash('Ha ocurrido un error al crear una nueva petición')->error();
+            flash('Error al crear la petición.')->error();
             return back();
         }
     }
@@ -110,10 +110,10 @@ class PetitionController extends Controller
 
             $petition->save();
 
-            flash('Estado modificado con éxito')->success();
+            flash('Se aceptó la petición.')->success();
             return redirect(route('petition.index'));
         } catch (\Exception $e) {
-            flash('Ha ocurrido un error al actualizar el estado')->error();
+            flash('Error al aceptar la petición.')->error();
             return back();
         }
     }
@@ -132,7 +132,6 @@ class PetitionController extends Controller
      * Se encarga de cambiar el estado de la petición
      * @param Petition $petition
      */
-
     public function rejectPetition(Request $request, Petition $petition)
     {
         try {
@@ -140,10 +139,11 @@ class PetitionController extends Controller
             $petition->save();
 
             $this->dispatch(new SendPetitionRejectJob($petition, $request->input('reason')));
+            flash('Se rechazó la petición.')->success();
             return redirect(route('petitions.index'));
         } catch (\Exception $e) {
+            flash('Error al rechazar petición.')->error();
             return back();
         }
     }
-
 }

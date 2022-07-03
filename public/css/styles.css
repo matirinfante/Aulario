@@ -19,7 +19,7 @@
 
 :root {
     --textColor: #171717;
-    --backgroundColor: #D0CFCF;
+    --backgroundColor: #F2F2F2;
     --topMenuBg: #eeeeee;
     --pedcoBlue: #036;
     --pedcoMercury: #e5e5e5;
@@ -45,21 +45,49 @@ h3 {
 /* ------------------------------------------------------------- */
 
 
+
 /* Imagen aulario index */
 
 .data-container {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
+    margin-top: -15px;
+    background-color: #fff;
 }
 
+
+#cardindex .card{
+border-radius: 20px;
+}
+
+.container-img{
+height: 200px;
+border-bottom: solid 1px ;
+object-fit: contain;
+}
+
+#cardindex .card img{
+    padding: 25px;
+    /* margin: 15px; */
+    }
+#ubi-facu{
+    margin-top: 200px;
+    margin-bottom: 35px;
+    background-color: var(--pedcoBlue);
+    text-align: center;
+    padding: 25px;
+    
+    }
 .data {
-    width: 50%;
+    width: 25%;
+    height: 100px;
 }
 
 #img {
-    width: 60%;
-    margin-left: 35%;
+    
+    width: 50%;
+    margin-left: 2%;
 }
 
 .logoSup {

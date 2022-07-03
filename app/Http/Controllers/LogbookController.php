@@ -31,8 +31,9 @@ class LogbookController extends Controller
 
     /**
      * Función que se encarga de generar el logbook del dia solo si este no se ha creado con anterioridad.
-     * Busca dentro de lo
-     ** @return array
+     * Busca dentro de logbook
+     * Unused
+     **
      */
     public function generarLogbook()
     {
@@ -176,7 +177,7 @@ class LogbookController extends Controller
                         return redirect(url('logbooks') . '/' . $request->logbook_id . '?uuid=' . $checkUser->user_uuid);
                     }
                 } else if ($booking->event) {
-                    $inEvent = $booking->event->user->id === $checkUser->id;
+                    $inEvent = $booking->event->users->id === $checkUser->id;
                     if ($inEvent) {
                         return redirect(url('logbooks') . '/' . $request->logbook_id . '?uuid=' . $checkUser->user_uuid);
                     }
@@ -254,15 +255,15 @@ class LogbookController extends Controller
             $data = [
                 'name' => $entry->booking->assignment ? $entry->booking->assignment->assignment_name : $entry->booking->event->event_name,
                 'classroom_name' => $entry->booking->classroom->classroom_name,
-                'user_name' => $entry->user?$entry->user->name.' '.$entry->user->surname: 'No disp',
+                'user_name' => $entry->user ? $entry->user->name . ' ' . $entry->user->surname : 'No disp',
                 'date' => $entry->date,
                 'check_in' => $entry->check_in,
                 'check_out' => $entry->check_out,
                 'commentary' => $entry->commentary];
-                $response[] = $data;
-            }
-    
-            return $response;
+            $response[] = $data;
+        }
+
+        return $response;
 
     }
 }

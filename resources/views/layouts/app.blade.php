@@ -46,6 +46,22 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <!-- Left Side Of Navbar -->
+                        @guest
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                    <a class="nav-link" aria-current="page" href="{{ route('about-us')}}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-file-earmark-code" viewBox="0 0 16 16">
+                                            <path
+                                                d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+                                            <path
+                                                d="M8.646 6.646a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L10.293 9 8.646 7.354a.5.5 0 0 1 0-.708zm-1.292 0a.5.5 0 0 0-.708 0l-2 2a.5.5 0 0 0 0 .708l2 2a.5.5 0 0 0 .708-.708L5.707 9l1.647-1.646a.5.5 0 0 0 0-.708z" />
+                                        </svg>
+                                        Desarrolladores
+                                    </a>
+                                </li>
+                            </ul>
+                        @endguest
                         @if (Auth::user())
                             <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
                                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -124,6 +140,8 @@
                                             </ul>
                                         </div>
                                     @endhasanyrole
+
+                                    @hasanyrole('admin|user|teacher')
                                     <div class="dropdown">
                                         <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton1"
                                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -168,7 +186,7 @@
                                             @can('see own bookings')
                                                 @hasanyrole('user|teacher')
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="{{ route('bookings.index') }}"
+                                                        <a class="nav-link sonLink" href="{{ route('bookings.index') }}"
                                                             role="button">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                 height="16" fill="currentColor"
@@ -185,7 +203,7 @@
 
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="{{ route('bookings.mybookings') }}"
+                                                        <a class="nav-link sonLink" href="{{ route('bookings.mybookings') }}"
                                                             role="button">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                 height="16" fill="currentColor"
@@ -244,6 +262,7 @@
                                         </ul>
                                     </div>
 
+                                    @endhasanyrole
 
                                     @can('show logbook')
                                         <li class="nav-item">
@@ -273,7 +292,8 @@
                             @guest
                                 @if (Route::has('login'))
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                        <a class="nav-link" href="{{ route('login') }}"><svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 18px;" ><path d="M416 32h-64c-17.67 0-32 14.33-32 32s14.33 32 32 32h64c17.67 0 32 14.33 32 32v256c0 17.67-14.33 32-32 32h-64c-17.67 0-32 14.33-32 32s14.33 32 32 32h64c53.02 0 96-42.98 96-96V128C512 74.98 469 32 416 32zM342.6 233.4l-128-128c-12.51-12.51-32.76-12.49-45.25 0c-12.5 12.5-12.5 32.75 0 45.25L242.8 224H32C14.31 224 0 238.3 0 256s14.31 32 32 32h210.8l-73.38 73.38c-12.5 12.5-12.5 32.75 0 45.25s32.75 12.5 45.25 0l128-128C355.1 266.1 355.1 245.9 342.6 233.4z"/></svg> {{ __('Login') }} </a>
+                                       
                                     </li>
                                 @endif
                             @else
@@ -327,7 +347,7 @@
 
         @endif
         {{-- Aqui se muestra el contenido --}}
-        <main class="py-4 min-vh-100">
+        <main class="py-3 min-vh-100">
             @yield('content')
 
         </main>
@@ -361,8 +381,6 @@
             $('#assignments').DataTable();
             $('#events').DataTable();
             $('#classroom').DataTable();
-            $('#petitions').DataTable();
-            $('#petitions_tab').DataTable();
         });
     </script>
 
