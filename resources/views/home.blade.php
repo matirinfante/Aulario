@@ -16,7 +16,7 @@
 
         {{-- {{ __('You are logged in!') }} --}}
         @role('teacher')
-            
+
         @endrole
 
 
@@ -37,7 +37,7 @@
                         </div>
                         <div class="card-body text-center">
                             <h5 class="card-title">Usuarios</h5>
-                            <p class="card-text">Accede para crear, modificar y elimiar usuarios del sistema</p>
+                            <p class="card-text">Accede para crear, modificar y eliminar usuarios del sistema</p>
                             <a target="_blank" href="https://pedco.uncoma.edu.ar/" class="btn text-light"
                                 style="background-color:  #036">Entrar</a>
                         </div>
@@ -56,7 +56,7 @@
                         </div>
                         <div class="card-body text-center">
                             <h5 class="card-title">Materias</h5>
-                            <p class="card-text">Gestion de materias de la facultad, asignar profesores,
+                            <p class="card-text">Gestión de materias de la facultad, asignar profesores,
                                 crear y modificar</p>
 
                             <a target="_blank" href="https://www.fi.uncoma.edu.ar/" class="btn text-light"
@@ -79,7 +79,7 @@
                         </div>
                         <div class="card-body text-center">
                             <h5 class="card-title">Aulas</h5>
-                            <p class="card-text">Aulas asignadas a la facultad de informatica dentro de la universidad.</p>
+                            <p class="card-text">Aulas asignadas a la Facultad de Informática dentro de la universidad.</p>
                             <a target="_blank" href="https://siufai.uncoma.edu.ar/informatica/" class="btn text-light"
                                 style="background-color:  #036">Entrar</a>
                         </div>
@@ -90,7 +90,7 @@
                         <div class="container-img">
                             {{-- <img src="{{ asset('assets/img/status.svg') }}" class="card-img-top" alt="..."
                                 style="max-height: 100%"> --}}
-                                <svg xmlns="http://www.w3.org/2000/svg" 
+                                <svg xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor"
                                 class="bi bi-check2-circle" viewBox="-6 -2 28 20">
                                 <path
@@ -101,7 +101,7 @@
                         </div>
                         <div class="card-body text-center">
                             <h5 class="card-title">Reservas</h5>
-                            <p class="card-text">Crea reservas periodicas o eventos por dias</p>
+                            <p class="card-text">Crea reservas periódicas o eventos por dias</p>
 
                             <a target="_blank" href="{{ route('gantt') }}" class="btn text-light"
                                 style="background-color:  #036">Entrar</a>
@@ -114,7 +114,7 @@
                         <div class="container-img">
                             {{-- <img src="{{ asset('assets/img/status.svg') }}" class="card-img-top" alt="..."
                                 style="max-height: 100%"> --}}
-                                <svg xmlns="http://www.w3.org/2000/svg" 
+                                <svg xmlns="http://www.w3.org/2000/svg"
                                  fill="currentColor"
                                 class="bi bi-clock-history" viewBox="-10 -4 35 20">
                                 <path
@@ -127,7 +127,7 @@
                         </div>
                         <div class="card-body text-center">
                             <h5 class="card-title">Cronograma de reservas</h5>
-                            <p class="card-text">Consulta las reservas para un dia en especifico</p>
+                            <p class="card-text">Consulta las reservas para un dia en específico</p>
 
                             <a target="_blank" href="{{ route('gantt') }}" class="btn text-light"
                                 style="background-color:  #036">Entrar</a>
@@ -140,7 +140,7 @@
                         <div class="container-img">
                             {{-- <img src="{{ asset('assets/img/status.svg') }}" class="card-img-top" alt="..."
                                 style="max-height: 100%"> --}}
-                                <svg xmlns="http://www.w3.org/2000/svg" 
+                                <svg xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor" class="bi bi-pen"
                                 viewBox="-6 -2 28 20">
                                 <path
@@ -149,7 +149,7 @@
                         </div>
                         <div class="card-body text-center">
                             <h5 class="card-title">Peticiones</h5>
-                            <p class="card-text">Gestiona las solicitud de reservas de los profesores de la facultad</p>
+                            <p class="card-text">Gestiona las solicitudes de reservas de los profesores de la facultad</p>
 
                             <a target="_blank" href="{{ route('gantt') }}" class="btn text-light"
                                 style="background-color:  #036">Entrar</a>
@@ -161,7 +161,6 @@
             </div>
         @endrole
         @role('bedel')
-            {{ 'hola' }}
         @endrole
         @role('user|teacher')
         <div class="row text-center d-flex justify-content-center align-items-center" id="cardindex">
@@ -181,7 +180,7 @@
                         </div>
                         <div class="card-body text-center">
                             <h5 class="card-title">Reservar</h5>
-                            <p class="card-text">Haga una reserva para un evento atravez de Aulario.</p>
+                            <p class="card-text">Haga una reserva para un evento a través de Aulario.</p>
 
                             <a target="_blank" href="{{ route('bookings.index') }}" class="btn text-light"
                                 style="background-color:  #036">Entrar</a>
@@ -192,7 +191,7 @@
                 <div class="col-auto mt-5">
                     <div class="card" style="width: 18rem;">
                         <div class="container-img">
-                            <svg xmlns="http://www.w3.org/2000/svg" 
+                            <svg xmlns="http://www.w3.org/2000/svg"
                              fill="currentColor"
                             class="bi bi-check2-circle w-50 pt-4" viewBox="0 0 16 16">
                             <path
@@ -203,7 +202,7 @@
                         </div>
                         <div class="card-body text-center">
                             <h5 class="card-title">Mis Reservas</h5>
-                            <p class="card-text">Consulte las reservas que ha hecho en aulario.</p>
+                            <p class="card-text">Consulte las reservas que ha hecho en Aulario.</p>
 
                             <a target="_blank" href="{{ route('bookings.mybookings') }}" class="btn text-light"
                                 style="background-color:  #036">Entrar</a>
@@ -229,7 +228,7 @@
                         </div>
                         <div class="card-body text-center">
                             <h5 class="card-title">Mis Eventos</h5>
-                            <p class="card-text">Consulte a cerca de todos los eventos que usted ha hecho.</p>
+                            <p class="card-text">Información sobre todos los eventos que usted ha creado.</p>
 
                             <a target="_blank" href="{{ route('events.index') }}" class="btn text-light"
                                 style="background-color:  #036">Entrar</a>
@@ -241,7 +240,7 @@
         <div class="col-auto mt-5">
             <div class="card" style="width: 18rem;">
                 <div class="container-img">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" 
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                     class="bi bi-pen w-50 pt-4"
                     viewBox="0 0 16 16">
                     <path
@@ -250,17 +249,17 @@
                 </div>
                 <div class="card-body text-center">
                     <h5 class="card-title">Mis Peticiones</h5>
-                    <p class="card-text">Consulte a cerca de todas sus peticiones de materias.</p>
+                    <p class="card-text">Consulte todas las solicitudes de aula y horario de sus materias.</p>
 
                     <a target="_blank" href="{{ route('petitions.index') }}" class="btn text-light"
                         style="background-color:  #036">Entrar</a>
                 </div>
             </div>
             </div>
-       
+
         @endrole
         </div>
-        
+
         @endrole
         {{-- </div>
                 </div>
