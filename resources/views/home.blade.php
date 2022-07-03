@@ -128,7 +128,7 @@
                         <h5 class="card-title">Cronograma de reservas</h5>
                         <p class="card-text">Consulta las reservas para un dia en específico</p>
 
-                        <a href="{{route('bookings.index')}}" class="btn text-light"
+                        <a href="{{route('bookings.admingantt')}}" class="btn text-light"
                            style="background-color:  #036">Entrar</a>
                     </div>
 
