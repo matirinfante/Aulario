@@ -17,9 +17,13 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        $schedules = Schedule::all();
-        $classrooms = Classroom::all();
-        return view('schedule.index', compact('schedules', 'classrooms'));
+        if (auth()->user()->hasAnyRole('admin')) {
+            $schedules = Schedule::all();
+            $classrooms = Classroom::all();
+            return view('schedule.index', compact('schedules', 'classrooms'));
+        } else {
+            return abort(403);
+        }
     }
 
 
@@ -43,11 +47,11 @@ class ScheduleController extends Controller
         $verificationSchedule = $this->scheduleVerification($request);
         if ($verificationSchedule) {
             try {
-                $schedule= Schedule::create([
-                    'classroom_id' =>$request->classroom_id ,
-                    'day'=> $request->day,
-                    'start_time'=>$request->start_time,
-                    'finish_time'=>$request->finish_time
+                $schedule = Schedule::create([
+                    'classroom_id' => $request->classroom_id,
+                    'day' => $request->day,
+                    'start_time' => $request->start_time,
+                    'finish_time' => $request->finish_time
                 ]);
                 $schedule->save();
                 flash('Se ha registrado el horario correctamente')->success();
@@ -94,7 +98,6 @@ class ScheduleController extends Controller
         try {
             $schedule->update($request->all());
             flash('Se ha actualizado el horario correctamente')->success();
-
             return redirect(route('schedules.index'));
         } catch (\Exception $e) {
             flash('Ha ocurrido un error al actualizar el horario')->error();

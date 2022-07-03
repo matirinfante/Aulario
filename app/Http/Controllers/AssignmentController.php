@@ -12,15 +12,20 @@ use App\Http\Requests\AssignmentRequest;
 
 class AssignmentController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $assignments = Assignment::withTrashed()->get();
-        $users = User::all();
+        if (auth()->user()->hasAnyRole('admin')) {
+            $assignments = Assignment::withTrashed()->get();
+            $users = User::all();
 
-        return view('assignment.index', compact('assignments', 'users'));
+            return view('assignment.index', compact('assignments', 'users'));
+        } else {
+            return abort(403);
+        }
     }
 
     /**
