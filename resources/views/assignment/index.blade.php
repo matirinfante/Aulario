@@ -49,11 +49,11 @@
 
                 <thead class="bg-secondary text-light">
                 <tr>
-                    <td>Nombre de materia</td>
-                    <td style="width: 200px;">Profesor/a</td>
-                    <td>Cursada</td>
-                    <td class="text-center">Acción</td>
-                    <td class="text-center">Estado</td>
+                    <th>Nombre de materia</th>
+                    <th style="width: 200px;">Profesor/a</th>
+                    <th>Cursada</th>
+                    <th class="text-center">Acción</th>
+                    <th class="text-center">Estado</th>
                 </tr>
                 </thead>
                 <tbody>
