@@ -22,11 +22,15 @@ class LogbookController extends Controller
      */
     public function index()
     {
-        $classrooms = Classroom::where('building', 'Informática')->get(['id']);
-        $bookings = Booking::whereIn('classroom_id', $classrooms)->get(['id']);
-        $today_logbook = Logbook::where('date', Carbon::today()->format('Y-m-d'))->whereIn('booking_id', $bookings)->get();
+        if (auth()->user()->hasAnyRole('admin', 'bedel')) {
+            $classrooms = Classroom::where('building', 'Informática')->get(['id']);
+            $bookings = Booking::whereIn('classroom_id', $classrooms)->get(['id']);
+            $today_logbook = Logbook::where('date', Carbon::today()->format('Y-m-d'))->whereIn('booking_id', $bookings)->get();
 
-        return view('logbook.index', compact('today_logbook'));
+            return view('logbook.index', compact('today_logbook'));
+        } else {
+            return abort(403);
+        }
     }
 
     /**
@@ -47,8 +51,6 @@ class LogbookController extends Controller
                 ->where('classrooms.building', '=', 'Informática')->get(['bookings.id', 'bookings.booking_date']);
 
             foreach ($today_bookings as $booking) {
-                Log::info($booking->id);
-                Log::info(Carbon::today()->format('Y-m-d'));
 
                 Logbook::create([
                     'booking_id' => $booking->id,
@@ -262,8 +264,6 @@ class LogbookController extends Controller
                 'commentary' => $entry->commentary];
             $response[] = $data;
         }
-
         return $response;
-
     }
 }
