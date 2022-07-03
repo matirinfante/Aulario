@@ -8,32 +8,32 @@
                         aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="form_update" name="form_update" method="post"
+                <form class="form_update" id="formUserUpdate{{ $user->id }}" name="form_update" method="post"
                       action="{{ route('users.update', $user->id) }}">
                     @csrf @method('PATCH')
                     <div class="mb-3">
                         <label for="name" class="form-label">Nombre</label>
-                        <input type="text" class="form-control name_edit" name="name" value=" {{$user['name']}} "
+                        <input type="text" id="userNameUpdate{{ $user->id }}" class="form-control name_edit" name="name" value=" {{$user['name']}} "
                                required>
-                        <p class="name_error_edit alerta d-none"></p>
+                        <p class="name_error_edit alerta d-none" id="errorUserNameUpdate{{ $user->id }}"></p>
                     </div>
                     <div class="mb-3">
                         <label for="surname" class="form-label">Apellido</label>
-                        <input type="text" class="form-control surname_edit" name="surname" value="{{$user['surname']}}"
+                        <input type="text" id="userSurnameUpdate{{ $user->id }}" class="form-control surname_edit" name="surname" value="{{$user['surname']}}"
                                required>
-                        <p class="surname_error_edit alerta d-none"></p>
+                        <p class="surname_error_edit alerta d-none" id="errorUserSurnameUpdate{{ $user->id }}"></p>
                     </div>
                     <div class="mb-3">
                         <label for="dni" class="form-label">Dni</label>
-                        <input type="number" class="form-control dni_edit" name="dni" min="1000000" max="99999999"
+                        <input type="number" id="userDniupdate{{ $user->id }}" class="form-control dni_edit" name="dni" min="1000000" max="99999999"
                                value="{{$user['dni']}}" required>
-                        <p class="dni_error_edit alerta d-none"></p>
+                        <p class="dni_error_edit alerta d-none" id="errorUserDniUpdate{{ $user->id }}"></p>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control email_edit" name="email" value="{{$user['email']}}"
+                        <input type="email" id="userEmailUpdate{{ $user->id }}" class="form-control email_edit" name="email" value="{{$user['email']}}"
                                required>
-                        <p class="email_error_edit alerta d-none"></p>
+                        <p class="email_error_edit alerta d-none" id="errorUserEmailUpdate{{ $user->id }}"></p>
                     </div>
                     @can('admin')
                         <div class="mb-3">
@@ -55,7 +55,7 @@
                             </select>
                         </div>
                     @endcan
-                    <button type="submit" class="button_edit btn btn-primary">Actualizar</button>
+                    <button type="submit" id="btnUserSubmit{{ $user->id }}" class="button_edit btn btn-primary disabled">Actualizar</button>
                 </form>
             </div>
         </div>
