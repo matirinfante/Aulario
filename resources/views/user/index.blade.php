@@ -27,13 +27,13 @@
                 @endcan
                 <thead class="bg-secondary text-light">
                     <tr>
-                        <td>Nombre</td>
-                        <td>Email</td>
+                        <th>Nombre</th>
+                        <th>Email</th>
                         @canany(['show users', 'edit users'])
-                            <td>Accion</td>
+                            <th>Acción</th>
                         @endcanany
                         @can('delete users')
-                            <td>Cambiar estado</td>
+                            <th>Cambiar estado</th>
                         @endcan
                     </tr>
                 </thead>

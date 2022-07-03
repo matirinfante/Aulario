@@ -277,3 +277,8 @@ hr {
     width: 85%;
     margin: auto;
 }
+
+/* tarjetas home */
+.cardHover:hover {
+    box-shadow: 0 0 3px #00336685;
+}
