@@ -6,13 +6,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="form_classroom_edit" name="form_classroom" method="POST" action="{{ route('classrooms.update', $class->id) }}" enctype="multipart/form-data">
+                <form id="form_classroom_edit{{$class->id}}" name="form_classroom" method="POST" action="{{ route('classrooms.update', $class->id) }}" enctype="multipart/form-data">
                     @csrf @method('PATCH')
                     <div class="mb-3">
                         <label for="classroom_name" class="form-label">Nombre del
                             aula</label>
-                        <input type="text" class="form-control" name="classroom_name" id="classroom_name_edit" value="{{ $class->classroom_name }}">
-                        <p class="alerta d-none" id="errorClassroomNameEdit">Error</p>
+                        <input type="text" class="form-control" name="classroom_name" id="classroom_name_edit{{$class->id}}" value="{{ $class->classroom_name }}">
+                        <p class="alerta d-none" id="errorClassroomNameEdit{{$class->id}}">Error</p>
                     </div>
                     <div class="mb-3">
                         <label for="building" class="form-label">Edificio</label>
@@ -26,8 +26,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="capacity" class="form-label">Capacidad</label>
-                        <input type="number" class="form-control" name="capacity" id="capacity_edit" min="1" max="200" value="{{ $class->capacity }}">
-                        <p class="alerta d-none" id="errorCapacityEdit">Error</p>
+                        <input type="number" class="form-control" name="capacity" id="capacity_edit{{$class->id}}" min="1" max="200" value="{{ $class->capacity }}">
+                        <p class="alerta d-none" id="errorCapacityEdit{{$class->id}}">Error</p>
                     </div>
                     <div class="mb-3">
                         <label for="type" class="form-label">Tipo de aula</label>
@@ -37,7 +37,7 @@
                             <option value="{{ $type }}">{{ $type }}</option>
                             @endforeach
                         </select>
-                        <p class="alerta d-none" id="errorType">Error</p>
+                        <p class="alerta d-none" id="errorType{{$class->id}}">Error</p>
                     </div>
                     <div>
                         <label for="image_classroom" class="form-label">Locación:</label>
@@ -55,7 +55,7 @@
                         <p class="alerta d-none" id="errorLocationEdit">Error</p>
                     </div>
                     <br>
-                    <button id="submit_edit" type="submit" class="btn btn-primary">Actualizar
+                    <button id="submit_edit{{$class->id}}" type="submit" class="btn btn-primary">Actualizar
                     </button>
                 </form>
             </div>
