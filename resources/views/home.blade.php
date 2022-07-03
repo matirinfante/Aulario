@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container mb-5">
         {{-- <div class="row justify-content-center">
             <div class="-md-8">
                 <div class="card">
@@ -21,9 +21,9 @@
 
 
         @role('admin')
-        <div class="row row-cols-3" id="cardindex">
-            <div class="col">
-                <div class="card" style="width: 18rem;">
+        <div class="row text-center d-flex justify-content-center align-items-center" id="cardindex">
+            <div class="col-auto mt-5">
+                <div class="card cardHover" style="width: 18rem;">
                     <div class="container-img">
                         {{-- <img src="{{ asset('assets/img/pedco.png') }}" class="card-img-top" alt="..."> --}}
                         <svg xmlns="http://www.w3.org/2000/svg" style="max-height: 100%
@@ -36,14 +36,14 @@
                     </div>
                     <div class="card-body text-center">
                         <h5 class="card-title">Usuarios</h5>
-                        <p class="card-text">Accede para crear, modificar y eliminar usuarios del sistema</p>
+                        <p class="card-text">Accede para crear, modificar y eliminar usuarios del sistema.</p>
                         <a href="{{route('users.index')}}" class="btn text-light"
                            style="background-color:  #036">Entrar</a>
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card" style="width: 18rem;">
+            <div class="col-auto mt-5">
+                <div class="card cardHover" style="width: 18rem;">
                     <div class="container-img">
                         {{-- <img src="{{ asset('assets/img/logo-faif.png') }}" class="card-img-top" alt="..."> --}}
                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -56,15 +56,15 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">Materias</h5>
                         <p class="card-text">Gestión de materias de la facultad, asignar profesores,
-                            crear y modificar</p>
+                            crear y modificar.</p>
 
                         <a href="{{route('assignments.index')}}" class="btn text-light"
                            style="background-color:  #036">Entrar</a>
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card" style="width: 18rem;">
+            <div class="col-auto mt-5">
+                <div class="card cardHover" style="width: 18rem;">
                     <div class="container-img ">
                         {{-- <img src="{{ asset('assets/img/siubanner.png') }}" class="card-img-top mt-3" alt="..."> --}}
                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -84,8 +84,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col mt-5">
-                <div class="card" style="width: 18rem;">
+            <div class="col-auto mt-5">
+                <div class="card cardHover" style="width: 18rem;">
                     <div class="container-img">
                         {{-- <img src="{{ asset('assets/img/status.svg') }}" class="card-img-top" alt="..."
                             style="max-height: 100%"> --}}
@@ -100,16 +100,16 @@
                     </div>
                     <div class="card-body text-center">
                         <h5 class="card-title">Reservas</h5>
-                        <p class="card-text">Crea reservas periódicas o eventos por dias</p>
+                        <p class="card-text">Crea reservas periódicas o eventos por dias.</p>
 
-                        <a target="_blank" href="{{route('bookings.index')}}" class="btn text-light"
+                        <a href="{{route('bookings.index')}}" class="btn text-light"
                            style="background-color:  #036">Entrar</a>
                     </div>
 
                 </div>
             </div>
-            <div class="col mt-5">
-                <div class="card" style="width: 18rem;">
+            <div class="col-auto mt-5">
+                <div class="card cardHover" style="width: 18rem;">
                     <div class="container-img">
                         {{-- <img src="{{ asset('assets/img/status.svg') }}" class="card-img-top" alt="..."
                             style="max-height: 100%"> --}}
@@ -126,7 +126,7 @@
                     </div>
                     <div class="card-body text-center">
                         <h5 class="card-title">Cronograma de reservas</h5>
-                        <p class="card-text">Consulta las reservas para un dia en específico</p>
+                        <p class="card-text">Consulta las reservas para un dia en específico.</p>
 
                         <a href="{{route('bookings.admingantt')}}" class="btn text-light"
                            style="background-color:  #036">Entrar</a>
@@ -134,8 +134,8 @@
 
                 </div>
             </div>
-            <div class="col mt-5">
-                <div class="card" style="width: 18rem;">
+            <div class="col-auto mt-5">
+                <div class="card cardHover" style="width: 18rem;">
                     <div class="container-img">
                         {{-- <img src="{{ asset('assets/img/status.svg') }}" class="card-img-top" alt="..."
                             style="max-height: 100%"> --}}
@@ -148,7 +148,7 @@
                     </div>
                     <div class="card-body text-center">
                         <h5 class="card-title">Peticiones</h5>
-                        <p class="card-text">Gestiona las solicitudes de reservas de los profesores de la facultad</p>
+                        <p class="card-text">Gestiona las solicitudes de reservas de los profesores de la facultad.</p>
 
                         <a href="{{route('petitions.index')}}" class="btn text-light"
                            style="background-color:  #036">Entrar</a>
@@ -164,7 +164,7 @@
         @role('user|teacher')
         <div class="row text-center d-flex justify-content-center align-items-center" id="cardindex">
             <div class="col-auto mt-5">
-                <div class="card" style="width: 18rem;">
+                <div class="card cardHover" style="width: 18rem;">
                     <div class="container-img">
                         <svg xmlns="http://www.w3.org/2000/svg"
                              fill="currentColor"
@@ -188,7 +188,7 @@
                 </div>
             </div>
             <div class="col-auto mt-5">
-                <div class="card" style="width: 18rem;">
+                <div class="card cardHover" style="width: 18rem;">
                     <div class="container-img">
                         <svg xmlns="http://www.w3.org/2000/svg"
                              fill="currentColor"
@@ -210,7 +210,7 @@
                 </div>
             </div>
             <div class="col-auto mt-5">
-                <div class="card" style="width: 18rem;">
+                <div class="card cardHover" style="width: 18rem;">
                     <div class="container-img">
                         {{-- <img src="{{ asset('assets/img/status.svg') }}" class="card-img-top" alt="..."
                             style="max-height: 100%"> --}}
@@ -237,7 +237,7 @@
             </div>
             @role('teacher')
             <div class="col-auto mt-5">
-                <div class="card" style="width: 18rem;">
+                <div class="card cardHover" style="width: 18rem;">
                     <div class="container-img">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                              class="bi bi-pen w-50 pt-4"
