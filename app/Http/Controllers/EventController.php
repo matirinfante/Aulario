@@ -14,8 +14,12 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::withTrashed()->get();
-        return view('event.index', compact('events'));
+        if (auth()->user()->hasAnyRole('admin')) {
+            $events = Event::withTrashed()->get();
+            return view('event.index', compact('events'));
+        } else {
+            return abort(403);
+        }
     }
 
     /**
@@ -38,7 +42,7 @@ class EventController extends Controller
             $event = Event::create([
                 'event_name' => $request->event_name,
                 'participants' => $request->participants,
-                'user_id' =>$request->user_id
+                'user_id' => $request->user_id
             ]);
             $event->save();
             flash('Se ha creado un nuevo evento con éxito')->success();
