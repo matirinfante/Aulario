@@ -23,6 +23,7 @@ use App\Http\Requests\BookingRequest;
 use Hamcrest\Arrays\IsArray;
 use Illuminate\Support\Facades\Log;
 use Ramsey\Uuid\Uuid;
+use Spatie\Period\Boundaries;
 use Spatie\Period\Period;
 use Spatie\Period\PeriodCollection;
 use Spatie\Period\Precision;
@@ -75,34 +76,36 @@ class BookingController extends Controller
         try {
             if (auth()->user()->hasAnyRole('user', 'teacher')) {
 
-                //TODO: la comprobación se hace acá :)
+                if ($this->checkOverlapping($request)->isEmpty()) {
+                    $event = Event::create([
+                        'event_name' => $request->event_name,
+                        'user_id' => auth()->user()->id,
+                        'participants' => $request->participants
+                    ]);
 
-                $event = Event::create([
-                    'event_name' => $request->event_name,
-                    'user_id' => auth()->user()->id,
-                    'participants' => $request->participants
-                ]);
+                    $booking = Booking::create([
+                        'user_id' => auth()->user()->id,
+                        'classroom_id' => $request->classroom_id,
+                        'event_id' => $event->id,
+                        'description' => $request->description,
+                        'status' => 'pending',
+                        'week_day' => ucfirst(Carbon::parse($request->booking_date)->locale('es')->dayName),
+                        'booking_date' => $request->booking_date,
+                        'start_time' => $request->start_time,
+                        'finish_time' => $request->finish_time,
+                        'booking_uuid' => Uuid::uuid4()
+                    ]);
 
-                $booking = Booking::create([
-                    'user_id' => auth()->user()->id,
-                    'classroom_id' => $request->classroom_id,
-                    'event_id' => $event->id,
-                    'description' => $request->description,
-                    'status' => 'pending',
-                    'week_day' => ucfirst(Carbon::parse($request->booking_date)->locale('es')->dayName),
-                    'booking_date' => $request->booking_date,
-                    'start_time' => $request->start_time,
-                    'finish_time' => $request->finish_time,
-                    'booking_uuid' => Uuid::uuid4()
-                ]);
-
-                Logbook::create([
-                    'booking_id' => $booking->id,
-                    'date' => $request->booking_date
-                ]);
-                $this->dispatch(new SendEventBookingCreatedJob($booking));
-                flash('Se ha registrado la reserva con exito')->success();
-                return redirect(route('bookings.mybookings'));
+                    Logbook::create([
+                        'booking_id' => $booking->id,
+                        'date' => $request->booking_date
+                    ]);
+                    $this->dispatch(new SendEventBookingCreatedJob($booking));
+                    flash('Se ha registrado la reserva con exito')->success();
+                    return redirect(route('bookings.mybookings'));
+                } else {
+                    return redirect(route('bookings.index'))->with('error', 'Ha ocurrido un error. Ya hay una reserva registrada');
+                }
             } else if (auth()->user()->hasRole('admin')) {
                 //Recibimos y manipulamos solo datos de materia
                 if ($request->optionType == 'assignment') {
@@ -547,11 +550,30 @@ class BookingController extends Controller
     /**
      * Función dedicada a validar que no exista superposición en la data entrante
      */
-    public function validateJsonData($data)
+    public function checkOverlapping($data)
     {
-        foreach ($data as $partial) {
+        //Tenemos booking_date, classroom_id, start_time y finish_time
+        //Hay que obtener las posibles interferencias para el mismo booking date y classroom
+        $posibleOverlap = Booking::where('booking_date', $data->booking_date)
+            ->where('classroom_id', $data->classroom_id)->get(['booking_date', 'start_time', 'finish_time']);
 
+        $periodOverlap = new PeriodCollection();
+
+        foreach ($posibleOverlap as $booking) {
+            $start_time = Carbon::createFromTimeString($booking->start_time)->format('Y-m-d H:i:s');
+            $finish_time = Carbon::createFromTimeString($booking->finish_time)->format('Y-m-d H:i:s');
+
+            $periodOverlap = $periodOverlap->add(Period::make($start_time, $finish_time, PRECISION::SECOND(), boundaries: Boundaries::EXCLUDE_END()));
         }
+
+        $start_time = Carbon::createFromTimeString($data->start_time)->format('Y-m-d H:i:s');
+        $finish_time = Carbon::createFromTimeString($data->finish_time)->format('Y-m-d H:i:s');
+        $toCheckPeriod = new PeriodCollection(Period::make($start_time, $finish_time, PRECISION::SECOND(), boundaries: Boundaries::EXCLUDE_END()));
+
+        $response = $toCheckPeriod->overlapAll($periodOverlap);
+
+        return $response;
+
     }
 
     /**
