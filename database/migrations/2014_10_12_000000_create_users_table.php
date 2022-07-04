@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->integer('dni')->unique(); //DNI
             $table->string('email')->unique(); //Email
             $table->string('password'); //Contraseña
-            $table->string('remember_token');
+            $table->string('remember_token')->nullable();
             $table->uuid('user_uuid');
             $table->string('personal_token');
             $table->softDeletes();
