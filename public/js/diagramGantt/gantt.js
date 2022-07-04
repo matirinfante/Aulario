@@ -89,11 +89,6 @@ $.ajax({
     )}
              
 });
-//Funcion que se ejectua en el window 
-//Cada un intervalo de tiempo escrito en milisegundos la pagina se refresca
-// window.setInterval(e=>{
-//     location.reload();
-// },300000)
 
 
 
