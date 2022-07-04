@@ -1,7 +1,10 @@
+
 $(".filtro").on("change", function (e) {
     $(".start_time").empty();
+
     let classroom_id = $(this).find("option:selected").val();
     let mensaje= "Aula Seleccionada: "
+    //select del aula
     let name= $("#select").find("option:selected").data().classroomname;
    let h3=document.getElementById("classroom_name")
     h3.textContent=mensaje+name;
@@ -17,18 +20,18 @@ $(".filtro").on("change", function (e) {
             classroom_id: classroom_id,
         },
         success: function (data) {
-            //modificar como se muestra la fecha de materias
-            //arreglar el calendario que se renderiza tarde
+            // Se asigna el valor a un div
             $("#bookings").html(JSON.stringify(data[0]));
             $("#bookings_assignments").html(JSON.stringify(data[1]));
 
-            var calendarEl = document.getElementById("calendar");
+            //Se obtienen los objetos eventos y materias con la informacion del front
+            var calendarEl = document.getElementById("calendar"); //guarda el calendario en una variable
             let eventos = getBookings();
             let materias = getBookingsAssignments();
 
-            let rta = eventos.concat(materias);
+            let rta = eventos.concat(materias);// se unen un una sola variable
 
-            var calendar = new FullCalendar.Calendar(calendarEl, {
+            var calendar = new FullCalendar.Calendar(calendarEl, { //se inicializa el calendario, con el formato indicado por la libreria
                 initialView: "dayGridMonth",
                 locale: "es",
                 headerToolbar: {
@@ -39,9 +42,9 @@ $(".filtro").on("change", function (e) {
                 timeZone: "local",
                 events: rta,
                 contentHeight: 600,
-                dateClick: function (info) {
-                    let today = new Date().toISOString().slice(0, 10);
-                    var currentDate = Date.parse(today);
+                dateClick: function (info) { //se hace click en un dia
+                    let today = new Date().toISOString().slice(0, 10); //se extra solo la fecha
+                    var currentDate = Date.parse(today); 
                     var chosenDate = Date.parse(info.dateStr);
                     var dif = chosenDate - currentDate;
                     if (dif >= 0 && dif <= 1209600000) {
@@ -55,10 +58,9 @@ $(".filtro").on("change", function (e) {
                             .data("classroomName");
                         $(".classroomID").val(optionClassroom);
                         $("#classroomdata").text(classroomName);
-                        // alert('info:' + info.date);
-                        //no intentes comprender
+                       
                         $("#createModal").modal("show");
-                        var url = `/bookings/periods`;
+                        var url = `/bookings/periods`; //se obtienen los rangos de disponibilidad del aula
                         var classroomId = optionClassroom;
                         var date = info.dateStr;
                         var inicioArr = [];
@@ -171,13 +173,12 @@ const getBookings = () => {
     let eventos = booking.map((el) => {
         return {
             title: `${el.event_name} ${el.booking_description}`,
-            // title: el.classroom_id + " - " + el.classroom_name, //borrar
             start: el.booking_date + "T" + el.start_time,
             end: el.booking_date + "T" + el.finish_time,
         };
     });
 
-    return eventos;
+    return eventos; //se retornan los eventos existentes con el formato requerido
 };
 
 const getBookingsAssignments = () => {
@@ -199,7 +200,7 @@ const getBookingsAssignments = () => {
         };
     });
 
-    return materias;
+    return materias;//se retornan las materias existentes con el formato requerido
 };
 const filter = (value) => {
     $select = document.getElementById("select");
@@ -251,7 +252,3 @@ $inputParticipants.addEventListener("keyup", (e) => {
     }
    
 });
-
-function ocultarCalendar($inputParticipants){
-
-}
