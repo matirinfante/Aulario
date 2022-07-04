@@ -18,6 +18,8 @@
         </div>
     @endif
 
+    <h3 class="text-center m-4">Disponibilidad horaria de aulas</h3>
+
 
     @can('show schedule')
         <div class="card" style="width: 1000px; margin: auto;">
@@ -29,12 +31,12 @@
                     @endcan
                     <thead class="bg-secondary text-light">
                         <tr>
-                            <td>Aula</td>
-                            <td>Dia</td>
-                            <td>Hora Inicio</td>
-                            <td>Hora Final</td>
+                            <th>Aula</th>
+                            <th>Día</th>
+                            <th>Hora Inicio</th>
+                            <th>Hora Final</th>
                             @can('delete schedule')
-                                <td>Acción</td>
+                                <th>Acción</th>
                             @endcan
                         </tr>
                     </thead>

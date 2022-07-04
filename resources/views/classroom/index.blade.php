@@ -31,15 +31,15 @@
                 @endcan
                 <thead class="bg-secondary text-light">
                     <tr>
-                        <td>Nombre</td>
-                        <td>Edificio</td>
-                        <td>Capacidad</td>
-                        <td>Tipo de aula</td>
+                        <th>Nombre</th>
+                        <th>Edificio</th>
+                        <th>Capacidad</th>
+                        <th>Tipo de aula</th>
                         @canany(['show classrooms', 'edit classrooms'])
-                            <td>Acción</td>
+                            <th>Acción</th>
                         @endcanany
                         @can('delete classrooms')
-                            <td>Estado</td>
+                            <th>Estado</th>
                         @endcan
                     </tr>
                 </thead>

@@ -25,7 +25,7 @@ const isString = (value) => {
     }
     return rta
 }
-form.addEventListener('click', e => {
+form.addEventListener('keyup', e => {
     //Validamos que el nombre sea letras y no esté vacio
 
     if (!validator.isEmpty($inputName.value)) {
@@ -87,7 +87,7 @@ form.addEventListener('click', e => {
     }
     //Validamos que la contraseña no esté vacia y que tenga un minimo de 6 caracteres
     if (!validator.isEmpty($inputPass.value)) {
-        if ($inputPass.value.length < 10 && $inputPass.value.length > 5) {
+        if ($inputPass.value.length > 5) {
             v5 = true
             $errorPass.classList.add('d-none')
         } else {

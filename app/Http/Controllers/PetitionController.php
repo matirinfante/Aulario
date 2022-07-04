@@ -18,16 +18,20 @@ class PetitionController extends Controller
      */
     public function index()
     {
-        $classroom_type = ['Laboratorio', 'Aula común'];
-        $weekdays = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-        if (auth()->user()->hasRole('admin')) {
-            $petitions = Petition::orderBy('status')->get();
-        } else if (auth()->user()->hasRole('teacher')) {
-            $petitions = Petition::orderBy('status')->where('user_id', auth()->user()->id)->get();
+        if (auth()->user()->hasAnyRole('admin', 'teacher')) {
+            $classroom_type = ['Laboratorio', 'Aula común'];
+            $weekdays = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+            if (auth()->user()->hasRole('admin')) {
+                $petitions = Petition::orderBy('status')->get();
+            } else if (auth()->user()->hasRole('teacher')) {
+                $petitions = Petition::orderBy('status')->where('user_id', auth()->user()->id)->get();
+            } else {
+                return abort(403);
+            }
+            return view('petition.index', compact('petitions', 'classroom_type', 'weekdays'));
         } else {
             return abort(403);
         }
-        return view('petition.index', compact('petitions', 'classroom_type', 'weekdays'));
     }
 
     /**

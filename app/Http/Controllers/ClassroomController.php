@@ -21,10 +21,14 @@ class ClassroomController extends Controller
      */
     public function index()
     {
-        $classrooms = Classroom::withTrashed()->get();
-        $buildings = ['Informática', 'Economía', 'Humanidades', 'Aulas comunes', 'Biblioteca'];
-        $types = ['Laboratorio', 'Aula común'];
-        return view('classroom.index', compact('classrooms', 'buildings', 'types'));
+        if (auth()->user()->hasAnyRole('admin')) {
+            $classrooms = Classroom::withTrashed()->get();
+            $buildings = ['Informática', 'Economía', 'Humanidades', 'Aulas comunes', 'Biblioteca'];
+            $types = ['Laboratorio', 'Aula común'];
+            return view('classroom.index', compact('classrooms', 'buildings', 'types'));
+        } else {
+            return abort(403);
+        }
     }
 
     /**
@@ -43,11 +47,10 @@ class ClassroomController extends Controller
     public function store(ClassroomStoreRequest $request)
     {
         try {
-            if($request->location)
-            {
-                $location = $this->imageUpload ($request);
-            }else{
-                $location='';
+            if ($request->location) {
+                $location = $this->imageUpload($request);
+            } else {
+                $location = '';
             }
 
             $classroom = Classroom::create([
@@ -107,11 +110,10 @@ class ClassroomController extends Controller
     public function update(ClassroomUpdateRequest $request, Classroom $classroom)
     {
         try {
-            if($request->location)
-            {
-                $location = $this->imageUpload ($request);
-            }else{
-                $location='';
+            if ($request->location) {
+                $location = $this->imageUpload($request);
+            } else {
+                $location = '';
             }
             $classroom->update([
                 'classroom_name' => $request->classroom_name,
@@ -157,7 +159,7 @@ class ClassroomController extends Controller
         return back();
     }
 
-    public function imageUpload ($request)
+    public function imageUpload($request)
     {
         #Para subir la imagen
         #Comprobar el tipo de archivo por medio de la extension.
@@ -165,25 +167,22 @@ class ClassroomController extends Controller
         $img_jpg = $request->file("location")->guessExtension() == 'jpg'; #True or False
         $img_jpeg = $request->file("location")->guessExtension() == 'jpeg'; #True or False
         $req_valid = $request->location != null && $request->location != ""; #True or False
-    
-        if ($req_valid && ($img_png||($img_jpg || $img_jpeg)))
-        {
+
+        if ($req_valid && ($img_png || ($img_jpg || $img_jpeg))) {
             $image = $request->file("location");#El archivo se amacena en la variable
 
-            $imgName = Str::slug($request->building. "_" .$request->classroom_name) . "." .$image->guessExtension();#Creamos el nuevo nombre de la imagen
+            $imgName = Str::slug($request->building . "_" . $request->classroom_name) . "." . $image->guessExtension();#Creamos el nuevo nombre de la imagen
 
-            $name = Str::slug($request->building. "_" .$request->classroom_name);
-            
+            $name = Str::slug($request->building . "_" . $request->classroom_name);
+
             //Elimina todas las imagenes que puedan contener el mismo nombre pero distinta extensión para evitar acumulación de imagenes que no se utilicen
-            Storage::delete(["/public/".$name.".jpg","/public/".$name.".jpeg","/public/".$name.".png"]);
+            Storage::delete(["/public/" . $name . ".jpg", "/public/" . $name . ".jpeg", "/public/" . $name . ".png"]);
 
             $request->file('location')->storeAs('/public/', $imgName);#Ruta en la que sealmacenara la img, y el nuevo nombre
 
-            $location = "/assets/mapa_aulas/storage/" .$imgName;#Locacion seria la ruta a la seaccederia a la imagen
+            $location = "/assets/mapa_aulas/storage/" . $imgName;#Locacion seria la ruta a la seaccederia a la imagen
             #Se uso un link simbolico para llevar storage a public assets
-        }
-        else
-        {
+        } else {
             $location = "";#Esto es para el if a la hora de mostrar la imagen del aula, si notiene contenido
         }
         return $location;
