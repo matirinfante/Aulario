@@ -25,7 +25,7 @@ const isString = (value) => {
     }
     return rta
 }
-form.addEventListener('click', e => {
+form.addEventListener('keyup', e => {
     //Validamos que el nombre sea letras y no esté vacio
 
     if (!validator.isEmpty($inputName.value)) {
