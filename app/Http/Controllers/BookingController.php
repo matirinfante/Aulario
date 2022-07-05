@@ -544,7 +544,7 @@ class BookingController extends Controller
                 }
                 $arregloJS[] = ['name' => $name, 'start_time' => $obj->start_time, 'finish_time' => $obj->finish_time, 'tipo' => $tipo];
             };
-           
+
             $response[] = ['classroom_name' => $classroom->classroom_name, 'bookings' => $arregloJS];
         }
         $collection->push($response);
