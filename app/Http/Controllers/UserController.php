@@ -30,7 +30,6 @@ class UserController extends Controller
         } else {
             return abort(403);
         }
-
     }
 
     /**

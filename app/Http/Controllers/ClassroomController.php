@@ -42,7 +42,6 @@ class ClassroomController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *TODO: $request->all() dentro de create
      */
     public function store(ClassroomStoreRequest $request)
     {
@@ -169,7 +168,7 @@ class ClassroomController extends Controller
         $req_valid = $request->location != null && $request->location != ""; #True or False
 
         if ($req_valid && ($img_png || ($img_jpg || $img_jpeg))) {
-            $image = $request->file("location");#El archivo se amacena en la variable
+            $image = $request->file("location");#El archivo se almacena en la variable
 
             $imgName = Str::slug($request->building . "_" . $request->classroom_name) . "." . $image->guessExtension();#Creamos el nuevo nombre de la imagen
 
@@ -178,9 +177,9 @@ class ClassroomController extends Controller
             //Elimina todas las imagenes que puedan contener el mismo nombre pero distinta extensión para evitar acumulación de imagenes que no se utilicen
             Storage::delete(["/public/" . $name . ".jpg", "/public/" . $name . ".jpeg", "/public/" . $name . ".png"]);
 
-            $request->file('location')->storeAs('/public/', $imgName);#Ruta en la que sealmacenara la img, y el nuevo nombre
+            $request->file('location')->storeAs('/public/', $imgName);#Ruta en la que se almacenara la img, y el nuevo nombre
 
-            $location = "/assets/mapa_aulas/storage/" . $imgName;#Locacion seria la ruta a la seaccederia a la imagen
+            $location = "/assets/mapa_aulas/storage/" . $imgName;#Locacion seria la ruta a la se accederia a la imagen
             #Se uso un link simbolico para llevar storage a public assets
         } else {
             $location = "";#Esto es para el if a la hora de mostrar la imagen del aula, si notiene contenido

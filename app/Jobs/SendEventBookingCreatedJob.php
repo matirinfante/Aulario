@@ -35,7 +35,7 @@ class SendEventBookingCreatedJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->booking->user->mail)->send(new EventBookingCreatedMail($this->booking));
-
+        $test = $this->booking->user->email;
+        Mail::to($test)->send(new EventBookingCreatedMail($this->booking));
     }
 }
