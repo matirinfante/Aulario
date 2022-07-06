@@ -7,14 +7,21 @@
  @endsection
 
  @section('content')
+    
      <div class="container-fluid">
-         {{-- Reloj --}}
-         <div id="clockdate">
-             <div class="clockdate-wrapper">
-                 <div id="clock"></div>
-                 <div id="date"></div>
+        <div class="row">
+            <div class="col-3 data mt-3 px-3">
+                <img src="{{ asset('assets/img/aulario.png') }}" alt="Aulario" style="max-height: 80%;">
+            </div>
+             {{-- Reloj --}}
+             <div class="col-6" id="clockdate">
+                 <div class="clockdate-wrapper">
+                     <div id="clock"></div>
+                     <div id="date"></div>
+                 </div>
              </div>
-         </div>
+        </div>
+        
          {{-- Diagrama de Gantt --}}
          <div>
              <input hidden type="date" id="inputDate">
