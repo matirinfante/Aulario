@@ -25,7 +25,7 @@ class LogbookController extends Controller
         if (auth()->user()->hasAnyRole('admin', 'bedel')) {
             $classrooms = Classroom::where('building', 'Informática')->get(['id']);
             $bookings = Booking::whereIn('classroom_id', $classrooms)->get(['id']);
-            $today_logbook = Logbook::where('date', Carbon::today()->format('Y-m-d'))->whereIn('booking_id', $bookings)->get();
+            $today_logbook = Logbook::where('date', Carbon::now()->setTimezone('America/Argentina/Buenos_Aires')->format('Y-m-d'))->whereIn('booking_id', $bookings)->get();
 
             return view('logbook.index', compact('today_logbook'));
         } else {
