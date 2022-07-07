@@ -220,6 +220,7 @@ let $inputParticipants = document.getElementById("participants");
 $inputParticipants.addEventListener("keyup", (e) => {
    //Si el valor del select se modifica despues de cargado el formulario, desaparece el calendar
     $('#calendar').html("");
+    $('#classroom_name').html("");
 
     participants = $inputParticipants.value;
    
