@@ -20,7 +20,7 @@
                             <label for="name" class="form-label">Nombre</label>
                             <input type="text" class="form-control" name="name" id="name"
                                    value="{{$user->name}} {{$user->surname}}" disabled>
-                            <p class="alerta d-none" id="errorNameCreate">Error</p>
+                            <div id="warning_createName"></div>
                         </div>
                         <div class="mb-3">
                             <!-- Usuario ID -->
@@ -29,20 +29,21 @@
                         <div class="mb-3">
                             <!-- Select Materias -->
                             <label for="assignment_id" class="form-label">Materia</label>
-                            <select name="assignment_id" class="form-select select2-user" aria-label="Materia"
+                            <select id='assignment_id' name="assignment_id" class="form-select select2-user" aria-label="Materia"
                                     style="width: 100%" required>
-                                <option value="-1" disabled></option>
+                                <option value="-1" disabled>Seleccione una materia</option>
                                 @foreach (auth()->user()->assignments as $assignment)
                                     <option value="{{ $assignment->id }}">
                                         {{ $assignment->assignment_name }}
                                     </option>
                                 @endforeach
                             </select>
-                            <p class="alerta d-none" id="errorAssignmentIDCreate">Error</p>
+                            <div id="warning_createAssignment"></div>
                         </div>
                         <div class="mb-3">
                             <label for="estimated_people" class="form-label" required>Cantidad alumnos</label>
                             <input type="text" class="form-control" name="estimated_people" id="estimated_people">
+                            <div id="warning_createPeople"></div>
                         </div>
                         <div class="mb-3">
                             <!-- Select Aulas -->
@@ -52,27 +53,27 @@
                                 <option value="Aula Común" selected>Aula Común</option>
                                 <option value="Laboratorio">Laboratorio</option>
                             </select>
-                            <p class="alerta d-none" id="errorClassroomTypeCreate">Error</p>
+                            <div id="warning_createClassroom"></div>
                         </div>
                         <div class="mb-3">
                             <label for="start_date" class="form-label">Fecha Inicio</label>
                             <input type="date" class="form-control" name="start_date" id="start_date" required>
-                            <p class="alerta d-none" id="errorStartDateCreate">Error</p>
+                            <div id="warning_createStartDate"></div>
                         </div>
                         <div class="mb-3">
                             <label for="finish_date" class="form-label">Fecha Fin</label>
                             <input type="date" class="form-control" name="finish_date" id="finish_date" required>
-                            <p class="alerta d-none" id="errorFinishDateCreate">Error</p>
+                            <div id="warning_createFinishDate"></div>
                         </div>
                         <div class="mb-3">
                             <label for="start_time" class="form-label">Hora Inicio</label>
                             <input type="time" class="form-control" name="start_time" id="start_time" required>
-                            <p class="alerta d-none" id="errorStartTimeCreate">Error</p>
+                            <div id="warning_createStartTime"></div>
                         </div>
                         <div class="mb-3">
                             <label for="finish_time" class="form-label">Hora Fin</label>
                             <input type="time" class="form-control" name="finish_time" id="finish_time" required>
-                            <p class="alerta d-none" id="errorFinishTimeCreate">Error</p>
+                            <div id="warning_createFinishTime"></div>
                         </div>
                         <div class="mb-3">
                             <!-- Select Dias -->
@@ -86,13 +87,12 @@
                                 <option value="Viernes">Viernes</option>
                                 <option value="Sábado">Sábado</option>
                             </select>
-                            <p class="alerta d-none" id="errorDaysCreate">Error</p>
+                            <div id="warning_createDays"></div>
                         </div>
                         <div class="mb-3">
-                            <!-- El mensaje obligatorio de justificacion para un rechazo -->
                             <label for="message" class="form-label">Mensaje</label>
                             <input type="text" class="form-control" name="message" id="message">
-                            <p class="alerta d-none" id="errorMessageCreate">Error</p>
+                            <div id="warning_createMessage"></div>
                         </div>
                         <button id="submit" type="submit" class="btn btn-primary">Crear</button>
                     </form>
@@ -100,4 +100,4 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
