@@ -67,7 +67,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col" align=center>
-                                <button type="submit" class="btn btn-danger btn-xl">Rechazar</button>
+                                <button type="submit" class="btn btn-danger btn-xl" id="submitRej">Rechazar</button>
                             </div>
                         </div>
                     </div>
