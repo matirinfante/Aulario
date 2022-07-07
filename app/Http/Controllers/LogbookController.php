@@ -158,7 +158,7 @@ class LogbookController extends Controller
                     } else if (isset($checkBooking->event_id)) {
                         $event = Event::where('id', $checkBooking->event_id)->first();
                         //Regla conflictiva ¯\_(ツ)_/¯
-                        $inEvent = $event->user->id === $checkUser->id;
+                        $inEvent = $event->users->id === $checkUser->id;
                         if ($inEvent) {
                             return ['status' => 'success', 'url' => url('logbooks') . '/' . $logbookCheck->id . '?uuid=' . $checkUser->user_uuid];
                         }

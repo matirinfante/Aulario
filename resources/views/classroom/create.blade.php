@@ -54,6 +54,7 @@
                         <br>
                         <input type="file" name="location" id="location" class="form-control">
                         <p class="alerta d-none" id="errorLocationCreate">Error</p>
+                        <div class="alert alert-warning">Solo imagenes menores a 2MB</div>
                     </div>
                     <br>
                     <button id="submit_create" type="submit" class="btn btn-primary disabled">Crear</button>
