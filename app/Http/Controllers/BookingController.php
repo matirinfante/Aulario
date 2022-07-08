@@ -16,6 +16,7 @@ use App\Models\Petition;
 use App\Models\Schedule;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -161,19 +162,18 @@ class BookingController extends Controller
                 } else if ($request->optionType == 'massiveEvent') {
                     //Recibimos y manipulamos solo datos de evento
                     $detectDuplicates = collect(json_decode($request->arrayLocal))->duplicates();
-
                     if ($detectDuplicates->isEmpty()) {
                         $bookingData = json_decode($request->arrayLocal);
 
                         $event = Event::create([
                             'event_name' => $request->event_name,
-                            'user_id' => auth()->user()->id, //se creará a nombre del admin
+                            'user_id' => $request->user_id, //se creará a nombre del admin
                             'participants' => ($request->participants_event * count($bookingData))
                         ]);
 
                         foreach ($bookingData as $booking) {
                             $booking = Booking::create([
-                                'user_id' => auth()->user()->id,
+                                'user_id' => $request->user_id,
                                 'classroom_id' => $booking->classroom_id,
                                 'event_id' => $event->id,
                                 'description' => $request->description,
@@ -339,8 +339,19 @@ class BookingController extends Controller
      */
     public function myBookings()
     {
-        $bookings = Booking::where('user_id', auth()->user()->id)
-            ->whereBetween('booking_date', [Carbon::today()->format('Y-m-d'), Carbon::today()->addWeeks(2)->format('Y-m-d')])
+        $assignmentsTeacher = Assignment::with('users')
+            ->select(['id'])
+            ->whereHas('users', function ($query) {
+                $query->where('id', auth()->user()->id);
+            })->get();
+        $assignmentIds = [];
+
+        foreach ($assignmentsTeacher as $assignment) {
+            $assignmentIds[] = $assignment->id;
+        }
+        $bookings = Booking::where(function (Builder $query) use ($assignmentIds) {
+            return $query->where('user_id', auth()->user()->id)->orWhereIn('assignment_id', $assignmentIds);
+        })->whereBetween('booking_date', [Carbon::today()->format('Y-m-d'), Carbon::today()->addWeeks(2)->format('Y-m-d')])
             ->orderBy('booking_date', 'asc')
             ->orderBy('start_time', 'asc')
             ->get();
