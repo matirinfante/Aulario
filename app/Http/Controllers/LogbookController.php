@@ -259,11 +259,12 @@ class LogbookController extends Controller
                 'classroom_name' => $entry->booking->classroom->classroom_name,
                 'user_name' => $entry->user ? $entry->user->name . ' ' . $entry->user->surname : 'No disp',
                 'date' => $entry->date,
-                'check_in' => $entry->check_in,
-                'check_out' => $entry->check_out,
+                'check_in' => $entry->check_in ? Carbon::createFromTimeString($entry->check_in)->format('H:i') : null,
+                'check_out' => $entry->check_out ? Carbon::createFromTimeString($entry->check_out)->format('H:i') : null,
                 'commentary' => $entry->commentary];
             $response[] = $data;
         }
+        Log::error($response);
         return $response;
     }
 }
