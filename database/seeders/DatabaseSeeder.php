@@ -1994,13 +1994,22 @@ class DatabaseSeeder extends Seeder
 
 
         $admin = User::factory()->create([
-            'name' => 'Admin',
-            'surname' => 'Superusuario',
+            'name' => 'Administrador',
+            'surname' => '',
             'dni' => 50123456,
-            'email' => 'mail@admin.com',
+            'email' => 'aulario@fi.uncoma.edu.ar',
             'password' => Hash::make('admin123'),
             'user_uuid' => Uuid::uuid4(),
             'personal_token' => $newHashid->encode(50123456 + Carbon::now()->milliseconds + env('RND_KEY'))
+        ]);
+        $soporte = User::factory()->create([
+            'name' => 'Soporte',
+            'surname' => '',
+            'dni' => 50123457,
+            'email' => 'aulario-list@fi.uncoma.edu.ar',
+            'password' => Hash::make('admin123'),
+            'user_uuid' => Uuid::uuid4(),
+            'personal_token' => $newHashid->encode(50123457 + Carbon::now()->milliseconds + env('RND_KEY'))
         ]);
         // $teacher = User::factory()->create([
         //     'name' => 'Profesor',
@@ -2023,6 +2032,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $admin->assignRole('admin');
+        $soporte->assignRole('admin');
         // $teacher->assignRole('teacher');
         // $user->assignRole('user');
 
@@ -2073,6 +2083,8 @@ class DatabaseSeeder extends Seeder
         // Fin datos falsos
 
     }
-};
+}
+
+;
 
 
