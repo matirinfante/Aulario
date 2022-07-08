@@ -57,8 +57,8 @@
 
     <div class="card mt-3 m-auto d-none" style="width: 1000px;">
         <div class="card-body text-center" id="tablaHistorial">
-            
-                
+
+
         </div>
     </div>
 @endsection
@@ -66,7 +66,7 @@
 @section('scripts')
     <script>
         $('#date').on('change', function() {
-            
+
             $('#tablaHistorial').empty();
             var fecha = $(this).val();
             $.ajax({
@@ -122,19 +122,19 @@
                             }
 
                             if (logbook['check_in'] != null) {
-                                tabla += `<td></td>`; // hora ingreso
+                                tabla += `<td>${logbook['check_in']}</td>`; // hora ingreso
                             } else {
                                 tabla += `<td>No disp</td>`;
                             }
 
                             if (logbook['check_out'] != null) {
-                                tabla += `<td></td>`; // hora salida
+                                tabla += `<td>${logbook['check_out']}</td>`; // hora salida
                             } else {
                                 tabla += `<td>No disp</td>`;
                             }
 
                             if (logbook['commentary'] != null) {
-                                tabla += `<td></td>`; // observaciones
+                                tabla += `<td>${logbook['commentary']}</td>`; // observaciones
                             } else {
                                 tabla += `<td>No disp</td>`;
                             }

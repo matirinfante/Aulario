@@ -158,7 +158,7 @@ class LogbookController extends Controller
                     } else if (isset($checkBooking->event_id)) {
                         $event = Event::where('id', $checkBooking->event_id)->first();
                         //Regla conflictiva ¯\_(ツ)_/¯
-                        $inEvent = $event->user->id === $checkUser->id;
+                        $inEvent = $event->users->id === $checkUser->id;
                         if ($inEvent) {
                             return ['status' => 'success', 'url' => url('logbooks') . '/' . $logbookCheck->id . '?uuid=' . $checkUser->user_uuid];
                         }
@@ -259,11 +259,12 @@ class LogbookController extends Controller
                 'classroom_name' => $entry->booking->classroom->classroom_name,
                 'user_name' => $entry->user ? $entry->user->name . ' ' . $entry->user->surname : 'No disp',
                 'date' => $entry->date,
-                'check_in' => $entry->check_in,
-                'check_out' => $entry->check_out,
+                'check_in' => $entry->check_in ? Carbon::createFromTimeString($entry->check_in)->format('H:i') : null,
+                'check_out' => $entry->check_out ? Carbon::createFromTimeString($entry->check_out)->format('H:i') : null,
                 'commentary' => $entry->commentary];
             $response[] = $data;
         }
+        Log::error($response);
         return $response;
     }
 }
