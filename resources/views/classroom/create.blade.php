@@ -50,7 +50,7 @@
                         <p class="alerta d-none" id="errorType">Error</p>
                     </div>
                     <div>
-                        <label for="location" class="form-label">Locación (ingrese una foto o imagen del croqui)</label>
+                        <label for="location" class="form-label">Locación (ingrese una foto o imagen del croquis)</label>
                         <br>
                         <input type="file" name="location" id="location" class="form-control">
                         <p class="alerta d-none" id="errorLocationCreate">Error</p>
