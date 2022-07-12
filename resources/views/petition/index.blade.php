@@ -25,15 +25,17 @@
             @endhasanyrole
             <div>
                 <div class="row" align=center>
-                    <div class="col-12 pb-3">
-                        @can('create petitions')
-                            <!-- Traemos el usuario al cual le vamos a sacar la inf. Es un obj. -->
-                            <button type='button' class='btn btn-primary' data-bs-toggle="modal"
-                                    data-bs-target="#createModal{{ auth()->user()->id }}">Crear nueva petición
-                            </button>
-                            @include('petition.create', ['user' => auth()->user()])
-                        @endcan
-                    </div>
+                    @hasanyrole('teacher')
+                        <div class="col-12 pb-3">
+                            @can('create petitions')
+                                <!-- Traemos el usuario al cual le vamos a sacar la inf. Es un obj. -->
+                                <button type='button' class='btn btn-primary' data-bs-toggle="modal"
+                                        data-bs-target="#createModal{{ auth()->user()->id }}">Crear nueva petición
+                                </button>
+                                @include('petition.create', ['user' => auth()->user()])
+                            @endcan
+                        </div>
+                    @endhasanyrole
                 </div>
             </div>
             <div class="card" style="width: 1000px; margin: auto;">
