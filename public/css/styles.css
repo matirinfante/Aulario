@@ -63,8 +63,13 @@ border-radius: 20px;
 
 .container-img{
 height: 200px;
-border-bottom: solid 1px ;
+/* border-bottom: solid 1px ; */
 object-fit: contain;
+}
+
+.line_hr{
+    color: #1a1a1a;
+    width: 100%;
 }
 
 #cardindex .card img{

@@ -8,12 +8,13 @@
                 <img src="{{ asset('assets/img/aulario.png') }}" alt="Aulario" style="max-height: 80%;">
             </div>
         </div>
-        <div class="row container-fluid d-flex justify-content-evenly mt-5 mb-5 " id="cardindex">
-            <div class="card col-md-4 col-sm-12 mt-3 cardHover" style="width: 18rem;">
+        <div class="row container-fluid d-flex justify-content-evenly mt-5 mb-5 " id="cardindex" >
+            <div class="card col-md-4 col-sm-12 mt-3 cardHover" style="width: 18rem; padding-right: 0px; padding-left: 0px;">
                 <div class="container-img">
                     <img src="{{ asset('assets/img/pedco.png') }}" class="card-img-top mt-4" alt="...">
                 </div>
 
+                <hr class="line_hr">
 
                 <div class="card-body text-center">
                     <h5 class="card-title">PEDCO</h5>
@@ -25,10 +26,11 @@
                 </div>
             </div>
 
-            <div class="card col-md-4 col-sm-12 mt-3 cardHover" style="width: 18rem;">
+            <div class="card col-md-4 col-sm-12 mt-3 cardHover" style="width: 18rem; padding-right: 0px; padding-left: 0px;">
                 <div class="container-img">
                     <img src="{{ asset('assets/img/logo-faif.png') }}" class="card-img-top mt-2" alt="...">
                 </div>
+                <hr class="line_hr">
                 <div class="card-body text-center">
                     <h5 class="card-title">FAI Web</h5>
                     <p class="card-text">Toda la información de la Facultad de Informática en un solo lugar, conocé el
@@ -40,10 +42,11 @@
                 </div>
             </div>
 
-            <div class="card col-md-4 col-sm-12 mt-3 cardHover" style="width: 18rem;">
+            <div class="card col-md-4 col-sm-12 mt-3 cardHover" style="width: 18rem; padding-right: 0px; padding-left: 0px;">
                 <div class="container-img ">
                     <img src="{{ asset('assets/img/siubanner.png') }}" class="card-img-top mt-3" alt="...">
                 </div>
+                <hr class="line_hr">
                 <div class="card-body text-center">
                     <h5 class="card-title">SIU-Guarani</h5>
                     <p class="card-text">SIU-Guaraní fue desarrollado para registrar las actividades de la gestión
@@ -55,11 +58,12 @@
                 </div>
             </div>
 
-            <div class="card col-md-4 col-sm-12 mt-3 cardHover" style="width: 18rem;">
+            <div class="card col-md-4 col-sm-12 mt-3 cardHover" style="width: 18rem; padding-right: 0px; padding-left: 0px;">
                 <div class="container-img">
                     <img src="{{ asset('assets/img/status.svg') }}" class="card-img-top" alt="..."
                         style="max-height: 100%">
                 </div>
+                <hr class="line_hr">
                 <div class="card-body text-center">
                     <h5 class="card-title">Reservas FAIF</h5>
                     <p class="card-text">Enterate de las materias y eventos que se dictan hoy en la facultad de Informatica
