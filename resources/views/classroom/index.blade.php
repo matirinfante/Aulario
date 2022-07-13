@@ -116,7 +116,7 @@
 @section('scripts')
     {{-- Validator --}}
     <script src="{{ asset('js/classrooms/validationClassroomCreate.js') }}" defer></script>
-    {{-- Validator update--}}
+    {{-- Validator update --}}
     <script src="{{ asset('js/classrooms/validationClassroomUpdate.js') }}" defer></script>
     {{-- Sweet alert --}}
     <script src="{{ asset('js/classrooms/sweetAlert.js') }}" defer></script>
