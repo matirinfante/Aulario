@@ -4,15 +4,60 @@
      <link href="{{ asset('css/app.css') }}" rel="stylesheet">
      <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
      <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" />
+
+     <style>
+         .jq-schedule .sc_data .timeline span.timeline-title {
+             font-size: 2.3rem !important;
+             line-height: 2.3rem !important;
+         }
+
+         .jq-schedule .sc_menu {
+             /* font-size: 2.3rem !important; */
+             height: 80px !important;
+         }
+         .jq-schedule .sc_menu .sc_header{
+             /* font-size: 2.3rem !important; */
+             height: 80px !important;
+         }
+         .jq-schedule .sc_menu .sc_header .sc_header_scroll{
+             font-size: 2.3rem !important;
+             height: 80px !important;
+         }
+
+         .jq-schedule .sc_menu .sc_header .sc_header_scroll .sc_time{
+          height: 80px !important;
+          padding-top: 24px !important;
+
+        }
+
+        .sc_header_cell{
+          height: 80px !important;
+        }
+
+        .timeline-title{
+          padding-top: 45px !important;
+        }
+
+        .materia .text, .evento .text{
+          font-size: 2.5rem !important;
+          transform: translate(0px, -40px) !important;
+        }
+
+        .materia .head, .evento .head{
+          font-size: 2rem !important;
+
+        }
+
+
+     </style>
  @endsection
 
  @section('content')
-    
      <div class="container-fluid">
-        <div class="row">
-            <div class="col-3 data mt-3 px-3">
-                <img src="{{ asset('assets/img/aulario.png') }}" alt="Aulario" style="max-height: 80%;">
-            </div>
+         <div class="row">
+             <div class="col-3 data mt-3 px-3">
+                 <img src="{{ asset('assets/img/aulario.png') }}" alt="Aulario" style="max-height: 80%;">
+             </div>
              {{-- Reloj --}}
              <div class="col-6" id="clockdate">
                  <div class="clockdate-wrapper">
@@ -20,8 +65,8 @@
                      <div id="date"></div>
                  </div>
              </div>
-        </div>
-        
+         </div>
+
          {{-- Diagrama de Gantt --}}
          <div>
              <input hidden type="date" id="inputDate">
@@ -55,8 +100,6 @@
              var min = today.getMinutes();
              var sec = today.getSeconds();
              hr = (hr == 0) ? 00 : hr;
-             //  hr = (hr > 12) ? hr - 12 : hr;
-             //Add a zero in front of numbers<10
              hr = checkTime(hr);
              min = checkTime(min);
              sec = checkTime(sec);
