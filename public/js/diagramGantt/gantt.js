@@ -64,14 +64,13 @@ $.ajax({
             var isDraggable = false;
             var isResizable = false;
             var $sc = $("#schedule").timeSchedule({
-            
                 startTime: "08:00:00", // schedule start time(HH:ii)
                 endTime: "23:00:00",   // schedule end time(HH:ii)
-                widthTime: 60 * 6,  // cell timestamp example 10 minutes
-                timeLineY: 50,       // height(px)
-                verticalScrollbar: 20,   // scrollbar (px)
-                timeLineBorder: 2,   // border(top and bottom)
-                bundleMoveWidth: 6,  // width to move all schedules to the right of the clicked time line cell
+                widthTime: 60 * 2,     // cell timestamp example 10 minutes
+                timeLineY: 150,        // height(px)
+                verticalScrollbar: 20, // scrollbar (px)
+                timeLineBorder: 2,     // border(top and bottom)
+                bundleMoveWidth: 6,    // width to move all schedules to the right of the clicked time line cell
                 draggable: isDraggable,
                 resizable: isResizable,
                 resizableLeft: true,
@@ -100,7 +99,7 @@ $(document).ready(function() {
 
     const scrollElement = document.querySelector(".sc_main_box"); // Div scrolleable
     
-    scrollElement.scrollLeft += ((horaActual - primerHoraGantt) * 250) - (horasAntesActual * 250);
+    scrollElement.scrollLeft += ((horaActual - primerHoraGantt) * 750) - (horasAntesActual * 750);
   }
 
   function colorHoraActual() {
