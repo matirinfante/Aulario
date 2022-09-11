@@ -59,6 +59,16 @@ $.ajax({
         rta+=`}`
         //Se realiza el parse para generar el objeto que admite el schedule
         objGantt=JSON.parse(rta);
+
+        // wT y tLY son para cambiar el valor con el tamaño de la pantalla
+        var wT=60*6;
+        var tLY=80;
+        if (window.innerWidth>=2560){
+          wT=60*2;
+          tLY=150;
+          console.log('in');
+        }
+
         $(function () {
             $("#logs").append('<table class="table">');
             var isDraggable = false;
@@ -66,8 +76,8 @@ $.ajax({
             var $sc = $("#schedule").timeSchedule({
                 startTime: "08:00:00", // schedule start time(HH:ii)
                 endTime: "23:00:00",   // schedule end time(HH:ii)
-                widthTime: 60 * 2,     // cell timestamp example 10 minutes
-                timeLineY: 150,        // height(px)
+                widthTime: wT,     // cell timestamp example 10 minutes
+                timeLineY: tLY,        // height(px)
                 verticalScrollbar: 20, // scrollbar (px)
                 timeLineBorder: 2,     // border(top and bottom)
                 bundleMoveWidth: 6,    // width to move all schedules to the right of the clicked time line cell
@@ -99,7 +109,11 @@ $(document).ready(function() {
 
     const scrollElement = document.querySelector(".sc_main_box"); // Div scrolleable
     
-    scrollElement.scrollLeft += ((horaActual - primerHoraGantt) * 750) - (horasAntesActual * 750);
+    var scrollValue=250;  //variable para cambiar el valor con el tamaño de la pantalla
+    if (window.innerWidth>=2560){
+      scrollValue=750;
+    }
+    scrollElement.scrollLeft += ((horaActual - primerHoraGantt) * scrollValue) - (horasAntesActual * scrollValue);
   }
 
   function colorHoraActual() {
