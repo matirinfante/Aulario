@@ -6,55 +6,68 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" />
 
     <style>
-        .jq-schedule .sc_data .timeline span.timeline-title {
+        #logo-Aulario img{
+                max-height: 80%;
+            }
+        @media(min-width:2500px){
+            /*Schedule BigScreen-Size*/
+            .jq-schedule .sc_data .timeline span.timeline-title {
             font-size: 2.3rem !important;
             line-height: 2.3rem !important;
-        }
-
-        .jq-schedule .sc_menu {
+            }
+            .jq-schedule .sc_menu {
+                height: 80px !important;
+            }
+            .jq-schedule .sc_menu .sc_header{
+                height: 80px !important;
+            }
+            .jq-schedule .sc_menu .sc_header .sc_header_scroll{
+                font-size: 2.3rem !important;
+                height: 80px !important;
+            }
+            .jq-schedule .sc_menu .sc_header .sc_header_scroll .sc_time{
             height: 80px !important;
+            padding-top: 24px !important;
+            }
+            .sc_header_cell{
+                height: 80px !important;
+            }
+            .timeline-title{
+                padding-top: 45px !important;
+            }
+            .materia .text, .evento .text{
+                font-size: 2.5rem !important;
+                transform: translate(0px, -40px) !important;
+            }
+            .materia .head, .evento .head{
+                font-size: 2rem !important;
+            }
+
+            /* Clock BigScreen-Size */
+            .clockdate-wrapper {
+                max-width:550px;
+            } 
+            #clock{
+                font-size:60px;
+            }
+            #date {
+                font-size:36px;
+            }
+
+            /* Logo BigScreen-Size */
+            #logo-Aulario img{
+                max-height: 150%; 
+            }
         }
-        .jq-schedule .sc_menu .sc_header{
-            height: 80px !important;
-        }
-        .jq-schedule .sc_menu .sc_header .sc_header_scroll{
-            font-size: 2.3rem !important;
-            height: 80px !important;
-        }
-
-        .jq-schedule .sc_menu .sc_header .sc_header_scroll .sc_time{
-         height: 80px !important;
-         padding-top: 24px !important;
-
-       }
-
-       .sc_header_cell{
-         height: 80px !important;
-       }
-
-       .timeline-title{
-         padding-top: 45px !important;
-       }
-
-       .materia .text, .evento .text{
-         font-size: 2.5rem !important;
-         transform: translate(0px, -40px) !important;
-       }
-
-       .materia .head, .evento .head{
-         font-size: 2rem !important;
-
-       }
-
-
+        
     </style>
 @endsection
 
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <div class="col-3 data mt-3 px-3">
-                <img src="{{ asset('assets/img/aulario.png') }}" alt="Aulario" style="max-height: 80%;">
+            <div class="col-3 data mt-3 px-3" id="logo-Aulario">
+                <img src="{{ asset('assets/img/aulario.png') }}" alt="Aulario">
             </div>
             {{-- Reloj --}}
             <div class="col-6" id="clockdate">
